@@ -107,12 +107,17 @@
 
   <!-- TILGUNGSPLAN -->
   <div class="content-section fu d2">
-    <h2>Tilgungsplan (erste 12 Monate)</h2>
+    <h2>Tilgungsplan</h2>
     <div style="overflow-x:auto;">
       <table class="tilgung-table" id="tilgung-table">
         <thead><tr><th>Monat</th><th>Rate</th><th>Zinsen</th><th>Tilgung</th><th>Restschuld</th></tr></thead>
         <tbody id="tilgung-body"></tbody>
       </table>
+    </div>
+    <div id="tilgung-mehr-wrap" style="margin-top:16px;text-align:center;display:none;">
+      <button onclick="toggleFullPlan()" id="tilgung-btn" style="background:var(--accent-light);color:var(--accent);border:1.5px solid rgba(26,92,58,.2);padding:10px 24px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .15s;">
+        Vollständigen Tilgungsplan anzeigen ↓
+      </button>
     </div>
   </div>
 
@@ -187,13 +192,64 @@
 <script src="components.js"></script>
 <script src="steuer2026.js"></script>
 <script>
+let vollständigerPlan = [];
+let planKomplett = false;
+
+function buildTilgungsplan(betrag, zins, laufzeit) {
+  const r_month = zins / 100 / 12;
+  const n = laufzeit * 12;
+  const rate = r_month === 0 ? betrag / n : betrag * r_month * Math.pow(1+r_month,n) / (Math.pow(1+r_month,n)-1);
+  const plan = [];
+  let rest = betrag;
+  for (let i = 1; i <= n; i++) {
+    const zinsen = rest * r_month;
+    const tilgung = rate - zinsen;
+    rest = Math.max(0, rest - tilgung);
+    plan.push({
+      monat: i,
+      rate: Math.round(rate*100)/100,
+      zinsen: Math.round(zinsen*100)/100,
+      tilgung: Math.round(tilgung*100)/100,
+      restschuld: Math.round(rest*100)/100
+    });
+  }
+  return plan;
+}
+
+function renderPlan(rows) {
+  return rows.map(row => `
+    <tr>
+      <td>${row.monat}</td>
+      <td>${fmtEuro(row.rate)}</td>
+      <td>${fmtEuro(row.zinsen)}</td>
+      <td>${fmtEuro(row.tilgung)}</td>
+      <td>${fmtEuroRund(row.restschuld)}</td>
+    </tr>
+  `).join('');
+}
+
+function toggleFullPlan() {
+  const tbody = document.getElementById('tilgung-body');
+  const btn = document.getElementById('tilgung-btn');
+  planKomplett = !planKomplett;
+  if (planKomplett) {
+    tbody.innerHTML = renderPlan(vollständigerPlan);
+    btn.textContent = 'Tilgungsplan reduzieren ↑';
+    btn.style.background = 'var(--bg)';
+  } else {
+    tbody.innerHTML = renderPlan(vollständigerPlan.slice(0, 12));
+    btn.textContent = 'Vollständigen Tilgungsplan anzeigen ↓';
+    btn.style.background = 'var(--accent-light)';
+  }
+}
+
 function calcKredit() {
   const betrag   = parseFloat(document.getElementById('k-betrag').value)   || 0;
   const zins     = parseFloat(document.getElementById('k-zins').value)     || 0;
   const laufzeit = parseFloat(document.getElementById('k-laufzeit').value) || 1;
 
-  document.getElementById('k-betrag-label').textContent  = betrag.toLocaleString('de-DE') + ' €';
-  document.getElementById('k-zins-label').textContent    = zins.toFixed(1).replace('.',',') + ' %';
+  document.getElementById('k-betrag-label').textContent   = betrag.toLocaleString('de-DE') + ' €';
+  document.getElementById('k-zins-label').textContent     = zins.toFixed(1).replace('.',',') + ' %';
   document.getElementById('k-laufzeit-label').textContent = laufzeit + ' Jahr' + (laufzeit !== 1 ? 'e' : '');
 
   const r = berechneKredit(betrag, zins, laufzeit);
@@ -208,17 +264,24 @@ function calcKredit() {
   document.getElementById('k-bar-pct').textContent    = r.zinsProzentAnteil + ' %';
   document.getElementById('k-bar').style.width        = Math.min(r.zinsProzentAnteil, 100) + '%';
 
-  // Tilgungsplan
+  // Vollständigen Plan berechnen
+  vollständigerPlan = buildTilgungsplan(betrag, zins, laufzeit);
+  planKomplett = false;
+
+  // Erste 12 Monate anzeigen
   const tbody = document.getElementById('tilgung-body');
-  tbody.innerHTML = r.tilgungsplan.map(row => `
-    <tr>
-      <td>${row.monat}</td>
-      <td>${fmtEuro(row.rate)}</td>
-      <td>${fmtEuro(row.zinsen)}</td>
-      <td>${fmtEuro(row.tilgung)}</td>
-      <td>${fmtEuroRund(row.restschuld)}</td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = renderPlan(vollständigerPlan.slice(0, 12));
+
+  // Button anzeigen wenn mehr als 12 Monate
+  const mehrWrap = document.getElementById('tilgung-mehr-wrap');
+  const btn = document.getElementById('tilgung-btn');
+  if (vollständigerPlan.length > 12) {
+    mehrWrap.style.display = 'block';
+    btn.textContent = 'Vollständigen Tilgungsplan anzeigen (' + vollständigerPlan.length + ' Monate) ↓';
+    btn.style.background = 'var(--accent-light)';
+  } else {
+    mehrWrap.style.display = 'none';
+  }
 }
 
 calcKredit();
