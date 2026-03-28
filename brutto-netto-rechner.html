@@ -86,10 +86,22 @@
         </div>
 
         <div class="field">
+          <label>Bundesland</label>
+          <div class="input-wrap">
+            <select class="hc-input" id="bn-bundesland" onchange="updateBundesland()" style="font-size:14px;padding-right:14px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-weight:500;color:var(--ink);width:100%;outline:none;">
+              <option value="andere">Alle Bundesländer (außer BY, BW, SN)</option>
+              <option value="by">Bayern</option>
+              <option value="bw">Baden-Württemberg</option>
+              <option value="sn">Sachsen</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
           <label>Kirchensteuer</label>
           <label class="checkbox-row">
             <input type="checkbox" id="bn-kirche" onchange="calcBN()">
-            <span>Ich zahle Kirchensteuer (9 %)</span>
+            <span>Ich zahle Kirchensteuer (<span id="kirche-satz-label">9</span> %)</span>
           </label>
         </div>
 
@@ -262,16 +274,26 @@
     slider.value = pct * sliderMax;
   }
 
+  function updateBundesland() {
+    const bl = document.getElementById('bn-bundesland').value;
+    const kircheSatz = (bl === 'by' || bl === 'bw') ? 8 : 9;
+    document.getElementById('kirche-satz-label').textContent = kircheSatz;
+    calcBN();
+  }
+
   function calcBN() {
     let brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
     updateSlider();
     if (modus === 'jahr') brutto = brutto / 12;
 
+    const bl = document.getElementById('bn-bundesland').value;
+    const kircheSatz = (bl === 'by' || bl === 'bw') ? 8 : 9;
+    const sachsen = bl === 'sn';
     const kirche = document.getElementById('bn-kirche').checked;
     const kinder = document.getElementById('bn-kinder').checked;
     const kvZusatz = parseFloat(document.getElementById('bn-kvzusatz').value) || 1.45;
 
-    const r = bruttoNetto(brutto, aktuelleKlasse, kirche, kvZusatz, !kinder);
+    const r = bruttoNetto(brutto, aktuelleKlasse, kirche, kvZusatz, !kinder, kircheSatz, sachsen);
     const faktor = modus === 'monat' ? 1 : 12;
     const neg = n => '− ' + fmtEuro(n * faktor);
     const pos = n => fmtEuro(n * faktor);
