@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETF Sparplan 500 €/Monat – Endkapital berechnen | RechnerPilot</title>
+<meta name="description" content="500 € monatlich in ETFs investieren — wie viel wird daraus? Kostenloser ETF-Sparplan-Rechner mit Zinseszins und Jahresübersicht.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.rechnerpilot.de/etf-sparplan-rechner/500-euro">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body data-page="etf">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="../index.html">Startseite</a><span>›</span>
+      <a href="../etf-sparplan-rechner.html">ETF-Sparplan-Rechner</a><span>›</span>
+      <span>500 €/Monat</span>
+    </div>
+    <h1>ETF Sparplan 500 €/Monat – Endkapital berechnen</h1>
+    <p>500 € monatlich in ETFs investieren — wie viel wird daraus?</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+        <div class="field">
+          <label>Monatliche Sparrate</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-rate" value="500" oninput="calcETF()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Anlagedauer</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-jahre" value="20" min="1" max="50" oninput="calcETF()">
+            <span class="input-unit">Jahre</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Rendite p.a.</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-rendite" value="7" step="0.5" oninput="calcETF()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>TER</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-ter" value="0.2" step="0.05" oninput="calcETF()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+      </div>
+      <div class="results-panel">
+        <div class="results-label">Ergebnis nach <span id="etf-j">—</span> Jahren</div>
+        <div class="result-main">
+          <div class="result-main-label">Endkapital (geschätzt)</div>
+          <div class="result-main-value" id="etf-end">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Eingezahlt</div><div class="rms-val" id="etf-ez">—</div></div>
+            <div><div class="rms-label">Rendite</div><div class="rms-val" id="etf-gw">—</div></div>
+            <div><div class="rms-label">Faktor</div><div class="rms-val" id="etf-fx">—</div></div>
+          </div>
+        </div>
+        <div class="result-row"><span class="result-row-label">Entnahme (4%-Regel)</span><span class="result-row-value pos" id="etf-en">—</span></div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Renditeanteil</span><span id="etf-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="etf-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">⚠️ Keine Garantie für zukünftige Renditen. Keine Anlageberatung. <a href="../methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <div class="content-section fu d2">
+    <h2>ETF Sparplan mit 500 €/Monat — was ist realistisch?</h2>
+    <p>500 € monatlich in ETFs investieren — wie viel wird daraus? Der Zinseszinseffekt sorgt dafür dass dein Kapital mit der Zeit exponentiell wächst — nicht linear. Je früher du anfängst, desto stärker der Effekt.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="../etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-y">📈</div>
+        <h3>ETF-Sparplan</h3>
+        <p>Alle Optionen mit Jahresübersicht.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="../brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto</h3>
+        <p>Nettogehalt berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="../kreditrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏦</div>
+        <h3>Kreditrechner</h3>
+        <p>Monatsrate und Tilgungsplan.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="../components.js"></script>
+<script src="../steuer2026.js"></script>
+<script>
+  function calcETF() {
+    const rate = parseFloat(document.getElementById('etf-rate').value) || 0;
+    const jahre = parseFloat(document.getElementById('etf-jahre').value) || 1;
+    const rendite = parseFloat(document.getElementById('etf-rendite').value) || 0;
+    const ter = parseFloat(document.getElementById('etf-ter').value) || 0;
+    document.getElementById('etf-j').textContent = jahre;
+    const r = berechneETF(rate, jahre, rendite, ter, 0);
+    document.getElementById('etf-end').textContent = fmtEuroRund(r.endkapital);
+    document.getElementById('etf-ez').textContent = fmtEuroRund(r.eingezahlt);
+    document.getElementById('etf-gw').textContent = '+' + fmtEuroRund(r.gewinn);
+    document.getElementById('etf-fx').textContent = r.faktor + 'x';
+    document.getElementById('etf-en').textContent = fmtEuroRund(r.entnahme4Prozent) + ' €/Monat';
+    document.getElementById('etf-pct').textContent = r.renditeAnteil + ' %';
+    document.getElementById('etf-bar').style.width = Math.min(r.renditeAnteil, 100) + '%';
+  }
+  calcETF();
+</script>
+</body>
+</html>

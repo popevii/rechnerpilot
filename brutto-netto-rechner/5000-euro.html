@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.000 € brutto brutto netto – Nettogehalt berechnen 2026 | RechnerPilot</title>
+<meta name="description" content="5.000 € brutto netto Rechner 2026 — alle Steuerklassen. Kostenloser Brutto-Netto-Rechner 2026 mit allen Steuerklassen und Bundesländern.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.rechnerpilot.de/brutto-netto-rechner/5000-euro">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body data-page="brutto">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="../index.html">Startseite</a><span>›</span>
+      <a href="../brutto-netto-rechner.html">Brutto-Netto-Rechner</a><span>›</span>
+      <span>5.000 € brutto</span>
+    </div>
+    <h1>5.000 € brutto brutto – wie viel netto?</h1>
+    <p>5.000 € brutto netto Rechner 2026 — alle Steuerklassen. Aktuell für 2026 mit allen Steuerklassen und Bundesländern.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+        <div class="field">
+          <label>Bruttogehalt (monatlich)</label>
+          <div class="input-wrap">
+            <input type="number" id="bn-brutto" value="5000" min="0" max="500000" oninput="calcBN()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Steuerklasse</label>
+          <div class="toggle-group" id="klasse-group">
+            <button class="toggle-btn active" data-val="1" onclick="selectKlasse(this)">I</button>
+            <button class="toggle-btn" data-val="2" onclick="selectKlasse(this)">II</button>
+            <button class="toggle-btn" data-val="3" onclick="selectKlasse(this)">III</button>
+            <button class="toggle-btn" data-val="4" onclick="selectKlasse(this)">IV</button>
+            <button class="toggle-btn" data-val="5" onclick="selectKlasse(this)">V</button>
+            <button class="toggle-btn" data-val="6" onclick="selectKlasse(this)">VI</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Bundesland</label>
+          <div class="input-wrap">
+            <select id="bn-bundesland" onchange="updateBundesland()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink);outline:none;">
+              <option value="bw">Baden-Württemberg</option>
+              <option value="by">Bayern</option>
+              <option value="be">Berlin</option>
+              <option value="bb">Brandenburg</option>
+              <option value="hb">Bremen</option>
+              <option value="hh">Hamburg</option>
+              <option value="he">Hessen</option>
+              <option value="mv">Mecklenburg-Vorpommern</option>
+              <option value="ni">Niedersachsen</option>
+              <option value="nw" selected>Nordrhein-Westfalen</option>
+              <option value="rp">Rheinland-Pfalz</option>
+              <option value="sl">Saarland</option>
+              <option value="sn">Sachsen</option>
+              <option value="st">Sachsen-Anhalt</option>
+              <option value="sh">Schleswig-Holstein</option>
+              <option value="th">Thüringen</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Kirchensteuer</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="bn-kirche" onchange="calcBN()">
+            <span>Ich zahle Kirchensteuer (<span id="kirche-satz-label">9</span> %)</span>
+          </label>
+        </div>
+        <div class="field">
+          <label>Kinder</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="bn-kinder" onchange="calcBN()">
+            <span>Ich habe Kinder</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis monatlich</div>
+        <div class="result-main">
+          <div class="result-main-label">Nettogehalt</div>
+          <div class="result-main-value" id="bn-netto">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Steuern</div><div class="rms-val" id="bn-steuern-sum">—</div></div>
+            <div><div class="rms-label">Sozialabgaben</div><div class="rms-val" id="bn-soz-sum">—</div></div>
+            <div><div class="rms-label">Abgabenquote</div><div class="rms-val" id="bn-quote">—</div></div>
+          </div>
+        </div>
+        <div class="result-row"><span class="result-row-label">Lohnsteuer</span><span class="result-row-value neg" id="bn-lst">—</span></div>
+        <div class="result-row"><span class="result-row-label">Solidaritätszuschlag</span><span class="result-row-value neg" id="bn-soli">—</span></div>
+        <div class="result-row"><span class="result-row-label">Rentenversicherung</span><span class="result-row-value neg" id="bn-rv">—</span></div>
+        <div class="result-row"><span class="result-row-label">Krankenversicherung</span><span class="result-row-value neg" id="bn-kv">—</span></div>
+        <div class="result-row"><span class="result-row-label">Pflegeversicherung</span><span class="result-row-value neg" id="bn-pv">—</span></div>
+        <div class="result-row"><span class="result-row-label">Arbeitslosenversicherung</span><span class="result-row-value neg" id="bn-alv">—</span></div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Abzüge vom Brutto</span><span id="bn-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="bn-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">⚠️ Näherungsrechnung auf Basis der Steuergesetzgebung 2026. Kein Ersatz für individuelle Steuerberatung. <a href="../methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <div class="content-section fu d2">
+    <h2>5.000 € brutto brutto — was bleibt netto?</h2>
+    <p>Bei einem Bruttogehalt von <strong>5.000 € brutto</strong> hängt das Nettogehalt von mehreren Faktoren ab: Steuerklasse, Bundesland, Kirchensteuerpflicht und ob Kinder vorhanden sind. Nutze den Rechner oben um dein persönliches Nettogehalt zu berechnen.</p>
+    <p>Als grobe Orientierung: In Steuerklasse I beträgt die Abgabenquote bei diesem Gehalt typischerweise zwischen 35 % und 45 % — je nach individueller Situation.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="../brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Alle Optionen — Jahresansicht, Schieberegler und mehr.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="../kreditrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏦</div>
+        <h3>Kreditrechner</h3>
+        <p>Monatsrate und Tilgungsplan berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="../etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-y">📈</div>
+        <h3>ETF-Sparplan</h3>
+        <p>Vermögen durch regelmäßiges Investieren aufbauen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="../components.js"></script>
+<script src="../steuer2026.js"></script>
+<script>
+  let aktuelleKlasse = 1;
+
+  function selectKlasse(btn) {
+    document.querySelectorAll('#klasse-group .toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    aktuelleKlasse = parseInt(btn.dataset.val);
+    calcBN();
+  }
+
+  function updateBundesland() {
+    const bl = document.getElementById('bn-bundesland').value;
+    const kircheSatz = (bl === 'by' || bl === 'bw') ? 8 : 9;
+    document.getElementById('kirche-satz-label').textContent = kircheSatz;
+    calcBN();
+  }
+
+  function calcBN() {
+    const brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
+    const bl = document.getElementById('bn-bundesland').value;
+    const kircheSatz = (bl === 'by' || bl === 'bw') ? 8 : 9;
+    const sachsen = bl === 'sn';
+    const kirche = document.getElementById('bn-kirche').checked;
+    const kinder = document.getElementById('bn-kinder').checked;
+    const r = bruttoNetto(brutto, aktuelleKlasse, kirche, 1.45, !kinder, kircheSatz, sachsen);
+    const neg = n => '− ' + fmtEuro(n);
+    const pos = n => fmtEuro(n);
+    document.getElementById('bn-netto').textContent = pos(r.netto);
+    document.getElementById('bn-steuern-sum').textContent = neg(r.lohnsteuer + r.soli + r.kirche);
+    document.getElementById('bn-soz-sum').textContent = neg(r.sozialAbgaben);
+    document.getElementById('bn-quote').textContent = r.abgabenQuote + ' %';
+    document.getElementById('bn-lst').textContent = neg(r.lohnsteuer);
+    document.getElementById('bn-soli').textContent = r.soli > 0 ? neg(r.soli) : '0,00 €';
+    document.getElementById('bn-rv').textContent = neg(r.rv);
+    document.getElementById('bn-kv').textContent = neg(r.kv);
+    document.getElementById('bn-pv').textContent = neg(r.pv);
+    document.getElementById('bn-alv').textContent = neg(r.alv);
+    document.getElementById('bn-bar-pct').textContent = r.abgabenQuote + ' %';
+    document.getElementById('bn-bar').style.width = Math.min(r.abgabenQuote, 100) + '%';
+  }
+
+  calcBN();
+</script>
+</body>
+</html>

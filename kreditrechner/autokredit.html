@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kreditrechner Autokredit – Monatsrate berechnen 2026 | RechnerPilot</title>
+<meta name="description" content="Kreditrechner für Autokredit: Monatsrate, Gesamtzinsen und Tilgungsplan berechnen. Kostenlos und aktuell 2026.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.rechnerpilot.de/kreditrechner/autokredit">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body data-page="kredit">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="../index.html">Startseite</a><span>›</span>
+      <a href="../kreditrechner.html">Kreditrechner</a><span>›</span>
+      <span>Autokredit</span>
+    </div>
+    <h1>Autokredit Autokredit – Monatsrate berechnen</h1>
+    <p>Berechne Monatsrate, Gesamtzinsen und Tilgungsplan für einen Autokredit über Autokredit.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+        <div class="field">
+          <label>Kreditsumme</label>
+          <div class="input-wrap">
+            <input type="number" id="k-betrag" value="15000" oninput="calcKredit()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Zinssatz (effektiv p.a.)</label>
+          <div class="input-wrap">
+            <input type="number" id="k-zins" value="5.9" step="0.1" oninput="calcKredit()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Laufzeit</label>
+          <div class="input-wrap">
+            <input type="number" id="k-laufzeit" value="4" min="1" max="30" oninput="calcKredit()">
+            <span class="input-unit">Jahre</span>
+          </div>
+        </div>
+      </div>
+      <div class="results-panel">
+        <div class="results-label">Ergebnis</div>
+        <div class="result-main">
+          <div class="result-main-label">Monatliche Rate</div>
+          <div class="result-main-value" id="k-rate">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Gesamtzinsen</div><div class="rms-val" id="k-zinsen-sub">—</div></div>
+            <div><div class="rms-label">Gesamtkosten</div><div class="rms-val" id="k-gesamt-sub">—</div></div>
+          </div>
+        </div>
+        <div class="result-row"><span class="result-row-label">Darlehensbetrag</span><span class="result-row-value" id="k-netto">—</span></div>
+        <div class="result-row"><span class="result-row-label">Gesamtzinsen</span><span class="result-row-value neg" id="k-zinsen">—</span></div>
+        <div class="result-row"><span class="result-row-label">Gesamtrückzahlung</span><span class="result-row-value" id="k-gesamt">—</span></div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Zinsanteil</span><span id="k-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="k-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">⚠️ Näherungsrechnung. Kein verbindliches Angebot. <a href="../methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <div class="content-section fu d2">
+    <h2>Autokredit über Autokredit — was kostet das?</h2>
+    <p>Bei einem Autokredit über <strong>Autokredit</strong> mit einem typischen Zinssatz von 5.9 % und einer Laufzeit von 4 Jahren ergibt sich eine überschaubare Monatsrate. Nutze den Rechner oben um verschiedene Szenarien durchzuspielen.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="../kreditrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏦</div>
+        <h3>Kreditrechner</h3>
+        <p>Alle Optionen mit Tilgungsplan.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="../brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto</h3>
+        <p>Nettogehalt berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="../etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-y">📈</div>
+        <h3>ETF-Sparplan</h3>
+        <p>Vermögen aufbauen statt Schulden.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="../components.js"></script>
+<script src="../steuer2026.js"></script>
+<script>
+  function calcKredit() {
+    const betrag = parseFloat(document.getElementById('k-betrag').value) || 0;
+    const zins = parseFloat(document.getElementById('k-zins').value) || 0;
+    const laufzeit = parseFloat(document.getElementById('k-laufzeit').value) || 1;
+    const r = berechneKredit(betrag, zins, laufzeit);
+    document.getElementById('k-rate').textContent = fmtEuro(r.monatsrate);
+    document.getElementById('k-zinsen-sub').textContent = fmtEuroRund(r.gesamtZinsen);
+    document.getElementById('k-gesamt-sub').textContent = fmtEuroRund(r.gesamtKosten);
+    document.getElementById('k-netto').textContent = fmtEuro(betrag);
+    document.getElementById('k-zinsen').textContent = '− ' + fmtEuro(r.gesamtZinsen);
+    document.getElementById('k-gesamt').textContent = fmtEuro(r.gesamtKosten);
+    document.getElementById('k-bar-pct').textContent = r.zinsProzentAnteil + ' %';
+    document.getElementById('k-bar').style.width = Math.min(r.zinsProzentAnteil, 100) + '%';
+  }
+  calcKredit();
+</script>
+</body>
+</html>
