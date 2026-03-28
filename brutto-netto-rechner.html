@@ -33,17 +33,21 @@
 }
 .toggle-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
 .checkbox-row { display:flex; align-items:center; gap:8px; cursor:pointer; }
-.slider-labels {
-  display: flex;
-  justify-content: space-between;
+.slider-track-labels {
+  position: relative;
+  height: 16px;
   margin-top: 4px;
-  padding: 0 2px;
 }
-.slider-labels span {
+.slider-track-labels span {
+  position: absolute;
+  transform: translateX(-50%);
   font-size: 10px;
   color: var(--ink-3);
   font-weight: 600;
+  white-space: nowrap;
 }
+.slider-track-labels span:first-child { transform: translateX(0); }
+.slider-track-labels span:last-child  { transform: translateX(-100%); }
 .checkbox-row input { width:16px; height:16px; accent-color:var(--accent); cursor:pointer; }
 .checkbox-row span { font-size:13.5px; color:var(--ink-2); }
 .jahres-toggle { display:flex; gap:4px; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:4px; }
@@ -81,28 +85,29 @@
             <input type="number" id="bn-brutto" value="3500" min="0" max="500000" oninput="calcBN()">
             <span class="input-unit">€</span>
           </div>
-          <input type="range" class="range-slider" min="500" max="20000" step="50" value="3500" id="bn-slider" list="slider-marks" oninput="
+          <input type="range" class="range-slider" min="500" max="20000" step="25" value="3500" id="bn-slider" oninput="
     const snapped = snapToNearest(parseFloat(this.value), modus==='jahr' ? SNAP_JAHR : SNAP_MONAT);
     this.value = snapped;
     document.getElementById('bn-brutto').value = snapped;
     calcBN();
   ">
-          <datalist id="slider-marks">
-            <option value="1000"></option>
-            <option value="2000"></option>
-            <option value="3000"></option>
-            <option value="4000"></option>
-            <option value="5000"></option>
-            <option value="7500"></option>
-            <option value="10000"></option>
-            <option value="15000"></option>
-            <option value="20000"></option>
-          </datalist>
-          <div class="slider-labels" id="slider-labels-monat">
-            <span>1k</span><span>2k</span><span>3k</span><span>5k</span><span>10k</span><span>15k</span><span>20k</span>
+          <div class="slider-track-labels" id="slider-labels-monat">
+            <span style="left:0%">500</span>
+            <span style="left:7.7%">2k</span>
+            <span style="left:17.9%">4k</span>
+            <span style="left:28.2%">6k</span>
+            <span style="left:48.7%">10k</span>
+            <span style="left:74.4%">15k</span>
+            <span style="left:100%">20k</span>
           </div>
-          <div class="slider-labels" id="slider-labels-jahr" style="display:none;">
-            <span>20k</span><span>40k</span><span>60k</span><span>80k</span><span>100k</span><span>150k</span><span>200k</span>
+          <div class="slider-track-labels" id="slider-labels-jahr" style="display:none;">
+            <span style="left:0%">10k</span>
+            <span style="left:21.1%">50k</span>
+            <span style="left:36.8%">80k</span>
+            <span style="left:47.4%">100k</span>
+            <span style="left:57.9%">120k</span>
+            <span style="left:73.7%">150k</span>
+            <span style="left:100%">200k</span>
           </div>
         </div>
 
