@@ -67,7 +67,7 @@
             <button class="jt-btn" onclick="setModus('jahr',this)">Jährlich</button>
           </div>
           <div class="input-wrap">
-            <input type="number" id="bn-brutto" value="3500" min="0" max="100000" oninput="calcBN()">
+            <input type="number" id="bn-brutto" value="3500" min="0" max="500000" oninput="calcBN()">
             <span class="input-unit">€</span>
           </div>
           <input type="range" class="range-slider" min="500" max="20000" step="50" value="3500" id="bn-slider" oninput="document.getElementById('bn-brutto').value=this.value; calcBN()">
@@ -243,8 +243,9 @@
     let brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
     const sliderMax = modus === 'jahr' ? 200000 : 20000;
     const slider = document.getElementById('bn-slider');
-    slider.max = sliderMax;
-    slider.value = Math.min(brutto, sliderMax);
+    slider.setAttribute('max', sliderMax);
+    slider.setAttribute('step', modus === 'jahr' ? 1000 : 50);
+    setTimeout(() => { slider.value = Math.min(brutto, sliderMax); }, 0);
     if (modus === 'jahr') brutto = brutto / 12;
     document.getElementById('bn-slider').value = Math.min(brutto, 15000);
 
