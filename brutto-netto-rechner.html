@@ -89,10 +89,22 @@
           <label>Bundesland</label>
           <div class="input-wrap">
             <select class="hc-input" id="bn-bundesland" onchange="updateBundesland()" style="font-size:14px;padding-right:14px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-weight:500;color:var(--ink);width:100%;outline:none;">
-              <option value="andere">Alle Bundesländer (außer BY, BW, SN)</option>
-              <option value="by">Bayern</option>
               <option value="bw">Baden-Württemberg</option>
+              <option value="by">Bayern</option>
+              <option value="be">Berlin</option>
+              <option value="bb">Brandenburg</option>
+              <option value="hb">Bremen</option>
+              <option value="hh">Hamburg</option>
+              <option value="he">Hessen</option>
+              <option value="mv">Mecklenburg-Vorpommern</option>
+              <option value="ni">Niedersachsen</option>
+              <option value="nw" selected>Nordrhein-Westfalen</option>
+              <option value="rp">Rheinland-Pfalz</option>
+              <option value="sl">Saarland</option>
               <option value="sn">Sachsen</option>
+              <option value="st">Sachsen-Anhalt</option>
+              <option value="sh">Schleswig-Holstein</option>
+              <option value="th">Thüringen</option>
             </select>
           </div>
         </div>
@@ -274,6 +286,8 @@
     slider.value = pct * sliderMax;
   }
 
+  // Kirchensteuer: Bayern + BaWü = 8%, alle anderen = 9%
+  // Sachsen: AN zahlt 0,5% mehr Pflegeversicherung
   function updateBundesland() {
     const bl = document.getElementById('bn-bundesland').value;
     const kircheSatz = (bl === 'by' || bl === 'bw') ? 8 : 9;
