@@ -251,15 +251,21 @@
     calcBN();
   }
 
+  function updateSlider() {
+    const eingabe = parseFloat(document.getElementById('bn-brutto').value) || 0;
+    const slider = document.getElementById('bn-slider');
+    const sliderMax = modus === 'jahr' ? 500000 : 20000;
+    slider.max = sliderMax;
+    slider.step = modus === 'jahr' ? 1000 : 50;
+    // Wert als Prozentsatz setzen damit Positionierung stimmt
+    const pct = Math.min(eingabe / sliderMax, 1);
+    slider.value = pct * sliderMax;
+  }
+
   function calcBN() {
     let brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
-    const slider = document.getElementById('bn-slider');
-    slider.value = Math.min(
-      modus === 'jahr' ? parseFloat(document.getElementById('bn-brutto').value)||0 : brutto,
-      parseFloat(slider.max)
-    );
+    updateSlider();
     if (modus === 'jahr') brutto = brutto / 12;
-    document.getElementById('bn-slider').value = Math.min(brutto, 15000);
 
     const kirche = document.getElementById('bn-kirche').checked;
     const kinder = document.getElementById('bn-kinder').checked;
