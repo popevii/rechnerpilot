@@ -241,11 +241,14 @@
 
   function calcBN() {
     let brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
-    const sliderMax = modus === 'jahr' ? 200000 : 20000;
     const slider = document.getElementById('bn-slider');
-    slider.setAttribute('max', sliderMax);
-    slider.setAttribute('step', modus === 'jahr' ? 1000 : 50);
-    setTimeout(() => { slider.value = Math.min(brutto, sliderMax); }, 0);
+    if (modus === 'jahr') {
+      slider.style.display = 'none';
+    } else {
+      slider.style.display = 'block';
+      slider.max = 20000;
+      slider.value = Math.min(brutto, 20000);
+    }
     if (modus === 'jahr') brutto = brutto / 12;
     document.getElementById('bn-slider').value = Math.min(brutto, 15000);
 
