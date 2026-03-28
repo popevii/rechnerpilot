@@ -81,7 +81,12 @@
             <input type="number" id="bn-brutto" value="3500" min="0" max="500000" oninput="calcBN()">
             <span class="input-unit">€</span>
           </div>
-          <input type="range" class="range-slider" min="500" max="20000" step="50" value="3500" id="bn-slider" list="slider-marks" oninput="document.getElementById('bn-brutto').value=this.value; calcBN()">
+          <input type="range" class="range-slider" min="500" max="20000" step="50" value="3500" id="bn-slider" list="slider-marks" oninput="
+    const snapped = snapToNearest(parseFloat(this.value), modus==='jahr' ? SNAP_JAHR : SNAP_MONAT);
+    this.value = snapped;
+    document.getElementById('bn-brutto').value = snapped;
+    calcBN();
+  ">
           <datalist id="slider-marks">
             <option value="1000"></option>
             <option value="2000"></option>
@@ -305,15 +310,30 @@
     calcBN();
   }
 
+  // Snap-Punkte je Modus
+  const SNAP_MONAT = [500,1000,1500,2000,2500,3000,3500,4000,5000,6000,7500,10000,12500,15000,20000];
+  const SNAP_JAHR  = [10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,120000,150000,200000];
+
+  function snapToNearest(val, snapPoints) {
+    let nearest = snapPoints[0];
+    let minDist = Math.abs(val - nearest);
+    for (const p of snapPoints) {
+      const dist = Math.abs(val - p);
+      if (dist < minDist) { minDist = dist; nearest = p; }
+    }
+    // Nur einrasten wenn nah genug (5% des Maximalwerts)
+    const threshold = snapPoints[snapPoints.length-1] * 0.04;
+    return minDist < threshold ? nearest : val;
+  }
+
   function updateSlider() {
     const eingabe = parseFloat(document.getElementById('bn-brutto').value) || 0;
     const slider = document.getElementById('bn-slider');
     const sliderMax = modus === 'jahr' ? 200000 : 20000;
+    slider.min = modus === 'jahr' ? 10000 : 500;
     slider.max = sliderMax;
-    slider.step = modus === 'jahr' ? 1000 : 50;
-    // Wert als Prozentsatz setzen damit Positionierung stimmt
-    const pct = Math.min(eingabe / sliderMax, 1);
-    slider.value = pct * sliderMax;
+    slider.step = modus === 'jahr' ? 500 : 25;
+    slider.value = Math.min(eingabe, sliderMax);
   }
 
   // Kirchensteuer: Bayern + BaWü = 8%, alle anderen = 9%
