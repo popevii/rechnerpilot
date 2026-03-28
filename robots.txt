@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /impressum
+Disallow: /datenschutz
+
+Sitemap: https://rechnerpilot.de/sitemap.xml

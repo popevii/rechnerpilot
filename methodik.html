@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methodik & Quellen | RechnerPilot</title>
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rechnerpilot.de/methodik">
+<link rel="stylesheet" href="style.css">
+<style>
+.legal-page { max-width:720px; margin:0 auto; padding:48px 36px 72px; }
+.legal-page h1 { font-family:'Instrument Serif',serif; font-size:36px; letter-spacing:-.4px; margin-bottom:8px; }
+.legal-page .subtitle { color:var(--ink-2); margin-bottom:40px; font-size:15px; }
+.legal-page h2 { font-size:18px; font-weight:700; margin:32px 0 10px; }
+.legal-page p { color:var(--ink-2); line-height:1.7; margin-bottom:12px; font-size:14.5px; }
+.legal-page a { color:var(--accent); }
+.legal-page ul { color:var(--ink-2); font-size:14.5px; line-height:1.7; margin-left:20px; margin-bottom:12px; }
+.legal-page li { margin-bottom:6px; }
+.source-box { background:var(--accent-light); border:1px solid rgba(26,92,58,.15); border-radius:12px; padding:16px 20px; margin:16px 0; }
+.source-box h3 { font-size:13px; font-weight:700; color:var(--accent); margin-bottom:8px; text-transform:uppercase; letter-spacing:.4px; }
+.source-box ul { margin-left:16px; }
+.source-box li { font-size:13px; }
+@media(max-width:768px){ .legal-page { padding:36px 20px 56px; } }
+</style>
+</head>
+<body data-page="">
+<div id="nav-placeholder"></div>
+<div class="legal-page">
+  <div class="calc-breadcrumb" style="font-size:12px;color:var(--ink-3);margin-bottom:16px;display:flex;gap:6px;">
+    <a href="index.html" style="color:var(--ink-3);text-decoration:none;">Startseite</a>
+    <span>›</span><span>Methodik & Quellen</span>
+  </div>
+  <h1>Methodik & Quellen</h1>
+  <p class="subtitle">Wie wir berechnen — transparent und nachvollziehbar.</p>
+
+  <h2>Grundsatz</h2>
+  <p>Alle Berechnungen auf RechnerPilot sind <strong>Näherungswerte</strong>. Sie basieren auf den offiziellen deutschen Steuer- und Sozialversicherungsgesetzen, vereinfachen jedoch individuelle Sonderfälle. Kein Online-Rechner kann eine persönliche Steuerberatung ersetzen.</p>
+
+  <h2>Brutto-Netto-Rechner</h2>
+  <p>Die Lohnsteuerberechnung folgt dem Einkommensteuergesetz (EStG) § 32a in der Fassung <span class="cur-year"></span>. Wir berechnen eine steuerklassenabhängige Näherung des zu versteuernden Einkommens und wenden die Progressionskurve an.</p>
+  <ul>
+    <li><strong>Grundfreibetrag 2026:</strong> 12.348 € (§ 32a EStG)</li>
+    <li><strong>Progressionszone 1:</strong> 12.349 € – 17.799 € (14 % – 23,97 %)</li>
+    <li><strong>Progressionszone 2:</strong> 17.800 € – 69.878 € (23,97 % – 42 %)</li>
+    <li><strong>Spitzensteuersatz:</strong> 42 % ab 69.879 €</li>
+    <li><strong>Reichensteuer:</strong> 45 % ab 277.826 €</li>
+    <li><strong>Soli:</strong> 5,5 % auf Lohnsteuer, Freigrenze 20.350 € Jahressteuer (Einzelveranlagung)</li>
+  </ul>
+
+  <p>Sozialversicherungsbeiträge (AN-Anteile, Stand 1. Januar 2026):</p>
+  <ul>
+    <li>Rentenversicherung: 9,3 % (bis BBG 8.450 €/Monat)</li>
+    <li>Arbeitslosenversicherung: 1,3 % (bis BBG 8.450 €/Monat)</li>
+    <li>Krankenversicherung: 7,3 % Basisbeitrag + Ø 1,45 % Zusatzbeitrag AN-Anteil (bis BBG 5.812,50 €/Monat)</li>
+    <li>Pflegeversicherung: 1,8 % (mit Kindern) / 2,1 % (kinderlos über 23 J.) AN-Anteil</li>
+  </ul>
+
+  <div class="source-box">
+    <h3>Quellen Brutto-Netto</h3>
+    <ul>
+      <li>Bundesfinanzministerium: <a href="https://www.bundesfinanzministerium.de" target="_blank">bundesfinanzministerium.de</a></li>
+      <li>Deutsche Rentenversicherung: Sozialversicherungsrechengrößen 2026</li>
+      <li>GKV-Spitzenverband: Durchschnittlicher Zusatzbeitrag 2026 (2,9 %)</li>
+      <li>AOK Arbeitgeberservice: Beitragssätze 2026</li>
+    </ul>
+  </div>
+
+  <h2>Kreditrechner</h2>
+  <p>Wir berechnen ein <strong>Annuitätendarlehen</strong> nach der Standard-Annuitätenformel:</p>
+  <p><code>Rate = K × (r × (1+r)^n) / ((1+r)^n – 1)</code></p>
+  <p>Dabei ist K = Kreditsumme, r = monatlicher Zinssatz (Jahreszins / 12), n = Laufzeit in Monaten. Bearbeitungsgebühren, Restschuldversicherungen und andere Nebenkosten werden nicht berücksichtigt.</p>
+
+  <h2>ETF-Sparplan-Rechner</h2>
+  <p>Wir berechnen den Zukunftswert eines vorschüssigen Sparplans (Einzahlung zu Monatsbeginn):</p>
+  <p><code>FV = PMT × ((1+r)^n – 1) / r × (1+r) + EZ × (1+r)^n</code></p>
+  <p>Dabei ist PMT = monatliche Sparrate, r = monatlicher Netto-Zinssatz ((Rendite − TER) / 12), n = Laufzeit in Monaten, EZ = Einmalanlage. Abgeltungssteuer wird nicht berücksichtigt.</p>
+
+  <h2>Aktualisierungsrhythmus</h2>
+  <p>Alle steuerlichen und sozialversicherungsrechtlichen Parameter werden jährlich — in der Regel im Dezember des Vorjahres — aktualisiert, sobald die neuen Werte vom Gesetzgeber verabschiedet sind.</p>
+
+  <p style="margin-top:32px;font-size:13px;color:var(--ink-3);">Zuletzt aktualisiert: Januar <span class="cur-year"></span></p>
+</div>
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script>document.querySelectorAll('.cur-year').forEach(el => el.textContent = new Date().getFullYear());</script>
+</body>
+</html>

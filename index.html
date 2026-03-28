@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RechnerPilot – Kostenlose Finanzrechner für Deutschland</title>
+<meta name="description" content="Brutto-Netto-Rechner, Kreditrechner, ETF-Sparplan und mehr. Kostenlose, präzise Finanzrechner für Deutschland – aktuell 2026, werbefrei und ohne Konto.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rechnerpilot.de/">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "RechnerPilot",
+  "url": "https://rechnerpilot.de",
+  "description": "Kostenlose Finanzrechner für Deutschland",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://rechnerpilot.de/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<style>
+/* Hero */
+.hero {
+  max-width:1100px; margin:0 auto;
+  padding:80px 36px 64px;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:72px; align-items:center;
+}
+.eyebrow-badge {
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:11.5px; font-weight:700; color:var(--accent);
+  letter-spacing:.6px; text-transform:uppercase; margin-bottom:22px;
+}
+.eyebrow-dot { width:7px; height:7px; background:var(--accent); border-radius:50%; animation:pulseDot 2.4s ease infinite; }
+.hero h1 { font-family:'Instrument Serif',serif; font-size:clamp(36px,5vw,56px); line-height:1.07; letter-spacing:-.5px; margin-bottom:22px; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-desc { font-size:16px; color:var(--ink-2); line-height:1.7; margin-bottom:36px; max-width:420px; }
+.btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:28px; }
+.trust-row { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.trust-pill { display:flex; align-items:center; gap:5px; font-size:12px; color:var(--ink-3); font-weight:500; }
+.trust-check { color:var(--accent); }
+
+/* Hero card */
+.hero-card { background:var(--white); border:1px solid var(--border); border-radius:22px; box-shadow:var(--shadow-lg); overflow:hidden; animation:float 5s ease-in-out infinite; }
+.hc-result { background:linear-gradient(135deg,var(--accent) 0%,#2d7a52 100%); padding:24px 26px 20px; position:relative; overflow:hidden; }
+.hc-result::before { content:''; position:absolute; top:-40px; right:-40px; width:140px; height:140px; background:rgba(255,255,255,.05); border-radius:50%; }
+.hc-res-label { font-size:10.5px; font-weight:700; color:rgba(255,255,255,.55); text-transform:uppercase; letter-spacing:.6px; margin-bottom:4px; position:relative; z-index:1; }
+.hc-res-value { font-family:'Instrument Serif',serif; font-size:44px; letter-spacing:-.5px; color:#fff; position:relative; z-index:1; }
+.hc-res-sub { display:flex; gap:20px; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.13); position:relative; z-index:1; }
+.hc-rsl { font-size:10px; color:rgba(255,255,255,.5); font-weight:500; }
+.hc-rsv { font-size:13.5px; color:#fff; font-weight:600; margin-top:1px; }
+.hc-body { padding:22px 26px; }
+.hc-field { margin-bottom:18px; }
+.hc-field:last-child { margin-bottom:0; }
+.hc-flabel { display:block; font-size:11px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; margin-bottom:7px; }
+.hc-iw { position:relative; }
+.hc-input { width:100%; background:var(--bg); border:1.5px solid var(--border); border-radius:10px; padding:11px 44px 11px 14px; font-family:'Instrument Sans',sans-serif; font-size:16px; font-weight:600; color:var(--ink); outline:none; transition:border .15s; -moz-appearance:textfield; }
+.hc-input::-webkit-outer-spin-button, .hc-input::-webkit-inner-spin-button { -webkit-appearance:none; }
+.hc-input:focus { border-color:var(--accent); background:var(--white); }
+.hc-unit { position:absolute; right:13px; top:50%; transform:translateY(-50%); font-size:13px; font-weight:600; color:var(--ink-3); }
+.hc-range { width:100%; -webkit-appearance:none; appearance:none; height:3px; border-radius:100px; background:var(--border); outline:none; margin-top:9px; }
+.hc-range::-webkit-slider-thumb { -webkit-appearance:none; width:17px; height:17px; background:var(--accent); border-radius:50%; cursor:pointer; box-shadow:0 2px 8px rgba(26,92,58,.4); }
+
+/* How */
+.how-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:36px; margin-top:48px; }
+.how-n { font-family:'Instrument Serif',serif; font-size:60px; color:var(--border); line-height:1; margin-bottom:12px; letter-spacing:-2px; }
+.how-item h3 { font-size:16px; font-weight:600; margin-bottom:8px; }
+.how-item p { font-size:13.5px; color:var(--ink-2); line-height:1.6; }
+
+@media(max-width:768px) {
+  .hero { grid-template-columns:1fr; gap:44px; padding:52px 20px 44px; }
+  .how-grid { grid-template-columns:1fr; gap:28px; }
+}
+</style>
+</head>
+<body data-page="">
+<div id="nav-placeholder"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="fu">
+    <div class="eyebrow-badge">
+      <span class="eyebrow-dot"></span>
+      Kostenlos · Werbefrei · Stand <span id="hero-year"></span>
+    </div>
+    <h1>Finanzen verstehen.<br><em>Richtig</em> entscheiden.</h1>
+    <p class="hero-desc">Präzise Rechner für Gehalt, Kredit und Geldanlage — verständlich erklärt, ohne Fachchinesisch. Kein Konto nötig.</p>
+    <div class="btn-row">
+      <a href="brutto-netto-rechner.html" class="btn-primary">Rechner starten ↗</a>
+      <a href="#rechner" class="btn-ghost">Alle Rechner ansehen</a>
+    </div>
+    <div class="trust-row">
+      <div class="trust-pill"><span class="trust-check">✓</span> Keine Werbung</div>
+      <div class="trust-pill"><span class="trust-check">✓</span> Keine Cookies</div>
+      <div class="trust-pill"><span class="trust-check">✓</span> Kein Konto</div>
+    </div>
+  </div>
+
+  <div class="fu d2">
+    <div class="hero-card">
+      <div class="hc-result">
+        <div class="hc-res-label">Nettogehalt monatlich</div>
+        <div class="hc-res-value" id="h-netto">2.489 €</div>
+        <div class="hc-res-sub">
+          <div><div class="hc-rsl">Lohnsteuer</div><div class="hc-rsv" id="h-lst">−418 €</div></div>
+          <div><div class="hc-rsl">Sozialabgaben</div><div class="hc-rsv" id="h-soz">−779 €</div></div>
+          <div><div class="hc-rsl">Abgaben</div><div class="hc-rsv" id="h-pct">34,7%</div></div>
+        </div>
+      </div>
+      <div class="hc-body">
+        <div class="hc-field">
+          <span class="hc-flabel">Bruttogehalt</span>
+          <div class="hc-iw">
+            <input class="hc-input" type="number" id="h-brutto" value="3800" oninput="calcHero()">
+            <span class="hc-unit">€</span>
+          </div>
+          <input class="hc-range" type="range" min="1000" max="10000" step="100" value="3800" oninput="document.getElementById('h-brutto').value=this.value; calcHero()">
+        </div>
+        <div class="hc-field">
+          <span class="hc-flabel">Steuerklasse</span>
+          <div class="hc-iw">
+            <select class="hc-input" id="h-klasse" onchange="calcHero()" style="font-size:14px;padding-right:14px;">
+              <option value="1">Klasse I – Ledig</option>
+              <option value="3">Klasse III – Verheiratet</option>
+              <option value="4">Klasse IV – Gleich</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="fu"><div class="stat-v">50+</div><div class="stat-l">Rechner & Kalkulatoren</div></div>
+    <div class="fu d1"><div class="stat-v">100%</div><div class="stat-l">Kostenlos & werbefrei</div></div>
+    <div class="fu d2"><div class="stat-v" id="stats-year"></div><div class="stat-l">Aktuelle Steuerwerte</div></div>
+    <div class="fu d3"><div class="stat-v">DE</div><div class="stat-l">Nur für Deutschland</div></div>
+  </div>
+</div>
+
+<!-- RECHNER -->
+<div class="section" id="rechner">
+  <div class="sec-ey">Rechner-Übersicht</div>
+  <div class="sec-h">Die wichtigsten Finanzrechner</div>
+  <p class="sec-p">Von Gehalt bis Geldanlage — alle Berechnungen an einem Ort, klar erklärt.</p>
+  <div class="calc-grid">
+    <a href="brutto-netto-rechner.html" class="cc featured fu">
+      <div class="cc-badge">Nr. 1</div>
+      <div class="cc-icon bg-g">💼</div>
+      <h3>Brutto-Netto-Rechner</h3>
+      <p>Nettogehalt nach Steuern und Abgaben, nach Steuerklasse und Bundesland.</p>
+      <div class="cc-link">Jetzt berechnen →</div>
+    </a>
+    <a href="kreditrechner.html" class="cc fu d1">
+      <div class="cc-icon bg-g">🏦</div>
+      <h3>Kreditrechner</h3>
+      <p>Monatsrate, Gesamtzins und Tilgungsplan für Raten- und Autokredite.</p>
+      <div class="cc-link">Jetzt berechnen →</div>
+    </a>
+    <a href="etf-sparplan-rechner.html" class="cc fu d2">
+      <div class="cc-icon bg-y">📈</div>
+      <h3>ETF-Sparplan-Rechner</h3>
+      <p>Endkapital, Zinseszins und Renditevergleich für deinen monatlichen Sparplan.</p>
+      <div class="cc-link">Jetzt berechnen →</div>
+    </a>
+    <a href="#" class="cc fu d3">
+      <div class="cc-icon bg-g">🏠</div>
+      <h3>Immobilienrendite</h3>
+      <p>Mietrendite, Kaufnebenkosten und Finanzierungsvergleich — demnächst.</p>
+      <div class="cc-link" style="color:var(--ink-3)">Demnächst →</div>
+    </a>
+    <a href="#" class="cc fu">
+      <div class="cc-icon bg-y">💰</div>
+      <h3>Zinseszins-Rechner</h3>
+      <p>Wie sich Kapital über Zeit entwickelt — mit Inflationsbereinigung.</p>
+      <div class="cc-link" style="color:var(--ink-3)">Demnächst →</div>
+    </a>
+    <a href="#" class="cc fu d1">
+      <div class="cc-icon bg-s">📊</div>
+      <h3>Inflations-Rechner</h3>
+      <p>Kaufkraftverlust und realer Wert von Geldbeträgen über Zeit.</p>
+      <div class="cc-link" style="color:var(--ink-3)">Demnächst →</div>
+    </a>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="section-sm">
+  <div class="sec-ey">Beliebte Suchanfragen</div>
+  <div class="tags">
+    <a href="brutto-netto-rechner.html?brutto=3000" class="tag">Brutto Netto 3000€</a>
+    <a href="kreditrechner.html?betrag=20000" class="tag">Kreditrechner 20.000€</a>
+    <a href="etf-sparplan-rechner.html?rate=250" class="tag">ETF Sparplan 250€</a>
+    <a href="brutto-netto-rechner.html?klasse=3" class="tag">Steuerklasse 3</a>
+    <a href="kreditrechner.html?typ=auto" class="tag">Autokredit Rechner</a>
+    <a href="brutto-netto-rechner.html?teilzeit=1" class="tag">Brutto Netto Teilzeit</a>
+    <a href="etf-sparplan-rechner.html?rate=500" class="tag">ETF 500€ monatlich</a>
+    <a href="kreditrechner.html?laufzeit=10" class="tag">Kreditrate 10 Jahre</a>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div class="trust-band">
+  <div class="trust-inner">
+    <div class="tb fu">
+      <div class="tb-icon">🎯</div>
+      <h3>Präzise Berechnungen</h3>
+      <p>Alle Formeln basieren auf offiziellen deutschen Steuer- und Sozialversicherungsgesetzen. Methodik transparent dokumentiert.</p>
+    </div>
+    <div class="tb fu d1">
+      <div class="tb-icon">🔒</div>
+      <h3>Keine Datenspeicherung</h3>
+      <p>Berechnungen laufen direkt in deinem Browser. Keine Daten werden gespeichert oder weitergegeben. Kein Tracking.</p>
+    </div>
+    <div class="tb fu d2">
+      <div class="tb-icon">📅</div>
+      <h3>Jährlich aktualisiert</h3>
+      <p>Steuersätze und Sozialversicherungswerte werden jedes Jahr aktualisiert. Stand ist immer sichtbar angegeben.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW -->
+<div class="section">
+  <div class="sec-ey">So funktioniert's</div>
+  <div class="sec-h">In drei Schritten zum Ergebnis</div>
+  <div class="how-grid">
+    <div class="how-item fu">
+      <div class="how-n">01</div>
+      <h3>Rechner wählen</h3>
+      <p>Wähle den passenden Rechner aus der Übersicht — nach Kategorie oder über die Navigation.</p>
+    </div>
+    <div class="how-item fu d1">
+      <div class="how-n">02</div>
+      <h3>Werte eingeben</h3>
+      <p>Trage deine Werte ein. Alle Felder sind mit sinnvollen Standardwerten vorbelegt — dauert 30 Sekunden.</p>
+    </div>
+    <div class="how-item fu d2">
+      <div class="how-n">03</div>
+      <h3>Ergebnis verstehen</h3>
+      <p>Ergebnis mit Erklärung, Beispielrechnung und Hinweisen — nicht nur eine Zahl, sondern echtes Verständnis.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section" style="padding-top:0">
+  <div class="sec-ey">Häufige Fragen</div>
+  <div class="sec-h">Was du wissen solltest</div>
+  <div class="faq">
+    <div class="faq-row"><div class="faq-q">Sind alle Rechner kostenlos?</div><div class="faq-a">Ja — vollständig kostenlos. Kein Abo, kein Konto, keine versteckten Kosten. RechnerPilot finanziert sich nicht über deine Daten.</div></div>
+    <div class="faq-row"><div class="faq-q">Wie genau sind die Berechnungen?</div><div class="faq-a">Die Ergebnisse sind fundierte Näherungswerte auf Basis der aktuellen deutschen Gesetzgebung (Stand <span class="cur-year"></span>). Für individuelle steuerliche Beratung empfehlen wir einen Steuerberater. Alle Annahmen sind auf den jeweiligen Rechner-Seiten dokumentiert.</div></div>
+    <div class="faq-row"><div class="faq-q">Werden meine Daten gespeichert?</div><div class="faq-a">Nein. Alle Berechnungen laufen ausschließlich in deinem Browser (JavaScript). Es werden keinerlei Eingaben an Server übertragen oder gespeichert. Es gibt keine Cookies und kein Tracking.</div></div>
+    <div class="faq-row"><div class="faq-q">Wie oft werden die Steuerwerte aktualisiert?</div><div class="faq-a">Jährlich — in der Regel zum 1. Januar, sobald die neuen Werte vom Gesetzgeber verabschiedet sind. Der aktuelle Stand ist auf jeder Rechner-Seite vermerkt.</div></div>
+    <div class="faq-row"><div class="faq-q">Kann ich die Rechner auf meiner Website einbetten?</div><div class="faq-a">Eine Einbettungs-API ist in Planung. Schreib uns gerne an, wenn du Interesse hast — wir priorisieren nach Nachfrage.</div></div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+  // Jahr automatisch setzen
+  const y = new Date().getFullYear();
+  document.getElementById('hero-year').textContent = y;
+  document.getElementById('stats-year').textContent = y;
+  document.querySelectorAll('.cur-year').forEach(el => el.textContent = y);
+
+  function calcHero() {
+    const b = parseFloat(document.getElementById('h-brutto').value)||0;
+    const k = parseInt(document.getElementById('h-klasse').value);
+    const result = bruttoNetto(b, k, false, 1.45);
+    const f = n => Math.abs(n).toLocaleString('de-DE',{maximumFractionDigits:0})+' €';
+    document.getElementById('h-netto').textContent = f(result.netto);
+    document.getElementById('h-lst').textContent = '−'+f(result.lohnsteuer);
+    document.getElementById('h-soz').textContent = '−'+f(result.sozialAbgaben);
+    document.getElementById('h-pct').textContent = result.abgabenQuote+'%';
+  }
+  calcHero();
+</script>
+</body>
+</html>

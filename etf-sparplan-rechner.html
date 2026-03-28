@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETF-Sparplan-Rechner 2026 – Vermögen berechnen | RechnerPilot</title>
+<meta name="description" content="ETF-Sparplan-Rechner: Berechne dein Endkapital, den Zinseszinseffekt und die monatliche Entnahmerate. Kostenlos, mit TER und Einmalanlage.">
+<link rel="canonical" href="https://rechnerpilot.de/etf-sparplan-rechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.jahres-table { width:100%; border-collapse:collapse; margin-top:16px; font-size:13px; }
+.jahres-table th { background:var(--accent); color:#fff; padding:10px 14px; text-align:left; font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.3px; }
+.jahres-table td { padding:9px 14px; border-bottom:1px solid var(--border); color:var(--ink-2); }
+.jahres-table tr:last-child td { border-bottom:none; font-weight:700; color:var(--ink); }
+.jahres-table tr:nth-child(even) td { background:var(--bg); }
+.range-label { font-size:12px; color:var(--accent); font-weight:700; text-align:right; margin-top:4px; }
+.highlight-box { background:var(--accent); color:#fff; border-radius:14px; padding:20px 24px; margin:20px 0; }
+.highlight-box h3 { font-size:16px; margin-bottom:6px; }
+.highlight-box p { font-size:13.5px; opacity:.85; }
+</style>
+</head>
+<body data-page="etf">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span><span>ETF-Sparplan-Rechner</span>
+    </div>
+    <h1>ETF-Sparplan-Rechner</h1>
+    <p>Berechne dein Endkapital, den Zinseszinseffekt und deine mögliche Entnahmerate durch regelmäßiges Investieren in ETFs.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+        <div class="field">
+          <label>Monatliche Sparrate</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-rate" value="250" min="1" max="10000" oninput="calcETF()">
+            <span class="input-unit">€</span>
+          </div>
+          <input type="range" class="range-slider" min="25" max="2000" step="25" value="250" oninput="document.getElementById('etf-rate').value=this.value; calcETF()">
+          <div class="range-label" id="etf-rate-label">250 €/Monat</div>
+        </div>
+
+        <div class="field">
+          <label>Anlagedauer</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-jahre" value="20" min="1" max="50" oninput="calcETF()">
+            <span class="input-unit">Jahre</span>
+          </div>
+          <input type="range" class="range-slider" min="1" max="50" step="1" value="20" oninput="document.getElementById('etf-jahre').value=this.value; calcETF()">
+          <div class="range-label" id="etf-jahre-label">20 Jahre</div>
+        </div>
+
+        <div class="field">
+          <label>Erwartete Rendite p.a.</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-rendite" value="7" step="0.5" min="0" max="20" oninput="calcETF()">
+            <span class="input-unit">%</span>
+          </div>
+          <input type="range" class="range-slider" min="1" max="15" step="0.5" value="7" oninput="document.getElementById('etf-rendite').value=this.value; calcETF()">
+          <div class="range-label" id="etf-rendite-label">7,0 % p.a.</div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">MSCI World historisch: ≈ 7–9 % p.a. nominal</div>
+        </div>
+
+        <div class="field">
+          <label>TER (Jahreskosten ETF)</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-ter" value="0.2" step="0.05" min="0" max="2" oninput="calcETF()">
+            <span class="input-unit">%</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Günstige ETFs: 0,07–0,2 % p.a.</div>
+        </div>
+
+        <div class="field">
+          <label>Einmalanlage zu Beginn</label>
+          <div class="input-wrap">
+            <input type="number" id="etf-einmal" value="0" min="0" oninput="calcETF()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis nach <span id="etf-jahre-label2">20</span> Jahren</div>
+
+        <div class="result-main">
+          <div class="result-main-label">Endkapital (geschätzt)</div>
+          <div class="result-main-value" id="etf-end">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Eingezahlt</div><div class="rms-val" id="etf-eingezahlt-sub">—</div></div>
+            <div><div class="rms-label">Rendite</div><div class="rms-val" id="etf-gewinn-sub">—</div></div>
+            <div><div class="rms-label">Faktor</div><div class="rms-val" id="etf-faktor-sub">—</div></div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Eingezahlter Betrag</span><span class="result-row-value" id="etf-eingezahlt">—</span></div>
+        <div class="result-row"><span class="result-row-label">Kursgewinne</span><span class="result-row-value pos" id="etf-gewinn">—</span></div>
+        <div class="result-row"><span class="result-row-label">Renditeanteil</span><span class="result-row-value pos" id="etf-rendite-ant">—</span></div>
+        <div class="result-row"><span class="result-row-label">Entnahme (4%-Regel/Monat)</span><span class="result-row-value pos" id="etf-entnahme">—</span></div>
+
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Renditeanteil am Endkapital</span><span id="etf-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="etf-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">
+      ⚠️ Vergangenheitsrenditen sind keine Garantie für zukünftige Erträge. Keine Berücksichtigung von Abgeltungssteuer (26,375 %) auf Kapitalerträge. Keine Anlageberatung. <a href="methodik.html" style="color:var(--accent);">Zur Methodik →</a>
+    </div>
+  </div>
+
+  <!-- JAHRESÜBERSICHT -->
+  <div class="content-section fu d2">
+    <h2>Jahresübersicht</h2>
+    <div style="overflow-x:auto;">
+      <table class="jahres-table" id="jahres-table">
+        <thead><tr><th>Jahr</th><th>Eingezahlt</th><th>Kursgewinn</th><th>Kapital gesamt</th></tr></thead>
+        <tbody id="jahres-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Was ist der Zinseszinseffekt?</h2>
+    <p>Der <strong>Zinseszins</strong> ist das mächtigste Prinzip im Vermögensaufbau: Deine Erträge werden reinvestiert und erzielen selbst wieder Erträge. Mit der Zeit wächst dein Kapital dadurch exponentiell — nicht linear.</p>
+    <p>Beispiel: 250 € monatlich über 20 Jahre bei 7 % Rendite ergibt nicht 60.000 € (eingezahlt), sondern über 130.000 € — mehr als das Doppelte. Die Differenz ist der Zinseszinseffekt.</p>
+
+    <div class="highlight-box">
+      <h3>💡 Die 4%-Regel</h3>
+      <p>Die 4%-Regel besagt: Du kannst jährlich 4% deines Portfolios entnehmen, ohne es langfristig zu verbrauchen — weil die durchschnittliche Rendite die Entnahme ausgleicht. Bei 130.000 € Endkapital wären das ca. 433 € pro Monat.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Beispiel: 250 € monatlich, 20 Jahre, 7 % Rendite</h2>
+    <div class="example-box">
+      <h3>📋 Berechnung</h3>
+      <div class="example-row"><span>Monatliche Sparrate</span><span><strong>250 €</strong></span></div>
+      <div class="example-row"><span>Anlagedauer</span><span>20 Jahre (240 Monate)</span></div>
+      <div class="example-row"><span>Rendite (nach TER 0,2 %)</span><span>6,8 % p.a. netto</span></div>
+      <div class="example-row"><span>Eingezahlter Betrag</span><span>60.000 €</span></div>
+      <div class="example-row"><span>Kursgewinne</span><span>≈ 73.400 €</span></div>
+      <div class="example-row"><span><strong>Endkapital</strong></span><span><strong>≈ 133.400 €</strong></span></div>
+      <div class="example-row"><span>Entnahme (4%-Regel)</span><span>≈ 445 €/Monat</span></div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Häufige Fragen zum ETF-Sparplan</h2>
+    <div class="faq">
+      <div class="faq-row"><div class="faq-q">Was ist eine realistische ETF-Rendite?</div><div class="faq-a">Der MSCI World hat historisch (letzten 30 Jahre) eine nominale Rendite von ca. 7–9 % p.a. erzielt. Realistisch für langfristige Planungen sind 6–8 % p.a. vor Steuern. Garantiert ist nichts — Schwankungen gehören dazu.</div></div>
+      <div class="faq-row"><div class="faq-q">Was ist die TER?</div><div class="faq-a">Die <strong>Total Expense Ratio (TER)</strong> sind die jährlichen Gesamtkosten eines ETF — sie werden automatisch vom Fondsvermögen abgezogen. Günstige ETFs haben eine TER von 0,07–0,2 % p.a. Diese schmälern deine Rendite direkt.</div></div>
+      <div class="faq-row"><div class="faq-q">Muss ich auf ETF-Gewinne Steuern zahlen?</div><div class="faq-a">Ja — auf Kapitalerträge (Kursgewinne und Ausschüttungen) fällt die <strong>Abgeltungssteuer</strong> von 25 % + Soli an (ca. 26,375 % gesamt). Dieser Rechner zeigt das Brutto-Endkapital ohne Steuerabzug. Nutze den Sparerpauschbetrag (1.000 € p.a. für Ledige, 2.000 € für Ehepaare).</div></div>
+      <div class="faq-row"><div class="faq-q">Ab wann sollte ich mit einem ETF-Sparplan starten?</div><div class="faq-a">So früh wie möglich — der Zinseszinseffekt braucht Zeit. Der Unterschied zwischen Start mit 25 vs. 35 Jahren ist erheblich: 10 Jahre früher kann das Endkapital verdoppeln.</div></div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto</h3>
+        <p>Nettogehalt und Abzüge berechnen.</p>
+        <div class="cc-link">Berechnen →</div>
+      </a>
+      <a href="kreditrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏦</div>
+        <h3>Kreditrechner</h3>
+        <p>Monatsrate und Gesamtzinsen.</p>
+        <div class="cc-link">Berechnen →</div>
+      </a>
+      <a href="index.html" class="cc">
+        <div class="cc-icon bg-s">🧮</div>
+        <h3>Alle Rechner</h3>
+        <p>Zur Übersicht aller Finanzrechner.</p>
+        <div class="cc-link">Zur Übersicht →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+function calcETF() {
+  const rate    = parseFloat(document.getElementById('etf-rate').value)    || 0;
+  const jahre   = parseFloat(document.getElementById('etf-jahre').value)   || 1;
+  const rendite = parseFloat(document.getElementById('etf-rendite').value) || 0;
+  const ter     = parseFloat(document.getElementById('etf-ter').value)     || 0;
+  const einmal  = parseFloat(document.getElementById('etf-einmal').value)  || 0;
+
+  document.getElementById('etf-rate-label').textContent    = rate.toLocaleString('de-DE') + ' €/Monat';
+  document.getElementById('etf-jahre-label').textContent   = jahre + ' Jahre';
+  document.getElementById('etf-jahre-label2').textContent  = jahre;
+  document.getElementById('etf-rendite-label').textContent = rendite.toFixed(1).replace('.',',') + ' % p.a.';
+
+  const r = berechneETF(rate, jahre, rendite, ter, einmal);
+
+  document.getElementById('etf-end').textContent          = fmtEuroRund(r.endkapital);
+  document.getElementById('etf-eingezahlt-sub').textContent = fmtEuroRund(r.eingezahlt);
+  document.getElementById('etf-gewinn-sub').textContent   = '+' + fmtEuroRund(r.gewinn);
+  document.getElementById('etf-faktor-sub').textContent   = r.faktor + 'x';
+  document.getElementById('etf-eingezahlt').textContent   = fmtEuroRund(r.eingezahlt);
+  document.getElementById('etf-gewinn').textContent       = '+' + fmtEuroRund(r.gewinn);
+  document.getElementById('etf-rendite-ant').textContent  = r.renditeAnteil + ' %';
+  document.getElementById('etf-entnahme').textContent     = fmtEuroRund(r.entnahme4Prozent) + ' €/Monat';
+  document.getElementById('etf-bar-pct').textContent      = r.renditeAnteil + ' %';
+  document.getElementById('etf-bar').style.width          = Math.min(r.renditeAnteil, 100) + '%';
+
+  // Jahresübersicht
+  const tbody = document.getElementById('jahres-body');
+  tbody.innerHTML = r.jahresuebersicht.map((row, i) => `
+    <tr>
+      <td>Jahr ${row.jahr}</td>
+      <td>${fmtEuroRund(row.eingezahlt)}</td>
+      <td style="color:var(--accent);font-weight:500;">+${fmtEuroRund(row.gewinn)}</td>
+      <td><strong>${fmtEuroRund(row.kapital)}</strong></td>
+    </tr>
+  `).join('');
+}
+
+calcETF();
+</script>
+</body>
+</html>
