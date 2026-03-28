@@ -333,9 +333,10 @@ footer { background:#0f1a0f; padding:56px 36px 36px; }
 .nav-dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 10px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
+  padding-top: 10px;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -348,6 +349,16 @@ footer { background:#0f1a0f; padding:56px 36px 36px; }
 
 .nav-dropdown:hover .nav-dropdown-menu {
   display: block;
+}
+
+/* Invisible bridge to prevent gap between trigger and menu */
+.nav-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
 }
 
 .nav-dropdown-group {
