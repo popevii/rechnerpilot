@@ -33,6 +33,17 @@
 }
 .toggle-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
 .checkbox-row { display:flex; align-items:center; gap:8px; cursor:pointer; }
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0 2px;
+}
+.slider-labels span {
+  font-size: 10px;
+  color: var(--ink-3);
+  font-weight: 600;
+}
 .checkbox-row input { width:16px; height:16px; accent-color:var(--accent); cursor:pointer; }
 .checkbox-row span { font-size:13.5px; color:var(--ink-2); }
 .jahres-toggle { display:flex; gap:4px; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:4px; }
@@ -70,7 +81,24 @@
             <input type="number" id="bn-brutto" value="3500" min="0" max="500000" oninput="calcBN()">
             <span class="input-unit">€</span>
           </div>
-          <input type="range" class="range-slider" min="500" max="20000" step="50" value="3500" id="bn-slider" oninput="document.getElementById('bn-brutto').value=this.value; calcBN()">
+          <input type="range" class="range-slider" min="500" max="20000" step="50" value="3500" id="bn-slider" list="slider-marks" oninput="document.getElementById('bn-brutto').value=this.value; calcBN()">
+          <datalist id="slider-marks">
+            <option value="1000"></option>
+            <option value="2000"></option>
+            <option value="3000"></option>
+            <option value="4000"></option>
+            <option value="5000"></option>
+            <option value="7500"></option>
+            <option value="10000"></option>
+            <option value="15000"></option>
+            <option value="20000"></option>
+          </datalist>
+          <div class="slider-labels" id="slider-labels-monat">
+            <span>1k</span><span>2k</span><span>3k</span><span>5k</span><span>10k</span><span>15k</span><span>20k</span>
+          </div>
+          <div class="slider-labels" id="slider-labels-jahr" style="display:none;">
+            <span>20k</span><span>40k</span><span>60k</span><span>80k</span><span>100k</span><span>150k</span><span>200k</span>
+          </div>
         </div>
 
         <div class="field">
@@ -253,7 +281,7 @@
     const slider = document.getElementById('bn-slider');
     if (modus === 'monat' && m === 'jahr') {
       document.getElementById('bn-brutto').value = Math.round(aktuell * 12);
-      slider.max = 500000;
+      slider.max = 200000;
       slider.step = 1000;
     } else if (modus === 'jahr' && m === 'monat') {
       document.getElementById('bn-brutto').value = Math.round(aktuell / 12);
@@ -265,6 +293,8 @@
     document.querySelectorAll('.jt-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('bn-modus-label').textContent = m === 'monat' ? 'monatlich' : 'jährlich';
+    document.getElementById('slider-labels-monat').style.display = m === 'monat' ? 'flex' : 'none';
+    document.getElementById('slider-labels-jahr').style.display = m === 'jahr' ? 'flex' : 'none';
     calcBN();
   }
 
@@ -278,7 +308,7 @@
   function updateSlider() {
     const eingabe = parseFloat(document.getElementById('bn-brutto').value) || 0;
     const slider = document.getElementById('bn-slider');
-    const sliderMax = modus === 'jahr' ? 500000 : 20000;
+    const sliderMax = modus === 'jahr' ? 200000 : 20000;
     slider.max = sliderMax;
     slider.step = modus === 'jahr' ? 1000 : 50;
     // Wert als Prozentsatz setzen damit Positionierung stimmt
