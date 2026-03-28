@@ -225,6 +225,18 @@
   let aktuelleKlasse = 1;
 
   function setModus(m, btn) {
+    const aktuell = parseFloat(document.getElementById('bn-brutto').value) || 0;
+    const slider = document.getElementById('bn-slider');
+    if (modus === 'monat' && m === 'jahr') {
+      document.getElementById('bn-brutto').value = Math.round(aktuell * 12);
+      slider.max = 500000;
+      slider.step = 1000;
+    } else if (modus === 'jahr' && m === 'monat') {
+      document.getElementById('bn-brutto').value = Math.round(aktuell / 12);
+      slider.max = 20000;
+      slider.step = 50;
+    }
+    slider.style.display = 'block';
     modus = m;
     document.querySelectorAll('.jt-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -242,13 +254,10 @@
   function calcBN() {
     let brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
     const slider = document.getElementById('bn-slider');
-    if (modus === 'jahr') {
-      slider.style.display = 'none';
-    } else {
-      slider.style.display = 'block';
-      slider.max = 20000;
-      slider.value = Math.min(brutto, 20000);
-    }
+    slider.value = Math.min(
+      modus === 'jahr' ? parseFloat(document.getElementById('bn-brutto').value)||0 : brutto,
+      parseFloat(slider.max)
+    );
     if (modus === 'jahr') brutto = brutto / 12;
     document.getElementById('bn-slider').value = Math.min(brutto, 15000);
 
