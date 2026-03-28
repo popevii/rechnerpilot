@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stromkostenrechner 2026 – Jahreskosten berechnen | RechnerPilot</title>
+<meta name="description" content="Stromkostenrechner 2026: Jahresstromkosten berechnen und mit dem günstigsten Anbieter vergleichen. Durchschnittspreis aktuell 28 Cent/kWh.">
+<link rel="canonical" href="https://www.rechnerpilot.de/stromkostenrechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.toggle-group{display:flex;gap:8px;flex-wrap:wrap}
+.toggle-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;transition:all .15s}
+.toggle-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.preset-card{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .15s;text-align:center}
+.preset-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.preset-card.active{border-color:var(--accent);background:var(--accent-light)}
+.preset-card-label{font-size:12px;color:var(--ink-3);font-weight:500}
+.preset-card-val{font-size:15px;font-weight:700;color:var(--ink);margin-top:2px}
+.affiliate-box{background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:28px;color:#fff;position:relative;overflow:hidden;margin-top:0}
+.affiliate-box h2{font-family:'Instrument Serif',serif;font-size:22px;color:#fff;margin-bottom:8px;letter-spacing:-.2px}
+.affiliate-box p{color:rgba(255,255,255,.95);font-size:14px;line-height:1.6;margin-bottom:20px;max-width:480px}
+.affiliate-btn{background:#fff;color:#1a5c3a;padding:12px 24px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.affiliate-checks{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.2)}
+.affiliate-checks span{font-size:12px;color:rgba(255,255,255,.9)}
+</style>
+</head>
+<body data-page="">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span><span>Stromkostenrechner</span>
+    </div>
+    <h1>Stromkostenrechner 2026</h1>
+    <p>Berechne deine jährlichen Stromkosten und finde den günstigsten Anbieter in deiner Region.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label>Haushaltsgröße (Schnellauswahl)</label>
+          <div class="preset-grid" id="preset-grid">
+            <div class="preset-card" onclick="setPreset(1500, this)">
+              <div class="preset-card-label">1 Person</div>
+              <div class="preset-card-val">1.500 kWh</div>
+            </div>
+            <div class="preset-card active" onclick="setPreset(2500, this)">
+              <div class="preset-card-label">2 Personen</div>
+              <div class="preset-card-val">2.500 kWh</div>
+            </div>
+            <div class="preset-card" onclick="setPreset(3500, this)">
+              <div class="preset-card-label">3 Personen</div>
+              <div class="preset-card-val">3.500 kWh</div>
+            </div>
+            <div class="preset-card" onclick="setPreset(4500, this)">
+              <div class="preset-card-label">4 Personen</div>
+              <div class="preset-card-val">4.500 kWh</div>
+            </div>
+            <div class="preset-card" onclick="setPreset(6000, this)">
+              <div class="preset-card-label">5+ Personen</div>
+              <div class="preset-card-val">6.000 kWh</div>
+            </div>
+            <div class="preset-card" onclick="setPreset(0, this)" id="preset-custom">
+              <div class="preset-card-label">Eigener Wert</div>
+              <div class="preset-card-val">Manuell</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Jahresverbrauch (kWh)</label>
+          <div class="input-wrap">
+            <input type="number" id="s-kwh" value="2500" min="0" max="50000" oninput="calcStrom()">
+            <span class="input-unit">kWh</span>
+          </div>
+          <input type="range" class="range-slider" min="500" max="10000" step="100" value="2500"
+            oninput="document.getElementById('s-kwh').value=this.value; calcStrom()">
+        </div>
+
+        <div class="field">
+          <label>Arbeitspreis (Cent/kWh)</label>
+          <div class="input-wrap">
+            <input type="number" id="s-preis" value="28.5" step="0.1" min="1" max="80" oninput="calcStrom()">
+            <span class="input-unit">ct</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø Deutschland 2026: ca. 28–32 Cent/kWh</div>
+        </div>
+
+        <div class="field">
+          <label>Grundpreis (monatlich)</label>
+          <div class="input-wrap">
+            <input type="number" id="s-grund" value="12" step="0.5" min="0" max="50" oninput="calcStrom()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Besondere Verbraucher</label>
+          <label class="checkbox-row" style="margin-bottom:8px;">
+            <input type="checkbox" id="s-eauto" onchange="calcStrom()">
+            <span>Elektroauto (Laden zuhause, ca. +3.000 kWh/Jahr)</span>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="s-waermepumpe" onchange="calcStrom()">
+            <span>Wärmepumpe (ca. +4.000 kWh/Jahr)</span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Deine Stromkosten</div>
+
+        <div class="result-main">
+          <div class="result-main-label">Jahreskosten gesamt</div>
+          <div class="result-main-value" id="s-jahr">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Pro Monat</div><div class="rms-val" id="s-monat">—</div></div>
+            <div><div class="rms-label">Pro Tag</div><div class="rms-val" id="s-tag">—</div></div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Haushalt Verbrauchskosten</span><span class="result-row-value" id="s-verbrauch">—</span></div>
+        <div class="result-row" id="s-eauto-row" style="display:none"><span class="result-row-label">⚡ Elektroauto (3.000 kWh)</span><span class="result-row-value neg" id="s-eauto-kosten">—</span></div>
+        <div class="result-row" id="s-wp-row" style="display:none"><span class="result-row-label">🌡️ Wärmepumpe (4.000 kWh)</span><span class="result-row-value neg" id="s-wp-kosten">—</span></div>
+        <div class="result-row"><span class="result-row-label">Grundpreis (Jahr)</span><span class="result-row-value" id="s-grundjahr">—</span></div>
+        <div class="result-row"><span class="result-row-label">Kosten pro kWh (gesamt)</span><span class="result-row-value" id="s-effpreis">—</span></div>
+
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Vergleich mit Ø-Haushalt (2.500 kWh)</span><span id="s-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="s-bar" style="width:50%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">⚠️ Durchschnittspreise — dein tatsächlicher Preis hängt von Anbieter, Region und Tarif ab. Stand: 2026.</div>
+  </div>
+
+  <!-- AFFILIATE -->
+  <div class="content-section fu d2">
+    <div class="affiliate-box">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:8px;">Spare bis zu 300 € im Jahr</div>
+      <h2>Günstigeren Stromanbieter finden</h2>
+      <p>Du weißt jetzt was dein Strom kostet — jetzt prüfen ob du mit einem Anbieterwechsel sparen kannst. Kostenloser Vergleich, keine versteckten Kosten.</p>
+      <a href="DEIN-AFFILIATE-LINK-STROM" target="_blank" rel="noopener sponsored" class="affiliate-btn">
+        Stromanbieter vergleichen →
+      </a>
+      <div class="affiliate-checks">
+        <span>✓ Über 100 Anbieter im Vergleich</span>
+        <span>✓ Wechsel in 5 Minuten</span>
+        <span>✓ Kostenlos & unverbindlich</span>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:10px;">* Partnerlink — RechnerPilot erhält eine Provision bei Abschluss. Für dich entstehen keine Mehrkosten.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Wie viel Strom verbraucht ein Haushalt?</h2>
+    <p>Der durchschnittliche Stromverbrauch in Deutschland hängt stark von der Haushaltsgröße ab:</p>
+    <div class="example-box">
+      <h3>📊 Durchschnittlicher Jahresverbrauch 2026</h3>
+      <div class="example-row"><span>1-Person-Haushalt</span><span>ca. 1.300–1.700 kWh</span></div>
+      <div class="example-row"><span>2-Personen-Haushalt</span><span>ca. 2.200–2.800 kWh</span></div>
+      <div class="example-row"><span>3-Personen-Haushalt</span><span>ca. 3.200–3.800 kWh</span></div>
+      <div class="example-row"><span>4-Personen-Haushalt</span><span>ca. 4.000–5.000 kWh</span></div>
+      <div class="example-row"><span>Ø Arbeitspreis 2026</span><span>ca. 28–32 Cent/kWh</span></div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Häufige Fragen zum Stromverbrauch</h2>
+    <div class="faq">
+      <div class="faq-row"><div class="faq-q">Wie oft sollte ich den Stromanbieter wechseln?</div><div class="faq-a">Experten empfehlen einen Vergleich mindestens einmal im Jahr — Preise schwanken stark. Ein Wechsel ist meist in 5–10 Minuten erledigt und kann mehrere hundert Euro im Jahr sparen.</div></div>
+      <div class="faq-row"><div class="faq-q">Was ist der Unterschied zwischen Arbeits- und Grundpreis?</div><div class="faq-a">Der <strong>Arbeitspreis</strong> (Cent/kWh) ist der Preis für tatsächlich verbrauchten Strom. Der <strong>Grundpreis</strong> ist eine monatliche Pauschale unabhängig vom Verbrauch — quasi die Bereitstellungsgebühr.</div></div>
+      <div class="faq-row"><div class="faq-q">Wie kann ich Strom sparen?</div><div class="faq-a">Die größten Einsparungen: LED-Beleuchtung, energieeffiziente Geräte (A-Klasse), Standby vermeiden und Warmwasser effizient nutzen. Auch ein Wechsel auf Ökostrom ist oft günstiger als erwartet.</div></div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="gaskostenrechner.html" class="cc">
+        <div class="cc-icon bg-y">🔥</div>
+        <h3>Gaskostenrechner</h3>
+        <p>Jahresheizkosten mit Gas berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="krankenkassenrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏥</div>
+        <h3>Krankenkassenrechner</h3>
+        <p>GKV-Beitrag berechnen und vergleichen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto</h3>
+        <p>Nettogehalt berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+function setPreset(kwh, card) {
+  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  if (kwh > 0) {
+    document.getElementById('s-kwh').value = kwh;
+    document.querySelector('.range-slider').value = Math.min(kwh, 10000);
+  }
+  calcStrom();
+}
+
+function calcStrom() {
+  const kwh         = parseFloat(document.getElementById('s-kwh').value)   || 0;
+  const preis       = parseFloat(document.getElementById('s-preis').value) || 0;
+  const grund       = parseFloat(document.getElementById('s-grund').value) || 0;
+  const hatEAuto    = document.getElementById('s-eauto').checked;
+  const hatWP       = document.getElementById('s-waermepumpe').checked;
+
+  const extraEAuto  = hatEAuto ? 3000 : 0;
+  const extraWP     = hatWP   ? 4000 : 0;
+  const gesamtKWh   = kwh + extraEAuto + extraWP;
+
+  const verbrauchKosten = kwh * preis / 100;
+  const eAutoKosten     = extraEAuto * preis / 100;
+  const wpKosten        = extraWP * preis / 100;
+  const grundJahr       = grund * 12;
+  const jahrGesamt      = gesamtKWh * preis / 100 + grundJahr;
+  const monat           = jahrGesamt / 12;
+  const tag             = jahrGesamt / 365;
+  const effPreis        = gesamtKWh > 0 ? ((jahrGesamt / gesamtKWh) * 100).toFixed(1) : 0;
+  const vergleich       = (gesamtKWh / 2500 * 100).toFixed(0);
+
+  const f2 = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+
+  document.getElementById('s-jahr').textContent      = f0(jahrGesamt);
+  document.getElementById('s-monat').textContent     = f2(monat);
+  document.getElementById('s-tag').textContent       = f2(tag);
+  document.getElementById('s-verbrauch').textContent = f0(verbrauchKosten);
+  document.getElementById('s-grundjahr').textContent = f0(grundJahr);
+  document.getElementById('s-effpreis').textContent  = effPreis + ' ct/kWh';
+  document.getElementById('s-bar-pct').textContent   = vergleich + '%';
+  document.getElementById('s-bar').style.width       = Math.min(vergleich, 100) + '%';
+
+  // Extras ein/ausblenden
+  document.getElementById('s-eauto-row').style.display   = hatEAuto ? 'flex' : 'none';
+  document.getElementById('s-wp-row').style.display      = hatWP    ? 'flex' : 'none';
+  document.getElementById('s-eauto-kosten').textContent  = '+ ' + f0(eAutoKosten);
+  document.getElementById('s-wp-kosten').textContent     = '+ ' + f0(wpKosten);
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+calcStrom();
+</script>
+</body>
+</html>

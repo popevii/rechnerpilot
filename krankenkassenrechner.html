@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krankenkassenrechner 2026 – GKV-Beitrag berechnen | RechnerPilot</title>
+<meta name="description" content="Krankenkassenrechner 2026: GKV-Beitrag berechnen, Zusatzbeitrag vergleichen und günstigste Krankenkasse finden. Ø Zusatzbeitrag 2026: 2,9%.">
+<link rel="canonical" href="https://www.rechnerpilot.de/krankenkassenrechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.kk-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px}
+.kk-table th{background:var(--accent);color:#fff;padding:10px 14px;text-align:left;font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px}
+.kk-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink-2)}
+.kk-table tr:last-child td{border-bottom:none}
+.kk-table tr:nth-child(even) td{background:var(--bg)}
+.kk-table td.highlight{font-weight:700;color:var(--accent)}
+.affiliate-box{background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:28px;color:#fff}
+.affiliate-box h2{font-family:'Instrument Serif',serif;font-size:22px;color:#fff;margin-bottom:8px;letter-spacing:-.2px}
+.affiliate-box p{color:rgba(255,255,255,.95);font-size:14px;line-height:1.6;margin-bottom:20px;max-width:480px}
+.affiliate-btn{background:#fff;color:#1a5c3a;padding:12px 24px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.affiliate-checks{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.2)}
+.affiliate-checks span{font-size:12px;color:rgba(255,255,255,.9)}
+</style>
+</head>
+<body data-page="">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span><span>Krankenkassenrechner</span>
+    </div>
+    <h1>Krankenkassenrechner 2026</h1>
+    <p>Berechne deinen monatlichen GKV-Beitrag und vergleiche Krankenkassen nach Zusatzbeitrag und Leistungen.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label>Bruttogehalt (monatlich)</label>
+          <div class="input-wrap">
+            <input type="number" id="kk-brutto" value="3500" min="0" max="20000" oninput="calcKK()">
+            <span class="input-unit">€</span>
+          </div>
+          <input type="range" class="range-slider" min="500" max="10000" step="100" value="3500"
+            oninput="document.getElementById('kk-brutto').value=this.value; calcKK()">
+        </div>
+
+        <div class="field">
+          <label>Dein Zusatzbeitrag (AN-Anteil)</label>
+          <div class="input-wrap">
+            <input type="number" id="kk-zusatz" value="1.45" step="0.05" min="0" max="5" oninput="calcKK()">
+            <span class="input-unit">%</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø 2026: 1,45 % (Ø Zusatzbeitrag: 2,9 % — je hälftig AN/AG)</div>
+        </div>
+
+        <div class="field">
+          <label>Kinder</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="kk-kinder" onchange="calcKK()">
+            <span>Ich habe Kinder (niedrigerer PV-Beitrag)</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label>Familienversicherung</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="kk-familie" onchange="calcKK()">
+            <span>Ehepartner/Kind soll mitversichert werden</span>
+          </label>
+          <div id="kk-familie-hinweis" style="display:none;margin-top:8px;background:var(--accent-light);border-radius:8px;padding:10px 12px;font-size:12.5px;color:var(--accent);line-height:1.5;">
+            ✓ <strong>Kostenlos!</strong> Nicht erwerbstätige Ehepartner und Kinder sind in der GKV beitragsfrei mitversichert — kein zusätzlicher Beitrag.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Dein GKV-Beitrag</div>
+
+        <div class="result-main">
+          <div class="result-main-label">Monatlicher Beitrag (AN-Anteil)</div>
+          <div class="result-main-value" id="kk-gesamt">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Jahresbeitrag</div><div class="rms-val" id="kk-jahr">—</div></div>
+            <div><div class="rms-label">AG zahlt zusätzlich</div><div class="rms-val" id="kk-ag">—</div></div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Krankenversicherung (7,3 %)</span><span class="result-row-value neg" id="kk-basis">—</span></div>
+        <div class="result-row"><span class="result-row-label">Zusatzbeitrag AN-Anteil</span><span class="result-row-value neg" id="kk-zus">—</span></div>
+        <div class="result-row"><span class="result-row-label">Pflegeversicherung</span><span class="result-row-value neg" id="kk-pv">—</span></div>
+        <div class="result-row"><span class="result-row-label">Beitragsbemessungsgrenze</span><span class="result-row-value" id="kk-bbg">5.812,50 €/Monat</span></div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">⚠️ Berechnung auf Basis des AN-Anteils. Zusatzbeiträge sind kassenindividuell — aktuellen Satz bei deiner Kasse prüfen. Stand: 2026.</div>
+  </div>
+
+  <!-- AFFILIATE -->
+  <div class="content-section fu d2">
+    <div class="affiliate-box">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:8px;">Bis zu 300 € jährlich sparen</div>
+      <h2>Günstigere Krankenkasse finden</h2>
+      <p>Die Leistungen gesetzlicher Krankenkassen sind weitgehend gleich — der Zusatzbeitrag aber nicht. Vergleiche jetzt und wechsle kostenlos.</p>
+      <a href="DEIN-AFFILIATE-LINK-KK" target="_blank" rel="noopener sponsored" class="affiliate-btn">
+        Krankenkassen vergleichen →
+      </a>
+      <div class="affiliate-checks">
+        <span>✓ Alle gesetzlichen Kassen</span>
+        <span>✓ Wechsel jederzeit möglich</span>
+        <span>✓ Kostenlos & unverbindlich</span>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:10px;">* Partnerlink — RechnerPilot erhält eine Provision bei Abschluss. Für dich entstehen keine Mehrkosten.</p>
+  </div>
+
+  <!-- VERGLEICHSTABELLE -->
+  <div class="content-section">
+    <h2>Zusatzbeiträge großer Kassen 2026 (Auswahl)</h2>
+    <p>Die Zusatzbeiträge werden jährlich angepasst. Hier ein Überblick — aktuellen Satz immer direkt bei der Kasse prüfen.</p>
+    <div style="overflow-x:auto;">
+      <table class="kk-table">
+        <thead><tr><th>Krankenkasse</th><th>Zusatzbeitrag gesamt</th><th>AN-Anteil (50 %)</th><th>Typ</th></tr></thead>
+        <tbody>
+          <tr><td>TK Techniker Krankenkasse</td><td>2,45 %</td><td class="highlight">1,225 %</td><td>Bundesweit</td></tr>
+          <tr><td>Barmer</td><td>2,99 %</td><td class="highlight">1,495 %</td><td>Bundesweit</td></tr>
+          <tr><td>DAK-Gesundheit</td><td>2,80 %</td><td class="highlight">1,40 %</td><td>Bundesweit</td></tr>
+          <tr><td>AOK (je nach Region)</td><td>2,5–3,5 %</td><td class="highlight">1,25–1,75 %</td><td>Regional</td></tr>
+          <tr><td>IKK classic</td><td>2,60 %</td><td class="highlight">1,30 %</td><td>Bundesweit</td></tr>
+          <tr><td>HKK</td><td>1,98 %</td><td class="highlight">0,99 %</td><td>Regional</td></tr>
+          <tr style="font-weight:700;"><td>Ø Durchschnitt 2026</td><td>2,90 %</td><td class="highlight">1,45 %</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--ink-3);margin-top:10px;">Angaben ohne Gewähr — Zusatzbeiträge können sich unterjährig ändern. Quellen: GKV-Spitzenverband, Kassenmitteilungen 2026.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Häufige Fragen zur Krankenkasse</h2>
+    <div class="faq">
+      <div class="faq-row"><div class="faq-q">Wann kann ich die Krankenkasse wechseln?</div><div class="faq-a">Du kannst die Krankenkasse grundsätzlich zum Ende des übernächsten Monats wechseln — mit 2 Monaten Kündigungsfrist. Erhöht deine Kasse den Zusatzbeitrag, hast du ein Sonderkündigungsrecht zum Ende des Monats der Erhöhung.</div></div>
+      <div class="faq-row"><div class="faq-q">Unterscheiden sich die Leistungen?</div><div class="faq-a">Die Grundleistungen sind gesetzlich vorgeschrieben und bei allen Kassen gleich. Unterschiede gibt es bei Zusatzleistungen wie Bonusprogrammen, Zahnzusatz, Auslandsschutz oder alternativen Heilmethoden.</div></div>
+      <div class="faq-row"><div class="faq-q">Was ist der Unterschied zwischen GKV und PKV?</div><div class="faq-a">Die <strong>GKV</strong> (gesetzliche Krankenversicherung) ist einkommensabhängig und nimmt jeden auf. Die <strong>PKV</strong> (privat) ist gesundheitsabhängig, bietet oft bessere Leistungen, kann aber im Alter teurer werden. Ab 69.750 € Jahresgehalt kann man in die PKV wechseln.</div></div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto</h3>
+        <p>Alle Abzüge inkl. Krankenversicherung.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="stromkostenrechner.html" class="cc">
+        <div class="cc-icon bg-y">⚡</div>
+        <h3>Stromkostenrechner</h3>
+        <p>Jahresstromkosten berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="gaskostenrechner.html" class="cc">
+        <div class="cc-icon bg-y">🔥</div>
+        <h3>Gaskostenrechner</h3>
+        <p>Jahresheizkosten berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+function calcKK() {
+  const brutto  = parseFloat(document.getElementById('kk-brutto').value)  || 0;
+  const zusatz  = parseFloat(document.getElementById('kk-zusatz').value)  || 0;
+  const kinder  = document.getElementById('kk-kinder').checked;
+  const familie = document.getElementById('kk-familie').checked;
+  document.getElementById('kk-familie-hinweis').style.display = familie ? 'block' : 'none';
+  const G = { bbgKV: 5812.5, kv: 0.073, pvOhneKinder: 0.021, pvMitKind: 0.018 };
+
+  const bruttoKV = Math.min(brutto, G.bbgKV);
+  const kvBasis  = bruttoKV * G.kv;
+  const kvZusatz = bruttoKV * (zusatz / 100);
+  const pv       = bruttoKV * (kinder ? G.pvMitKind : G.pvOhneKinder);
+  const gesamt   = kvBasis + kvZusatz + pv;
+
+  // AG zahlt gleich viel KV + Ø Zusatzbeitrag + PV-Arbeitgeberanteil
+  const agKV     = bruttoKV * G.kv;
+  const agZusatz = bruttoKV * (zusatz / 100);
+  const agPV     = bruttoKV * 0.018; // AG-Anteil immer 1,8%
+  const agGesamt = agKV + agZusatz + agPV;
+
+  const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+
+  document.getElementById('kk-gesamt').textContent = f(gesamt);
+  document.getElementById('kk-jahr').textContent   = f0(gesamt * 12);
+  document.getElementById('kk-ag').textContent     = f(agGesamt);
+  document.getElementById('kk-basis').textContent  = '− ' + f(kvBasis);
+  document.getElementById('kk-zus').textContent    = '− ' + f(kvZusatz);
+  document.getElementById('kk-pv').textContent     = '− ' + f(pv);
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+calcKK();
+</script>
+</body>
+</html>

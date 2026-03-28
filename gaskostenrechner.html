@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaskostenrechner 2026 – Heizkosten berechnen | RechnerPilot</title>
+<meta name="description" content="Gaskostenrechner 2026: Jahresheizkosten mit Gas berechnen und günstigsten Anbieter finden. Aktueller Gaspreis ca. 10–12 Cent/kWh.">
+<link rel="canonical" href="https://www.rechnerpilot.de/gaskostenrechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.preset-card{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .15s;text-align:center}
+.preset-card:hover{border-color:var(--accent);background:var(--accent-light)}
+.preset-card.active{border-color:var(--accent);background:var(--accent-light)}
+.preset-card-label{font-size:12px;color:var(--ink-3);font-weight:500}
+.preset-card-val{font-size:15px;font-weight:700;color:var(--ink);margin-top:2px}
+.affiliate-box{background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:28px;color:#fff;position:relative;overflow:hidden}
+.affiliate-box h2{font-family:'Instrument Serif',serif;font-size:22px;color:#fff;margin-bottom:8px;letter-spacing:-.2px}
+.affiliate-box p{color:rgba(255,255,255,.95);font-size:14px;line-height:1.6;margin-bottom:20px;max-width:480px}
+.affiliate-btn{background:#fff;color:#1a5c3a;padding:12px 24px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.affiliate-checks{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.2)}
+.affiliate-checks span{font-size:12px;color:rgba(255,255,255,.9)}
+.toggle-group{display:flex;gap:8px;flex-wrap:wrap}
+.toggle-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;transition:all .15s}
+.toggle-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+</style>
+</head>
+<body data-page="">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span><span>Gaskostenrechner</span>
+    </div>
+    <h1>Gaskostenrechner 2026</h1>
+    <p>Berechne deine jährlichen Heizkosten mit Gas und finde den günstigsten Anbieter in deiner Region.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label>Wohnfläche (Schnellauswahl)</label>
+          <div class="preset-grid">
+            <div class="preset-card" onclick="setPreset(5000, this)">
+              <div class="preset-card-label">bis 50 m²</div>
+              <div class="preset-card-val">5.000 kWh</div>
+            </div>
+            <div class="preset-card active" onclick="setPreset(10000, this)">
+              <div class="preset-card-label">50–80 m²</div>
+              <div class="preset-card-val">10.000 kWh</div>
+            </div>
+            <div class="preset-card" onclick="setPreset(15000, this)">
+              <div class="preset-card-label">80–120 m²</div>
+              <div class="preset-card-val">15.000 kWh</div>
+            </div>
+            <div class="preset-card" onclick="setPreset(20000, this)">
+              <div class="preset-card-label">120–160 m²</div>
+              <div class="preset-card-val">20.000 kWh</div>
+            </div>
+            <div class="preset-card" onclick="setPreset(28000, this)">
+              <div class="preset-card-label">über 160 m²</div>
+              <div class="preset-card-val">28.000 kWh</div>
+            </div>
+            <div class="preset-card" onclick="setPreset(0, this)">
+              <div class="preset-card-label">Eigener Wert</div>
+              <div class="preset-card-val">Manuell</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Jahresverbrauch (kWh)</label>
+          <div class="input-wrap">
+            <input type="number" id="g-kwh" value="10000" min="0" max="100000" oninput="calcGas()">
+            <span class="input-unit">kWh</span>
+          </div>
+          <input type="range" class="range-slider" min="1000" max="40000" step="500" value="10000"
+            oninput="document.getElementById('g-kwh').value=this.value; calcGas()">
+        </div>
+
+        <div class="field">
+          <label>Arbeitspreis (Cent/kWh)</label>
+          <div class="input-wrap">
+            <input type="number" id="g-preis" value="10.5" step="0.1" min="1" max="40" oninput="calcGas()">
+            <span class="input-unit">ct</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø Deutschland 2026: ca. 9–13 Cent/kWh</div>
+        </div>
+
+        <div class="field">
+          <label>Grundpreis (monatlich)</label>
+          <div class="input-wrap">
+            <input type="number" id="g-grund" value="15" step="0.5" min="0" max="80" oninput="calcGas()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Anzahl Personen im Haushalt</label>
+          <div class="toggle-group" id="personen-group">
+            <button class="toggle-btn" data-val="1" onclick="selectPersonen(this)">1</button>
+            <button class="toggle-btn active" data-val="2" onclick="selectPersonen(this)">2</button>
+            <button class="toggle-btn" data-val="3" onclick="selectPersonen(this)">3</button>
+            <button class="toggle-btn" data-val="4" onclick="selectPersonen(this)">4</button>
+            <button class="toggle-btn" data-val="5" onclick="selectPersonen(this)">5+</button>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:6px;">Jede weitere Person: ca. +500 kWh/Jahr (Warmwasser)</div>
+        </div>
+
+        <div class="field">
+          <label>Gebäudetyp</label>
+          <div class="input-wrap">
+            <select id="g-gebaeude" onchange="calcGas()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink);outline:none;">
+              <option value="1.0">Neubau / gut gedämmt (ab 2010)</option>
+              <option value="1.3" selected>Durchschnitt (1980–2010)</option>
+              <option value="1.7">Altbau / schlecht gedämmt (vor 1980)</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Deine Heizkosten</div>
+
+        <div class="result-main">
+          <div class="result-main-label">Jahreskosten gesamt</div>
+          <div class="result-main-value" id="g-jahr">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Pro Monat</div><div class="rms-val" id="g-monat">—</div></div>
+            <div><div class="rms-label">Pro m² (80 m²)</div><div class="rms-val" id="g-qm">—</div></div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Verbrauchskosten</span><span class="result-row-value" id="g-verbrauch">—</span></div>
+        <div class="result-row"><span class="result-row-label">Grundpreis (Jahr)</span><span class="result-row-value" id="g-grundjahr">—</span></div>
+        <div class="result-row"><span class="result-row-label">Effektiver Preis/kWh</span><span class="result-row-value" id="g-effpreis">—</span></div>
+
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Vergleich mit Ø-Haushalt (10.000 kWh)</span><span id="g-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="g-bar" style="width:50%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">⚠️ Durchschnittspreise 2026. Tatsächlicher Preis abhängig von Anbieter, Region und Tarif.</div>
+  </div>
+
+  <!-- AFFILIATE -->
+  <div class="content-section fu d2">
+    <div class="affiliate-box">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:8px;">Spare bis zu 400 € im Jahr</div>
+      <h2>Günstigeren Gasanbieter finden</h2>
+      <p>Du weißt jetzt was dein Gas kostet — jetzt prüfen ob ein Anbieterwechsel Sinn macht. Kostenloser Vergleich in 2 Minuten.</p>
+      <a href="DEIN-AFFILIATE-LINK-GAS" target="_blank" rel="noopener sponsored" class="affiliate-btn">
+        Gasanbieter vergleichen →
+      </a>
+      <div class="affiliate-checks">
+        <span>✓ Alle regionalen Anbieter</span>
+        <span>✓ Wechsel in 5 Minuten</span>
+        <span>✓ Kostenlos & unverbindlich</span>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:10px;">* Partnerlink — RechnerPilot erhält eine Provision bei Abschluss. Für dich entstehen keine Mehrkosten.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Wie viel Gas verbraucht ein Haushalt?</h2>
+    <p>Der Gasverbrauch hängt hauptsächlich von der Wohnfläche, der Dämmung und dem Heizverhalten ab:</p>
+    <div class="example-box">
+      <h3>📊 Durchschnittlicher Jahresverbrauch 2026</h3>
+      <div class="example-row"><span>Wohnung bis 50 m²</span><span>ca. 4.000–6.000 kWh</span></div>
+      <div class="example-row"><span>Wohnung 50–80 m²</span><span>ca. 8.000–12.000 kWh</span></div>
+      <div class="example-row"><span>Haus 80–120 m²</span><span>ca. 12.000–18.000 kWh</span></div>
+      <div class="example-row"><span>Haus über 120 m²</span><span>ca. 18.000–30.000 kWh</span></div>
+      <div class="example-row"><span>Ø Arbeitspreis 2026</span><span>ca. 9–13 Cent/kWh</span></div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Häufige Fragen zu Gaskosten</h2>
+    <div class="faq">
+      <div class="faq-row"><div class="faq-q">Wann lohnt sich ein Gasanbieterwechsel?</div><div class="faq-a">Fast immer — Preisunterschiede zwischen Anbietern betragen oft 20–30 %. Ein Wechsel dauert 10 Minuten und der neue Anbieter kümmert sich um die Abmeldung beim alten Anbieter.</div></div>
+      <div class="faq-row"><div class="faq-q">Wie lese ich meinen Gasverbrauch ab?</div><div class="faq-a">Den Jahresverbrauch in kWh findest du auf deiner letzten Jahresabrechnung. Alternativ steht er auch auf deinem aktuellen Vertrag oder du fragst beim Anbieter nach.</div></div>
+      <div class="faq-row"><div class="faq-q">Gibt es eine Alternative zu Gas?</div><div class="faq-a">Wärmepumpen, Fernwärme und Pelletheizungen sind Alternativen — je nach Gebäude und Region unterschiedlich sinnvoll. Für Mieter ist ein Anbieterwechsel beim Gas oft die einfachste Sparmöglichkeit.</div></div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="stromkostenrechner.html" class="cc">
+        <div class="cc-icon bg-y">⚡</div>
+        <h3>Stromkostenrechner</h3>
+        <p>Jahresstromkosten berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="krankenkassenrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏥</div>
+        <h3>Krankenkassenrechner</h3>
+        <p>GKV-Beitrag berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="kreditrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏦</div>
+        <h3>Kreditrechner</h3>
+        <p>Monatsrate berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+function setPreset(kwh, card) {
+  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  if (kwh > 0) {
+    document.getElementById('g-kwh').value = kwh;
+    document.querySelector('.range-slider').value = Math.min(kwh, 40000);
+  }
+  calcGas();
+}
+
+let aktuellePersonen = 2;
+
+function selectPersonen(btn) {
+  document.querySelectorAll('#personen-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  aktuellePersonen = parseInt(btn.dataset.val);
+  // Verbrauch anpassen: Basis 2 Personen, jede weitere +500 kWh
+  const basisKWH = parseFloat(document.getElementById('g-kwh').value) || 0;
+  calcGas();
+}
+
+function calcGas() {
+  let kwh      = parseFloat(document.getElementById('g-kwh').value)   || 0;
+  const preis  = parseFloat(document.getElementById('g-preis').value) || 0;
+  const grund  = parseFloat(document.getElementById('g-grund').value) || 0;
+  const faktor = parseFloat(document.getElementById('g-gebaeude').value) || 1.0;
+
+  // Personen-Zuschlag für Warmwasser (ab 3 Personen)
+  const personenZuschlag = Math.max(0, aktuellePersonen - 2) * 500;
+  const gesamtKWH = Math.round((kwh + personenZuschlag) * faktor);
+
+  const verbrauchKosten = gesamtKWH * preis / 100;
+  const grundJahr       = grund * 12;
+  const jahrGesamt      = verbrauchKosten + grundJahr;
+  const monat           = jahrGesamt / 12;
+  const qm              = jahrGesamt / 80;
+  const effPreis        = gesamtKWH > 0 ? ((jahrGesamt / gesamtKWH) * 100).toFixed(1) : 0;
+  const vergleich       = (gesamtKWH / 10000 * 100).toFixed(0);
+
+  const f2 = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+
+  document.getElementById('g-jahr').textContent      = f0(jahrGesamt);
+  document.getElementById('g-monat').textContent     = f2(monat);
+  document.getElementById('g-qm').textContent        = f2(qm);
+  document.getElementById('g-verbrauch').textContent = f0(verbrauchKosten);
+  document.getElementById('g-grundjahr').textContent = f0(grundJahr);
+  document.getElementById('g-effpreis').textContent  = effPreis + ' ct/kWh';
+  document.getElementById('g-bar-pct').textContent   = vergleich + '%';
+  document.getElementById('g-bar').style.width       = Math.min(vergleich, 100) + '%';
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+calcGas();
+</script>
+</body>
+</html>
