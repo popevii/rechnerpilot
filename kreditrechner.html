@@ -212,21 +212,10 @@ function exportPDF() {
   doc.setFillColor(26, 92, 58);
   doc.rect(0, 0, 210, 38, 'F');
 
-  // Logo-Icon: gruenes abgerundetes Quadrat mit weissem Pfeil
-  doc.setFillColor(45, 122, 82);
-  doc.roundedRect(12, 7, 22, 22, 2.5, 2.5, 'F');
-  doc.setDrawColor(255, 255, 255);
-  doc.setLineWidth(1.6);
-  doc.line(15.5, 24, 19, 19.5);
-  doc.line(19, 19.5, 22, 22);
-  doc.line(22, 22, 27.5, 13.5);
-  doc.line(24.5, 13.5, 27.5, 13.5);
-  doc.line(27.5, 13.5, 27.5, 16.5);
-
-  // Wordmark
+  // Wordmark ohne Icon — sauber und professionell
   doc.setTextColor(255, 255, 255);
-  doc.setFontSize(20); doc.setFont('helvetica', 'bold');
-  doc.text('RechnerPilot', 38, 18);
+  doc.setFontSize(22); doc.setFont('helvetica', 'bold');
+  doc.text('RechnerPilot', 14, 18);
   doc.setFontSize(10); doc.setFont('helvetica', 'normal');
   doc.text('Kreditrechner  |  Tilgungsplan', 38, 26);
   doc.text('rechnerpilot.de', 38, 33);
