@@ -31,6 +31,8 @@
 .tilgung-table tr:nth-child(even) td { background:var(--bg); }
 .range-label { font-size:12px; color:var(--accent); font-weight:700; text-align:right; margin-top:4px; }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body data-page="kredit">
 <div id="nav-placeholder"></div>
@@ -100,8 +102,11 @@
         </div>
       </div>
     </div>
-    <div class="calc-disclaimer">
-      ⚠️ Näherungsrechnung ohne Bearbeitungsgebühren. Individuelle Kreditangebote von Banken können abweichen. Kein verbindliches Angebot. <a href="methodik.html" style="color:var(--accent);">Zur Methodik →</a>
+    <div class="calc-disclaimer" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <span>⚠️ Näherungsrechnung ohne Bearbeitungsgebühren. Kein verbindliches Angebot. <a href="methodik.html" style="color:var(--accent);">Zur Methodik →</a></span>
+      <button onclick="exportPDF()" style="background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:9px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;">
+        📄 Als PDF speichern
+      </button>
     </div>
   </div>
 
@@ -192,6 +197,124 @@
 <script src="components.js"></script>
 <script src="steuer2026.js"></script>
 <script>
+function exportPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const betrag   = parseFloat(document.getElementById('k-betrag').value)   || 0;
+  const zins     = parseFloat(document.getElementById('k-zins').value)     || 0;
+  const laufzeit = parseFloat(document.getElementById('k-laufzeit').value) || 1;
+  const rate     = document.getElementById('k-rate').textContent;
+  const zinsen   = document.getElementById('k-zinsen').textContent;
+  const gesamt   = document.getElementById('k-gesamt').textContent;
+  const datum    = new Date().toLocaleDateString('de-DE');
+
+  // Header Bereich
+  doc.setFillColor(26, 92, 58); // Grün
+  doc.rect(0, 0, 210, 40, 'F');
+
+  // Logo Text
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(22);
+  doc.setFont('helvetica', 'bold');
+  doc.text('RechnerPilot', 14, 18);
+
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Kreditrechner — Tilgungsplan', 14, 28);
+  doc.text('rechnerpilot.de', 14, 36);
+
+  // Datum rechts
+  doc.setFontSize(9);
+  doc.text('Erstellt am: ' + datum, 196, 36, { align: 'right' });
+
+  // Ergebnis-Box
+  doc.setTextColor(30, 30, 30);
+  doc.setFillColor(232, 242, 236);
+  doc.rect(14, 48, 182, 42, 'F');
+
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Ihre Kreditdaten', 18, 57);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  const col1 = 18, col2 = 80, col3 = 140;
+  const row1 = 65, row2 = 73, row3 = 81;
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Darlehensbetrag:', col1, row1);
+  doc.text('Zinssatz:', col2, row1);
+  doc.text('Laufzeit:', col3, row1);
+
+  doc.setFont('helvetica', 'normal');
+  doc.text(betrag.toLocaleString('de-DE') + ' €', col1, row2);
+  doc.text(zins.toFixed(2).replace('.', ',') + ' % p.a.', col2, row2);
+  doc.text(laufzeit + ' Jahre (' + (laufzeit*12) + ' Monate)', col3, row2);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Monatliche Rate:', col1, row3);
+  doc.text('Gesamtzinsen:', col2, row3);
+  doc.text('Gesamtrückzahlung:', col3, row3);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(26, 92, 58);
+  doc.setFontSize(11);
+  doc.text(rate, col1, row3 + 8);
+  doc.setTextColor(180, 30, 30);
+  doc.text(zinsen, col2, row3 + 8);
+  doc.setTextColor(30, 30, 30);
+  doc.text(gesamt, col3, row3 + 8);
+
+  // Tilgungsplan Tabelle
+  doc.setTextColor(30, 30, 30);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Vollständiger Tilgungsplan', 14, 102);
+
+  const tableData = vollständigerPlan.map(row => [
+    row.monat,
+    fmtEuro(row.rate),
+    fmtEuro(row.zinsen),
+    fmtEuro(row.tilgung),
+    fmtEuroRund(row.restschuld)
+  ]);
+
+  doc.autoTable({
+    startY: 107,
+    head: [['Monat', 'Rate', 'Zinsen', 'Tilgung', 'Restschuld']],
+    body: tableData,
+    theme: 'striped',
+    headStyles: {
+      fillColor: [26, 92, 58],
+      textColor: 255,
+      fontStyle: 'bold',
+      fontSize: 9
+    },
+    bodyStyles: { fontSize: 8.5, textColor: [40, 40, 40] },
+    alternateRowStyles: { fillColor: [240, 247, 242] },
+    columnStyles: {
+      0: { halign: 'center', cellWidth: 18 },
+      1: { halign: 'right' },
+      2: { halign: 'right', textColor: [180, 30, 30] },
+      3: { halign: 'right' },
+      4: { halign: 'right', fontStyle: 'bold' }
+    },
+    margin: { left: 14, right: 14 },
+    didDrawPage: (data) => {
+      // Footer auf jeder Seite
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text('RechnerPilot · rechnerpilot.de · Alle Angaben ohne Gewähr · Kein verbindliches Angebot', 105, 290, { align: 'center' });
+      doc.text('Seite ' + data.pageNumber, 196, 290, { align: 'right' });
+    }
+  });
+
+  // Speichern
+  const filename = 'rechnerpilot-kredit-' + betrag.toLocaleString('de-DE') + 'eur-' + datum.replace(/\./g,'-') + '.pdf';
+  doc.save(filename);
+}
+
 let vollständigerPlan = [];
 let planKomplett = false;
 
