@@ -211,14 +211,27 @@ function exportPDF() {
   // HEADER
   doc.setFillColor(26, 92, 58);
   doc.rect(0, 0, 210, 38, 'F');
+
+  // Logo-Icon: gruenes abgerundetes Quadrat mit weissem Pfeil
+  doc.setFillColor(45, 122, 82);
+  doc.roundedRect(12, 7, 22, 22, 2.5, 2.5, 'F');
+  doc.setDrawColor(255, 255, 255);
+  doc.setLineWidth(1.6);
+  doc.line(15.5, 24, 19, 19.5);
+  doc.line(19, 19.5, 22, 22);
+  doc.line(22, 22, 27.5, 13.5);
+  doc.line(24.5, 13.5, 27.5, 13.5);
+  doc.line(27.5, 13.5, 27.5, 16.5);
+
+  // Wordmark
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20); doc.setFont('helvetica', 'bold');
-  doc.text('RechnerPilot', 14, 16);
+  doc.text('RechnerPilot', 38, 18);
   doc.setFontSize(10); doc.setFont('helvetica', 'normal');
-  doc.text('Kreditrechner  |  Tilgungsplan', 14, 25);
-  doc.text('rechnerpilot.de', 14, 32);
+  doc.text('Kreditrechner  |  Tilgungsplan', 38, 26);
+  doc.text('rechnerpilot.de', 38, 33);
   doc.setFontSize(9); doc.setTextColor(200, 230, 210);
-  doc.text('Erstellt am: ' + datum, 196, 32, { align: 'right' });
+  doc.text('Erstellt am: ' + datum, 196, 33, { align: 'right' });
 
   // ERGEBNIS-BOX
   doc.setFillColor(236, 246, 239);
@@ -280,6 +293,7 @@ function exportPDF() {
     body: tableData,
     theme: 'striped',
     headStyles: { fillColor:[26,92,58], textColor:255, fontStyle:'bold', fontSize:9, halign:'right' },
+    didParseCell: (data) => { if (data.section === 'head' && data.column.index === 0) { data.cell.styles.halign = 'center'; } },
     bodyStyles: { fontSize:8.5, textColor:[40,40,40], halign:'right' },
     alternateRowStyles: { fillColor:[244,249,246] },
     columnStyles: {
