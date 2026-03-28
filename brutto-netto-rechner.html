@@ -70,7 +70,7 @@
             <input type="number" id="bn-brutto" value="3500" min="0" max="100000" oninput="calcBN()">
             <span class="input-unit">€</span>
           </div>
-          <input type="range" class="range-slider" min="500" max="15000" step="50" value="3500" id="bn-slider" oninput="syncSlider(this.value)">
+          <input type="range" class="range-slider" min="500" max="20000" step="50" value="3500" id="bn-slider" oninput="document.getElementById('bn-brutto').value=this.value; calcBN()">
         </div>
 
         <div class="field">
@@ -239,13 +239,12 @@
     calcBN();
   }
 
-  function syncSlider(val) {
-    document.getElementById('bn-brutto').value = val;
-    calcBN();
-  }
-
   function calcBN() {
     let brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
+    const sliderMax = modus === 'jahr' ? 200000 : 20000;
+    const slider = document.getElementById('bn-slider');
+    slider.max = sliderMax;
+    slider.value = Math.min(brutto, sliderMax);
     if (modus === 'jahr') brutto = brutto / 12;
     document.getElementById('bn-slider').value = Math.min(brutto, 15000);
 
