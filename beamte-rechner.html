@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beamtenbesoldung Rechner 2026 – A-Besoldung Bund berechnen | RechnerPilot</title>
+<meta name="description" content="Beamtenbesoldung Rechner 2026: Grundgehalt nach Besoldungsgruppe und Stufe berechnen – A3 bis A16, Bund. Inkl. Familienzuschlag und Netto-Berechnung.">
+<link rel="canonical" href="https://www.rechnerpilot.de/beamte-rechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.bg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:6px;margin-top:8px}
+.bg-btn{padding:8px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.bg-btn:hover{border-color:var(--accent);color:var(--accent)}
+.bg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.stufe-group{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.stufe-btn{flex:1;min-width:40px;padding:9px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.stufe-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.jahr-group{display:flex;gap:8px;margin-top:8px}
+.jahr-btn{flex:1;padding:9px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.jahr-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.laufbahn-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-top:6px}
+.lb-ein{background:#fef3cd;color:#856404}
+.lb-mit{background:#d1e7dd;color:#0a3622}
+.lb-geh{background:#cff4fc;color:#0a3666}
+.lb-hoe{background:#e8d5f5;color:#4a1d7a}
+.bes-tabelle{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.bes-tabelle th{background:var(--accent);color:#fff;padding:9px 12px;text-align:right;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.bes-tabelle th:first-child{text-align:left}
+.bes-tabelle td{padding:8px 12px;border-bottom:1px solid var(--border);text-align:right;color:var(--ink-2);font-size:12.5px}
+.bes-tabelle td:first-child{text-align:left;font-weight:700}
+.bes-tabelle tr.active-row td{background:var(--accent-light);color:var(--accent);font-weight:700}
+.bes-tabelle tr:hover td{background:var(--bg)}
+.info-box{background:var(--accent-light);border:1.5px solid rgba(26,92,58,.15);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--ink-2);line-height:1.6;margin-top:12px}
+.info-box strong{color:var(--accent)}
+.fz-box{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-top:12px}
+</style>
+</head>
+<body data-page="beamte">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <a href="tvoed-rechner.html">Öffentlicher Dienst</a><span>›</span>
+      <span>Beamtenbesoldung</span>
+    </div>
+    <h1>Beamtenbesoldung Rechner 2026</h1>
+    <p>Grundgehalt nach Besoldungsgruppe und Erfahrungsstufe berechnen — A-Besoldung Bund. Inkl. Familienzuschlag und Netto-Berechnung.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label>Besoldungsjahr</label>
+          <div class="jahr-group">
+            <button class="jahr-btn active" onclick="setJahr('2025', this)">2025 <small style="font-weight:400;font-size:11px;">(ab 01.04.2025)</small></button>
+            <button class="jahr-btn" onclick="setJahr('2026', this)">2026 <small style="font-weight:400;font-size:11px;">(ab 01.05.2026)</small></button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Besoldungsgruppe</label>
+          <div class="bg-grid" id="bg-grid"></div>
+          <div id="laufbahn-label" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="field">
+          <label>Erfahrungsstufe</label>
+          <div class="stufe-group" id="stufe-group"></div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:6px;">Stufe 1 = Berufseinstieg · Stufe 8 = max. Erfahrung (~28 Jahre)</div>
+        </div>
+
+        <div class="field">
+          <label>Familienzuschlag</label>
+          <div class="toggle-group" id="fz-group" style="flex-wrap:wrap;gap:6px;">
+            <button class="toggle-btn active" data-val="0" onclick="selectFZ(this)">Ledig</button>
+            <button class="toggle-btn" data-val="1" onclick="selectFZ(this)">Verheiratet</button>
+            <button class="toggle-btn" data-val="2" onclick="selectFZ(this)">+ 1 Kind</button>
+            <button class="toggle-btn" data-val="3" onclick="selectFZ(this)">+ 2 Kinder</button>
+            <button class="toggle-btn" data-val="4" onclick="selectFZ(this)">+ 3 Kinder</button>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:6px;">Verheiratet: +174,93 € · Je Kind: +264,59 € (2025)</div>
+        </div>
+
+        <div class="field">
+          <label>Steuerklasse</label>
+          <div class="toggle-group" id="sk-group">
+            <button class="toggle-btn active" data-val="1" onclick="selectSK(this)">I</button>
+            <button class="toggle-btn" data-val="2" onclick="selectSK(this)">II</button>
+            <button class="toggle-btn" data-val="3" onclick="selectSK(this)">III</button>
+            <button class="toggle-btn" data-val="4" onclick="selectSK(this)">IV</button>
+            <button class="toggle-btn" data-val="5" onclick="selectSK(this)">V</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Kinder (Pflegeversicherung)</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="beamte-kinder" onchange="calcBeamte()">
+            <span>Ich habe Kinder (niedrigerer PV-Beitrag)</span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis</div>
+        <div class="result-main">
+          <div class="result-main-label">Nettobezüge monatlich (ca.)</div>
+          <div class="result-main-value" id="beamte-netto">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Grundgehalt</div><div class="rms-val" id="beamte-brutto-sub">—</div></div>
+            <div><div class="rms-label">Familienzuschlag</div><div class="rms-val" id="beamte-fz-sub">—</div></div>
+            <div><div class="rms-label">Gesamtbezüge</div><div class="rms-val" id="beamte-gesamt-sub">—</div></div>
+          </div>
+        </div>
+        <div class="result-row"><span class="result-row-label">Besoldungsgruppe / Stufe</span><span class="result-row-value" id="beamte-bg-label">—</span></div>
+        <div class="result-row"><span class="result-row-label">Laufbahn</span><span class="result-row-value" id="beamte-laufbahn-label">—</span></div>
+        <div class="result-row"><span class="result-row-label">Grundgehalt brutto</span><span class="result-row-value" id="beamte-grundgehalt">—</span></div>
+        <div class="result-row"><span class="result-row-label">Familienzuschlag</span><span class="result-row-value pos" id="beamte-fz-row">—</span></div>
+        <div class="result-row"><span class="result-row-label">Gesamtbezüge brutto</span><span class="result-row-value" id="beamte-gesamt">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jahresbezüge (brutto)</span><span class="result-row-value" id="beamte-jahresbrutto">—</span></div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Abzüge vom Brutto</span><span id="beamte-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="beamte-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>⚠️ Hinweis:</strong> Beamte zahlen <strong>keine Rentenversicherung</strong> und erhalten stattdessen eine Pension (ca. 71,75 % des letzten Grundgehalts). Krankenversicherung: Bei Beihilfe zahlt der Staat 50–80 % der Krankheitskosten — viele Beamte schließen eine private Restkostenversicherung ab. Diese Berechnung zeigt die steuerlichen Abzüge ohne PKV-Kosten.
+    </div>
+    <div class="calc-disclaimer" style="margin-top:12px;">⚠️ Näherungsrechnung. Amtszulagen, Stellenzulagen und regionale Zuschläge nicht enthalten. <a href="methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <!-- BESOLDUNGSTABELLE -->
+  <div class="content-section fu d2">
+    <h2 id="tabelle-titel">Bundesbesoldungstabelle A 2025 (ab 01.04.2025)</h2>
+    <p>Monatliche Grundgehälter in Euro, Besoldungsordnung A, Bund. Deine Auswahl ist <span style="color:var(--accent);font-weight:600;">grün markiert</span>.</p>
+    <div style="overflow-x:auto;">
+      <table class="bes-tabelle">
+        <thead>
+          <tr>
+            <th>Gr.</th>
+            <th>Stufe 1</th><th>Stufe 2</th><th>Stufe 3</th><th>Stufe 4</th>
+            <th>Stufe 5</th><th>Stufe 6</th><th>Stufe 7</th><th>Stufe 8</th>
+          </tr>
+        </thead>
+        <tbody id="bes-tabelle-body"></tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;" id="tabelle-quelle">Quelle: Bundesbesoldungsgesetz (BBesG) · Stand: 01.04.2025</p>
+  </div>
+
+  <!-- LAUFBAHNEN -->
+  <div class="content-section">
+    <h2>Laufbahnen und Besoldungsgruppen im Überblick</h2>
+    <div class="example-box">
+      <div class="example-row">
+        <span><strong>Einfacher Dienst</strong> (A3–A5)</span>
+        <span>Vollzugsbeamte, Wachtmeister, Postbeamte</span>
+      </div>
+      <div class="example-row">
+        <span><strong>Mittlerer Dienst</strong> (A6–A9)</span>
+        <span>Verwaltungsfachangestellte, Polizei, Zoll</span>
+      </div>
+      <div class="example-row">
+        <span><strong>Gehobener Dienst</strong> (A9–A13)</span>
+        <span>Diplom-Verwaltungswirte, Finanzbeamte, Lehrer</span>
+      </div>
+      <div class="example-row">
+        <span><strong>Höherer Dienst</strong> (A13–A16)</span>
+        <span>Akademiker, Richter, Ministerialbeamte</span>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:13px;color:var(--ink-3);">A9 ist sowohl Eingangsamt des gehobenen als auch Endamt des mittleren Dienstes — mit unterschiedlichen Amtszulagen.</p>
+  </div>
+
+  <!-- ERFAHRUNGSSTUFEN -->
+  <div class="content-section">
+    <h2>Stufenaufstieg im Beamtenverhältnis</h2>
+    <div class="example-box">
+      <div class="example-row"><span>Stufe 1 → 2</span><span>Nach 2 Jahren (A5–A7) bzw. nach Ablauf der Probezeit</span></div>
+      <div class="example-row"><span>Stufe 2 → 3</span><span>Nach 3 Jahren</span></div>
+      <div class="example-row"><span>Stufe 3 → 4</span><span>Nach 4 Jahren</span></div>
+      <div class="example-row"><span>Stufe 4 → 5</span><span>Nach 4 Jahren</span></div>
+      <div class="example-row"><span>Stufe 5 → 6</span><span>Nach 4 Jahren</span></div>
+      <div class="example-row"><span>Stufe 6 → 7</span><span>Nach 5 Jahren</span></div>
+      <div class="example-row"><span>Stufe 7 → 8</span><span>Nach 5 Jahren</span></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zur Beamtenbesoldung</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Was ist der Unterschied zwischen Besoldung und Entgelt?</div>
+        <div class="faq-a">Beamte erhalten keine Vergütung nach Tarifvertrag, sondern eine gesetzlich geregelte Besoldung nach dem Bundesbesoldungsgesetz (BBesG) oder den Landesbesoldungsgesetzen. Die Besoldung umfasst Grundgehalt, Familienzuschlag, Zulagen und Zuschläge. Beamte zahlen keine Beiträge zur Rentenversicherung und Arbeitslosenversicherung — sie erhalten stattdessen eine Pension und haben Unkündbarkeit.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie funktioniert die Beihilfe?</div>
+        <div class="faq-a">Der Staat übernimmt als Dienstherr einen Teil der Krankheitskosten (Beihilfe): Für ledige Beamte 50 %, für Verheiratete 70 % und für Beamte mit Kindern bis zu 80 %. Den Rest decken Beamte meist über eine private Krankenversicherung (PKV) ab, die günstiger als GKV-Beiträge ist.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie hoch ist die Pension?</div>
+        <div class="faq-a">Die Pension beträgt nach 40 Dienstjahren maximal 71,75 % des letzten Grundgehalts (Ruhegehaltssatz). Pro Dienstjahr werden 1,79375 % angerechnet. Frühpensionierung ist möglich, reduziert aber die Pension entsprechend.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist der Familienzuschlag?</div>
+        <div class="faq-a">Der Familienzuschlag ist ein Zuschlag zur Besoldung der verheirateten Beamten und Beamten mit Kindern. Er beträgt 2025 für Verheiratete ca. 174,93 € monatlich. Für jedes Kind kommen ca. 264,59 € hinzu. Alleinerziehende erhalten ab dem zweiten Kind ebenfalls einen erhöhten Zuschlag.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERWANDTE RECHNER -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="tvoed-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>TVöD Gehaltsrechner</h3>
+        <p>Gehalt für Tarifbeschäftigte bei Kommunen und Bund.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="tv-l-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🎓</div>
+        <h3>TV-L Gehaltsrechner</h3>
+        <p>Gehalt für Angestellte im Landesdienst.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Nettogehalt für beliebiges Brutto berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+// Bundesbesoldungstabelle A — Stufen [S1..S8]
+const BES_2025 = {
+  'A3':  [3345.84, 3415.45, 3485.10, 3554.72, 3625.37, 3694.98, 3757.35, 3807.92],
+  'A4':  [3439.57, 3529.28, 3619.00, 3708.68, 3798.39, 3857.78, 3907.17, 3957.53],
+  'A5':  [3461.17, 3582.79, 3672.51, 3767.69, 3862.88, 3951.41, 4025.93, 4099.14],
+  'A6':  [3580.33, 3689.05, 3797.79, 3884.79, 4015.20, 4102.20, 4189.15, 4276.15],
+  'A7':  [3772.83, 3877.67, 4025.04, 4172.42, 4274.36, 4422.28, 4525.19, 4628.58],
+  'A8':  [3966.59, 4136.66, 4265.15, 4393.66, 4564.88, 4694.37, 4780.79, 4867.20],
+  'A9':  [4182.24, 4313.22, 4509.02, 4704.81, 4835.78, 5031.57, 5162.54, 5293.52],
+  'A10': [4572.08, 4776.31, 5046.48, 5250.71, 5454.94, 5659.17, 5798.46, 5874.15],
+  'A11': [5162.54, 5422.31, 5552.51, 5812.28, 6072.04, 6202.25, 6332.45, 6462.66],
+  'A12': [5552.51, 5876.82, 6071.59, 6331.36, 6591.91, 6721.35, 6851.56, 6981.74],
+  'A13': [6071.59, 6396.66, 6591.43, 6916.51, 7176.27, 7306.48, 7501.25, 7696.01],
+  'A14': [6332.12, 6722.45, 6983.00, 7438.79, 7829.12, 8088.89, 8413.97, 8739.05],
+  'A15': [7829.12, 8219.46, 8480.00, 8870.33, 9195.41, 9520.49, 9781.03, 10041.58],
+  'A16': [8739.05, 9194.84, 9520.49, 9976.28, 10301.93, 10692.26, 11017.90, 11343.54],
+};
+
+const BES_2026 = {
+  'A3':  [3439.52, 3511.08, 3582.68, 3654.25, 3726.88, 3798.44, 3862.56, 3914.54],
+  'A4':  [3535.88, 3628.10, 3720.33, 3812.52, 3904.74, 3965.80, 4016.57, 4068.34],
+  'A5':  [3558.08, 3683.11, 3775.34, 3873.19, 3971.04, 4062.05, 4138.66, 4213.92],
+  'A6':  [3680.58, 3792.34, 3904.13, 3993.56, 4127.63, 4217.06, 4306.45, 4395.88],
+  'A7':  [3878.47, 3986.24, 4137.74, 4289.25, 4394.04, 4546.10, 4651.90, 4758.18],
+  'A8':  [4077.65, 4252.49, 4384.57, 4516.68, 4692.70, 4825.81, 4914.65, 5003.48],
+  'A9':  [4299.34, 4433.99, 4635.27, 4836.54, 4971.18, 5172.45, 5307.09, 5441.74],
+  'A10': [4700.10, 4910.05, 5187.78, 5397.73, 5607.68, 5817.63, 5960.82, 6038.63],
+  'A11': [5307.09, 5574.13, 5707.98, 5975.02, 6242.06, 6375.91, 6509.76, 6643.61],
+  'A12': [5707.98, 6041.37, 6241.59, 6508.64, 6776.48, 6909.55, 7043.40, 7177.23],
+  'A13': [6241.59, 6575.77, 6775.99, 7110.17, 7377.21, 7511.06, 7711.28, 7911.50],
+  'A14': [6509.42, 6910.68, 7178.52, 7647.08, 8048.34, 8315.38, 8649.56, 8983.74],
+  'A15': [8048.34, 8449.60, 8717.44, 9118.70, 9452.88, 9787.06, 10054.90, 10322.74],
+  'A16': [8983.74, 9452.30, 9787.06, 10255.62, 10590.38, 10991.64, 11326.40, 11661.16],
+};
+
+// Laufbahn je Besoldungsgruppe
+const LAUFBAHN = {
+  'A3':'Einfacher Dienst','A4':'Einfacher Dienst','A5':'Einfacher Dienst',
+  'A6':'Mittlerer Dienst','A7':'Mittlerer Dienst','A8':'Mittlerer Dienst','A9':'Mittlerer / Gehobener Dienst',
+  'A10':'Gehobener Dienst','A11':'Gehobener Dienst','A12':'Gehobener Dienst','A13':'Gehobener / Höherer Dienst',
+  'A14':'Höherer Dienst','A15':'Höherer Dienst','A16':'Höherer Dienst',
+};
+const LAUFBAHN_CSS = {
+  'Einfacher Dienst':'lb-ein','Mittlerer Dienst':'lb-mit',
+  'Mittlerer / Gehobener Dienst':'lb-geh','Gehobener Dienst':'lb-geh',
+  'Gehobener / Höherer Dienst':'lb-hoe','Höherer Dienst':'lb-hoe',
+};
+
+// Familienzuschlag 2025 (Bund)
+const FZ_VERHEIRATET = 174.93;
+const FZ_KIND        = 264.59;
+
+let aktivJahr  = '2025';
+let aktivBG    = 'A9';
+let aktivStufe = 0; // Index 0-7
+let aktivSK    = 1;
+let aktivFZ    = 0; // 0=ledig, 1=verheiratet, 2=+1Kind, 3=+2Kinder, 4=+3Kinder
+
+function getTabelle() { return aktivJahr === '2025' ? BES_2025 : BES_2026; }
+
+function initBGGrid() {
+  const grid = document.getElementById('bg-grid');
+  grid.innerHTML = Object.keys(getTabelle()).map(bg => `
+    <button class="bg-btn ${bg === aktivBG ? 'active' : ''}"
+      onclick="setBG('${bg}', this)">${bg}</button>
+  `).join('');
+}
+
+function initStufeGroup() {
+  const group = document.getElementById('stufe-group');
+  group.innerHTML = [1,2,3,4,5,6,7,8].map((s, i) => `
+    <button class="stufe-btn ${i === aktivStufe ? 'active' : ''}"
+      onclick="setStufe(${i}, this)">${s}</button>
+  `).join('');
+}
+
+function setJahr(j, btn) {
+  aktivJahr = j;
+  document.querySelectorAll('.jahr-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  const titel = j === '2025'
+    ? 'Bundesbesoldungstabelle A 2025 (ab 01.04.2025)'
+    : 'Bundesbesoldungstabelle A 2026 (ab 01.05.2026)';
+  document.getElementById('tabelle-titel').textContent = titel;
+  document.getElementById('tabelle-quelle').textContent =
+    j === '2025'
+      ? 'Quelle: BBesG · Stand: 01.04.2025 · +3,0 % ggü. 2024'
+      : 'Quelle: BBesG · Stand: 01.05.2026 · +2,8 % ggü. 2025';
+  renderTabelle();
+  calcBeamte();
+}
+
+function setBG(bg, btn) {
+  aktivBG = bg;
+  document.querySelectorAll('.bg-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  updateLaufbahnBadge();
+  renderTabelle();
+  calcBeamte();
+}
+
+function setStufe(idx, btn) {
+  aktivStufe = idx;
+  document.querySelectorAll('.stufe-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  renderTabelle();
+  calcBeamte();
+}
+
+function selectSK(btn) {
+  aktivSK = parseInt(btn.dataset.val);
+  document.querySelectorAll('#sk-group .toggle-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  calcBeamte();
+}
+
+function selectFZ(btn) {
+  aktivFZ = parseInt(btn.dataset.val);
+  document.querySelectorAll('#fz-group .toggle-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  calcBeamte();
+}
+
+function updateLaufbahnBadge() {
+  const lb = LAUFBAHN[aktivBG] || '';
+  const css = LAUFBAHN_CSS[lb] || '';
+  document.getElementById('laufbahn-label').innerHTML =
+    `<span class="laufbahn-badge ${css}">${lb}</span>`;
+}
+
+function calcFamilienzuschlag() {
+  if (aktivFZ === 0) return 0;
+  if (aktivFZ === 1) return FZ_VERHEIRATET;
+  return FZ_VERHEIRATET + (aktivFZ - 1) * FZ_KIND;
+}
+
+function renderTabelle() {
+  const tabelle = getTabelle();
+  const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  document.getElementById('bes-tabelle-body').innerHTML = Object.entries(tabelle).map(([bg, stufen]) => `
+    <tr class="${bg === aktivBG ? 'active-row' : ''}">
+      <td>${bg}</td>
+      ${stufen.map((s, i) => `<td>${f(s)}</td>`).join('')}
+    </tr>
+  `).join('');
+}
+
+function calcBeamte() {
+  const tabelle = getTabelle();
+  const grundgehalt = tabelle[aktivBG][aktivStufe];
+  const fz = calcFamilienzuschlag();
+  const gesamtBrutto = grundgehalt + fz;
+  const kinder = document.getElementById('beamte-kinder').checked;
+
+  // Beamte: keine RV, keine ALV, nur Lohnsteuer + KV-Anteil (Beihilfe deckt Teil)
+  // Wir berechnen Steuer normal, aber ohne RV/ALV (Beamte zahlen die nicht)
+  // Vereinfacht: bruttoNetto aber dann RV und ALV abziehen
+  const r = bruttoNetto(gesamtBrutto, aktivSK, false, 1.45, !kinder);
+  // Beamte zahlen keine RV + ALV — Netto entsprechend höher
+  const nettoBeamte = r.netto + r.rv + r.alv;
+
+  const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+  const fzLabel = aktivFZ === 0 ? '0,00 €' : '+ ' + f(fz);
+
+  document.getElementById('beamte-netto').textContent = f(nettoBeamte);
+  document.getElementById('beamte-brutto-sub').textContent = f(grundgehalt);
+  document.getElementById('beamte-fz-sub').textContent = fzLabel;
+  document.getElementById('beamte-gesamt-sub').textContent = f(gesamtBrutto);
+  document.getElementById('beamte-bg-label').textContent = aktivBG + ' · Stufe ' + (aktivStufe + 1);
+  document.getElementById('beamte-laufbahn-label').textContent = LAUFBAHN[aktivBG] || '—';
+  document.getElementById('beamte-grundgehalt').textContent = f(grundgehalt);
+  document.getElementById('beamte-fz-row').textContent = fzLabel;
+  document.getElementById('beamte-gesamt').textContent = f(gesamtBrutto);
+  document.getElementById('beamte-jahresbrutto').textContent = f0(gesamtBrutto * 12);
+
+  const abzuege = gesamtBrutto - nettoBeamte;
+  const quote = Math.round(abzuege / gesamtBrutto * 100);
+  document.getElementById('beamte-bar-pct').textContent = quote + ' %';
+  document.getElementById('beamte-bar').style.width = Math.min(quote, 100) + '%';
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+initBGGrid();
+initStufeGroup();
+updateLaufbahnBadge();
+renderTabelle();
+calcBeamte();
+</script>
+</body>
+</html>

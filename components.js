@@ -75,6 +75,10 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">🎓</span>
               <span><strong>TV-L Gehaltsrechner</strong><small>Länder & Hochschulen</small></span>
             </a>
+            <a href="${base}/beamte-rechner" class="${isActive('beamte')}">
+              <span class="nav-item-icon">⚖️</span>
+              <span><strong>Beamtenbesoldung</strong><small>A-Besoldung Bund</small></span>
+            </a>
           </div>
         </div>
       </li>
@@ -115,6 +119,7 @@ function renderNav(activePage = '') {
       <a href="${base}/etf-sparplan-rechner">📈 ETF-Sparplan</a>
       <a href="${base}/tvoed-rechner">🏛️ TVöD Gehaltsrechner</a>
       <a href="${base}/tv-l-rechner">🎓 TV-L Gehaltsrechner</a>
+      <a href="${base}/beamte-rechner">⚖️ Beamtenbesoldung</a>
       <a href="${base}/krankenkassenrechner">🏥 Krankenkasse</a>
     </div>
     <div class="mobile-nav-section">
@@ -152,6 +157,7 @@ function renderFooter() {
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
             <li><a href="${base}/tvoed-rechner">TVöD Rechner</a></li>
             <li><a href="${base}/tv-l-rechner">TV-L Rechner</a></li>
+            <li><a href="${base}/beamte-rechner">Beamtenbesoldung</a></li>
             <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>
           </ul>
         </div>
