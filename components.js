@@ -79,6 +79,10 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">⚖️</span>
               <span><strong>Beamtenbesoldung</strong><small>A-Besoldung Bund</small></span>
             </a>
+            <a href="${base}/tvoed-sue-rechner" class="${isActive('sue')}">
+              <span class="nav-item-icon">🧸</span>
+              <span><strong>TVöD-SuE</strong><small>Erzieher & Sozialpädagogen</small></span>
+            </a>
           </div>
         </div>
       </li>
@@ -120,6 +124,7 @@ function renderNav(activePage = '') {
       <a href="${base}/tvoed-rechner">🏛️ TVöD Gehaltsrechner</a>
       <a href="${base}/tv-l-rechner">🎓 TV-L Gehaltsrechner</a>
       <a href="${base}/beamte-rechner">⚖️ Beamtenbesoldung</a>
+      <a href="${base}/tvoed-sue-rechner">🧸 TVöD-SuE Rechner</a>
       <a href="${base}/krankenkassenrechner">🏥 Krankenkasse</a>
     </div>
     <div class="mobile-nav-section">
@@ -158,6 +163,7 @@ function renderFooter() {
             <li><a href="${base}/tvoed-rechner">TVöD Rechner</a></li>
             <li><a href="${base}/tv-l-rechner">TV-L Rechner</a></li>
             <li><a href="${base}/beamte-rechner">Beamtenbesoldung</a></li>
+            <li><a href="${base}/tvoed-sue-rechner">TVöD-SuE</a></li>
             <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>
           </ul>
         </div>

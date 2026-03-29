@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TVöD SuE Gehaltsrechner 2026 – Erzieher, Sozialpädagogen | RechnerPilot</title>
+<meta name="description" content="TVöD SuE Gehaltsrechner 2026: Gehalt für Erzieher, Sozialpädagogen und Kita-Leitungen berechnen. S2–S18, inkl. SuE-Zulage, Jahressonderzahlung und Netto.">
+<link rel="canonical" href="https://www.rechnerpilot.de/tvoed-sue-rechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.eg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:6px;margin-top:8px}
+.eg-btn{padding:8px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s;line-height:1.3}
+.eg-btn:hover{border-color:var(--accent);color:var(--accent)}
+.eg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.eg-btn.disabled{opacity:.35;cursor:default;pointer-events:none}
+.stufe-group{display:flex;gap:8px;margin-top:8px}
+.stufe-btn{flex:1;padding:10px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.stufe-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.beruf-badge{display:inline-block;background:var(--accent-light);color:var(--accent);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;margin-top:8px;line-height:1.4}
+.sue-tabelle{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:12px}
+.sue-tabelle th{background:var(--accent);color:#fff;padding:9px 10px;text-align:right;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.sue-tabelle th:first-child{text-align:left}
+.sue-tabelle td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;color:var(--ink-2)}
+.sue-tabelle td:first-child{text-align:left;font-weight:700}
+.sue-tabelle td.beruf{font-size:11px;color:var(--ink-3);font-weight:400;text-align:left;max-width:200px}
+.sue-tabelle tr.active-row td{background:var(--accent-light);color:var(--accent);font-weight:700}
+.sue-tabelle tr:hover td{background:var(--bg)}
+.info-box{background:var(--accent-light);border:1.5px solid rgba(26,92,58,.15);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--ink-2);line-height:1.6;margin-top:12px}
+.info-box strong{color:var(--accent)}
+</style>
+</head>
+<body data-page="sue">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <a href="tvoed-rechner.html">TVöD</a><span>›</span>
+      <span>TVöD-SuE</span>
+    </div>
+    <h1>TVöD SuE Gehaltsrechner 2026</h1>
+    <p>Gehalt für Erzieher, Sozialpädagogen, Kita-Leitungen und alle Berufe im Sozial- und Erziehungsdienst berechnen — S2 bis S18, inkl. SuE-Zulage und Netto.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label>Entgeltgruppe (S-Tabelle)</label>
+          <div class="eg-grid" id="eg-grid"></div>
+          <div id="beruf-badge" class="beruf-badge" style="margin-top:10px;">—</div>
+        </div>
+
+        <div class="field">
+          <label>Erfahrungsstufe</label>
+          <div class="stufe-group" id="stufe-group"></div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:6px;">Stufe 1 = Berufseinsteiger · Stufe 6 = ab ~15 Jahren Erfahrung</div>
+        </div>
+
+        <div class="field">
+          <label>SuE-Zulage einrechnen</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="sue-zulage" checked onchange="calcSuE()">
+            <span>Ja — SuE-Zulage (130,68 €/Monat, 2025)</span>
+          </label>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Die SuE-Zulage gilt für alle Beschäftigten im Sozial- und Erziehungsdienst. Sie ist dynamisiert und steigt mit den Tariferhöhungen.</div>
+        </div>
+
+        <div class="field">
+          <label>Beschäftigungsumfang</label>
+          <div class="input-wrap">
+            <input type="number" id="sue-teilzeit" value="100" min="10" max="100" step="5" oninput="calcSuE()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Steuerklasse</label>
+          <div class="toggle-group" id="sk-group">
+            <button class="toggle-btn active" data-val="1" onclick="selectSK(this)">I</button>
+            <button class="toggle-btn" data-val="2" onclick="selectSK(this)">II</button>
+            <button class="toggle-btn" data-val="3" onclick="selectSK(this)">III</button>
+            <button class="toggle-btn" data-val="4" onclick="selectSK(this)">IV</button>
+            <button class="toggle-btn" data-val="5" onclick="selectSK(this)">V</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Kinder</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="sue-kinder" onchange="calcSuE()">
+            <span>Ich habe Kinder (niedrigerer PV-Beitrag)</span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis monatlich</div>
+        <div class="result-main">
+          <div class="result-main-label">Nettogehalt</div>
+          <div class="result-main-value" id="sue-netto">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Brutto</div><div class="rms-val" id="sue-brutto-sub">—</div></div>
+            <div><div class="rms-label">Steuern</div><div class="rms-val" id="sue-steuern-sub">—</div></div>
+            <div><div class="rms-label">Sozialabg.</div><div class="rms-val" id="sue-soz-sub">—</div></div>
+          </div>
+        </div>
+        <div class="result-row"><span class="result-row-label">Entgeltgruppe / Stufe</span><span class="result-row-value" id="sue-eg-label">—</span></div>
+        <div class="result-row"><span class="result-row-label">Tabellenentgelt</span><span class="result-row-value" id="sue-tabelle-wert">—</span></div>
+        <div class="result-row"><span class="result-row-label">SuE-Zulage</span><span class="result-row-value pos" id="sue-zulage-row">—</span></div>
+        <div class="result-row"><span class="result-row-label">Gesamtbrutto (anteilig)</span><span class="result-row-value" id="sue-gesamt">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jahressonderzahlung</span><span class="result-row-value pos" id="sue-jsz">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jahresbrutto gesamt</span><span class="result-row-value" id="sue-jahresbrutto">—</span></div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Abzüge vom Brutto</span><span id="sue-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="sue-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>🧸 Besonderheiten im SuE:</strong>
+      Zusätzlich zur SuE-Zulage haben Beschäftigte Anspruch auf
+      <strong>Regenerationstage</strong> (2 Tage/Jahr) und optional
+      <strong>Umwandlungstage</strong> (bis zu 2 weitere Tage statt Zulage).
+      Ab 2026 gilt die <strong>+2,8%</strong> Erhöhung ab 01.05.2026.
+    </div>
+    <div class="calc-disclaimer" style="margin-top:12px;">⚠️ Gültig ab 01.04.2025 (TVöD-SuE VKA). Nächste Erhöhung: +2,8 % ab 01.05.2026. <a href="methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <!-- S-TABELLE -->
+  <div class="content-section fu d2">
+    <h2>TVöD-SuE Entgelttabelle 2025 (ab 01.04.2025)</h2>
+    <p>S-Tabelle für den Sozial- und Erziehungsdienst. Deine Auswahl ist <span style="color:var(--accent);font-weight:600;">grün markiert</span>.</p>
+    <div style="overflow-x:auto;">
+      <table class="sue-tabelle">
+        <thead>
+          <tr>
+            <th>EG</th>
+            <th>Stufe 1</th><th>Stufe 2</th><th>Stufe 3</th>
+            <th>Stufe 4</th><th>Stufe 5</th><th>Stufe 6</th>
+          </tr>
+        </thead>
+        <tbody id="sue-tabelle-body"></tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">Quelle: TVöD BT-SuE · Stand: 01.04.2025 · Nächste Erhöhung: +2,8 % ab 01.05.2026</p>
+  </div>
+
+  <!-- EINGRUPPIERUNG -->
+  <div class="content-section">
+    <h2>Wer gehört in welche Entgeltgruppe?</h2>
+    <div class="example-box">
+      <div class="example-row"><span><strong>S 2</strong></span><span>Tätigkeiten mit einfachen Anforderungen (Hilfskräfte)</span></div>
+      <div class="example-row"><span><strong>S 3</strong></span><span>Kinderpfleger/in ohne staatliche Anerkennung</span></div>
+      <div class="example-row"><span><strong>S 4</strong></span><span>Kinderpfleger/in mit staatl. Anerkennung, Betreuer in der Schule</span></div>
+      <div class="example-row"><span><strong>S 7</strong></span><span>Erzieher/in mit staatl. Anerkennung (Regeleingruppierung)</span></div>
+      <div class="example-row"><span><strong>S 8a</strong></span><span>Erzieher/in mit schwieriger Tätigkeit (z.B. Inklusion)</span></div>
+      <div class="example-row"><span><strong>S 8b</strong></span><span>Erzieher/in als Gruppenleitung</span></div>
+      <div class="example-row"><span><strong>S 9</strong></span><span>Sozialarbeiter/in, Sozialpädagog/in (FH) ohne Anerkennung</span></div>
+      <div class="example-row"><span><strong>S 11a/b</strong></span><span>Sozialarbeiter/in mit staatl. Anerkennung</span></div>
+      <div class="example-row"><span><strong>S 13</strong></span><span>Kita-Leitung (bis 40 Plätze)</span></div>
+      <div class="example-row"><span><strong>S 15</strong></span><span>Kita-Leitung (41–70 Plätze)</span></div>
+      <div class="example-row"><span><strong>S 16</strong></span><span>Kita-Leitung (71–100 Plätze)</span></div>
+      <div class="example-row"><span><strong>S 17</strong></span><span>Kita-Leitung (über 100 Plätze)</span></div>
+      <div class="example-row"><span><strong>S 18</strong></span><span>Kita-Leitung besonders großer Einrichtungen, Fachberatung</span></div>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-3);margin-top:10px;">Die genaue Eingruppierung hängt von der konkreten Tätigkeit, den Qualifikationen und dem Träger ab. Bei Unklarheiten hilft der Personalrat oder die Gewerkschaft (ver.di, GEW).</p>
+  </div>
+
+  <!-- SuE ZULAGE & SONDERLEISTUNGEN -->
+  <div class="content-section">
+    <h2>SuE-Zulage und Sonderleistungen</h2>
+    <div class="example-box">
+      <div class="example-row"><span>SuE-Zulage (2025)</span><span><strong>130,68 €/Monat</strong> (dynamisiert)</span></div>
+      <div class="example-row"><span>Regenerationstage</span><span><strong>2 Tage/Jahr</strong> zusätzlicher Urlaub</span></div>
+      <div class="example-row"><span>Umwandlungstage</span><span>Bis zu 2 Tage statt Teile der Zulage</span></div>
+      <div class="example-row"><span>Jahressonderzahlung</span><span><strong>84,51 %</strong> des Novemberentgelts (S2–S8b)</span></div>
+      <div class="example-row"><span>Jahressonderzahlung</span><span><strong>70,28 %</strong> des Novemberentgelts (S9–S18)</span></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zum TVöD-SuE</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Was ist der TVöD-SuE?</div>
+        <div class="faq-a">Der TVöD-SuE ist der besondere Teil des Tarifvertrags öffentlicher Dienst für den Sozial- und Erziehungsdienst. Er gilt für Beschäftigte in kommunalen Kindertagesstätten, Horten, Jugendzentren und sozialen Einrichtungen. Die S-Tabelle hat eigene Entgeltgruppen (S2–S18) statt der üblichen E-Gruppen.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Gilt der TVöD-SuE auch für freie Träger?</div>
+        <div class="faq-a">Nicht automatisch — der TVöD-SuE gilt direkt nur für kommunale Träger. Viele freie Träger (Caritas, AWO, DRK, Paritätischer) orientieren sich aber an den SuE-Tabellen oder wenden eigene Tarifverträge an (z.B. AVB, KAO). Bitte den eigenen Arbeitsvertrag prüfen.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wann kommt die nächste Gehaltserhöhung?</div>
+        <div class="faq-a">Zum 01.05.2026 steigen alle SuE-Entgelte um 2,8 %. Auch die dynamisierte SuE-Zulage steigt entsprechend mit. Die aktuelle Tabelle (ab 01.04.2025) gilt bis 30.04.2026.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie viele Regenerationstage habe ich?</div>
+        <div class="faq-a">Beschäftigte im TVöD-SuE haben Anspruch auf 2 Regenerationstage pro Jahr zusätzlich zum regulären Urlaub. Optional können bis zu 2 weitere Umwandlungstage in Anspruch genommen werden — dafür wird ein Teil der SuE-Zulage in Freizeit umgewandelt.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERWANDTE RECHNER -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="tvoed-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>TVöD Gehaltsrechner</h3>
+        <p>E-Tabelle für alle TVöD-Bereiche.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="tv-l-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🎓</div>
+        <h3>TV-L Gehaltsrechner</h3>
+        <p>Gehalt im Landesdienst berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Nettogehalt für beliebiges Brutto.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+// TVöD-SuE Entgelttabelle ab 01.04.2025
+// Stufen: [S1, S2, S3, S4, S5, S6]
+const SUE_2025 = {
+  'S2':   [2829.14, 2948.41, 3036.64, 3132.45, 3240.19, 3347.95],
+  'S3':   [3034.89, 3229.62, 3410.78, 3577.12, 3653.23, 3744.14],
+  'S4':   [3201.81, 3408.76, 3597.33, 3725.30, 3848.61, 4043.12],
+  'S7':   [3333.59, 3550.19, 3765.70, 3987.31, 4153.80, 4404.69],
+  'S8a':  [3413.85, 3636.31, 3868.50, 4092.49, 4311.44, 4541.67],
+  'S8b':  [3481.39, 3708.79, 3980.49, 4380.82, 4759.33, 5049.51],
+  'S9':   [3549.30, 3781.54, 4053.20, 4455.27, 4835.59, 5128.99],
+  'S11a': [3741.49, 3994.28, 4174.59, 4636.51, 4998.73, 5216.07],
+  'S11b': [3808.48, 4067.31, 4249.15, 4712.82, 5075.04, 5292.38],
+  'S12':  [3859.50, 4122.07, 4465.71, 4769.97, 5146.70, 5306.08],
+  'S13':  [3869.68, 4132.98, 4491.62, 4781.38, 5143.62, 5324.74],
+  'S14':  [3962.44, 4232.66, 4554.71, 4882.30, 5244.56, 5498.11],
+  'S15':  [4000.66, 4274.25, 4564.08, 4897.32, 5433.43, 5665.23],
+  'S16':  [4147.17, 4433.68, 4752.42, 5143.62, 5578.29, 5839.11],
+  'S17':  [4233.84, 4527.84, 4998.73, 5288.55, 5868.09, 6208.58],
+  'S18':  [4591.95, 4708.94, 5288.55, 5723.21, 6375.22, 6773.65],
+};
+
+// Berufsbezeichnungen je EG
+const BERUFE = {
+  'S2':   'Hilfskräfte, einfache Tätigkeiten',
+  'S3':   'Kinderpfleger/in ohne staatl. Anerkennung',
+  'S4':   'Kinderpfleger/in mit staatl. Anerkennung',
+  'S7':   'Erzieher/in mit staatl. Anerkennung',
+  'S8a':  'Erzieher/in mit besonders schwieriger Tätigkeit',
+  'S8b':  'Erzieher/in als Gruppenleitung',
+  'S9':   'Sozialarbeiter/in (FH) ohne Anerkennung',
+  'S11a': 'Sozialarbeiter/in mit staatl. Anerkennung',
+  'S11b': 'Sozialarbeiter/in mit bes. schwieriger Tätigkeit',
+  'S12':  'Sozialarbeiter/in als Praxisanleitung',
+  'S13':  'Kita-Leitung bis 40 Plätze',
+  'S14':  'Kita-Leitung mit bes. pädagog. Aufgaben',
+  'S15':  'Kita-Leitung 41–70 Plätze',
+  'S16':  'Kita-Leitung 71–100 Plätze',
+  'S17':  'Kita-Leitung über 100 Plätze',
+  'S18':  'Kita-Leitung besonders großer Einrichtungen',
+};
+
+// Jahressonderzahlung SuE (%)
+const JSZ_SUE = {
+  'S2': 84.51, 'S3': 84.51, 'S4': 84.51,
+  'S7': 84.51, 'S8a': 84.51, 'S8b': 84.51,
+  'S9': 70.28, 'S11a': 70.28, 'S11b': 70.28,
+  'S12': 70.28, 'S13': 70.28, 'S14': 70.28,
+  'S15': 70.28, 'S16': 70.28, 'S17': 70.28, 'S18': 70.28,
+};
+
+const SUE_ZULAGE = 130.68; // 2025
+
+let aktivEG    = 'S7';
+let aktivStufe = 0;
+let aktivSK    = 1;
+
+function initEGGrid() {
+  const grid = document.getElementById('eg-grid');
+  grid.innerHTML = Object.keys(SUE_2025).map(eg => `
+    <button class="eg-btn ${eg === aktivEG ? 'active' : ''}"
+      onclick="setEG('${eg}', this)">${eg}</button>
+  `).join('');
+}
+
+function initStufeGroup() {
+  const group = document.getElementById('stufe-group');
+  group.innerHTML = [1,2,3,4,5,6].map((s, i) => `
+    <button class="stufe-btn ${i === aktivStufe ? 'active' : ''}"
+      onclick="setStufe(${i}, this)">Stufe ${s}</button>
+  `).join('');
+}
+
+function setEG(eg, btn) {
+  aktivEG = eg;
+  document.querySelectorAll('.eg-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('beruf-badge').textContent = BERUFE[eg] || '—';
+  renderTabelle();
+  calcSuE();
+}
+
+function setStufe(idx, btn) {
+  aktivStufe = idx;
+  document.querySelectorAll('.stufe-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  renderTabelle();
+  calcSuE();
+}
+
+function selectSK(btn) {
+  aktivSK = parseInt(btn.dataset.val);
+  document.querySelectorAll('#sk-group .toggle-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  calcSuE();
+}
+
+function renderTabelle() {
+  const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  document.getElementById('sue-tabelle-body').innerHTML = Object.entries(SUE_2025).map(([eg, stufen]) => `
+    <tr class="${eg === aktivEG ? 'active-row' : ''}">
+      <td>${eg}</td>
+      ${stufen.map(s => `<td>${f(s)}</td>`).join('')}
+    </tr>
+  `).join('');
+}
+
+function calcSuE() {
+  const teilzeit    = parseFloat(document.getElementById('sue-teilzeit').value) / 100 || 1;
+  const kinder      = document.getElementById('sue-kinder').checked;
+  const mitZulage   = document.getElementById('sue-zulage').checked;
+
+  const tabellenVZ  = SUE_2025[aktivEG][aktivStufe];
+  const zulageBetrag = mitZulage ? SUE_ZULAGE * teilzeit : 0;
+  const bruttoVZ    = tabellenVZ + (mitZulage ? SUE_ZULAGE : 0);
+  const bruttoAZ    = bruttoVZ * teilzeit;
+
+  const r = bruttoNetto(bruttoAZ, aktivSK, false, 1.45, !kinder);
+
+  const jszPct = (JSZ_SUE[aktivEG] || 84.51) / 100;
+  const jsz    = bruttoAZ * jszPct;
+  const jahresbrutto = bruttoAZ * 12 + jsz;
+
+  const f  = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+
+  document.getElementById('sue-netto').textContent        = f(r.netto);
+  document.getElementById('sue-brutto-sub').textContent   = f(bruttoAZ);
+  document.getElementById('sue-steuern-sub').textContent  = '−' + f0(r.lohnsteuer + r.soli);
+  document.getElementById('sue-soz-sub').textContent      = '−' + f0(r.sozialAbgaben);
+  document.getElementById('sue-eg-label').textContent     = aktivEG + ' · Stufe ' + (aktivStufe + 1);
+  document.getElementById('sue-tabelle-wert').textContent = f(tabellenVZ * teilzeit);
+  document.getElementById('sue-zulage-row').textContent   = mitZulage ? '+ ' + f(zulageBetrag) : '0,00 €';
+  document.getElementById('sue-gesamt').textContent       = f(bruttoAZ);
+  document.getElementById('sue-jsz').textContent          = '+ ' + f0(jsz) + ' (' + jszPct.toFixed(2).replace('.',',') + ' %)';
+  document.getElementById('sue-jahresbrutto').textContent = f0(jahresbrutto);
+  document.getElementById('sue-bar-pct').textContent      = r.abgabenQuote + ' %';
+  document.getElementById('sue-bar').style.width          = Math.min(r.abgabenQuote, 100) + '%';
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+initEGGrid();
+initStufeGroup();
+document.getElementById('beruf-badge').textContent = BERUFE[aktivEG];
+renderTabelle();
+calcSuE();
+</script>
+</body>
+</html>
