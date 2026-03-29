@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TV-L Gehaltsrechner 2026 – Entgeltgruppe & Netto berechnen | RechnerPilot</title>
+<meta name="description" content="TV-L Gehaltsrechner 2026: Bruttogehalt nach Entgeltgruppe und Stufe berechnen – für Angestellte im öffentlichen Dienst der Länder. Inkl. Netto-Berechnung und Jahressonderzahlung.">
+<link rel="canonical" href="https://www.rechnerpilot.de/tv-l-rechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.eg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;margin-top:8px}
+.eg-btn{padding:8px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.eg-btn:hover{border-color:var(--accent);color:var(--accent)}
+.eg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.stufe-group{display:flex;gap:8px;margin-top:8px}
+.stufe-btn{flex:1;padding:10px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.stufe-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.jahr-group{display:flex;gap:8px;margin-top:8px}
+.jahr-btn{flex:1;padding:9px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.jahr-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tvl-tabelle{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.tvl-tabelle th{background:var(--accent);color:#fff;padding:9px 12px;text-align:right;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.tvl-tabelle th:first-child{text-align:left}
+.tvl-tabelle td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:right;color:var(--ink-2)}
+.tvl-tabelle td:first-child{text-align:left;font-weight:600}
+.tvl-tabelle tr.active-row td{background:var(--accent-light);color:var(--accent);font-weight:700}
+.tvl-tabelle tr:hover td{background:var(--bg)}
+.info-box{background:var(--accent-light);border:1.5px solid rgba(26,92,58,.15);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--ink-2);line-height:1.6;margin-top:12px}
+.info-box strong{color:var(--accent)}
+.diff-badge{display:inline-block;background:#e8f7ed;color:#1a5c3a;border-radius:6px;padding:2px 7px;font-size:11px;font-weight:700;margin-left:6px}
+</style>
+</head>
+<body data-page="tvl">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <a href="tvoed-rechner.html">TVöD</a><span>›</span>
+      <span>TV-L Rechner</span>
+    </div>
+    <h1>TV-L Gehaltsrechner 2026</h1>
+    <p>Bruttogehalt nach Entgeltgruppe und Stufe berechnen — für Angestellte im öffentlichen Dienst der Länder. Inkl. Netto-Berechnung und Jahressonderzahlung.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label>Tabellenjahr</label>
+          <div class="jahr-group">
+            <button class="jahr-btn active" onclick="setJahr('2025', this)">2025 <small style="font-weight:400;font-size:11px;">(ab 01.02.2025)</small></button>
+            <button class="jahr-btn" onclick="setJahr('2026', this)">2026 <small style="font-weight:400;font-size:11px;">(ab 01.04.2026)</small></button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Entgeltgruppe</label>
+          <div class="eg-grid" id="eg-grid"></div>
+        </div>
+
+        <div class="field">
+          <label>Erfahrungsstufe</label>
+          <div class="stufe-group" id="stufe-group"></div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:6px;">Stufe 1 = Berufseinsteiger · Stufe 6 = ab ~15 Jahren Erfahrung</div>
+        </div>
+
+        <div class="field">
+          <label>Beschäftigungsumfang</label>
+          <div class="input-wrap">
+            <input type="number" id="tvl-teilzeit" value="100" min="10" max="100" step="5" oninput="calcTVL()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Steuerklasse</label>
+          <div class="toggle-group" id="sk-group">
+            <button class="toggle-btn active" data-val="1" onclick="selectSK(this)">I</button>
+            <button class="toggle-btn" data-val="2" onclick="selectSK(this)">II</button>
+            <button class="toggle-btn" data-val="3" onclick="selectSK(this)">III</button>
+            <button class="toggle-btn" data-val="4" onclick="selectSK(this)">IV</button>
+            <button class="toggle-btn" data-val="5" onclick="selectSK(this)">V</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Kinder</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="tvl-kinder" onchange="calcTVL()">
+            <span>Ich habe Kinder (niedrigerer PV-Beitrag)</span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis</div>
+        <div class="result-main">
+          <div class="result-main-label">Nettogehalt monatlich</div>
+          <div class="result-main-value" id="tvl-netto">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Brutto</div><div class="rms-val" id="tvl-brutto-sub">—</div></div>
+            <div><div class="rms-label">Steuern</div><div class="rms-val" id="tvl-steuern-sub">—</div></div>
+            <div><div class="rms-label">Sozialabg.</div><div class="rms-val" id="tvl-soz-sub">—</div></div>
+          </div>
+        </div>
+        <div class="result-row"><span class="result-row-label">Entgeltgruppe / Stufe</span><span class="result-row-value" id="tvl-eg-label">—</span></div>
+        <div class="result-row"><span class="result-row-label">Tabelle</span><span class="result-row-value" id="tvl-jahr-label">TV-L 2025</span></div>
+        <div class="result-row"><span class="result-row-label">Bruttogehalt (Vollzeit)</span><span class="result-row-value" id="tvl-brutto-vz">—</span></div>
+        <div class="result-row"><span class="result-row-label">Bruttogehalt (anteilig)</span><span class="result-row-value" id="tvl-brutto-az">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jahressonderzahlung</span><span class="result-row-value pos" id="tvl-jsz">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jahresbrutto gesamt</span><span class="result-row-value" id="tvl-jahresbrutto">—</span></div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Abzüge vom Brutto</span><span id="tvl-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="tvl-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>📅 Tabellen:</strong>
+      TV-L 2025 gültig ab 01.02.2025 (Weitergeltung bis 31.03.2026) ·
+      TV-L 2026 gültig ab 01.04.2026 (+2,8 %, mind. 100 €) bis 28.02.2027
+    </div>
+    <div class="calc-disclaimer" style="margin-top:12px;">⚠️ Näherungsrechnung. Zulagen (Schicht, Ballungsraumzulage etc.) nicht enthalten. <a href="methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <!-- ENTGELTTABELLE -->
+  <div class="content-section fu d2">
+    <h2 id="tabelle-titel">TV-L Entgelttabelle 2025 (ab 01.02.2025)</h2>
+    <p>Monatliche Bruttogehälter in Euro. Deine aktuelle Auswahl ist <span style="color:var(--accent);font-weight:600;">grün markiert</span>.</p>
+    <div style="overflow-x:auto;">
+      <table class="tvl-tabelle">
+        <thead>
+          <tr>
+            <th>EG</th>
+            <th>Stufe 1</th>
+            <th>Stufe 2</th>
+            <th>Stufe 3</th>
+            <th>Stufe 4</th>
+            <th>Stufe 5</th>
+            <th>Stufe 6</th>
+          </tr>
+        </thead>
+        <tbody id="tvl-tabelle-body"></tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;" id="tvl-tabelle-quelle">Quelle: Tarifvertrag TV-L · Stand: 01.02.2025</p>
+  </div>
+
+  <!-- UNTERSCHIED TVöD / TV-L -->
+  <div class="content-section">
+    <h2>Was ist der Unterschied zwischen TV-L und TVöD?</h2>
+    <div class="example-box">
+      <div class="example-row"><span><strong>TV-L</strong></span><span>Tarifvertrag der Länder — gilt für ~950.000 Beschäftigte in Landesbehörden, Hochschulen, Schulen</span></div>
+      <div class="example-row"><span><strong>TVöD VKA</strong></span><span>Gilt für Kommunen — Städte, Gemeinden, Landkreise (~2,5 Mio. Beschäftigte)</span></div>
+      <div class="example-row"><span><strong>TVöD Bund</strong></span><span>Gilt für Bundesbehörden — Bundesministerien, Bundesanstalten</span></div>
+      <div class="example-row"><span><strong>Gehaltsniveau</strong></span><span>TV-L liegt oft etwas niedriger als TVöD VKA, besonders in unteren EG</span></div>
+      <div class="example-row"><span><strong>Jahressonderzahlung</strong></span><span>TV-L: 60–95 % je nach EG und Bundesland · TVöD: 60–90 %</span></div>
+    </div>
+    <p style="margin-top:12px;">Beschäftigte in Bayern und Hessen fallen <strong>nicht</strong> unter den TV-L — dort gelten der TV-L Bayern (BayTV-L) bzw. TV-H (Hessen) mit eigenen Tabellen.</p>
+  </div>
+
+  <!-- STUFENINFO -->
+  <div class="content-section">
+    <h2>Erfahrungsstufen im TV-L</h2>
+    <div class="example-box">
+      <div class="example-row"><span>Stufe 1</span><span>Berufseinsteiger (bis 1 Jahr)</span></div>
+      <div class="example-row"><span>Stufe 2</span><span>Nach ca. 1 Jahr</span></div>
+      <div class="example-row"><span>Stufe 3</span><span>Nach ca. 3 Jahren</span></div>
+      <div class="example-row"><span>Stufe 4</span><span>Nach ca. 6 Jahren</span></div>
+      <div class="example-row"><span>Stufe 5</span><span>Nach ca. 10 Jahren</span></div>
+      <div class="example-row"><span>Stufe 6</span><span>Nach ca. 15 Jahren</span></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zum TV-L</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Gilt der TV-L in allen Bundesländern?</div>
+        <div class="faq-a">Nein — Bayern und Hessen haben eigene Tarifverträge (BayTV-L und TV-H). Alle anderen Flächenländer sowie Berlin, Hamburg und Bremen wenden den allgemeinen TV-L an, teilweise mit länderspezifischen Ergänzungen.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie hoch ist die Jahressonderzahlung im TV-L?</div>
+        <div class="faq-a">Die Höhe variiert je nach Entgeltgruppe und Bundesland zwischen ca. 60 % und 95 % eines Monatsentgelts. Sie wird in der Regel im November ausgezahlt. Teilzeitbeschäftigte erhalten einen anteiligen Betrag.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist die nächste TV-L Gehaltserhöhung?</div>
+        <div class="faq-a">Zum 01.04.2026 steigen die TV-L Entgelte um 2,8 %, mindestens aber um 100 € monatlich. Zum 01.03.2027 folgt eine weitere Erhöhung um 2,0 %, zum 01.01.2028 nochmals 1,0 %.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Werden Vordienstzeiten angerechnet?</div>
+        <div class="faq-a">Ja — Zeiten bei anderen TV-L oder TVöD-Arbeitgebern werden in der Regel voll angerechnet. Erfahrungen aus der Privatwirtschaft können je nach Relevanz teilweise berücksichtigt werden.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERWANDTE RECHNER -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="tvoed-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>TVöD Gehaltsrechner</h3>
+        <p>Gehalt für Kommunen und Bund berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Nettogehalt für beliebiges Brutto berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="krankenkassenrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏥</div>
+        <h3>Krankenkasse</h3>
+        <p>GKV-Beitrag berechnen und vergleichen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+const TVL_2025 = {
+  'E1':  [0,       2434.49, 2465.06, 2501.78, 2538.51, 2630.30],
+  'E2':  [2642.84, 2853.24, 2917.80, 2982.36, 3130.84, 3285.81],
+  'E3':  [2815.57, 3040.47, 3105.03, 3208.32, 3292.25, 3363.27],
+  'E4':  [2849.24, 3079.22, 3240.61, 3330.99, 3421.39, 3479.47],
+  'E5':  [2973.97, 3201.87, 3330.99, 3453.66, 3552.34, 3618.92],
+  'E6':  [3086.57, 3318.08, 3447.20, 3578.99, 3665.52, 3758.72],
+  'E7':  [3135.83, 3369.72, 3545.69, 3678.84, 3785.37, 3878.56],
+  'E8':  [3319.52, 3559.02, 3692.14, 3818.66, 3958.47, 4045.01],
+  'E9a': [3520.10, 3765.38, 3818.66, 3925.17, 4366.72, 4490.04],
+  'E9b': [3520.10, 3765.38, 3925.17, 4366.72, 4742.32, 4878.28],
+  'E10': [3928.42, 4182.83, 4474.13, 4771.29, 5336.70, 5490.47],
+  'E11': [4064.54, 4323.79, 4619.10, 5068.49, 5720.84, 5886.14],
+  'E12': [4193.48, 4474.13, 5068.49, 5590.37, 6264.45, 6446.05],
+  'E13': [4629.74, 4967.01, 5220.71, 5713.58, 6394.91, 6580.44],
+  'E14': [5003.49, 5365.66, 5662.85, 6112.24, 6800.81, 6998.52],
+  'E15': [5504.26, 5902.04, 6112.24, 6858.84, 7424.19, 7640.58],
+};
+
+const TVL_2026 = {
+  'E1':  [0,       2534.49, 2565.06, 2601.78, 2638.51, 2730.30],
+  'E2':  [2742.84, 2953.24, 3017.80, 3082.36, 3230.84, 3385.81],
+  'E3':  [2915.57, 3140.47, 3205.03, 3308.32, 3392.25, 3463.27],
+  'E4':  [2949.24, 3179.22, 3340.61, 3430.99, 3521.39, 3579.47],
+  'E5':  [3073.97, 3301.87, 3430.99, 3553.66, 3652.34, 3720.25],
+  'E6':  [3186.57, 3418.08, 3547.20, 3679.20, 3768.15, 3863.96],
+  'E7':  [3235.83, 3469.72, 3645.69, 3781.85, 3891.36, 3987.16],
+  'E8':  [3419.52, 3659.02, 3795.52, 3925.58, 4069.31, 4158.27],
+  'E9a': [3620.10, 3870.81, 3925.58, 4035.07, 4488.99, 4615.76],
+  'E9b': [3620.10, 3870.81, 4035.07, 4488.99, 4875.10, 5014.87],
+  'E10': [4038.42, 4299.95, 4599.41, 4904.89, 5486.13, 5644.20],
+  'E11': [4178.35, 4444.86, 4748.43, 5210.41, 5881.02, 6050.95],
+  'E12': [4310.90, 4599.41, 5210.41, 5746.90, 6439.85, 6626.54],
+  'E13': [4759.37, 5106.09, 5366.89, 5873.56, 6573.97, 6764.69],
+  'E14': [5143.59, 5515.90, 5821.41, 6283.38, 6991.23, 7194.48],
+  'E15': [5658.38, 6067.30, 6283.38, 7050.89, 7632.07, 7854.52],
+};
+
+// Jahressonderzahlung TV-L (West, %) — variiert je Bundesland
+const JSZ_TVL = {
+  'E1': 95, 'E2': 95, 'E3': 95, 'E4': 95,
+  'E5': 95, 'E6': 90, 'E7': 90, 'E8': 90,
+  'E9a': 80, 'E9b': 80, 'E10': 80,
+  'E11': 80, 'E12': 80,
+  'E13': 60, 'E14': 60, 'E15': 60,
+};
+
+let aktivJahr = '2025';
+let aktivEG = 'E13';
+let aktivStufe = 2;
+let aktivSK = 1;
+
+function getTabelle() {
+  return aktivJahr === '2025' ? TVL_2025 : TVL_2026;
+}
+
+function initEGGrid() {
+  const grid = document.getElementById('eg-grid');
+  grid.innerHTML = Object.keys(getTabelle()).map(eg => `
+    <button class="eg-btn ${eg === aktivEG ? 'active' : ''}"
+      onclick="setEG('${eg}', this)">${eg}</button>
+  `).join('');
+}
+
+function initStufeGroup() {
+  const group = document.getElementById('stufe-group');
+  group.innerHTML = [1,2,3,4,5,6].map((s, i) => `
+    <button class="stufe-btn ${i === aktivStufe ? 'active' : ''}"
+      onclick="setStufe(${i}, this)">Stufe ${s}</button>
+  `).join('');
+}
+
+function setJahr(j, btn) {
+  aktivJahr = j;
+  document.querySelectorAll('.jahr-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  const titel = j === '2025'
+    ? 'TV-L Entgelttabelle 2025 (ab 01.02.2025)'
+    : 'TV-L Entgelttabelle 2026 (ab 01.04.2026, +2,8 %)';
+  const quelle = j === '2025'
+    ? 'Quelle: Tarifvertrag TV-L · Stand: 01.02.2025'
+    : 'Quelle: Tarifvertrag TV-L · Stand: 01.04.2026 · +2,8 %, mind. 100 € gegenüber 2025';
+  document.getElementById('tabelle-titel').textContent = titel;
+  document.getElementById('tvl-tabelle-quelle').textContent = quelle;
+  document.getElementById('tvl-jahr-label').textContent = 'TV-L ' + j;
+  renderTabelle();
+  calcTVL();
+}
+
+function setEG(eg, btn) {
+  aktivEG = eg;
+  document.querySelectorAll('.eg-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  renderTabelle();
+  calcTVL();
+}
+
+function setStufe(idx, btn) {
+  aktivStufe = idx;
+  document.querySelectorAll('.stufe-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  renderTabelle();
+  calcTVL();
+}
+
+function selectSK(btn) {
+  aktivSK = parseInt(btn.dataset.val);
+  document.querySelectorAll('#sk-group .toggle-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  calcTVL();
+}
+
+function renderTabelle() {
+  const tabelle = getTabelle();
+  const f = n => n > 0
+    ? n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'
+    : '—';
+  document.getElementById('tvl-tabelle-body').innerHTML = Object.entries(tabelle).map(([eg, stufen]) => `
+    <tr class="${eg === aktivEG ? 'active-row' : ''}">
+      <td>${eg}</td>
+      ${stufen.map(s => `<td>${f(s)}</td>`).join('')}
+    </tr>
+  `).join('');
+}
+
+function calcTVL() {
+  const tabelle = getTabelle();
+  const teilzeit = parseFloat(document.getElementById('tvl-teilzeit').value) / 100 || 1;
+  const kinder = document.getElementById('tvl-kinder').checked;
+  const bruttoVZ = tabelle[aktivEG][aktivStufe];
+
+  if (!bruttoVZ) {
+    document.getElementById('tvl-netto').textContent = 'Keine Stufe 1 in E1';
+    return;
+  }
+
+  const bruttoAZ = bruttoVZ * teilzeit;
+  const r = bruttoNetto(bruttoAZ, aktivSK, false, 1.45, !kinder);
+  const jszPct = (JSZ_TVL[aktivEG] || 80) / 100;
+  const jsz = bruttoAZ * jszPct;
+  const jahresbrutto = bruttoAZ * 12 + jsz;
+
+  const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+
+  document.getElementById('tvl-netto').textContent = f(r.netto);
+  document.getElementById('tvl-brutto-sub').textContent = f(bruttoAZ);
+  document.getElementById('tvl-steuern-sub').textContent = '−' + f0(r.lohnsteuer + r.soli);
+  document.getElementById('tvl-soz-sub').textContent = '−' + f0(r.sozialAbgaben);
+  document.getElementById('tvl-eg-label').textContent = aktivEG + ' · Stufe ' + (aktivStufe + 1);
+  document.getElementById('tvl-brutto-vz').textContent = f(bruttoVZ);
+  document.getElementById('tvl-brutto-az').textContent = f(bruttoAZ) + (teilzeit < 1 ? ' (' + Math.round(teilzeit*100) + '%)' : '');
+  document.getElementById('tvl-jsz').textContent = '+ ' + f0(jsz) + ' (' + Math.round(jszPct*100) + ' %)';
+  document.getElementById('tvl-jahresbrutto').textContent = f0(jahresbrutto);
+  document.getElementById('tvl-bar-pct').textContent = r.abgabenQuote + ' %';
+  document.getElementById('tvl-bar').style.width = Math.min(r.abgabenQuote, 100) + '%';
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+initEGGrid();
+initStufeGroup();
+renderTabelle();
+calcTVL();
+</script>
+</body>
+</html>

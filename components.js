@@ -54,7 +54,11 @@ function renderNav(activePage = '') {
             <div class="nav-dropdown-label">Öffentlicher Dienst</div>
             <a href="${base}/tvoed-rechner" class="${isActive('tvoed')}">
               <span class="nav-item-icon">🏛️</span>
-              <span><strong>TVöD Gehaltsrechner</strong><small>Entgeltgruppe & Netto</small></span>
+              <span><strong>TVöD Gehaltsrechner</strong><small>Kommunen & Bund</small></span>
+            </a>
+            <a href="${base}/tv-l-rechner" class="${isActive('tvl')}">
+              <span class="nav-item-icon">🎓</span>
+              <span><strong>TV-L Gehaltsrechner</strong><small>Länder & Hochschulen</small></span>
             </a>
           </div>
           <div class="nav-dropdown-group">
@@ -102,6 +106,7 @@ function renderNav(activePage = '') {
       <a href="${base}/kreditrechner">🏦 Kreditrechner</a>
       <a href="${base}/etf-sparplan-rechner">📈 ETF-Sparplan</a>
       <a href="${base}/tvoed-rechner">🏛️ TVöD Gehaltsrechner</a>
+      <a href="${base}/tv-l-rechner">🎓 TV-L Gehaltsrechner</a>
       <a href="${base}/krankenkassenrechner">🏥 Krankenkasse</a>
     </div>
     <div class="mobile-nav-section">
@@ -138,6 +143,7 @@ function renderFooter() {
             <li><a href="${base}/kreditrechner">Kreditrechner</a></li>
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
             <li><a href="${base}/tvoed-rechner">TVöD Rechner</a></li>
+            <li><a href="${base}/tv-l-rechner">TV-L Rechner</a></li>
             <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>
           </ul>
         </div>
