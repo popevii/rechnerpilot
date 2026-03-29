@@ -27,6 +27,18 @@
 .sue-tabelle tr:hover td{background:var(--bg)}
 .info-box{background:var(--accent-light);border:1.5px solid rgba(26,92,58,.15);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--ink-2);line-height:1.6;margin-top:12px}
 .info-box strong{color:var(--accent)}
+
+/* ── SOZIALABGABEN DETAIL ── */
+.soz-detail-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;}
+.soz-detail-toggle::after{content:'▾';font-size:11px;opacity:.6;transition:transform .2s;margin-left:4px;}
+.soz-detail-toggle.open::after{transform:rotate(180deg);}
+.soz-detail-panel{display:none;background:var(--bg);border-radius:10px;padding:12px 14px;margin-top:6px;font-size:12px;border:1px solid var(--border);}
+.soz-detail-panel.open{display:block;}
+.soz-detail-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);color:var(--ink-2);}
+.soz-detail-row:last-child{border-bottom:none;}
+.soz-detail-row span:last-child{font-weight:600;color:var(--ink);}
+.soz-detail-row.soz-total{font-weight:700;color:var(--accent);padding-top:8px;}
+
 </style>
 </head>
 <body data-page="sue">
@@ -87,12 +99,42 @@
           </div>
         </div>
 
+
         <div class="field">
-          <label>Kinder</label>
-          <label class="checkbox-row">
-            <input type="checkbox" id="sue-kinder" onchange="calcSuE()">
-            <span>Ich habe Kinder (niedrigerer PV-Beitrag)</span>
-          </label>
+          <label>Pflegeversicherung</label>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
+            <label class="checkbox-row">
+              <input type="checkbox" id="sue-kinder" onchange="calcSuE()">
+              <span>Ich habe Kinder (PV-Satz 1,8 %)</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="sue-unter23" onchange="calcSuE()">
+              <span>Ich bin unter 23 Jahre (kein Kinderlosenzuschlag)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Zusatzversorgung (ZVK / VBL)</label>
+          <div class="input-wrap">
+            <select id="sue-vbl" onchange="calcSuE()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
+              <option value="west">VBL West (1,81 % AN) — Standard</option>
+              <option value="ost">VBL Ost (1,81 % AN)</option>
+              <option value="ost-riester">VBL Ost + Riester (2,81 % AN)</option>
+              <option value="kvbw">KVBW Baden-Württemberg (1,85 %)</option>
+              <option value="keine">Keine Zusatzversorgung</option>
+            </select>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">AG zahlt zusätzlich ca. 6,45 % (nicht vom Netto abgezogen)</div>
+        </div>
+
+        <div class="field">
+          <label>Weitere Zulagen / Zuschläge</label>
+          <div class="input-wrap">
+            <input type="number" id="sue-extra" value="0" min="0" step="10" oninput="calcSuE()">
+            <span class="input-unit">€/Monat</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">z.B. Schichtzulage, Amtszulage, Stellenzulage, Ballungsraumzulage</div>
         </div>
 
       </div>
@@ -108,6 +150,25 @@
             <div><div class="rms-label">Sozialabg.</div><div class="rms-val" id="sue-soz-sub">—</div></div>
           </div>
         </div>
+
+        <div id="sue-soz-toggle" class="result-row soz-detail-toggle" onclick="toggleSozDetail('sue-soz')">
+          <span class="result-row-label">⬇ Sozialabgaben (Details)</span>
+          <span class="result-row-value neg" id="sue-soz-sum">—</span>
+        </div>
+        <div id="sue-soz-panel" class="soz-detail-panel">
+          <div class="soz-detail-row"><span>Krankenversicherung</span><span id="sue-det-kv">—</span></div>
+          <div class="soz-detail-row"><span>KV-Zusatzbeitrag (Ø 1,45 %)</span><span id="sue-det-kvz">—</span></div>
+          <div class="soz-detail-row"><span>Pflegeversicherung</span><span id="sue-det-pv">—</span></div>
+          <div class="soz-detail-row"><span>Rentenversicherung (9,3 %)</span><span id="sue-det-rv">—</span></div>
+          <div class="soz-detail-row"><span>Arbeitslosenversicherung (1,3 %)</span><span id="sue-det-alv">—</span></div>
+          <div class="soz-detail-row"><span>Zusatzversorgung (VBL/ZVK)</span><span id="sue-det-vbl">—</span></div>
+          <div class="soz-detail-row soz-total"><span>Gesamt Sozialabgaben</span><span id="sue-det-total">—</span></div>
+        </div>
+        <div class="result-row" id="sue-extra-row" style="display:none">
+          <span class="result-row-label">Weitere Zulagen</span>
+          <span class="result-row-value pos" id="sue-extra-anzeige">—</span>
+        </div>
+
         <div class="result-row"><span class="result-row-label">Entgeltgruppe / Stufe</span><span class="result-row-value" id="sue-eg-label">—</span></div>
         <div class="result-row"><span class="result-row-label">Tabellenentgelt</span><span class="result-row-value" id="sue-tabelle-wert">—</span></div>
         <div class="result-row"><span class="result-row-label">SuE-Zulage</span><span class="result-row-value pos" id="sue-zulage-row">—</span></div>
@@ -308,6 +369,23 @@ function initStufeGroup() {
   `).join('');
 }
 
+
+function toggleSozDetail(id) {
+  document.getElementById(id + '-toggle').classList.toggle('open');
+  document.getElementById(id + '-panel').classList.toggle('open');
+}
+function calcVBLBeitrag(brutto, vblTyp) {
+  const b = Math.min(brutto, 5812.50);
+  if (vblTyp === 'west' || vblTyp === 'ost') return b * 0.0181;
+  if (vblTyp === 'ost-riester') return b * 0.0281;
+  if (vblTyp === 'kvbw') return b * 0.0185;
+  return 0;
+}
+function getPVSatz(kinder, unter23) {
+  if (kinder || unter23) return 0.018;
+  return 0.021;
+}
+
 function setEG(eg, btn) {
   aktivEG = eg;
   document.querySelectorAll('.eg-btn').forEach(x => x.classList.remove('active'));
@@ -345,6 +423,9 @@ function renderTabelle() {
 function calcSuE() {
   const teilzeit    = parseFloat(document.getElementById('sue-teilzeit').value) / 100 || 1;
   const kinder      = document.getElementById('sue-kinder').checked;
+  const unter23     = document.getElementById('sue-unter23').checked;
+  const vblTyp      = document.getElementById('sue-vbl').value;
+  const extraZulage = parseFloat(document.getElementById('sue-extra').value) || 0;
   const mitZulage   = document.getElementById('sue-zulage').checked;
 
   const tabellenVZ  = SUE_2025[aktivEG][aktivStufe];

@@ -110,6 +110,18 @@
   padding: 16px 18px;
   margin-top: 16px;
 }
+
+/* ── SOZIALABGABEN DETAIL ── */
+.soz-detail-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;}
+.soz-detail-toggle::after{content:'▾';font-size:11px;opacity:.6;transition:transform .2s;margin-left:4px;}
+.soz-detail-toggle.open::after{transform:rotate(180deg);}
+.soz-detail-panel{display:none;background:var(--bg);border-radius:10px;padding:12px 14px;margin-top:6px;font-size:12px;border:1px solid var(--border);}
+.soz-detail-panel.open{display:block;}
+.soz-detail-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);color:var(--ink-2);}
+.soz-detail-row:last-child{border-bottom:none;}
+.soz-detail-row span:last-child{font-weight:600;color:var(--ink);}
+.soz-detail-row.soz-total{font-weight:700;color:var(--accent);padding-top:8px;}
+
 </style>
 </head>
 <body data-page="tvoed">
@@ -166,12 +178,42 @@
           </div>
         </div>
 
+
         <div class="field">
-          <label>Kinder</label>
-          <label class="checkbox-row">
-            <input type="checkbox" id="tvoed-kinder" onchange="calcTVoeD()">
-            <span>Ich habe Kinder (niedrigerer PV-Beitrag)</span>
-          </label>
+          <label>Pflegeversicherung</label>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
+            <label class="checkbox-row">
+              <input type="checkbox" id="tvoed-kinder" onchange="calcTVoeD()">
+              <span>Ich habe Kinder (PV-Satz 1,8 %)</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="tvoed-unter23" onchange="calcTVoeD()">
+              <span>Ich bin unter 23 Jahre (kein Kinderlosenzuschlag)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Zusatzversorgung (ZVK/VBL)</label>
+          <div class="input-wrap">
+            <select id="tvoed-vbl" onchange="calcTVoeD()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
+              <option value="west">VBL West (1,81 % AN) — Standard</option>
+              <option value="ost">VBL Ost (1,81 % AN)</option>
+              <option value="ost-riester">VBL Ost + Riester</option>
+              <option value="kvbw">KVBW Baden-Württemberg</option>
+              <option value="keine">Keine Zusatzversorgung</option>
+            </select>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">AG zahlt zusätzlich ca. 6,45 % (nicht vom Netto abgezogen)</div>
+        </div>
+
+        <div class="field">
+          <label>Weitere Zulagen / Zuschläge</label>
+          <div class="input-wrap">
+            <input type="number" id="tvoed-extra" value="0" min="0" step="10" oninput="calcTVoeD()">
+            <span class="input-unit">€/Monat</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">z.B. Schichtzulage, Amtszulage, Stellenzulage, Ballungsraumzulage</div>
         </div>
 
       </div>
