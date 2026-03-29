@@ -51,7 +51,22 @@ function renderNav(activePage = '') {
             </a>
           </div>
           <div class="nav-dropdown-group">
-            <div class="nav-dropdown-label">Öffentlicher Dienst</div>
+            <div class="nav-dropdown-label">Versicherung</div>
+            <a href="${base}/krankenkassenrechner" class="${isActive('kk')}">
+              <span class="nav-item-icon">🏥</span>
+              <span><strong>Krankenkasse</strong><small>GKV-Beitrag vergleichen</small></span>
+            </a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-dropdown">
+        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['tvoed','tvl'])}">
+          Öffentlicher Dienst <span class="nav-arrow">▾</span>
+        </a>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-group">
+            <div class="nav-dropdown-label">Tarifverträge</div>
             <a href="${base}/tvoed-rechner" class="${isActive('tvoed')}">
               <span class="nav-item-icon">🏛️</span>
               <span><strong>TVöD Gehaltsrechner</strong><small>Kommunen & Bund</small></span>
@@ -59,13 +74,6 @@ function renderNav(activePage = '') {
             <a href="${base}/tv-l-rechner" class="${isActive('tvl')}">
               <span class="nav-item-icon">🎓</span>
               <span><strong>TV-L Gehaltsrechner</strong><small>Länder & Hochschulen</small></span>
-            </a>
-          </div>
-          <div class="nav-dropdown-group">
-            <div class="nav-dropdown-label">Versicherung</div>
-            <a href="${base}/krankenkassenrechner" class="${isActive('kk')}">
-              <span class="nav-item-icon">🏥</span>
-              <span><strong>Krankenkasse</strong><small>GKV-Beitrag vergleichen</small></span>
             </a>
           </div>
         </div>
