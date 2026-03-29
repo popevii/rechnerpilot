@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beamtenbesoldung Länder Rechner 2025 – Alle 16 Bundesländer | RechnerPilot</title>
+<meta name="description" content="Beamtenbesoldung Rechner für alle 16 Bundesländer 2025: A-Besoldung vergleichen, Grundgehalt berechnen und Netto ermitteln. Bayern, NRW, BW, Berlin und mehr.">
+<link rel="canonical" href="https://www.rechnerpilot.de/beamte-laender-rechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.land-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:8px}
+.land-btn{padding:9px 8px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s;line-height:1.3}
+.land-btn:hover{border-color:var(--accent);color:var(--accent)}
+.land-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.bg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin-top:8px}
+.bg-btn{padding:8px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.bg-btn:hover{border-color:var(--accent);color:var(--accent)}
+.bg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.stufe-group{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.stufe-btn{flex:1;min-width:38px;padding:9px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.stufe-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.vergleich-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.vergleich-table th{background:var(--accent);color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.vergleich-table th:last-child{text-align:right}
+.vergleich-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--ink-2)}
+.vergleich-table td:last-child{text-align:right;font-weight:700}
+.vergleich-table tr.active-row td{background:var(--accent-light);color:var(--accent);font-weight:700}
+.vergleich-table tr:hover td{background:var(--bg)}
+.rank-badge{display:inline-block;width:24px;height:24px;border-radius:50%;font-size:11px;font-weight:700;text-align:center;line-height:24px}
+.rank-1{background:#ffd700;color:#5a4000}
+.rank-2{background:#c0c0c0;color:#333}
+.rank-3{background:#cd7f32;color:#fff}
+.rank-other{background:var(--border);color:var(--ink-3)}
+.diff-pos{color:#1a5c3a;font-size:11px}
+.diff-neg{color:#c0392b;font-size:11px}
+.info-box{background:var(--accent-light);border:1.5px solid rgba(26,92,58,.15);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--ink-2);line-height:1.6;margin-top:12px}
+.info-box strong{color:var(--accent)}
+</style>
+</head>
+<body data-page="beamte-laender">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <a href="beamte-rechner.html">Beamtenbesoldung</a><span>›</span>
+      <span>Ländervergleich</span>
+    </div>
+    <h1>Beamtenbesoldung Länder 2025</h1>
+    <p>A-Besoldung für alle 16 Bundesländer berechnen und vergleichen. Wähle dein Bundesland, die Besoldungsgruppe und Stufe.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label>Bundesland</label>
+          <div class="land-grid" id="land-grid"></div>
+        </div>
+
+        <div class="field">
+          <label>Besoldungsgruppe</label>
+          <div class="bg-grid" id="bg-grid"></div>
+        </div>
+
+        <div class="field">
+          <label>Erfahrungsstufe</label>
+          <div class="stufe-group" id="stufe-group"></div>
+        </div>
+
+        <div class="field">
+          <label>Steuerklasse</label>
+          <div class="toggle-group" id="sk-group">
+            <button class="toggle-btn active" data-val="1" onclick="selectSK(this)">I</button>
+            <button class="toggle-btn" data-val="2" onclick="selectSK(this)">II</button>
+            <button class="toggle-btn" data-val="3" onclick="selectSK(this)">III</button>
+            <button class="toggle-btn" data-val="4" onclick="selectSK(this)">IV</button>
+            <button class="toggle-btn" data-val="5" onclick="selectSK(this)">V</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Kinder</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="bl-kinder" onchange="calcLand()">
+            <span>Ich habe Kinder (niedrigerer PV-Beitrag)</span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis</div>
+        <div class="result-main">
+          <div class="result-main-label">Nettobezüge (ca.)</div>
+          <div class="result-main-value" id="bl-netto">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Grundgehalt</div><div class="rms-val" id="bl-brutto-sub">—</div></div>
+            <div><div class="rms-label">vs. Bund</div><div class="rms-val" id="bl-diff-sub">—</div></div>
+            <div><div class="rms-label">Rang</div><div class="rms-val" id="bl-rang-sub">—</div></div>
+          </div>
+        </div>
+        <div class="result-row"><span class="result-row-label">Bundesland</span><span class="result-row-value" id="bl-land-label">—</span></div>
+        <div class="result-row"><span class="result-row-label">Besoldungsgruppe / Stufe</span><span class="result-row-value" id="bl-bg-label">—</span></div>
+        <div class="result-row"><span class="result-row-label">Grundgehalt brutto</span><span class="result-row-value" id="bl-grundgehalt">—</span></div>
+        <div class="result-row"><span class="result-row-label">Bund (Vergleich)</span><span class="result-row-value" id="bl-bund-vgl">—</span></div>
+        <div class="result-row"><span class="result-row-label">Differenz zum Bund</span><span class="result-row-value" id="bl-diff-row">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jahresbezüge (brutto)</span><span class="result-row-value" id="bl-jahresbrutto">—</span></div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Abzüge vom Brutto</span><span id="bl-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="bl-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>ℹ️ Hinweis:</strong> Die Besoldung der Länder weicht teilweise erheblich von der Bundesbesoldung ab.
+      <strong>Bayern und Hamburg</strong> zahlen am meisten, <strong>Berlin</strong> am wenigsten.
+      Die Unterschiede in A13 Stufe 1 können über <strong>600 € monatlich</strong> betragen.
+      Alle Werte sind Grundgehälter ohne Familienzuschlag, Stellenzulagen und regionale Zuschläge.
+    </div>
+    <div class="calc-disclaimer" style="margin-top:12px;">⚠️ Näherungsrechnung auf Basis aktuell verfügbarer Landestabellen 2025. <a href="methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <!-- LÄNDERVERGLEICH TABELLE -->
+  <div class="content-section fu d2">
+    <h2>Ländervergleich <span id="vergleich-titel">A13 · Stufe 1</span></h2>
+    <p>Alle 16 Bundesländer im direkten Vergleich — sortiert nach Grundgehalt. Deine Auswahl ist <span style="color:var(--accent);font-weight:600;">grün markiert</span>.</p>
+    <div style="overflow-x:auto;">
+      <table class="vergleich-table">
+        <thead>
+          <tr>
+            <th style="width:36px;">#</th>
+            <th>Bundesland</th>
+            <th>Gültig ab</th>
+            <th style="text-align:right;">Grundgehalt</th>
+          </tr>
+        </thead>
+        <tbody id="vergleich-body"></tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">Quellen: Landesbesoldungsgesetze, DBB-Besoldungstabellen, oeffentlicher-dienst.info · Stand: März 2026 · Alle Angaben ohne Gewähr.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zur Landesbeamtenbesoldung</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Warum verdienen Beamte in verschiedenen Bundesländern unterschiedlich?</div>
+        <div class="faq-a">Seit der Föderalismusreform 2006 regeln die Bundesländer die Besoldung ihrer Beamten selbst. Manche Länder (Bayern, Hamburg) haben die Tariferhöhungen konsequent weitergegeben und zusätzliche Erhöhungen beschlossen. Andere Länder haben die Besoldung teils zur Haushaltskonsolidierung eingesetzt — allen voran Berlin, das jahrelang deutlich unter Bundesniveau lag.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Kann ich als Landesbeamter in ein anderes Bundesland wechseln?</div>
+        <div class="faq-a">Ja — Versetzungen zwischen Ländern sind möglich, aber nicht automatisch. Du brauchst einen aufnehmenden Dienstherrn und musst ggf. erneut in ein Beamtenverhältnis eingestellt werden. Bei einem Bundeslandwechsel gilt dann die Besoldung des neuen Bundeslandes. Stufenanerkennung und Dienstzeitanrechnung werden individuell geregelt.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wann kommt die nächste Besoldungserhöhung in den Ländern?</div>
+        <div class="faq-a">Die meisten Länder planen eine Erhöhung um 2,8 % ab 01.04.2026 (analog TV-L), 2,0 % ab 01.03.2027 und 1,0 % ab 01.01.2028. Die genauen Zeitpunkte variieren je Bundesland, da jedes Land ein eigenes Besoldungsanpassungsgesetz verabschieden muss.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Gilt der Familienzuschlag in allen Ländern gleich?</div>
+        <div class="faq-a">Nein — der Familienzuschlag variiert je nach Bundesland erheblich. Einige Länder zahlen besonders hohe Kinderzuschläge um die Verfassungsvorgaben des BVerfG zu erfüllen. Im Bund beträgt der Zuschlag für Verheiratete ca. 174,93 € und je Kind ca. 264,59 € (2025).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERWANDTE RECHNER -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="beamte-rechner.html" class="cc">
+        <div class="cc-icon bg-g">⚖️</div>
+        <h3>Beamte Bund</h3>
+        <p>Bundesbesoldung A3–A16 mit Familienzuschlag.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="tvoed-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>TVöD Gehaltsrechner</h3>
+        <p>Tarifgehalt für Kommunen und Bund.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="tv-l-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🎓</div>
+        <h3>TV-L Gehaltsrechner</h3>
+        <p>Tarifgehalt für Landesbeschäftigte.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+// =====================================================================
+// BESOLDUNGSTABELLEN LÄNDER 2025
+// Stufen: [S1, S2, S3, S4, S5, S6, S7, S8]
+// Quellen: DBB-Besoldungstabellen, oeffentlicher-dienst.info
+// Stand: 2025 (letzte verfügbare Werte je Land)
+// =====================================================================
+
+const LAENDER_DATA = {
+  'Bayern': {
+    kuerzel: 'BY', gueltig: '01.12.2024',
+    tabelle: {
+      'A3': [2874,2943,3012,3082,3151,3220,3276,3330],
+      'A4': [2975,3065,3154,3244,3333,3392,3440,3490],
+      'A5': [3045,3180,3270,3370,3470,3558,3635,3710],
+      'A6': [3156,3267,3380,3468,3607,3697,3787,3877],
+      'A7': [3348,3455,3608,3761,3863,4012,4115,4217],
+      'A8': [3528,3705,3836,3966,4147,4277,4365,4453],
+      'A9': [3724,3860,4063,4266,4402,4604,4740,4875],
+      'A10': [4094,4300,4580,4790,4999,5209,5352,5430],
+      'A11': [4680,4943,5077,5341,5604,5738,5872,6005],
+      'A12': [5076,5405,5603,5867,6131,6263,6396,6529],
+      'A13': [5596,5920,6115,6440,6700,6830,7025,7220],
+      'A14': [5870,6258,6520,6980,7370,7633,7960,8288],
+      'A15': [7370,7760,8025,8415,8750,9085,9355,9625],
+      'A16': [8288,8750,9085,9550,9885,10285,10620,10955],
+    }
+  },
+  'Hamburg': {
+    kuerzel: 'HH', gueltig: '01.02.2025',
+    tabelle: {
+      'A3': [2841,2911,2981,3051,3121,3191,3248,3303],
+      'A4': [2940,3029,3119,3208,3297,3356,3405,3455],
+      'A5': [3012,3147,3238,3339,3440,3528,3606,3682],
+      'A6': [3125,3238,3353,3441,3580,3671,3762,3853],
+      'A7': [3320,3429,3584,3739,3842,3994,4098,4201],
+      'A8': [3499,3678,3810,3941,4123,4254,4342,4430],
+      'A9': [3695,3833,4038,4243,4379,4582,4718,4854],
+      'A10': [4064,4272,4553,4763,4973,5183,5327,5404],
+      'A11': [4647,4912,5047,5312,5576,5711,5846,5980],
+      'A12': [5045,5375,5574,5839,6103,6236,6369,6502],
+      'A13': [5565,5890,6085,6410,6670,6800,6995,7190],
+      'A14': [5836,6226,6489,6950,7340,7603,7930,8258],
+      'A15': [7340,7730,7995,8385,8720,9055,9325,9595],
+      'A16': [8258,8720,9055,9520,9855,10255,10590,10925],
+    }
+  },
+  'Baden-Württemberg': {
+    kuerzel: 'BW', gueltig: '01.02.2025',
+    tabelle: {
+      'A3': [2710,2778,2845,2913,2980,3049,3105,3159],
+      'A4': [2806,2893,2979,3066,3152,3210,3258,3308],
+      'A5': [2871,3007,3096,3196,3296,3384,3461,3536],
+      'A6': [2975,3088,3202,3291,3430,3520,3611,3702],
+      'A7': [3161,3271,3427,3582,3686,3838,3943,4047],
+      'A8': [3323,3503,3635,3767,3949,4080,4169,4257],
+      'A9': [3385,3509,3633,3758,3882,3967,4053,4138],
+      'A10': [3635,3794,3953,4112,4272,4380,4488,4597],
+      'A11': [3996,4159,4323,4490,4657,4768,4881,4994],
+      'A12': [4526,4659,4859,5062,5198,5333,5468,5604],
+      'A13': [5186,5405,5624,5771,5917,6063,6209,6355],
+      'A14': [5498,5782,6066,6256,6445,6635,6825,7014],
+      'A15': [6329,6642,6892,7142,7392,7642,7892,0],
+      'A16': [6960,7322,7611,7900,8189,8479,8768,0],
+    }
+  },
+  'Nordrhein-Westfalen': {
+    kuerzel: 'NW', gueltig: '01.02.2025',
+    tabelle: {
+      'A3': [2762,2829,2898,2967,3036,3106,3162,3216],
+      'A4': [2855,2943,3030,3117,3205,3264,3312,3362],
+      'A5': [2913,3049,3139,3240,3340,3429,3507,3583],
+      'A6': [3024,3138,3252,3341,3481,3572,3663,3754],
+      'A7': [3208,3318,3474,3630,3734,3888,3993,4097],
+      'A8': [3371,3551,3683,3815,3998,4129,4218,4306],
+      'A9': [3429,3553,3678,3803,3928,4014,4100,4186],
+      'A10': [3688,3848,4009,4170,4330,4439,4548,4658],
+      'A11': [4051,4215,4379,4547,4715,4827,4940,5054],
+      'A12': [4579,4714,4915,5119,5255,5391,5527,5663],
+      'A13': [5240,5461,5681,5829,5976,6124,6271,6419],
+      'A14': [5554,5841,6127,6318,6509,6700,6891,7082],
+      'A15': [6388,6703,6955,7207,7459,7711,7963,0],
+      'A16': [7017,7382,7673,7964,8255,8546,8837,0],
+    }
+  },
+  'Berlin': {
+    kuerzel: 'BE', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2753,2842,2906,2972,3037,3107,3169,3229],
+      'A4': [2807,2882,3023,3095,3161,3236,3302,3373],
+      'A5': [2884,2967,3100,3201,3309,3418,3486,3554],
+      'A6': [2990,3119,3248,3367,3474,3576,3673,3762],
+      'A7': [3127,3287,3430,3594,3728,3888,3990,4093],
+      'A8': [3398,3575,3715,3855,4040,4175,4264,4354],
+      'A9': [3468,3606,3806,4006,4152,4352,4499,4645],
+      'A10': [3679,3870,4134,4357,4580,4803,4944,5018],
+      'A11': [4244,4510,4644,4909,5174,5309,5444,5578],
+      'A12': [4626,4955,5152,5416,5681,5815,5949,6083],
+      'A13': [5023,5347,5543,5869,6129,6261,6456,6651],
+      'A14': [5329,5716,5978,6439,6833,7097,7423,7750],
+      'A15': [6833,7224,7490,7881,8217,8553,8823,9094],
+      'A16': [7750,8214,8550,9015,9352,9752,10088,10424],
+    }
+  },
+  'Niedersachsen': {
+    kuerzel: 'NI', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2740,2808,2877,2946,3015,3085,3141,3195],
+      'A4': [2834,2921,3008,3096,3183,3242,3291,3341],
+      'A5': [2890,3025,3116,3217,3317,3406,3484,3560],
+      'A6': [2999,3112,3226,3315,3455,3546,3637,3728],
+      'A7': [3181,3291,3447,3603,3707,3860,3965,4069],
+      'A8': [3346,3524,3656,3788,3971,4102,4191,4279],
+      'A9': [3404,3527,3652,3777,3902,3988,4074,4160],
+      'A10': [3661,3820,3980,4140,4300,4409,4518,4628],
+      'A11': [4023,4186,4350,4517,4684,4796,4909,5023],
+      'A12': [4550,4683,4884,5088,5224,5360,5496,5632],
+      'A13': [5210,5429,5649,5797,5944,6092,6239,6387],
+      'A14': [5523,5808,6094,6285,6476,6667,6858,7049],
+      'A15': [6353,6666,6918,7170,7422,7674,7926,0],
+      'A16': [6980,7344,7635,7926,8217,8508,8799,0],
+    }
+  },
+  'Hessen': {
+    kuerzel: 'HE', gueltig: '01.12.2025',
+    tabelle: {
+      'A3': [2751,2820,2888,2957,3025,3094,3150,3204],
+      'A4': [2843,2931,3018,3106,3193,3252,3301,3351],
+      'A5': [2898,3034,3124,3225,3325,3414,3492,3568],
+      'A6': [3007,3121,3235,3324,3464,3555,3646,3737],
+      'A7': [3189,3300,3456,3612,3716,3869,3974,4078],
+      'A8': [3354,3534,3666,3798,3981,4112,4201,4289],
+      'A9': [3413,3537,3662,3787,3912,3998,4084,4170],
+      'A10': [3670,3829,3990,4150,4311,4420,4529,4639],
+      'A11': [4032,4196,4360,4528,4695,4807,4920,5034],
+      'A12': [4560,4694,4895,5099,5235,5371,5507,5643],
+      'A13': [5220,5440,5660,5808,5955,6103,6250,6398],
+      'A14': [5533,5820,6106,6297,6488,6679,6870,7061],
+      'A15': [6364,6678,6930,7182,7434,7686,7938,0],
+      'A16': [6991,7356,7647,7938,8229,8520,8811,0],
+    }
+  },
+  'Sachsen': {
+    kuerzel: 'SN', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2704,2773,2841,2910,2978,3048,3104,3158],
+      'A4': [2799,2886,2973,3061,3148,3207,3256,3306],
+      'A5': [2855,2989,3080,3180,3281,3370,3447,3523],
+      'A6': [2962,3076,3191,3280,3419,3510,3601,3692],
+      'A7': [3143,3253,3409,3565,3669,3821,3926,4030],
+      'A8': [3308,3487,3619,3751,3933,4064,4153,4241],
+      'A9': [3366,3490,3614,3739,3864,3949,4035,4121],
+      'A10': [3621,3780,3940,4100,4260,4369,4478,4588],
+      'A11': [3981,4145,4308,4475,4643,4755,4867,4981],
+      'A12': [4509,4642,4843,5047,5183,5319,5455,5591],
+      'A13': [5168,5387,5607,5754,5901,6049,6196,6344],
+      'A14': [5479,5764,6050,6240,6431,6622,6813,7004],
+      'A15': [6307,6620,6872,7124,7376,7628,7880,0],
+      'A16': [6935,7299,7590,7881,8172,8463,8754,0],
+    }
+  },
+  'Brandenburg': {
+    kuerzel: 'BB', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2723,2791,2860,2929,2997,3067,3123,3177],
+      'A4': [2817,2904,2991,3079,3167,3226,3274,3324],
+      'A5': [2873,3007,3098,3199,3300,3388,3466,3542],
+      'A6': [2980,3094,3209,3298,3438,3528,3619,3710],
+      'A7': [3161,3271,3428,3584,3688,3840,3945,4049],
+      'A8': [3326,3505,3637,3769,3951,4082,4171,4259],
+      'A9': [3384,3508,3632,3757,3882,3968,4054,4140],
+      'A10': [3639,3798,3958,4118,4278,4387,4496,4606],
+      'A11': [3999,4162,4326,4493,4660,4772,4885,4999],
+      'A12': [4527,4660,4861,5065,5201,5337,5473,5609],
+      'A13': [5185,5405,5625,5773,5920,6068,6215,6363],
+      'A14': [5497,5782,6068,6259,6450,6641,6832,7023],
+      'A15': [6329,6643,6894,7146,7398,7650,7902,0],
+      'A16': [6960,7324,7615,7906,8197,8488,8779,0],
+    }
+  },
+  'Rheinland-Pfalz': {
+    kuerzel: 'RP', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2733,2801,2870,2939,3008,3077,3133,3188],
+      'A4': [2827,2915,3002,3090,3178,3237,3285,3335],
+      'A5': [2883,3018,3109,3210,3311,3399,3477,3553],
+      'A6': [2990,3104,3219,3308,3448,3539,3630,3721],
+      'A7': [3172,3282,3439,3595,3699,3852,3957,4061],
+      'A8': [3336,3516,3648,3780,3963,4094,4183,4271],
+      'A9': [3395,3519,3643,3768,3893,3979,4065,4151],
+      'A10': [3650,3809,3969,4130,4290,4399,4508,4618],
+      'A11': [4011,4174,4338,4506,4673,4785,4898,5012],
+      'A12': [4539,4672,4873,5077,5213,5349,5485,5621],
+      'A13': [5196,5416,5637,5785,5932,6080,6228,6376],
+      'A14': [5508,5794,6080,6271,6462,6653,6844,7035],
+      'A15': [6341,6654,6906,7158,7410,7662,7914,0],
+      'A16': [6971,7336,7627,7918,8209,8500,8791,0],
+    }
+  },
+  'Schleswig-Holstein': {
+    kuerzel: 'SH', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2715,2783,2852,2921,2989,3059,3115,3169],
+      'A4': [2808,2896,2983,3071,3158,3218,3266,3316],
+      'A5': [2864,2999,3090,3191,3291,3380,3458,3534],
+      'A6': [2971,3085,3200,3289,3429,3520,3611,3702],
+      'A7': [3152,3263,3419,3575,3679,3832,3937,4041],
+      'A8': [3317,3497,3629,3761,3943,4074,4163,4251],
+      'A9': [3375,3499,3624,3749,3874,3960,4046,4132],
+      'A10': [3630,3790,3950,4110,4271,4380,4489,4599],
+      'A11': [3991,4155,4318,4486,4653,4765,4878,4992],
+      'A12': [4520,4652,4853,5057,5193,5330,5466,5602],
+      'A13': [5178,5397,5618,5766,5913,6061,6208,6356],
+      'A14': [5488,5774,6060,6251,6442,6633,6824,7015],
+      'A15': [6320,6634,6886,7138,7390,7642,7894,0],
+      'A16': [6950,7315,7606,7897,8188,8479,8770,0],
+    }
+  },
+  'Thüringen': {
+    kuerzel: 'TH', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2711,2779,2848,2917,2985,3055,3111,3165],
+      'A4': [2804,2892,2979,3067,3154,3213,3262,3312],
+      'A5': [2860,2995,3086,3187,3287,3376,3454,3530],
+      'A6': [2967,3081,3196,3285,3425,3516,3607,3698],
+      'A7': [3148,3259,3415,3571,3675,3828,3933,4037],
+      'A8': [3313,3493,3625,3757,3939,4070,4159,4247],
+      'A9': [3371,3495,3620,3745,3870,3956,4042,4128],
+      'A10': [3626,3786,3946,4106,4267,4376,4485,4595],
+      'A11': [3987,4151,4315,4482,4649,4761,4874,4988],
+      'A12': [4516,4649,4850,5054,5190,5326,5462,5598],
+      'A13': [5174,5394,5614,5762,5909,6057,6204,6352],
+      'A14': [5484,5770,6056,6247,6438,6629,6820,7011],
+      'A15': [6316,6630,6882,7134,7386,7638,7890,0],
+      'A16': [6946,7311,7602,7893,8184,8475,8766,0],
+    }
+  },
+  'Mecklenburg-Vorpommern': {
+    kuerzel: 'MV', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2708,2777,2845,2914,2982,3052,3108,3162],
+      'A4': [2801,2889,2976,3064,3151,3210,3259,3309],
+      'A5': [2857,2992,3083,3184,3284,3373,3451,3527],
+      'A6': [2964,3078,3193,3282,3422,3513,3604,3695],
+      'A7': [3145,3256,3412,3568,3672,3825,3930,4034],
+      'A8': [3310,3490,3622,3754,3936,4067,4156,4244],
+      'A9': [3368,3492,3617,3742,3867,3953,4039,4125],
+      'A10': [3623,3783,3943,4103,4264,4373,4482,4592],
+      'A11': [3984,4148,4312,4479,4646,4758,4871,4985],
+      'A12': [4513,4646,4847,5051,5187,5323,5459,5595],
+      'A13': [5170,5390,5610,5758,5905,6053,6200,6348],
+      'A14': [5481,5767,6053,6244,6435,6626,6817,7008],
+      'A15': [6313,6627,6879,7131,7383,7635,7887,0],
+      'A16': [6943,7308,7599,7890,8181,8472,8763,0],
+    }
+  },
+  'Sachsen-Anhalt': {
+    kuerzel: 'ST', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2705,2774,2842,2911,2979,3049,3105,3159],
+      'A4': [2798,2886,2973,3061,3148,3207,3256,3306],
+      'A5': [2854,2989,3080,3181,3281,3370,3448,3524],
+      'A6': [2961,3075,3190,3279,3419,3510,3601,3692],
+      'A7': [3142,3253,3409,3565,3669,3822,3927,4031],
+      'A8': [3307,3487,3619,3751,3933,4064,4153,4241],
+      'A9': [3365,3489,3614,3739,3864,3950,4036,4122],
+      'A10': [3620,3780,3940,4100,4261,4370,4479,4589],
+      'A11': [3981,4145,4309,4476,4643,4755,4868,4982],
+      'A12': [4510,4643,4844,5048,5184,5320,5456,5592],
+      'A13': [5167,5387,5607,5755,5902,6050,6197,6345],
+      'A14': [5478,5764,6050,6241,6432,6623,6814,7005],
+      'A15': [6310,6624,6876,7128,7380,7632,7884,0],
+      'A16': [6940,7305,7596,7887,8178,8469,8760,0],
+    }
+  },
+  'Saarland': {
+    kuerzel: 'SL', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2719,2787,2856,2925,2993,3063,3119,3173],
+      'A4': [2813,2900,2988,3076,3163,3222,3271,3321],
+      'A5': [2869,3004,3095,3196,3296,3385,3463,3539],
+      'A6': [2976,3090,3205,3294,3434,3525,3616,3707],
+      'A7': [3157,3268,3424,3580,3684,3837,3942,4046],
+      'A8': [3322,3502,3634,3766,3948,4079,4168,4256],
+      'A9': [3380,3504,3629,3754,3879,3965,4051,4137],
+      'A10': [3635,3795,3955,4115,4276,4385,4494,4604],
+      'A11': [3996,4160,4324,4491,4658,4770,4883,4997],
+      'A12': [4524,4657,4858,5062,5198,5334,5470,5606],
+      'A13': [5182,5402,5622,5770,5917,6065,6212,6360],
+      'A14': [5493,5779,6065,6256,6447,6638,6829,7020],
+      'A15': [6325,6639,6891,7143,7395,7647,7899,0],
+      'A16': [6955,7320,7611,7902,8193,8484,8775,0],
+    }
+  },
+  'Bremen': {
+    kuerzel: 'HB', gueltig: '01.04.2026',
+    tabelle: {
+      'A3': [2737,2805,2874,2943,3012,3081,3137,3191],
+      'A4': [2831,2919,3006,3094,3182,3241,3289,3339],
+      'A5': [2887,3022,3113,3214,3315,3403,3481,3557],
+      'A6': [2994,3108,3223,3312,3452,3543,3634,3725],
+      'A7': [3176,3286,3443,3599,3703,3856,3961,4065],
+      'A8': [3340,3520,3652,3784,3967,4098,4187,4275],
+      'A9': [3399,3523,3647,3772,3897,3983,4069,4155],
+      'A10': [3654,3814,3974,4134,4295,4404,4513,4623],
+      'A11': [4015,4179,4343,4511,4678,4790,4903,5017],
+      'A12': [4543,4676,4877,5081,5217,5353,5489,5625],
+      'A13': [5200,5420,5641,5789,5936,6084,6231,6379],
+      'A14': [5512,5798,6084,6275,6466,6657,6848,7039],
+      'A15': [6345,6659,6911,7163,7415,7667,7919,0],
+      'A16': [6975,7340,7631,7922,8213,8504,8795,0],
+    }
+  },
+};
+
+// Bund als Referenz (2025)
+const BUND = {
+  'A3': [3345.84,3415.45,3485.10,3554.72,3625.37,3694.98,3757.35,3807.92],
+  'A4': [3439.57,3529.28,3619.00,3708.68,3798.39,3857.78,3907.17,3957.53],
+  'A5': [3461.17,3582.79,3672.51,3767.69,3862.88,3951.41,4025.93,4099.14],
+  'A6': [3580.33,3689.05,3797.79,3884.79,4015.20,4102.20,4189.15,4276.15],
+  'A7': [3772.83,3877.67,4025.04,4172.42,4274.36,4422.28,4525.19,4628.58],
+  'A8': [3966.59,4136.66,4265.15,4393.66,4564.88,4694.37,4780.79,4867.20],
+  'A9': [4182.24,4313.22,4509.02,4704.81,4835.78,5031.57,5162.54,5293.52],
+  'A10': [4572.08,4776.31,5046.48,5250.71,5454.94,5659.17,5798.46,5874.15],
+  'A11': [5162.54,5422.31,5552.51,5812.28,6072.04,6202.25,6332.45,6462.66],
+  'A12': [5552.51,5876.82,6071.59,6331.36,6591.91,6721.35,6851.56,6981.74],
+  'A13': [6071.59,6396.66,6591.43,6916.51,7176.27,7306.48,7501.25,7696.01],
+  'A14': [6332.12,6722.45,6983.00,7438.79,7829.12,8088.89,8413.97,8739.05],
+  'A15': [7829.12,8219.46,8480.00,8870.33,9195.41,9520.49,9781.03,10041.58],
+  'A16': [8739.05,9194.84,9520.49,9976.28,10301.93,10692.26,11017.90,11343.54],
+};
+
+const LAENDER_NAMEN = Object.keys(LAENDER_DATA);
+const BG_LISTE = ['A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13','A14','A15','A16'];
+
+let aktivLand  = 'Nordrhein-Westfalen';
+let aktivBG    = 'A13';
+let aktivStufe = 0;
+let aktivSK    = 1;
+
+function initLandGrid() {
+  const grid = document.getElementById('land-grid');
+  grid.innerHTML = LAENDER_NAMEN.map(land => `
+    <button class="land-btn ${land === aktivLand ? 'active' : ''}"
+      onclick="setLand('${land}', this)">${land}</button>
+  `).join('');
+}
+
+function initBGGrid() {
+  const grid = document.getElementById('bg-grid');
+  grid.innerHTML = BG_LISTE.map(bg => `
+    <button class="bg-btn ${bg === aktivBG ? 'active' : ''}"
+      onclick="setBG('${bg}', this)">${bg}</button>
+  `).join('');
+}
+
+function initStufeGroup() {
+  const group = document.getElementById('stufe-group');
+  group.innerHTML = [1,2,3,4,5,6,7,8].map((s, i) => `
+    <button class="stufe-btn ${i === aktivStufe ? 'active' : ''}"
+      onclick="setStufe(${i}, this)">${s}</button>
+  `).join('');
+}
+
+function setLand(land, btn) {
+  aktivLand = land;
+  document.querySelectorAll('.land-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  renderVergleich();
+  calcLand();
+}
+
+function setBG(bg, btn) {
+  aktivBG = bg;
+  document.querySelectorAll('.bg-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  renderVergleich();
+  calcLand();
+}
+
+function setStufe(idx, btn) {
+  aktivStufe = idx;
+  document.querySelectorAll('.stufe-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  renderVergleich();
+  calcLand();
+}
+
+function selectSK(btn) {
+  aktivSK = parseInt(btn.dataset.val);
+  document.querySelectorAll('#sk-group .toggle-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  calcLand();
+}
+
+function getWert(land, bg, stufe) {
+  const data = LAENDER_DATA[land];
+  if (!data || !data.tabelle[bg]) return 0;
+  return data.tabelle[bg][stufe] || 0;
+}
+
+function renderVergleich() {
+  document.getElementById('vergleich-titel').textContent = aktivBG + ' · Stufe ' + (aktivStufe + 1);
+
+  // Alle Länder mit Werten sammeln und sortieren
+  const werte = LAENDER_NAMEN.map(land => ({
+    land,
+    wert: getWert(land, aktivBG, aktivStufe),
+    gueltig: LAENDER_DATA[land].gueltig
+  })).filter(x => x.wert > 0)
+    .sort((a, b) => b.wert - a.wert);
+
+  const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+
+  document.getElementById('vergleich-body').innerHTML = werte.map((item, i) => {
+    const rank = i + 1;
+    const rankCss = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
+    return `
+      <tr class="${item.land === aktivLand ? 'active-row' : ''}">
+        <td><span class="rank-badge ${rankCss}">${rank}</span></td>
+        <td><strong>${item.land}</strong></td>
+        <td style="font-size:11px;color:var(--ink-3);">ab ${item.gueltig}</td>
+        <td>${f(item.wert)}</td>
+      </tr>`;
+  }).join('');
+}
+
+function calcLand() {
+  const kinder   = document.getElementById('bl-kinder').checked;
+  const grundgehalt = getWert(aktivLand, aktivBG, aktivStufe);
+  const bundWert = BUND[aktivBG] ? (BUND[aktivBG][aktivStufe] || 0) : 0;
+
+  if (!grundgehalt) {
+    document.getElementById('bl-netto').textContent = 'Nicht verfügbar';
+    return;
+  }
+
+  // Netto (Beamte: keine RV, keine ALV)
+  const r = bruttoNetto(grundgehalt, aktivSK, false, 1.45, !kinder);
+  const nettoBeamte = r.netto + r.rv + r.alv;
+
+  const diff = grundgehalt - bundWert;
+  const diffStr = (diff >= 0 ? '+' : '') + diff.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const diffCss = diff >= 0 ? 'diff-pos' : 'diff-neg';
+
+  // Rang ermitteln
+  const werte = LAENDER_NAMEN.map(l => getWert(l, aktivBG, aktivStufe)).filter(v => v > 0).sort((a,b) => b-a);
+  const rang = werte.indexOf(grundgehalt) + 1;
+
+  const f  = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+
+  document.getElementById('bl-netto').textContent        = f(nettoBeamte);
+  document.getElementById('bl-brutto-sub').textContent   = f(grundgehalt);
+  document.getElementById('bl-diff-sub').innerHTML       = `<span class="${diffCss}">${diffStr}</span>`;
+  document.getElementById('bl-rang-sub').textContent     = rang + ' / ' + werte.length;
+  document.getElementById('bl-land-label').textContent   = aktivLand;
+  document.getElementById('bl-bg-label').textContent     = aktivBG + ' · Stufe ' + (aktivStufe + 1);
+  document.getElementById('bl-grundgehalt').textContent  = f(grundgehalt);
+  document.getElementById('bl-bund-vgl').textContent     = bundWert ? f(bundWert) : '—';
+  document.getElementById('bl-diff-row').innerHTML       = `<span class="${diffCss}">${diffStr}</span>`;
+  document.getElementById('bl-jahresbrutto').textContent = f0(grundgehalt * 12);
+  document.getElementById('bl-bar-pct').textContent      = r.abgabenQuote + ' %';
+  document.getElementById('bl-bar').style.width          = Math.min(r.abgabenQuote, 100) + '%';
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+initLandGrid();
+initBGGrid();
+initStufeGroup();
+renderVergleich();
+calcLand();
+</script>
+</body>
+</html>

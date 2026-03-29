@@ -77,7 +77,11 @@ function renderNav(activePage = '') {
             </a>
             <a href="${base}/beamte-rechner" class="${isActive('beamte')}">
               <span class="nav-item-icon">⚖️</span>
-              <span><strong>Beamtenbesoldung</strong><small>A-Besoldung Bund</small></span>
+              <span><strong>Beamtenbesoldung Bund</strong><small>A-Besoldung A3–A16</small></span>
+            </a>
+            <a href="${base}/beamte-laender-rechner" class="${isActive('beamte-laender')}">
+              <span class="nav-item-icon">🗺️</span>
+              <span><strong>Beamte Länder</strong><small>Alle 16 Bundesländer</small></span>
             </a>
             <a href="${base}/tvoed-sue-rechner" class="${isActive('sue')}">
               <span class="nav-item-icon">🧸</span>
@@ -123,7 +127,8 @@ function renderNav(activePage = '') {
       <a href="${base}/etf-sparplan-rechner">📈 ETF-Sparplan</a>
       <a href="${base}/tvoed-rechner">🏛️ TVöD Gehaltsrechner</a>
       <a href="${base}/tv-l-rechner">🎓 TV-L Gehaltsrechner</a>
-      <a href="${base}/beamte-rechner">⚖️ Beamtenbesoldung</a>
+      <a href="${base}/beamte-rechner">⚖️ Beamte Bund</a>
+      <a href="${base}/beamte-laender-rechner">🗺️ Beamte Länder (alle 16)</a>
       <a href="${base}/tvoed-sue-rechner">🧸 TVöD-SuE Rechner</a>
       <a href="${base}/krankenkassenrechner">🏥 Krankenkasse</a>
     </div>
@@ -162,7 +167,8 @@ function renderFooter() {
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
             <li><a href="${base}/tvoed-rechner">TVöD Rechner</a></li>
             <li><a href="${base}/tv-l-rechner">TV-L Rechner</a></li>
-            <li><a href="${base}/beamte-rechner">Beamtenbesoldung</a></li>
+            <li><a href="${base}/beamte-rechner">Beamte Bund</a></li>
+            <li><a href="${base}/beamte-laender-rechner">Beamte Länder</a></li>
             <li><a href="${base}/tvoed-sue-rechner">TVöD-SuE</a></li>
             <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>
           </ul>
