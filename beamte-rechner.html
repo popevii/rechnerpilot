@@ -109,18 +109,67 @@
         </div>
 
 
+
         <div class="field">
-          <label>Pflegeversicherung</label>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
-            <label class="checkbox-row">
-              <input type="checkbox" id="beamte-kinder" onchange="calcBeamte()">
-              <span>Ich habe Kinder (PV-Satz 1,8 %)</span>
-            </label>
-            <label class="checkbox-row">
-              <input type="checkbox" id="beamte-unter23" onchange="calcBeamte()">
-              <span>Ich bin unter 23 Jahre (kein Kinderlosenzuschlag)</span>
-            </label>
+          <label>Steuerjahr</label>
+          <div class="toggle-group" id="beamte-jahr-group" style="flex-wrap:wrap;gap:6px;">
+            <button class="toggle-btn" data-val="2024" onclick="selectJahr(this)">2024</button>
+            <button class="toggle-btn" data-val="2025" onclick="selectJahr(this)">2025</button>
+            <button class="toggle-btn active" data-val="2026" onclick="selectJahr(this)">2026</button>
           </div>
+        </div>
+
+        <div class="field">
+          <label>Kirchensteuer</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <label class="checkbox-row" style="flex:1;">
+              <input type="checkbox" id="beamte-kirche" onchange="calcBeamte()">
+              <span>Ich zahle Kirchensteuer</span>
+            </label>
+            <select id="beamte-kirche-bl" onchange="calcBeamte()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;font-family:'Instrument Sans',sans-serif;color:var(--ink);outline:none;">
+              <option value="9">9 % (Standard)</option>
+              <option value="8">8 % (BY / BW)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>GKV-Zusatzbeitrag (AN-Anteil)</label>
+          <div class="input-wrap">
+            <input type="number" id="beamte-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcBeamte()">
+            <span class="input-unit">%</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø 2026: 1,45 %. Kasse prüfen: <a href="krankenkassenrechner.html" style="color:var(--accent)">KK-Rechner →</a></div>
+        </div>
+
+        <div class="field">
+          <label>Kinderfreibeträge (§ 32 EStG)</label>
+          <select id="beamte-kfb" onchange="calcBeamte()" class="hc-input" style="font-size:13px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-weight:500;color:var(--ink);width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;outline:none;">
+            <option value="0">0 — keine Kinder</option>
+            <option value="0.5">0,5 — anteilig</option>
+            <option value="1">1,0 — 1 Kind (allein erziehend)</option>
+            <option value="1.5">1,5</option>
+            <option value="2">2,0 — 2 Kinder (verheiratet)</option>
+            <option value="2.5">2,5</option>
+            <option value="3">3,0 — 3 Kinder</option>
+            <option value="3.5">3,5</option>
+            <option value="4">4,0 — 4+ Kinder</option>
+          </select>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">2026: 4.878 € je Elternteil. Wirkt bei Günstigerprüfung ggü. Kindergeld.</div>
+        </div>
+
+        <div class="field">
+          <label>Pflegeversicherung — Kinder</label>
+          <select id="beamte-pv-kinder" onchange="calcBeamte()" class="hc-input" style="font-size:13px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-weight:500;color:var(--ink);width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;outline:none;">
+            <option value="0">Keine Kinder, 23+ Jahre (2,1 % AN)</option>
+            <option value="-1">Unter 23 Jahre (1,8 % AN)</option>
+            <option value="1">1 Kind, egal wie alt (1,8 % AN)</option>
+            <option value="2">2 Kinder unter 25 Jahren (1,55 % AN)</option>
+            <option value="3">3 Kinder unter 25 Jahren (1,3 % AN)</option>
+            <option value="4">4 Kinder unter 25 Jahren (1,05 % AN)</option>
+            <option value="5">5+ Kinder unter 25 Jahren (0,9 % AN)</option>
+          </select>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Sachsen: +0,5 % AN. Abschlag je Kind ab dem 2. (§ 55 SGB XI).</div>
         </div>
 
         <div class="field">
@@ -129,8 +178,9 @@
             <input type="number" id="beamte-extra" value="0" min="0" step="10" oninput="calcBeamte()">
             <span class="input-unit">€/Monat</span>
           </div>
-          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">z.B. Amtszulage, Stellenzulage, Strukturzulage, Ballungsraumzulage</div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">z.B. Schichtzulage, Amtszulage, Stellenzulage, Ballungsraumzulage</div>
         </div>
+
 
       </div>
 
@@ -160,6 +210,19 @@
         <div class="result-row" id="beamte-extra-row" style="display:none">
           <span class="result-row-label">Weitere Zulagen</span>
           <span class="result-row-value pos" id="beamte-extra-anzeige">—</span>
+        </div>
+
+
+        <div id="beamte-soz-toggle" class="result-row soz-detail-toggle" onclick="toggleSozDetail('beamte-soz')">
+          <span class="result-row-label">⬇ Abzüge (Details)</span>
+          <span class="result-row-value neg" id="beamte-soz-sum">—</span>
+        </div>
+        <div id="beamte-soz-panel" class="soz-detail-panel">
+          <div class="soz-detail-row"><span>Lohnsteuer</span><span id="beamte-det-lst">—</span></div>
+          <div class="soz-detail-row"><span>Solidaritätszuschlag</span><span id="beamte-det-soli">—</span></div>
+          <div class="soz-detail-row"><span>Kirchensteuer</span><span id="beamte-det-kir">—</span></div>
+          <div class="soz-detail-row"><span>Pflegeversicherung (AN)</span><span id="beamte-det-pv">—</span></div>
+          <div class="soz-detail-row soz-total"><span>Gesamt</span><span id="beamte-det-total">—</span></div>
         </div>
 
         <div class="result-row"><span class="result-row-label">Besoldungsgruppe / Stufe</span><span class="result-row-value" id="beamte-bg-label">—</span></div>
@@ -288,8 +351,128 @@
 </div>
 
 <div id="footer-placeholder"></div>
-<script src="components.js"></script>
-<script src="steuer2026.js"></script>
+<script src="components.js">
+let aktivSteuerjahr = 2026;
+let _currentCalc = null;
+
+function selectJahr(btn) {
+  btn.closest('[id$="-jahr-group"]').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  aktivSteuerjahr = parseInt(btn.dataset.val);
+  if (typeof _currentCalc === 'function') _currentCalc();
+}
+
+function getP(prefix) {
+  const kirche   = document.getElementById(prefix+'-kirche')?.checked || false;
+  const kircheS  = parseInt(document.getElementById(prefix+'-kirche-bl')?.value || 9);
+  const kvz      = parseFloat(document.getElementById(prefix+'-kvz')?.value || 1.45);
+  const kfb      = parseFloat(document.getElementById(prefix+'-kfb')?.value || 0);
+  const pvK_raw  = parseInt(document.getElementById(prefix+'-pv-kinder')?.value || 0);
+  const unter23  = pvK_raw === -1;
+  const pvK      = unter23 ? 0 : pvK_raw;
+  const extra    = parseFloat(document.getElementById(prefix+'-extra')?.value || 0);
+  const vbl      = document.getElementById(prefix+'-vbl')?.value || 'keine';
+  return { kirche, kircheS, kvz, kfb, pvK, unter23, extra, vbl };
+}
+
+function calcVBL(brutto, typ) {
+  const b = Math.min(brutto, 5812.50);
+  if (typ==='west'||typ==='ost') return b*0.0181;
+  if (typ==='ost-riester') return b*0.0281;
+  if (typ==='kvbw') return b*0.0185;
+  return 0;
+}
+
+function toggleSozDetail(id) {
+  document.getElementById(id+'-toggle').classList.toggle('open');
+  document.getElementById(id+'-panel').classList.toggle('open');
+}
+
+function updateSozDetail(prefix, r, vblBetrag, extra) {
+  const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  set(prefix+'-det-lst',  '− '+f(r.lohnsteuer));
+  set(prefix+'-det-soli', r.soli>0 ? '− '+f(r.soli) : '0,00 €');
+  set(prefix+'-det-kir',  r.kirche>0 ? '− '+f(r.kirche) : '0,00 €');
+  if (document.getElementById(prefix+'-det-kv'))  set(prefix+'-det-kv',  '− '+f(r.kv));
+  if (document.getElementById(prefix+'-det-pv'))  set(prefix+'-det-pv',  '− '+f(r.pv));
+  if (document.getElementById(prefix+'-det-rv'))  set(prefix+'-det-rv',  '− '+f(r.rv));
+  if (document.getElementById(prefix+'-det-alv')) set(prefix+'-det-alv', '− '+f(r.alv));
+  if (document.getElementById(prefix+'-det-vbl')) set(prefix+'-det-vbl', vblBetrag>0 ? '− '+f(vblBetrag) : '0,00 €');
+  const tot = r.gesamtAbzuege + vblBetrag;
+  set(prefix+'-soz-sum',   '− '+f0(tot));
+  set(prefix+'-det-total', '− '+f0(tot));
+  // Extra
+  const exRow = document.getElementById(prefix+'-extra-row');
+  if (exRow) {
+    exRow.style.display = extra>0 ? 'flex' : 'none';
+    if(extra>0) set(prefix+'-extra-anzeige', '+ '+f(extra));
+  }
+}
+
+</script>
+<script src="steuer2026.js">
+let aktivSteuerjahr = 2026;
+let _currentCalc = null;
+
+function selectJahr(btn) {
+  btn.closest('[id$="-jahr-group"]').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  aktivSteuerjahr = parseInt(btn.dataset.val);
+  if (typeof _currentCalc === 'function') _currentCalc();
+}
+
+function getP(prefix) {
+  const kirche   = document.getElementById(prefix+'-kirche')?.checked || false;
+  const kircheS  = parseInt(document.getElementById(prefix+'-kirche-bl')?.value || 9);
+  const kvz      = parseFloat(document.getElementById(prefix+'-kvz')?.value || 1.45);
+  const kfb      = parseFloat(document.getElementById(prefix+'-kfb')?.value || 0);
+  const pvK_raw  = parseInt(document.getElementById(prefix+'-pv-kinder')?.value || 0);
+  const unter23  = pvK_raw === -1;
+  const pvK      = unter23 ? 0 : pvK_raw;
+  const extra    = parseFloat(document.getElementById(prefix+'-extra')?.value || 0);
+  const vbl      = document.getElementById(prefix+'-vbl')?.value || 'keine';
+  return { kirche, kircheS, kvz, kfb, pvK, unter23, extra, vbl };
+}
+
+function calcVBL(brutto, typ) {
+  const b = Math.min(brutto, 5812.50);
+  if (typ==='west'||typ==='ost') return b*0.0181;
+  if (typ==='ost-riester') return b*0.0281;
+  if (typ==='kvbw') return b*0.0185;
+  return 0;
+}
+
+function toggleSozDetail(id) {
+  document.getElementById(id+'-toggle').classList.toggle('open');
+  document.getElementById(id+'-panel').classList.toggle('open');
+}
+
+function updateSozDetail(prefix, r, vblBetrag, extra) {
+  const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  set(prefix+'-det-lst',  '− '+f(r.lohnsteuer));
+  set(prefix+'-det-soli', r.soli>0 ? '− '+f(r.soli) : '0,00 €');
+  set(prefix+'-det-kir',  r.kirche>0 ? '− '+f(r.kirche) : '0,00 €');
+  if (document.getElementById(prefix+'-det-kv'))  set(prefix+'-det-kv',  '− '+f(r.kv));
+  if (document.getElementById(prefix+'-det-pv'))  set(prefix+'-det-pv',  '− '+f(r.pv));
+  if (document.getElementById(prefix+'-det-rv'))  set(prefix+'-det-rv',  '− '+f(r.rv));
+  if (document.getElementById(prefix+'-det-alv')) set(prefix+'-det-alv', '− '+f(r.alv));
+  if (document.getElementById(prefix+'-det-vbl')) set(prefix+'-det-vbl', vblBetrag>0 ? '− '+f(vblBetrag) : '0,00 €');
+  const tot = r.gesamtAbzuege + vblBetrag;
+  set(prefix+'-soz-sum',   '− '+f0(tot));
+  set(prefix+'-det-total', '− '+f0(tot));
+  // Extra
+  const exRow = document.getElementById(prefix+'-extra-row');
+  if (exRow) {
+    exRow.style.display = extra>0 ? 'flex' : 'none';
+    if(extra>0) set(prefix+'-extra-anzeige', '+ '+f(extra));
+  }
+}
+
+</script>
 <script>
 // Bundesbesoldungstabelle A — Stufen [S1..S8]
 const BES_2025 = {
@@ -459,17 +642,22 @@ function calcBeamte() {
   const tabelle = getTabelle();
   const grundgehalt = tabelle[aktivBG][aktivStufe];
   const fz = calcFamilienzuschlag();
-  const gesamtBrutto = grundgehalt + fz + extra;
-  const kinder   = document.getElementById('beamte-kinder').checked;
-  const unter23  = document.getElementById('beamte-unter23').checked;
-  const extra    = parseFloat(document.getElementById('beamte-extra').value) || 0;
+
+  const p_beamte = getP('beamte');
+  _currentCalc = calcBeamte;
+  const gesamtBrutto = grundgehalt + fz + p_beamte.extra;
+  const r = bruttoNetto(gesamtBrutto, aktivSK, p_beamte.kirche, p_beamte.kvz, p_beamte.pvK===0&&!p_beamte.unter23, p_beamte.kircheS, false, aktivSteuerjahr, p_beamte.kfb, p_beamte.pvK, p_beamte.unter23);
+
+
+
+
 
   // Beamte: keine RV, keine ALV, nur Lohnsteuer + KV-Anteil (Beihilfe deckt Teil)
   // Wir berechnen Steuer normal, aber ohne RV/ALV (Beamte zahlen die nicht)
   // Vereinfacht: bruttoNetto aber dann RV und ALV abziehen
   const r = bruttoNetto(gesamtBrutto, aktivSK, false, 1.45, !kinder);
   // Beamte zahlen keine RV + ALV — Netto entsprechend höher
-  const nettoBeamte = r.netto + r.rv + r.alv;
+
 
   const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
   const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
@@ -509,6 +697,66 @@ initStufeGroup();
 updateLaufbahnBadge();
 renderTabelle();
 calcBeamte();
+
+let aktivSteuerjahr = 2026;
+let _currentCalc = null;
+
+function selectJahr(btn) {
+  btn.closest('[id$="-jahr-group"]').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  aktivSteuerjahr = parseInt(btn.dataset.val);
+  if (typeof _currentCalc === 'function') _currentCalc();
+}
+
+function getP(prefix) {
+  const kirche   = document.getElementById(prefix+'-kirche')?.checked || false;
+  const kircheS  = parseInt(document.getElementById(prefix+'-kirche-bl')?.value || 9);
+  const kvz      = parseFloat(document.getElementById(prefix+'-kvz')?.value || 1.45);
+  const kfb      = parseFloat(document.getElementById(prefix+'-kfb')?.value || 0);
+  const pvK_raw  = parseInt(document.getElementById(prefix+'-pv-kinder')?.value || 0);
+  const unter23  = pvK_raw === -1;
+  const pvK      = unter23 ? 0 : pvK_raw;
+  const extra    = parseFloat(document.getElementById(prefix+'-extra')?.value || 0);
+  const vbl      = document.getElementById(prefix+'-vbl')?.value || 'keine';
+  return { kirche, kircheS, kvz, kfb, pvK, unter23, extra, vbl };
+}
+
+function calcVBL(brutto, typ) {
+  const b = Math.min(brutto, 5812.50);
+  if (typ==='west'||typ==='ost') return b*0.0181;
+  if (typ==='ost-riester') return b*0.0281;
+  if (typ==='kvbw') return b*0.0185;
+  return 0;
+}
+
+function toggleSozDetail(id) {
+  document.getElementById(id+'-toggle').classList.toggle('open');
+  document.getElementById(id+'-panel').classList.toggle('open');
+}
+
+function updateSozDetail(prefix, r, vblBetrag, extra) {
+  const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  set(prefix+'-det-lst',  '− '+f(r.lohnsteuer));
+  set(prefix+'-det-soli', r.soli>0 ? '− '+f(r.soli) : '0,00 €');
+  set(prefix+'-det-kir',  r.kirche>0 ? '− '+f(r.kirche) : '0,00 €');
+  if (document.getElementById(prefix+'-det-kv'))  set(prefix+'-det-kv',  '− '+f(r.kv));
+  if (document.getElementById(prefix+'-det-pv'))  set(prefix+'-det-pv',  '− '+f(r.pv));
+  if (document.getElementById(prefix+'-det-rv'))  set(prefix+'-det-rv',  '− '+f(r.rv));
+  if (document.getElementById(prefix+'-det-alv')) set(prefix+'-det-alv', '− '+f(r.alv));
+  if (document.getElementById(prefix+'-det-vbl')) set(prefix+'-det-vbl', vblBetrag>0 ? '− '+f(vblBetrag) : '0,00 €');
+  const tot = r.gesamtAbzuege + vblBetrag;
+  set(prefix+'-soz-sum',   '− '+f0(tot));
+  set(prefix+'-det-total', '− '+f0(tot));
+  // Extra
+  const exRow = document.getElementById(prefix+'-extra-row');
+  if (exRow) {
+    exRow.style.display = extra>0 ? 'flex' : 'none';
+    if(extra>0) set(prefix+'-extra-anzeige', '+ '+f(extra));
+  }
+}
+
 </script>
 </body>
 </html>
