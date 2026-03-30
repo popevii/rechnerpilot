@@ -105,8 +105,16 @@ nav {
 }
 .nav-links a:hover,
 .nav-links a.active { background:var(--accent-light); color:var(--accent); }
-.nav-cta { background:var(--accent) !important; color:#fff !important; border-radius:8px; }
-.nav-cta:hover { opacity:.9 !important; background:var(--accent) !important; }
+.nav-cta { 
+  background:transparent !important; 
+  color:var(--accent) !important; 
+  border-radius:8px; 
+  border:1.5px solid var(--accent) !important;
+  font-size:13px !important;
+  padding:5px 14px !important;
+  font-weight:600 !important;
+}
+.nav-cta:hover { background:var(--accent-light) !important; }
 
 /* ── BUTTONS ── */
 .btn-primary {
