@@ -22,6 +22,13 @@
     ]
   }
 }
+
+// FAQ Toggle Fix
+setTimeout(() => {
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.onclick = () => q.closest('.faq-row').classList.toggle('open');
+  });
+}, 100);
 </script>
 <style>
 .tilgung-table { width:100%; border-collapse:collapse; margin-top:16px; font-size:13px; }
@@ -423,11 +430,21 @@ function calcKredit() {
 
 calcKredit();
 
-// FAQ Toggle
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => {
-    q.closest('.faq-row').classList.toggle('open');
+// FAQ Toggle — warten bis DOM vollständig geladen
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      q.closest('.faq-row').classList.toggle('open');
+    });
   });
+});
+
+// Fallback: direkter Klick-Handler auf .faq Container
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('faq-q') || e.target.closest('.faq-q')) {
+    const q = e.target.closest('.faq-q') || e.target;
+    q.closest('.faq-row')?.classList.toggle('open');
+  }
 });
 </script>
 </body>

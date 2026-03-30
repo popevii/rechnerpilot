@@ -14,9 +14,9 @@
 .jahres-table tr:last-child td { border-bottom:none; font-weight:700; color:var(--ink); }
 .jahres-table tr:nth-child(even) td { background:var(--bg); }
 .range-label { font-size:12px; color:var(--accent); font-weight:700; text-align:right; margin-top:4px; }
-.highlight-box { background:var(--accent); color:#fff; border-radius:14px; padding:20px 24px; margin:20px 0; }
-.highlight-box h3 { font-size:16px; margin-bottom:6px; }
-.highlight-box p { font-size:13.5px; opacity:.85; }
+.highlight-box { background:var(--accent); color:#ffffff; border-radius:14px; padding:20px 24px; margin:20px 0; }
+.highlight-box h3 { font-size:16px; margin-bottom:6px; color:#fff; }
+.highlight-box p { font-size:13.5px; color:#ffffff; }
 </style>
 
 <script type="application/ld+json">
@@ -39,6 +39,23 @@
     "url": "https://www.rechnerpilot.de"
   }
 }
+
+// FAQ Toggle — warten bis DOM vollständig geladen
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      q.closest('.faq-row').classList.toggle('open');
+    });
+  });
+});
+
+// Fallback: direkter Klick-Handler auf .faq Container
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('faq-q') || e.target.closest('.faq-q')) {
+    const q = e.target.closest('.faq-q') || e.target;
+    q.closest('.faq-row')?.classList.toggle('open');
+  }
+});
 </script>
 </head>
 <body data-page="etf">
@@ -143,6 +160,37 @@
         <tbody id="jahres-body"></tbody>
       </table>
     </div>
+  </div>
+
+  <div class="content-section fu d1">
+    <div style="background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:28px 28px 24px;color:#fff;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:rgba(255,255,255,.05);border-radius:50%;pointer-events:none;"></div>
+      <div style="position:absolute;bottom:-30px;left:-20px;width:120px;height:120px;background:rgba(255,255,255,.04);border-radius:50%;pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:8px;">Nächster Schritt</div>
+        <h2 style="font-family:'Instrument Serif',serif;font-size:22px;color:#fff;margin:0 0 10px;letter-spacing:-.2px;line-height:1.3;">ETF-Sparplan jetzt kostenlos starten</h2>
+        <p style="color:rgba(255,255,255,.92);font-size:13.5px;line-height:1.65;max-width:520px;margin:0 0 20px;">Du hast ausgerechnet wie dein Vermögen wächst — jetzt brauchst du nur noch den richtigen Broker. Kein Depot-Mindestguthaben, keine Ordergebühren, ab 1 € monatlich besparen.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+          <a href="DEIN-AFFILIATE-LINK-SCALABLE" target="_blank" rel="noopener sponsored"
+            style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1a5c3a;padding:13px 22px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.15);">
+            🚀 Scalable Capital — Depot eröffnen
+          </a>
+          <a href="DEIN-AFFILIATE-LINK-ETF" target="_blank" rel="noopener sponsored"
+            style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);color:#fff;padding:13px 22px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid rgba(255,255,255,.4);">
+            📊 ETF-Vergleich auf CHECK24
+          </a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18);">
+          <span style="font-size:12px;color:#ffffff;">✓ 0 € Depotgebühren</span>
+          <span style="font-size:12px;color:#ffffff;">✓ Ab 1 € Sparrate</span>
+          <span style="font-size:12px;color:#ffffff;">✓ 2.000+ ETFs</span>
+          <span style="font-size:12px;color:#ffffff;">✓ In 5 Minuten fertig</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;line-height:1.5;">* Partnerlinks — RechnerPilot erhält eine Provision bei Depot-Eröffnung über Scalable Capital oder CHECK24. Für dich entstehen keine Mehrkosten. Dies ist keine Anlageberatung.</p>
+  </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:10px;">* Partnerlink — RechnerPilot erhält eine Provision bei Depot-Eröffnung. Für dich entstehen keine Mehrkosten. Keine Anlageberatung.</p>
   </div>
 
   <div class="content-section">

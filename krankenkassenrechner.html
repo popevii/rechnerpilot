@@ -229,8 +229,21 @@ function calcKK() {
   document.getElementById('kk-pv').textContent     = '− ' + f(pv);
 }
 
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+// FAQ Toggle — warten bis DOM vollständig geladen
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      q.closest('.faq-row').classList.toggle('open');
+    });
+  });
+});
+
+// Fallback: direkter Klick-Handler auf .faq Container
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('faq-q') || e.target.closest('.faq-q')) {
+    const q = e.target.closest('.faq-q') || e.target;
+    q.closest('.faq-row')?.classList.toggle('open');
+  }
 });
 
 calcKK();
