@@ -28,7 +28,7 @@ function renderNav(activePage = '') {
 
     <ul class="nav-links">
       <li class="nav-dropdown">
-        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['brutto','kredit','etf','kk','altersvorsorge'])}">
+        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['brutto','kredit','etf','kk','altersvorsorge','etf-tools','zinseszins'])}">
           Finanzen <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
@@ -43,30 +43,34 @@ function renderNav(activePage = '') {
             <div class="nav-dropdown-label">Kredit & Anlage</div>
             <a href="${base}/kreditrechner" class="${isActive('kredit')}">
               <span class="nav-item-icon">🏦</span>
-              <span><strong>Kreditrechner</strong><small>Monatsrate & Tilgungsplan</small></span>
+              <span><strong>Kreditrechner</strong><small>Rate & Tilgungsplan</small></span>
             </a>
             <a href="${base}/etf-sparplan-rechner" class="${isActive('etf')}">
               <span class="nav-item-icon">📈</span>
-              <span><strong>ETF-Sparplan</strong><small>Vermögen aufbauen</small></span>
+              <span><strong>ETF Sparplan Rechner</strong><small>Rendite & Endkapital</small></span>
+            </a>
+            <a href="${base}/zinseszins-rechner" class="${isActive('zinseszins')}">
+              <span class="nav-item-icon">♾️</span>
+              <span><strong>Zinseszins Rechner</strong><small>Vermögenswachstum berechnen</small></span>
+            </a>
+            <a href="${base}/etf-rechner" class="${isActive('etf-tools')}">
+              <span class="nav-item-icon">🔬</span>
+              <span><strong>ETF Tools</strong><small>Vorabpauschale, Kosten, Wechsel</small></span>
             </a>
           </div>
           <div class="nav-dropdown-group">
             <div class="nav-dropdown-label">Altersvorsorge</div>
             <a href="${base}/altersvorsorge-rechner" class="${isActive('altersvorsorge')}">
               <span class="nav-item-icon">📊</span>
-              <span><strong>Rentenlücken-Rechner</strong><small>Wie viel Rente bekomme ich?</small></span>
+              <span><strong>Rentenlücken-Rechner</strong><small>Rentenlücke berechnen</small></span>
             </a>
             <a href="${base}/altersvorsorge-rechner#ruerup" class="${isActive('altersvorsorge')}">
-              <span class="nav-item-icon">📈</span>
+              <span class="nav-item-icon">🏛️</span>
               <span><strong>Rürup / Basisrente</strong><small>Steuerersparnis berechnen</small></span>
             </a>
             <a href="${base}/altersvorsorge-rechner#riester" class="${isActive('altersvorsorge')}">
               <span class="nav-item-icon">🏠</span>
-              <span><strong>Riester-Rechner</strong><small>Förderung & Zulage berechnen</small></span>
-            </a>
-            <a href="${base}/altersvorsorge-rechner#produkte" class="${isActive('altersvorsorge')}">
-              <span class="nav-item-icon">📋</span>
-              <span><strong>Private Rentenversicherung</strong><small>Alle Produkte vergleichen</small></span>
+              <span><strong>Riester-Rechner</strong><small>Förderung & Zulage</small></span>
             </a>
           </div>
           <div class="nav-dropdown-group">
@@ -75,7 +79,7 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">🏥</span>
               <span><strong>Krankenkasse</strong><small>GKV-Beitrag vergleichen</small></span>
             </a>
-          </div>
+          </div></div>
         </div>
       </li>
 
@@ -161,14 +165,19 @@ function renderNav(activePage = '') {
       <div class="mobile-nav-label">Finanzen</div>
       <a href="${base}/brutto-netto-rechner">💼 Brutto-Netto-Rechner</a>
       <a href="${base}/kreditrechner">🏦 Kreditrechner</a>
-      <a href="${base}/etf-sparplan-rechner">📈 ETF-Sparplan</a>
+      <a href="${base}/etf-sparplan-rechner">📈 ETF Sparplan</a>
+      <a href="${base}/zinseszins-rechner">♾️ Zinseszins Rechner</a>
+      <a href="${base}/etf-rechner">🔬 ETF Tools</a>
+      <a href="${base}/zinseszins-rechner">♾️ Zinseszins Rechner</a>
+      <a href="${base}/etf-rechner">🔬 ETF Tools</a>
       <a href="${base}/altersvorsorge-rechner">🏛️ Altersvorsorge & Rente</a>
+      <a href="${base}/krankenkassenrechner">🏥 Krankenkasse</a>
       <a href="${base}/tvoed-rechner">🏛️ TVöD Gehaltsrechner</a>
+      <a href="${base}/tvoed-sue-rechner">🧸 TVöD-SuE</a>
+      <a href="${base}/tvoed-p-rechner">🏥 TVöD-P Pflege</a>
       <a href="${base}/tv-l-rechner">🎓 TV-L Gehaltsrechner</a>
       <a href="${base}/beamte-rechner">⚖️ Beamte Bund</a>
       <a href="${base}/beamte-laender-rechner">🗺️ Beamte Länder (alle 16)</a>
-      <a href="${base}/tvoed-sue-rechner">🧸 TVöD-SuE Rechner</a>
-      <a href="${base}/krankenkassenrechner">🏥 Krankenkasse</a>
     </div>
     <div class="mobile-nav-section">
       <div class="mobile-nav-label">Energie</div>
@@ -203,13 +212,19 @@ function renderFooter() {
             <li><a href="${base}/brutto-netto-rechner">Brutto-Netto</a></li>
             <li><a href="${base}/kreditrechner">Kreditrechner</a></li>
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
+            <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
+            <li><a href="${base}/etf-rechner">ETF Tools</a></li>
+            <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
+            <li><a href="${base}/etf-rechner">ETF Tools</a></li>
             <li><a href="${base}/altersvorsorge-rechner">Altersvorsorge & Rente</a></li>
+            <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>
             <li><a href="${base}/tvoed-rechner">TVöD Rechner</a></li>
+            <li><a href="${base}/tvoed-sue-rechner">TVöD-SuE</a></li>
+            <li><a href="${base}/tvoed-p-rechner">TVöD-P Pflege</a></li>
+            <li><a href="${base}/tvoed-p-rechner">TVöD-P Pflege</a></li>
             <li><a href="${base}/tv-l-rechner">TV-L Rechner</a></li>
             <li><a href="${base}/beamte-rechner">Beamte Bund</a></li>
             <li><a href="${base}/beamte-laender-rechner">Beamte Länder</a></li>
-            <li><a href="${base}/tvoed-sue-rechner">TVöD-SuE</a></li>
-            <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>
           </ul>
         </div>
         <div class="footer-col">
