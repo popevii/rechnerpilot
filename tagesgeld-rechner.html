@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tagesgeld Rechner 2026 – Zinsen & Rendite berechnen | RechnerPilot</title>
+<meta name="description" content="Tagesgeld Rechner 2026: Zinsen berechnen, Anbieter vergleichen und beste Tagesgeldkonten finden. Aktuell bis zu 3,40 % p.a. Kostenlos & aktuell.">
+<link rel="canonical" href="https://www.rechnerpilot.de/tagesgeld-rechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Tagesgeld Rechner 2026",
+  "description": "Tagesgeld Zinsen berechnen und beste Angebote vergleichen",
+  "url": "https://www.rechnerpilot.de/tagesgeld-rechner",
+  "applicationCategory": "FinanceApplication",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+}
+</script>
+<style>
+.anbieter-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px; margin-top:16px; }
+.anbieter-card { background:var(--bg); border:1.5px solid var(--border); border-radius:12px; padding:16px; transition:border-color .15s; cursor:pointer; }
+.anbieter-card:hover { border-color:var(--accent); }
+.anbieter-card.selected { border-color:var(--accent); background:var(--accent-light); }
+.anbieter-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+.anbieter-name { font-size:15px; font-weight:700; color:var(--ink); }
+.anbieter-zins { font-size:22px; font-weight:800; font-family:'Instrument Serif',serif; color:var(--accent); }
+.anbieter-typ { font-size:11px; padding:3px 8px; border-radius:6px; font-weight:600; }
+.typ-aktion { background:#fff3cd; color:#856404; }
+.typ-standard { background:#d4edda; color:#155724; }
+.anbieter-details { font-size:12px; color:var(--ink-3); line-height:1.7; }
+.anbieter-details strong { color:var(--ink-2); }
+.zins-verlauf { display:flex; gap:6px; margin-top:8px; align-items:flex-end; height:40px; }
+.zv-bar { flex:1; background:var(--accent); border-radius:3px 3px 0 0; opacity:.7; transition:height .3s; min-height:3px; }
+.chart-wrap { position:relative; width:100%; height:260px; margin-top:16px; }
+.vergleich-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:12px; }
+.vergleich-table th { background:var(--accent); color:#fff; padding:10px 12px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.3px; }
+.vergleich-table th:not(:first-child) { text-align:right; }
+.vergleich-table td { padding:10px 12px; border-bottom:1px solid var(--border); color:var(--ink-2); }
+.vergleich-table td:not(:first-child) { text-align:right; }
+.vergleich-table tr:last-child td { border-bottom:none; }
+.vergleich-table .best td { background:var(--accent-light); font-weight:700; color:var(--accent); }
+.badge-best { background:var(--accent); color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; margin-left:6px; }
+</style>
+</head>
+<body data-page="tagesgeld">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Tagesgeld Rechner</span>
+    </div>
+    <h1>Tagesgeld Rechner 2026</h1>
+    <p>Berechne deine Zinsen, vergleiche aktuelle Tagesgeld-Angebote und finde das beste Konto für dein Erspartes. Aktuell bis zu <strong>3,40 % p.a.</strong></p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label data-tt="Betrag den du auf dem Tagesgeldkonto anlegen möchtest. Einlagensicherung bis 100.000 € pro Bank.">Anlagebetrag</label>
+          <div class="input-wrap">
+            <input type="number" id="tg-betrag" value="10000" step="1000" min="1" oninput="calcTagesgeld()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Wie lange du das Geld anlegen möchtest. Tagesgeld ist täglich verfügbar — du kannst jederzeit ein- und auszahlen.">Anlagedauer</label>
+          <div class="input-wrap">
+            <input type="range" id="tg-monate-slider" min="1" max="60" value="12"
+              oninput="document.getElementById('tg-monate').value=this.value; calcTagesgeld()" style="flex:1;">
+            <input type="number" id="tg-monate" value="12" min="1" max="60"
+              oninput="document.getElementById('tg-monate-slider').value=this.value; calcTagesgeld()" style="width:60px;">
+            <span class="input-unit">Monate</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Jährlicher Zinssatz deines Tagesgeldkontos. Aktuell bis zu 3,40 % (Neukunden). Tipp: Verwende die Angebote unten.">Zinssatz p.a.</label>
+          <div class="input-wrap">
+            <input type="number" id="tg-zins" value="3.25" step="0.05" min="0" max="10" oninput="calcTagesgeld()">
+            <span class="input-unit">%</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
+            Aktuell beste Angebote: bis 3,40 % (Neukunden) · Ø Bestandskunden: ~2,0 %
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Bei Aktionszinsen gilt oft nur ein befristeter Zins für Neukunden. Danach fällt der Zins auf den Standardzins zurück.">Aktionszins läuft nach ... Monaten aus</label>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+            <label class="checkbox-row" style="flex:1;">
+              <input type="checkbox" id="tg-aktion-cb" onchange="calcTagesgeld()">
+              <span>Aktionszins (Neukunden)</span>
+            </label>
+            <div class="input-wrap" style="width:80px;flex-shrink:0;">
+              <input type="number" id="tg-aktion-monate" value="3" min="1" max="12" oninput="calcTagesgeld()">
+              <span class="input-unit">Mo.</span>
+            </div>
+          </div>
+          <div id="tg-standard-wrap" style="display:none;margin-top:6px;">
+            <div class="input-wrap">
+              <input type="number" id="tg-standard-zins" value="1.5" step="0.05" min="0" max="10" oninput="calcTagesgeld()">
+              <span class="input-unit">% Standardzins danach</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Zinsgutschrift-Intervall beeinflusst den effektiven Jahreszins durch den Zinseszinseffekt.">Zinsgutschrift</label>
+          <div class="toggle-group" id="tg-periode-group" style="flex-wrap:wrap;gap:6px;">
+            <button class="toggle-btn" data-val="12" onclick="selectPeriode(this)">Monatlich</button>
+            <button class="toggle-btn" data-val="4" onclick="selectPeriode(this)">Quartalsweise</button>
+            <button class="toggle-btn active" data-val="1" onclick="selectPeriode(this)">Jährlich</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Sparerpauschbetrag 2026: 1.000 € Singles / 2.000 € Paare. Zinsen darüber werden mit 25 % + Soli besteuert.">Steuer berücksichtigen</label>
+          <label class="checkbox-row" style="margin-top:4px;">
+            <input type="checkbox" id="tg-steuer-cb" onchange="calcTagesgeld()">
+            <span>Abgeltungssteuer (25 % + Soli)</span>
+          </label>
+          <div id="tg-freibetrag-wrap" style="display:none;margin-top:6px;">
+            <div class="input-wrap">
+              <input type="number" id="tg-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcTagesgeld()">
+              <span class="input-unit">€ Freibetrag</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis</div>
+        <div class="result-main">
+          <div class="result-main-label">Zinsen gesamt</div>
+          <div class="result-main-value pos" id="tg-zinsen">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Endkapital</div><div class="rms-val" id="tg-endkapital">—</div></div>
+            <div><div class="rms-label">Eff. Jahreszins</div><div class="rms-val" id="tg-effektiv">—</div></div>
+            <div><div class="rms-label">Nach Steuer</div><div class="rms-val" id="tg-netto">—</div></div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Anlagebetrag</span><span class="result-row-value" id="tg-anlage">—</span></div>
+        <div class="result-row"><span class="result-row-label">Zinsen (brutto)</span><span class="result-row-value pos" id="tg-zinsen2">—</span></div>
+        <div class="result-row" id="tg-steuer-row" style="display:none"><span class="result-row-label">Steuer (26,375 %)</span><span class="result-row-value neg" id="tg-steuer-out">—</span></div>
+        <div class="result-row"><span class="result-row-label">Zinsen (netto)</span><span class="result-row-value pos" id="tg-zinsen-netto">—</span></div>
+        <div class="result-row"><span class="result-row-label">Endkapital</span><span class="result-row-value" id="tg-end2">—</span></div>
+        <div class="result-row"><span class="result-row-label">Effektiver Jahreszins</span><span class="result-row-value" id="tg-eff2">—</span></div>
+        <div class="result-row"><span class="result-row-label">Monatliche Zinsen (Ø)</span><span class="result-row-value pos" id="tg-monatlich">—</span></div>
+
+        <div class="chart-wrap">
+          <canvas id="tg-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANBIETER VERGLEICH -->
+  <div class="content-section fu d2">
+    <h2>Aktuelle Tagesgeld-Angebote April 2026</h2>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:4px;">Klicke auf ein Angebot um es in den Rechner zu übernehmen. Stand: 01.04.2026 — Zinsen können sich täglich ändern.</p>
+
+    <div class="anbieter-grid" id="anbieter-grid"></div>
+
+    <p style="font-size:11px;color:var(--ink-3);margin-top:12px;">* Alle Angaben ohne Gewähr. Bitte prüfe aktuelle Konditionen direkt beim Anbieter. Aktionszinsen gelten nur für Neukunden und sind zeitlich begrenzt.</p>
+  </div>
+
+  <!-- VERGLEICHSTABELLE -->
+  <div class="content-section">
+    <h2>Vergleich: Was bringen 10.000 € für 12 Monate?</h2>
+    <div style="overflow-x:auto;">
+      <table class="vergleich-table" id="vgl-table">
+        <thead>
+          <tr>
+            <th>Anbieter</th>
+            <th>Zinssatz</th>
+            <th>Zinsen (brutto)</th>
+            <th>Typ</th>
+          </tr>
+        </thead>
+        <tbody id="vgl-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- AFFILIATE -->
+  <div class="content-section">
+    <div style="background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:24px 28px;color:#fff;">
+      <h2 style="font-family:'Instrument Serif',serif;font-size:20px;color:#fff;margin:0 0 8px;">Alle Tagesgeld-Angebote vergleichen</h2>
+      <p style="color:rgba(255,255,255,.9);font-size:13px;line-height:1.6;margin:0 0 16px;">CHECK24 vergleicht hunderte Tagesgeld-Angebote täglich aktuell — kostenlos und unverbindlich.</p>
+      <a href="https://www.c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored"
+        style="display:inline-flex;align-items:center;gap:7px;background:#fff;color:#1a5c3a;padding:11px 20px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:none;">
+        🏦 Jetzt Tagesgeld vergleichen →
+      </a>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung. Zinsen täglich aktuell auf CHECK24.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zum Tagesgeld</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Ist Tagesgeld sicher?</div>
+        <div class="faq-a">Ja — Tagesgeldkonten bei EU-Banken sind durch die gesetzliche Einlagensicherung bis zu 100.000 € pro Person und Bank abgesichert. Bei deutschen Banken kommt oft noch der freiwillige Einlagensicherungsfonds des Bankenverbands hinzu, der noch höhere Beträge absichert. Wichtig: Bei ausländischen Banken ohne deutsche Niederlassung gilt nur die Einlagensicherung des jeweiligen Landes.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist der Unterschied zwischen Aktions- und Standardzins?</div>
+        <div class="faq-a">Aktionszinsen sind befristete Angebote für Neukunden — meist 3 bis 6 Monate garantiert, danach fällt der Zins auf den deutlich niedrigeren Standardzins zurück. Wer den besten Zins dauerhaft will, muss regelmäßig wechseln (sogenanntes "Zinshopping"). Das ist bei Tagesgeld unproblematisch für die Schufa, da keine Kreditanfrage gestellt wird.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie werden Tagesgeld-Zinsen versteuert?</div>
+        <div class="faq-a">Zinsen aus Tagesgeld unterliegen der Abgeltungssteuer von 25 % plus 5,5 % Solidaritätszuschlag (= 26,375 %). Der Sparerpauschbetrag beträgt 1.000 € pro Person (2.000 € bei Paaren). Bis zu diesem Betrag sind Zinsen steuerfrei. Stelle sicher dass du bei deiner Bank einen Freistellungsauftrag eingerichtet hast.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Lohnt sich Tagesgeld gegenüber ETFs?</div>
+        <div class="faq-a">Tagesgeld eignet sich perfekt für den Notgroschen (3–6 Monatsgehälter) und kurzfristiges Sparziel (bis 2–3 Jahre) — weil das Geld täglich verfügbar ist und kein Kursrisiko besteht. Für langfristigen Vermögensaufbau (5+ Jahre) sind ETFs mit historisch ca. 7 % Rendite deutlich rentabler. Die ideale Strategie: Notgroschen auf Tagesgeld, Rest in ETFs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="zinseszins-rechner.html" class="cc">
+        <div class="cc-icon bg-g">♾️</div>
+        <h3>Zinseszins Rechner</h3>
+        <p>Langfristiges Vermögenswachstum berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan Rechner</h3>
+        <p>Rendite mit ETFs berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="inflationsrechner.html" class="cc">
+        <div class="cc-icon bg-g">📉</div>
+        <h3>Inflationsrechner</h3>
+        <p>Kaufkraft und Realrendite berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// Aktuelle Angebote April 2026
+const ANGEBOTE = [
+  { name:'Consorsbank', zins:3.40, standard:1.50, aktionMonate:3,  typ:'aktion',   info:'Neukunden, 3 Monate garantiert. Depot wird automatisch mitgeöffnet.' },
+  { name:'Santander',   zins:3.30, standard:1.00, aktionMonate:4,  typ:'aktion',   info:'Neukunden, 4 Monate garantiert. Kein Girokonto nötig.' },
+  { name:'Bank of Scotland', zins:3.25, standard:2.50, aktionMonate:3, typ:'aktion', info:'Neukunden, 3 Monate. Danach solider Standardzins.' },
+  { name:'ING',         zins:3.25, standard:1.50, aktionMonate:6,  typ:'aktion',   info:'Neukunden, 6 Monate. Eines der bekanntesten Angebote.' },
+  { name:'Trade Republic', zins:3.25, standard:3.25, aktionMonate:0, typ:'standard', info:'Zinsen auf Cash-Konto. Gilt dauerhaft für alle Kunden. Depot nötig.' },
+  { name:'Scalable Capital', zins:3.25, standard:3.25, aktionMonate:0, typ:'standard', info:'Prime+ Mitgliedschaft nötig (2,99 €/Monat). Depot nötig.' },
+  { name:'Openbank',    zins:3.00, standard:2.20, aktionMonate:3,  typ:'aktion',   info:'Neukunden, 3 Monate. Danach 2,20 % Standardzins.' },
+  { name:'DKB',         zins:2.75, standard:1.00, aktionMonate:4,  typ:'aktion',   info:'Neugeld-Aktion Mai–Aug 2026. Für neue & bestehende Kunden.' },
+  { name:'Renault Bank', zins:2.75, standard:2.75, aktionMonate:0, typ:'standard', info:'Dauerhafter Zins für alle Kunden. Keine Bedingungen.' },
+];
+
+let tgChart = null;
+let zinsPeriode = 1;
+
+const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
+const fp = n => n.toFixed(2).replace('.',',')+' %';
+const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+
+function selectPeriode(btn) {
+  zinsPeriode = parseInt(btn.dataset.val);
+  document.querySelectorAll('#tg-periode-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcTagesgeld();
+}
+
+function useAngebot(a) {
+  document.getElementById('tg-zins').value = a.zins;
+  document.querySelectorAll('.anbieter-card').forEach(c => c.classList.remove('selected'));
+  if (a.aktionMonate > 0) {
+    document.getElementById('tg-aktion-cb').checked = true;
+    document.getElementById('tg-aktion-monate').value = a.aktionMonate;
+    document.getElementById('tg-standard-zins').value = a.standard;
+    document.getElementById('tg-standard-wrap').style.display = 'block';
+  } else {
+    document.getElementById('tg-aktion-cb').checked = false;
+    document.getElementById('tg-standard-wrap').style.display = 'none';
+  }
+  calcTagesgeld();
+}
+
+function calcTagesgeld() {
+  const betrag  = parseFloat(document.getElementById('tg-betrag').value) || 0;
+  const monate  = parseInt(document.getElementById('tg-monate').value) || 12;
+  const zins    = parseFloat(document.getElementById('tg-zins').value) / 100 || 0;
+  const mitAktion = document.getElementById('tg-aktion-cb').checked;
+  const aktionMo  = parseInt(document.getElementById('tg-aktion-monate').value) || 3;
+  const standardZ = parseFloat(document.getElementById('tg-standard-zins').value) / 100 || 0.015;
+  const mitSteuer = document.getElementById('tg-steuer-cb').checked;
+  const freibetrag = parseFloat(document.getElementById('tg-freibetrag').value) || 1000;
+
+  document.getElementById('tg-standard-wrap').style.display = mitAktion ? 'block' : 'none';
+  document.getElementById('tg-freibetrag-wrap').style.display = mitSteuer ? 'block' : 'none';
+  document.getElementById('tg-steuer-row').style.display = mitSteuer ? 'flex' : 'none';
+  document.getElementById('tg-monate-slider').value = monate;
+
+  // Zinsen berechnen mit Zinseszins je nach Periode
+  function calcZinsen(kapital, zinsp, mon) {
+    const perPeriode = zinsp / zinsPeriode;
+    const perioden = mon / 12 * zinsPeriode;
+    return kapital * (Math.pow(1 + perPeriode, perioden) - 1);
+  }
+
+  let zinsenGesamt = 0;
+  let chartLabels = [], chartDaten = [], chartZinsen = [];
+  let laufendesKapital = betrag;
+
+  if (mitAktion && aktionMo < monate) {
+    const z1 = calcZinsen(betrag, zins, aktionMo);
+    const z2 = calcZinsen(betrag + z1, standardZ, monate - aktionMo);
+    zinsenGesamt = z1 + z2;
+  } else {
+    zinsenGesamt = calcZinsen(betrag, zins, monate);
+  }
+
+  const endkapital = betrag + zinsenGesamt;
+  const effJahresZins = (Math.pow(endkapital / betrag, 12 / monate) - 1) * 100;
+  const steuer = mitSteuer ? Math.max(0, zinsenGesamt - freibetrag) * 0.26375 : 0;
+  const zinsenNetto = zinsenGesamt - steuer;
+  const monatlichZins = zinsenGesamt / monate;
+
+  set('tg-zinsen',       f(zinsenGesamt));
+  set('tg-endkapital',   f(endkapital));
+  set('tg-effektiv',     fp(effJahresZins));
+  set('tg-netto',        f(betrag + zinsenNetto));
+  set('tg-anlage',       f(betrag));
+  set('tg-zinsen2',      '+ ' + f(zinsenGesamt));
+  set('tg-steuer-out',   steuer > 0 ? '− ' + f(steuer) : '0,00 €');
+  set('tg-zinsen-netto', '+ ' + f(zinsenNetto));
+  set('tg-end2',         f(endkapital));
+  set('tg-eff2',         fp(effJahresZins));
+  set('tg-monatlich',    '+ ' + f(monatlichZins));
+
+  // Chart — monatlicher Verlauf
+  for (let m = 1; m <= Math.min(monate, 24); m++) {
+    const aktZins = mitAktion && m <= aktionMo ? zins : (mitAktion ? standardZ : zins);
+    const z = calcZinsen(betrag, aktZins, m);
+    chartLabels.push('M' + m);
+    chartDaten.push(Math.round(betrag + z));
+    chartZinsen.push(Math.round(z));
+  }
+
+  if (tgChart) tgChart.destroy();
+  const ctx = document.getElementById('tg-chart').getContext('2d');
+  tgChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: chartLabels,
+      datasets: [{
+        label: 'Kapital',
+        data: chartDaten,
+        borderColor: '#1a5c3a',
+        backgroundColor: 'rgba(26,92,58,.1)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, maxTicksLimit: 12 } },
+        y: { ticks: {
+          callback: v => v >= 1000 ? (v/1000).toFixed(1)+'k' : v,
+          font: { size: 10 }
+        }}
+      }
+    }
+  });
+}
+
+// Anbieter-Grid rendern
+function renderAnbieter() {
+  const grid = document.getElementById('anbieter-grid');
+  grid.innerHTML = ANGEBOTE.map((a, i) => `
+    <div class="anbieter-card" onclick="useAngebot(${JSON.stringify(a).replace(/"/g,"'")}, this)">
+      <div class="anbieter-top">
+        <div>
+          <div class="anbieter-name">${a.name}</div>
+          <span class="anbieter-typ ${a.typ === 'aktion' ? 'typ-aktion' : 'typ-standard'}">
+            ${a.typ === 'aktion' ? '⏱ Aktionszins' : '✅ Standardzins'}
+          </span>
+        </div>
+        <div class="anbieter-zins">${a.zins.toFixed(2).replace('.',',')} %</div>
+      </div>
+      <div class="anbieter-details">
+        <strong>${a.typ === 'aktion' ? `${a.aktionMonate} Monate garantiert · dann ${a.standard.toFixed(2).replace('.',',')} %` : 'Dauerhaft für alle Kunden'}</strong><br>
+        ${a.info}
+      </div>
+    </div>
+  `).join('');
+
+  // Vergleichstabelle
+  const tbody = document.getElementById('vgl-tbody');
+  const sorted = [...ANGEBOTE].sort((a,b) => b.zins - a.zins);
+  tbody.innerHTML = sorted.map((a, i) => {
+    const zinsen12 = 10000 * (a.zins / 100);
+    return `<tr class="${i === 0 ? 'best' : ''}">
+      <td>${a.name}${i === 0 ? '<span class="badge-best">Beste Rate</span>' : ''}</td>
+      <td>${a.zins.toFixed(2).replace('.',',')} %</td>
+      <td>+ ${Math.round(zinsen12).toLocaleString('de-DE')} €</td>
+      <td>${a.typ === 'aktion' ? '⏱ Aktions' : '✅ Standard'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// Fix: useAngebot mit Objekt statt String
+function useAngebot(a) {
+  document.getElementById('tg-zins').value = a.zins;
+  if (a.aktionMonate > 0) {
+    document.getElementById('tg-aktion-cb').checked = true;
+    document.getElementById('tg-aktion-monate').value = a.aktionMonate;
+    document.getElementById('tg-standard-zins').value = a.standard;
+    document.getElementById('tg-standard-wrap').style.display = 'block';
+  } else {
+    document.getElementById('tg-aktion-cb').checked = false;
+    document.getElementById('tg-standard-wrap').style.display = 'none';
+  }
+  calcTagesgeld();
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+document.querySelectorAll('label[data-tt]').forEach(label => {
+  const text = label.getAttribute('data-tt');
+  if (text) label.innerHTML += ` <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span></span>`;
+});
+
+renderAnbieter();
+calcTagesgeld();
+</script>
+</body>
+</html>
