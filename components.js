@@ -80,33 +80,51 @@ function renderNav(activePage = '') {
       </li>
 
       <li class="nav-dropdown">
-        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['tvoed','tvl'])}">
+        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['tvoed','tvl','beamte','beamte-laender','sue'])}">
           Öffentlicher Dienst <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
+
           <div class="nav-dropdown-group">
-            <div class="nav-dropdown-label">Tarifverträge</div>
+            <div class="nav-dropdown-label">TVöD</div>
             <a href="${base}/tvoed-rechner" class="${isActive('tvoed')}">
               <span class="nav-item-icon">🏛️</span>
-              <span><strong>TVöD Gehaltsrechner</strong><small>Kommunen & Bund</small></span>
+              <span><strong>TVöD VKA</strong><small>Kommunen</small></span>
             </a>
-            <a href="${base}/tv-l-rechner" class="${isActive('tvl')}">
-              <span class="nav-item-icon">🎓</span>
-              <span><strong>TV-L Gehaltsrechner</strong><small>Länder & Hochschulen</small></span>
-            </a>
-            <a href="${base}/beamte-rechner" class="${isActive('beamte')}">
-              <span class="nav-item-icon">⚖️</span>
-              <span><strong>Beamtenbesoldung Bund</strong><small>A-Besoldung A3–A16</small></span>
-            </a>
-            <a href="${base}/beamte-laender-rechner" class="${isActive('beamte-laender')}">
-              <span class="nav-item-icon">🗺️</span>
-              <span><strong>Beamte Länder</strong><small>Alle 16 Bundesländer</small></span>
+            <a href="${base}/tvoed-rechner#bund" class="${isActive('tvoed')}">
+              <span class="nav-item-icon">🏛️</span>
+              <span><strong>TVöD Bund</strong><small>Bundesbehörden</small></span>
             </a>
             <a href="${base}/tvoed-sue-rechner" class="${isActive('sue')}">
               <span class="nav-item-icon">🧸</span>
               <span><strong>TVöD-SuE</strong><small>Erzieher & Sozialpädagogen</small></span>
             </a>
+            <a href="${base}/tvoed-rechner#pflege" class="${isActive('tvoed')}">
+              <span class="nav-item-icon">🏥</span>
+              <span><strong>TVöD-P</strong><small>Pflege — bald verfügbar</small></span>
+            </a>
           </div>
+
+          <div class="nav-dropdown-group">
+            <div class="nav-dropdown-label">Beamte</div>
+            <a href="${base}/beamte-rechner" class="${isActive('beamte')}">
+              <span class="nav-item-icon">⚖️</span>
+              <span><strong>Beamte Bund</strong><small>A-Besoldung A3–A16</small></span>
+            </a>
+            <a href="${base}/beamte-laender-rechner" class="${isActive('beamte-laender')}">
+              <span class="nav-item-icon">🗺️</span>
+              <span><strong>Beamte Länder</strong><small>Alle 16 Bundesländer</small></span>
+            </a>
+          </div>
+
+          <div class="nav-dropdown-group">
+            <div class="nav-dropdown-label">TV-L</div>
+            <a href="${base}/tv-l-rechner" class="${isActive('tvl')}">
+              <span class="nav-item-icon">🎓</span>
+              <span><strong>TV-L</strong><small>Länder & Hochschulen</small></span>
+            </a>
+          </div>
+
         </div>
       </li>
 
