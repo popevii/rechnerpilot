@@ -28,7 +28,7 @@ function renderNav(activePage = '') {
 
     <ul class="nav-links">
       <li class="nav-dropdown">
-        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['brutto','kredit','etf','kk'])}">
+        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['brutto','kredit','etf','kk','altersvorsorge'])}">
           Finanzen <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
@@ -48,6 +48,13 @@ function renderNav(activePage = '') {
             <a href="${base}/etf-sparplan-rechner" class="${isActive('etf')}">
               <span class="nav-item-icon">📈</span>
               <span><strong>ETF-Sparplan</strong><small>Vermögen aufbauen</small></span>
+            </a>
+          </div>
+          <div class="nav-dropdown-group">
+            <div class="nav-dropdown-label">Altersvorsorge</div>
+            <a href="${base}/altersvorsorge-rechner" class="${isActive('altersvorsorge')}">
+              <span class="nav-item-icon">🏛️</span>
+              <span><strong>Altersvorsorge</strong><small>Rentenlücke, Rürup, Riester</small></span>
             </a>
           </div>
           <div class="nav-dropdown-group">
@@ -125,6 +132,7 @@ function renderNav(activePage = '') {
       <a href="${base}/brutto-netto-rechner">💼 Brutto-Netto-Rechner</a>
       <a href="${base}/kreditrechner">🏦 Kreditrechner</a>
       <a href="${base}/etf-sparplan-rechner">📈 ETF-Sparplan</a>
+      <a href="${base}/altersvorsorge-rechner">🏛️ Altersvorsorge & Rente</a>
       <a href="${base}/tvoed-rechner">🏛️ TVöD Gehaltsrechner</a>
       <a href="${base}/tv-l-rechner">🎓 TV-L Gehaltsrechner</a>
       <a href="${base}/beamte-rechner">⚖️ Beamte Bund</a>
@@ -165,6 +173,7 @@ function renderFooter() {
             <li><a href="${base}/brutto-netto-rechner">Brutto-Netto</a></li>
             <li><a href="${base}/kreditrechner">Kreditrechner</a></li>
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
+            <li><a href="${base}/altersvorsorge-rechner">Altersvorsorge & Rente</a></li>
             <li><a href="${base}/tvoed-rechner">TVöD Rechner</a></li>
             <li><a href="${base}/tv-l-rechner">TV-L Rechner</a></li>
             <li><a href="${base}/beamte-rechner">Beamte Bund</a></li>
