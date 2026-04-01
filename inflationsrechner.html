@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inflationsrechner 2026 – Kaufkraft & Geldwert berechnen | RechnerPilot</title>
+<meta name="description" content="Inflationsrechner 2026: Kaufkraftverlust berechnen, Geldwert über Zeit vergleichen und herausfinden wie viel dein Geld noch wert ist. Mit historischen Inflationsraten.">
+<link rel="canonical" href="https://www.rechnerpilot.de/inflationsrechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Inflationsrechner 2026",
+  "description": "Kaufkraftverlust und Geldwert durch Inflation berechnen",
+  "url": "https://www.rechnerpilot.de/inflationsrechner",
+  "applicationCategory": "FinanceApplication",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+}
+</script>
+<style>
+.chart-wrap { position:relative; width:100%; height:280px; margin-top:16px; }
+.inf-tabs { display:flex; gap:4px; margin-bottom:20px; flex-wrap:wrap; }
+.inf-tab { padding:9px 18px; border-radius:8px; border:1.5px solid var(--border); background:var(--bg); font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:600; color:var(--ink-2); cursor:pointer; transition:all .15s; }
+.inf-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.inf-section { display:none; }
+.inf-section.active { display:block; }
+.hist-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px; margin-top:12px; }
+.hist-box { background:var(--bg); border:1.5px solid var(--border); border-radius:10px; padding:12px; text-align:center; cursor:pointer; transition:all .15s; }
+.hist-box:hover { border-color:var(--accent); }
+.hist-box.active { background:var(--accent-light); border-color:var(--accent); }
+.hist-val { font-size:18px; font-weight:800; font-family:'Instrument Serif',serif; }
+.hist-val.neg { color:#e74c3c; }
+.hist-val.pos { color:#1a5c3a; }
+.hist-label { font-size:11px; color:var(--ink-3); margin-top:2px; }
+.kaufkraft-vis { margin:16px 0; }
+.kk-bar { display:flex; gap:16px; align-items:center; margin-bottom:8px; }
+.kk-bar-label { font-size:12px; font-weight:600; color:var(--ink-2); min-width:70px; }
+.kk-bar-track { flex:1; height:28px; background:var(--border); border-radius:6px; overflow:hidden; position:relative; }
+.kk-bar-fill { height:100%; border-radius:6px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; font-size:11px; font-weight:700; color:#fff; transition:width .4s; }
+</style>
+</head>
+<body data-page="inflation">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Inflationsrechner</span>
+    </div>
+    <h1>Inflationsrechner 2026</h1>
+    <p>Berechne den Kaufkraftverlust deines Geldes, vergleiche Geldwerte über verschiedene Zeiträume und schütze dein Vermögen vor Inflation.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="inf-tabs">
+      <button class="inf-tab active" onclick="switchInfTab('kaufkraft', this)">💶 Kaufkraft berechnen</button>
+      <button class="inf-tab" onclick="switchInfTab('zukunft', this)">🔮 Zukunftswert</button>
+      <button class="inf-tab" onclick="switchInfTab('rendite', this)">📈 Realrendite</button>
+    </div>
+
+    <!-- TAB 1: KAUFKRAFT -->
+    <div id="tab-kaufkraft" class="inf-section active">
+      <div class="calc-body">
+        <div class="inputs-panel">
+          <div class="field">
+            <label data-tt="Der Betrag dessen Kaufkraft du berechnen möchtest.">Geldbetrag</label>
+            <div class="input-wrap">
+              <input type="number" id="kk-betrag" value="10000" step="500" oninput="calcKaufkraft()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Ausgangsjahr — wann war dieser Betrag verfügbar?">Von Jahr</label>
+            <div class="input-wrap">
+              <input type="number" id="kk-von" value="2000" min="1950" max="2026" step="1" oninput="calcKaufkraft()">
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Zieljahr — wie viel müsste man heute ausgeben um die gleiche Kaufkraft zu haben?">Bis Jahr</label>
+            <div class="input-wrap">
+              <input type="number" id="kk-bis" value="2026" min="1950" max="2050" step="1" oninput="calcKaufkraft()">
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Durchschnittliche jährliche Inflation für den Zeitraum. Historisch DE: ca. 2,5 % langfristig.">Ø Inflationsrate</label>
+            <div class="input-wrap">
+              <input type="number" id="kk-rate" value="2.5" step="0.1" min="0" max="20" oninput="calcKaufkraft()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Deutschland: Ø ~2,5 % langfristig · 2022–2023 Hochphase: ~8 % · 2026: ~2,3 %</div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">Kaufkraft-Analyse</div>
+          <div class="result-main">
+            <div class="result-main-label">Heutiger Gegenwert</div>
+            <div class="result-main-value" id="kk-heute">—</div>
+            <div class="result-main-sub">
+              <div><div class="rms-label">Kaufkraftverlust</div><div class="rms-val neg" id="kk-verlust">—</div></div>
+              <div><div class="rms-label">Kaufkraft noch</div><div class="rms-val" id="kk-prozent">—</div></div>
+              <div><div class="rms-label">Zeitraum</div><div class="rms-val" id="kk-zeitraum">—</div></div>
+            </div>
+          </div>
+
+          <div class="kaufkraft-vis">
+            <div class="kk-bar">
+              <div class="kk-bar-label" id="kk-von-label">2000</div>
+              <div class="kk-bar-track">
+                <div class="kk-bar-fill" id="kk-bar-alt" style="width:100%;background:var(--accent);">10.000 €</div>
+              </div>
+            </div>
+            <div class="kk-bar">
+              <div class="kk-bar-label" id="kk-bis-label">2026</div>
+              <div class="kk-bar-track">
+                <div class="kk-bar-fill" id="kk-bar-neu" style="width:60%;background:#e74c3c;">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-row"><span class="result-row-label">Ursprünglicher Betrag</span><span class="result-row-value" id="kk-original">—</span></div>
+          <div class="result-row"><span class="result-row-label">Heutiger Gegenwert (nom.)</span><span class="result-row-value pos" id="kk-nominal">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kaufkraftverlust</span><span class="result-row-value neg" id="kk-verlust2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Reale Kaufkraft noch</span><span class="result-row-value" id="kk-real-pct">—</span></div>
+          <div class="result-row"><span class="result-row-label">Gesamtinflation im Zeitraum</span><span class="result-row-value neg" id="kk-gesamt-inf">—</span></div>
+        </div>
+      </div>
+
+      <!-- HISTORISCHE INFLATIONSRATEN -->
+      <div style="margin-top:20px;">
+        <h3 style="font-family:'Instrument Serif',serif;font-size:17px;margin-bottom:8px;">Historische Inflationsraten Deutschland</h3>
+        <p style="font-size:13px;color:var(--ink-3);margin-bottom:12px;">Klicke auf ein Jahr um es zu übernehmen:</p>
+        <div class="hist-grid">
+          <div class="hist-box" onclick="setHistJahr(2022, 6.9)"><div class="hist-val neg">6,9 %</div><div class="hist-label">2022</div></div>
+          <div class="hist-box" onclick="setHistJahr(2023, 5.9)"><div class="hist-val neg">5,9 %</div><div class="hist-label">2023</div></div>
+          <div class="hist-box" onclick="setHistJahr(2024, 2.2)"><div class="hist-val pos">2,2 %</div><div class="hist-label">2024</div></div>
+          <div class="hist-box" onclick="setHistJahr(2025, 2.3)"><div class="hist-val pos">2,3 %</div><div class="hist-label">2025 (Schätzung)</div></div>
+          <div class="hist-box" onclick="setHistJahr(2010, 1.1)"><div class="hist-val pos">1,1 %</div><div class="hist-label">2010</div></div>
+          <div class="hist-box" onclick="setHistJahr(2008, 2.6)"><div class="hist-val pos">2,6 %</div><div class="hist-label">2008</div></div>
+          <div class="hist-box" onclick="setHistJahr(2000, 2.5)"><div class="hist-val pos">Ø 2,5 %</div><div class="hist-label">Langfristig</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ZUKUNFTSWERT -->
+    <div id="tab-zukunft" class="inf-section">
+      <div class="calc-body">
+        <div class="inputs-panel">
+          <div class="field">
+            <label data-tt="Betrag den du heute hast oder sparen möchtest.">Heutiger Betrag</label>
+            <div class="input-wrap">
+              <input type="number" id="zk-betrag" value="10000" step="500" oninput="calcZukunft()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Wie viele Jahre bis du das Geld brauchst oder ausgeben willst.">Zeitraum</label>
+            <div class="input-wrap">
+              <input type="range" id="zk-jahre-slider" min="1" max="40" value="10"
+                oninput="document.getElementById('zk-jahre').value=this.value; calcZukunft()" style="flex:1;">
+              <input type="number" id="zk-jahre" value="10" min="1" max="40"
+                oninput="document.getElementById('zk-jahre-slider').value=this.value; calcZukunft()" style="width:60px;">
+              <span class="input-unit">Jahre</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Erwartete durchschnittliche Inflationsrate pro Jahr.">Inflationsrate</label>
+            <div class="input-wrap">
+              <input type="number" id="zk-inflation" value="2.5" step="0.1" min="0" max="15" oninput="calcZukunft()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Falls du das Geld anlegen willst — wie hoch ist die erwartete Rendite?">Rendite der Anlage (optional)</label>
+            <div class="input-wrap">
+              <input type="number" id="zk-rendite" value="7" step="0.5" min="0" max="20" oninput="calcZukunft()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">Zukunftswert-Analyse</div>
+          <div class="result-main">
+            <div class="result-main-label">Benötigter Betrag in <span id="zk-jahre-label">10</span> Jahren</div>
+            <div class="result-main-value" id="zk-benoetigt">—</div>
+            <div class="result-main-sub">
+              <div><div class="rms-label">Mit Anlage</div><div class="rms-val pos" id="zk-mit-anlage">—</div></div>
+              <div><div class="rms-label">Realrendite</div><div class="rms-val" id="zk-realrendite">—</div></div>
+              <div><div class="rms-label">Kaufkraft</div><div class="rms-val" id="zk-kaufkraft">—</div></div>
+            </div>
+          </div>
+          <div class="result-row"><span class="result-row-label">Heutiger Betrag</span><span class="result-row-value" id="zk-heute">—</span></div>
+          <div class="result-row"><span class="result-row-label">Benötigt (gleiche Kaufkraft)</span><span class="result-row-value neg" id="zk-benoetigt2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kapital nach Anlage (nominal)</span><span class="result-row-value pos" id="zk-anlage-end">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kapital real (kaufkraftbereinigt)</span><span class="result-row-value" id="zk-real">—</span></div>
+          <div class="result-row"><span class="result-row-label">Inflation schlägt Anlage?</span><span class="result-row-value" id="zk-urteil">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: REALRENDITE -->
+    <div id="tab-rendite" class="inf-section">
+      <div class="calc-body">
+        <div class="inputs-panel">
+          <div class="field">
+            <label data-tt="Die nominale (ausgewiesene) Rendite deiner Anlage vor Inflationsabzug.">Nominale Rendite</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-nominal" value="7" step="0.5" min="0" max="30" oninput="calcRealrendite()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Erwartete Inflation. Aktuell Deutschland ca. 2,3 %.">Inflationsrate</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-inflation" value="2.5" step="0.1" min="0" max="20" oninput="calcRealrendite()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Abgeltungssteuer 25 % + Soli auf Kapitalerträge. Mit Teilfreistellung für ETFs ca. 18,5 %.">Steuer auf Erträge</label>
+            <div class="toggle-group" style="flex-wrap:wrap;gap:6px;" id="rr-steuer-group">
+              <button class="toggle-btn active" data-val="0" onclick="selectRRSteuer(this)">Keine</button>
+              <button class="toggle-btn" data-val="18.5" onclick="selectRRSteuer(this)">ETF 18,5 %</button>
+              <button class="toggle-btn" data-val="26.375" onclick="selectRRSteuer(this)">Abgeltung 26,4 %</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">Realrendite-Analyse</div>
+          <div class="result-main">
+            <div class="result-main-label">Realrendite (nach Inflation)</div>
+            <div class="result-main-value" id="rr-real">—</div>
+            <div class="result-main-sub">
+              <div><div class="rms-label">Nominal</div><div class="rms-val" id="rr-nom-out">—</div></div>
+              <div><div class="rms-label">Nach Steuer</div><div class="rms-val" id="rr-nach-steuer">—</div></div>
+              <div><div class="rms-label">Real (netto)</div><div class="rms-val pos" id="rr-real-netto">—</div></div>
+            </div>
+          </div>
+          <div class="result-row"><span class="result-row-label">Nominale Rendite</span><span class="result-row-value" id="rr-nom2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Steuerabzug</span><span class="result-row-value neg" id="rr-steuer-out">—</span></div>
+          <div class="result-row"><span class="result-row-label">Nach Steuer</span><span class="result-row-value" id="rr-nsteuer2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Inflationsabzug</span><span class="result-row-value neg" id="rr-inf-out">—</span></div>
+          <div class="result-row"><span class="result-row-label">Realrendite (netto)</span><span class="result-row-value pos" id="rr-real2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Urteil</span><span class="result-row-value" id="rr-urteil">—</span></div>
+
+          <div style="margin-top:12px;">
+            <div class="chart-wrap" style="height:200px;">
+              <canvas id="rr-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-disclaimer" style="margin-top:12px;">⚠️ Alle Berechnungen sind Näherungswerte. Historische Inflationsdaten: Statistisches Bundesamt.</div>
+  </div>
+
+  <!-- AFFILIATE BANNER -->
+  <div class="content-section fu d2">
+    <div style="background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:24px 28px;color:#fff;">
+      <h2 style="font-family:'Instrument Serif',serif;font-size:20px;color:#fff;margin:0 0 8px;">Inflation schlägt Sparkonten — was tun?</h2>
+      <p style="color:rgba(255,255,255,.9);font-size:13px;line-height:1.6;margin:0 0 16px;">Wer Geld auf dem Konto liegen lässt verliert real an Kaufkraft. Mit einem breit diversifizierten ETF-Sparplan erzielst du historisch ca. 7 % Rendite — weit über der Inflation.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <a href="DEIN-AFFILIATE-LINK-SCALABLE" target="_blank" rel="noopener sponsored"
+          style="display:inline-flex;align-items:center;gap:7px;background:#fff;color:#1a5c3a;padding:11px 20px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:none;">
+          🚀 Depot bei Scalable eröffnen
+        </a>
+        <a href="zinseszins-rechner.html"
+          style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);color:#fff;padding:11px 20px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:none;border:1.5px solid rgba(255,255,255,.4);">
+          ♾️ Zinseszins Rechner →
+        </a>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zur Inflation</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Was bedeutet Inflation für mein Erspartes?</div>
+        <div class="faq-a">Inflation bedeutet dass Geld auf dem Konto real weniger wert wird. Bei 2,5 % Inflation verliert 10.000 € auf dem Tagesgeldkonto innerhalb von 10 Jahren ca. 22 % seiner Kaufkraft — du kannst dir also nur noch Dinge für ca. 7.800 € kaufen. Deshalb ist es wichtig eine Rendite zu erzielen die über der Inflation liegt.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist die Realrendite?</div>
+        <div class="faq-a">Die Realrendite ist deine tatsächliche Rendite nach Abzug der Inflation. Formel (vereinfacht): Realrendite ≈ Nominalrendite − Inflation. Bei 7 % ETF-Rendite und 2,5 % Inflation beträgt die Realrendite ca. 4,5 %. Das ist das echte Vermögenswachstum in Kaufkraft.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie hoch war die Inflation in Deutschland zuletzt?</div>
+        <div class="faq-a">Die Inflation in Deutschland stieg 2022 auf 6,9 % und 2023 auf 5,9 % — die höchsten Werte seit Jahrzehnten, hauptsächlich durch Energiepreise und Lieferkettenprobleme nach Corona. Seitdem sinkt sie wieder: 2024 lag sie bei ca. 2,2 %, 2025 bei ca. 2,3 %. Langfristig (1990–2023) betrug die Ø-Inflation in Deutschland ca. 2,4 % pro Jahr.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie schütze ich mich vor Inflation?</div>
+        <div class="faq-a">Die wichtigste Maßnahme: Geld investieren statt nur auf dem Konto lassen. Historisch haben Aktien (ETFs) die Inflation langfristig deutlich übertroffen. Auch Immobilien, inflationsindexierte Anleihen (TIPS) oder Gold gelten als Inflationsschutz. Das Tagesgeld bietet kurzfristig einen gewissen Schutz, reicht aber langfristig nicht aus.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERWANDTE -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="zinseszins-rechner.html" class="cc">
+        <div class="cc-icon bg-g">♾️</div>
+        <h3>Zinseszins Rechner</h3>
+        <p>Vermögenswachstum über Zeit berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan Rechner</h3>
+        <p>Inflation schlagen mit ETF-Sparplänen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="altersvorsorge-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>Altersvorsorge Rechner</h3>
+        <p>Rentenlücke inflationsbereinigt berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let rrChart = null;
+let rrSteuer = 0;
+
+const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+const fp = n => n.toFixed(1) + ' %';
+const f2 = n => n.toFixed(2).replace('.', ',') + ' %';
+const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
+
+function switchInfTab(id, btn) {
+  document.querySelectorAll('.inf-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.inf-section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+function setHistJahr(jahr, rate) {
+  document.getElementById('kk-rate').value = rate;
+  document.getElementById('kk-bis').value = 2026;
+  document.getElementById('kk-von').value = jahr;
+  document.querySelectorAll('.hist-box').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  calcKaufkraft();
+}
+
+function selectRRSteuer(btn) {
+  rrSteuer = parseFloat(btn.dataset.val);
+  document.querySelectorAll('#rr-steuer-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcRealrendite();
+}
+
+// ── KAUFKRAFT ──
+function calcKaufkraft() {
+  const betrag = parseFloat(document.getElementById('kk-betrag').value) || 0;
+  const von    = parseInt(document.getElementById('kk-von').value) || 2000;
+  const bis    = parseInt(document.getElementById('kk-bis').value) || 2026;
+  const rate   = parseFloat(document.getElementById('kk-rate').value) / 100 || 0.025;
+  const jahre  = Math.abs(bis - von);
+
+  const gesamtInflation = Math.pow(1 + rate, jahre) - 1;
+  const heutigerWert = betrag * Math.pow(1 + rate, jahre);
+  const kaufkraftPct = (1 / Math.pow(1 + rate, jahre) * 100);
+  const verlust = heutigerWert - betrag;
+
+  set('kk-heute', f0(heutigerWert));
+  set('kk-verlust', '− ' + f0(verlust));
+  set('kk-prozent', kaufkraftPct.toFixed(1) + ' %');
+  set('kk-zeitraum', jahre + ' Jahre');
+  set('kk-von-label', von);
+  set('kk-bis-label', bis);
+  set('kk-original', f0(betrag));
+  set('kk-nominal', f0(heutigerWert));
+  set('kk-verlust2', '− ' + f0(verlust));
+  set('kk-real-pct', kaufkraftPct.toFixed(1) + ' %');
+  set('kk-gesamt-inf', '+' + (gesamtInflation * 100).toFixed(1) + ' %');
+
+  // Balken
+  const bar = document.getElementById('kk-bar-neu');
+  const barPct = kaufkraftPct;
+  if (bar) {
+    bar.style.width = Math.max(5, barPct) + '%';
+    bar.textContent = f0(betrag * (kaufkraftPct / 100));
+  }
+  const barAlt = document.getElementById('kk-bar-alt');
+  if (barAlt) barAlt.textContent = f0(betrag);
+}
+
+// ── ZUKUNFTSWERT ──
+function calcZukunft() {
+  const betrag   = parseFloat(document.getElementById('zk-betrag').value) || 0;
+  const jahre    = parseInt(document.getElementById('zk-jahre').value) || 10;
+  const inflation= parseFloat(document.getElementById('zk-inflation').value) / 100 || 0.025;
+  const rendite  = parseFloat(document.getElementById('zk-rendite').value) / 100 || 0.07;
+
+  set('zk-jahre-label', jahre);
+  document.getElementById('zk-jahre-slider').value = jahre;
+
+  const benoetigt = betrag * Math.pow(1 + inflation, jahre);
+  const mitAnlage = betrag * Math.pow(1 + rendite, jahre);
+  const realRendite = ((1 + rendite) / (1 + inflation) - 1) * 100;
+  const kaufkraftMitAnlage = mitAnlage / benoetigt * 100;
+  const urteil = kaufkraftMitAnlage >= 100
+    ? '✅ Anlage schlägt Inflation'
+    : '❌ Inflation schlägt Anlage';
+
+  set('zk-benoetigt', f0(benoetigt));
+  set('zk-mit-anlage', f0(mitAnlage));
+  set('zk-realrendite', realRendite.toFixed(1) + ' %/Jahr');
+  set('zk-kaufkraft', kaufkraftMitAnlage.toFixed(0) + ' %');
+  set('zk-heute', f0(betrag));
+  set('zk-benoetigt2', f0(benoetigt));
+  set('zk-anlage-end', f0(mitAnlage));
+  set('zk-real', f0(mitAnlage / Math.pow(1 + inflation, jahre)));
+  set('zk-urteil', urteil);
+}
+
+// ── REALRENDITE ──
+function calcRealrendite() {
+  const nominal  = parseFloat(document.getElementById('rr-nominal').value) || 0;
+  const inflation= parseFloat(document.getElementById('rr-inflation').value) || 0;
+
+  const nachSteuer = rrSteuer > 0 ? nominal * (1 - rrSteuer / 100) : nominal;
+  const real = ((1 + nachSteuer/100) / (1 + inflation/100) - 1) * 100;
+  const steuerAbzug = nominal - nachSteuer;
+
+  set('rr-real', f2(real));
+  set('rr-nom-out', f2(nominal));
+  set('rr-nach-steuer', f2(nachSteuer));
+  set('rr-real-netto', f2(real));
+  set('rr-nom2', f2(nominal));
+  set('rr-steuer-out', rrSteuer > 0 ? '− ' + f2(steuerAbzug) : '0,00 %');
+  set('rr-nsteuer2', f2(nachSteuer));
+  set('rr-inf-out', '− ' + f2(inflation));
+  set('rr-real2', f2(real));
+  set('rr-urteil', real > 2 ? '✅ Gutes reales Wachstum' : real > 0 ? '⚡ Minimales Wachstum' : '❌ Realer Kaufkraftverlust');
+
+  // Chart
+  if (rrChart) rrChart.destroy();
+  const ctx = document.getElementById('rr-chart').getContext('2d');
+  rrChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Nominalrendite', 'Nach Steuer', 'Realrendite'],
+      datasets: [{
+        data: [nominal, nachSteuer, Math.max(0, real)],
+        backgroundColor: ['rgba(26,92,58,.4)', 'rgba(26,92,58,.65)', 'rgba(26,92,58,.9)'],
+        borderRadius: 6,
+      }, {
+        data: [0, steuerAbzug > 0 ? steuerAbzug : 0, inflation],
+        backgroundColor: ['transparent', 'rgba(231,76,60,.4)', 'rgba(231,76,60,.7)'],
+        borderRadius: 6,
+        label: 'Abzüge'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 11 } } },
+        y: { stacked: true, ticks: {
+          callback: v => v.toFixed(1) + ' %',
+          font: { size: 11 }
+        }}
+      }
+    }
+  });
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+document.querySelectorAll('label[data-tt]').forEach(label => {
+  const text = label.getAttribute('data-tt');
+  if (text) label.innerHTML += ` <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span></span>`;
+});
+
+calcKaufkraft();
+calcZukunft();
+calcRealrendite();
+</script>
+</body>
+</html>

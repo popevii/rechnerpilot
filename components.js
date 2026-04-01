@@ -53,6 +53,10 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">♾️</span>
               <span><strong>Zinseszins Rechner</strong><small>Vermögenswachstum berechnen</small></span>
             </a>
+            <a href="${base}/inflationsrechner" class="${isActive('inflation')}">
+              <span class="nav-item-icon">📉</span>
+              <span><strong>Inflationsrechner</strong><small>Kaufkraft & Realrendite</small></span>
+            </a>
             <a href="${base}/etf-rechner" class="${isActive('etf-tools')}">
               <span class="nav-item-icon">🔬</span>
               <span><strong>ETF Tools</strong><small>Vorabpauschale, Kosten, Wechsel</small></span>
@@ -167,8 +171,10 @@ function renderNav(activePage = '') {
       <a href="${base}/kreditrechner">🏦 Kreditrechner</a>
       <a href="${base}/etf-sparplan-rechner">📈 ETF Sparplan</a>
       <a href="${base}/zinseszins-rechner">♾️ Zinseszins Rechner</a>
+      <a href="${base}/inflationsrechner">📉 Inflationsrechner</a>
       <a href="${base}/etf-rechner">🔬 ETF Tools</a>
       <a href="${base}/zinseszins-rechner">♾️ Zinseszins Rechner</a>
+      <a href="${base}/inflationsrechner">📉 Inflationsrechner</a>
       <a href="${base}/etf-rechner">🔬 ETF Tools</a>
       <a href="${base}/altersvorsorge-rechner">🏛️ Altersvorsorge & Rente</a>
       <a href="${base}/krankenkassenrechner">🏥 Krankenkasse</a>
@@ -213,8 +219,10 @@ function renderFooter() {
             <li><a href="${base}/kreditrechner">Kreditrechner</a></li>
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
             <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
+            <li><a href="${base}/inflationsrechner">Inflationsrechner</a></li>
             <li><a href="${base}/etf-rechner">ETF Tools</a></li>
             <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
+            <li><a href="${base}/inflationsrechner">Inflationsrechner</a></li>
             <li><a href="${base}/etf-rechner">ETF Tools</a></li>
             <li><a href="${base}/altersvorsorge-rechner">Altersvorsorge & Rente</a></li>
             <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>
