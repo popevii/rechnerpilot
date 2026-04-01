@@ -53,8 +53,20 @@ function renderNav(activePage = '') {
           <div class="nav-dropdown-group">
             <div class="nav-dropdown-label">Altersvorsorge</div>
             <a href="${base}/altersvorsorge-rechner" class="${isActive('altersvorsorge')}">
-              <span class="nav-item-icon">🏛️</span>
-              <span><strong>Altersvorsorge</strong><small>Rentenlücke, Rürup, Riester</small></span>
+              <span class="nav-item-icon">📊</span>
+              <span><strong>Rentenlücken-Rechner</strong><small>Wie viel Rente bekomme ich?</small></span>
+            </a>
+            <a href="${base}/altersvorsorge-rechner#ruerup" class="${isActive('altersvorsorge')}">
+              <span class="nav-item-icon">📈</span>
+              <span><strong>Rürup / Basisrente</strong><small>Steuerersparnis berechnen</small></span>
+            </a>
+            <a href="${base}/altersvorsorge-rechner#riester" class="${isActive('altersvorsorge')}">
+              <span class="nav-item-icon">🏠</span>
+              <span><strong>Riester-Rechner</strong><small>Förderung & Zulage berechnen</small></span>
+            </a>
+            <a href="${base}/altersvorsorge-rechner#produkte" class="${isActive('altersvorsorge')}">
+              <span class="nav-item-icon">📋</span>
+              <span><strong>Private Rentenversicherung</strong><small>Alle Produkte vergleichen</small></span>
             </a>
           </div>
           <div class="nav-dropdown-group">

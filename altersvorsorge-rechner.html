@@ -86,10 +86,10 @@
   <!-- TABS -->
   <div class="calc-box fu d1">
     <div class="av-tabs">
-      <button class="av-tab active" onclick="switchTab('luecke', this)">📊 Rentenlücke</button>
-      <button class="av-tab" onclick="switchTab('produkte', this)">🔍 Produkte vergleichen</button>
-      <button class="av-tab" onclick="switchTab('ruerup', this)">📈 Rürup-Rechner</button>
-      <button class="av-tab" onclick="switchTab('riester', this)">🏠 Riester-Rechner</button>
+      <button class="av-tab active" id="tab-btn-luecke" onclick="switchTab('luecke', this)">📊 Rentenlücke</button>
+      <button class="av-tab" id="tab-btn-produkte" onclick="switchTab('produkte', this)">🔍 Produkte vergleichen</button>
+      <button class="av-tab" id="tab-btn-ruerup" onclick="switchTab('ruerup', this)">📈 Rürup-Rechner</button>
+      <button class="av-tab" id="tab-btn-riester" onclick="switchTab('riester', this)">🏠 Riester-Rechner</button>
     </div>
 
     <!-- TAB 1: RENTENLÜCKE -->
@@ -326,11 +326,14 @@
             </div>
           </div>
           <div class="field">
-            <label>Steuerklasse</label>
-            <div class="toggle-group" id="rr-sk-group">
-              <button class="toggle-btn active" data-val="1" onclick="selectRRSK(this)">I</button>
-              <button class="toggle-btn" data-val="3" onclick="selectRRSK(this)">III</button>
-              <button class="toggle-btn" data-val="4" onclick="selectRRSK(this)">IV</button>
+            <label>Grenzsteuersatz</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-grenzsteuer" value="35" step="1" min="14" max="45" oninput="calcRuerup()">
+              <span class="input-unit">%</span>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
+              Dein persönlicher Grenzsteuersatz — findest du auf deinem Steuerbescheid.<br>
+              Typisch: bis 30k€/Jahr ≈ 20–25 % · bis 60k€ ≈ 35–42 % · ab 80k€ ≈ 42–45 %
             </div>
           </div>
           <div class="field">
@@ -341,11 +344,40 @@
             </div>
           </div>
           <div class="field">
+            <label>Garantieniveau</label>
+            <div class="toggle-group" style="flex-wrap:wrap;gap:6px;" id="rr-garantie-group">
+              <button class="toggle-btn active" data-val="0" onclick="selectGarantie(this)">0 % — 100 % ETF</button>
+              <button class="toggle-btn" data-val="50" onclick="selectGarantie(this)">50 % Garantie</button>
+              <button class="toggle-btn" data-val="80" onclick="selectGarantie(this)">80 % Garantie</button>
+              <button class="toggle-btn" data-val="100" onclick="selectGarantie(this)">100 % Garantie</button>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;" id="rr-garantie-info">
+              0 % Garantie: 100 % ETF-Investment, höchste Renditechance, volles Marktrisiko. Anbieter: myPension, Nürnberger, Alte Leipziger.
+            </div>
+          </div>
+          <div class="field">
             <label>ETF-Rendite (angenommen)</label>
             <div class="input-wrap">
-              <input type="number" id="rr-rendite" value="6" step="0.5" min="1" max="12" oninput="calcRuerup()">
+              <input type="number" id="rr-rendite" value="7" step="0.5" min="1" max="12" oninput="calcRuerup()">
               <span class="input-unit">%/Jahr</span>
             </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Historischer MSCI World Durchschnitt: ca. 7–8 %/Jahr (nominal)</div>
+          </div>
+          <div class="field">
+            <label>Abschlusskosten</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-abschluss" value="3" step="0.5" min="0" max="6" oninput="calcRuerup()">
+              <span class="input-unit">% der Beitragssumme</span>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Typisch: 2,5–4 %. Online-Anbieter oft günstiger (1–2 %). 0 % bei Direktversicherern möglich.</div>
+          </div>
+          <div class="field">
+            <label>Laufende Verwaltungskosten</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-verwaltung" value="0.5" step="0.1" min="0" max="3" oninput="calcRuerup()">
+              <span class="input-unit">%/Jahr auf Kapital</span>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Typisch: 0,3–0,8 %/Jahr. Günstige ETF-Tarife: unter 0,3 %.</div>
           </div>
           <div class="field">
             <label>Selbstständig?</label>
@@ -362,15 +394,18 @@
             <div class="result-main-label">Jährliche Steuerersparnis</div>
             <div class="result-main-value pos" id="rr-steuer">—</div>
             <div class="result-main-sub">
-              <div><div class="rms-label">Effektiver Eigenbeitrag</div><div class="rms-val" id="rr-netto-beitrag">—</div></div>
+              <div><div class="rms-label">Eigenbeitrag effektiv</div><div class="rms-val" id="rr-netto-beitrag">—</div></div>
               <div><div class="rms-label">Staat zahlt mit</div><div class="rms-val" id="rr-staat">—</div></div>
-              <div><div class="rms-label">Jahre bis 67</div><div class="rms-val" id="rr-jahre">—</div></div>
+              <div><div class="rms-label">Garantieniveau</div><div class="rms-val" id="rr-garantie-anzeige">—</div></div>
             </div>
           </div>
           <div class="result-row"><span class="result-row-label">Jahresbeitrag</span><span class="result-row-value" id="rr-jahresbeitrag">—</span></div>
           <div class="result-row"><span class="result-row-label">Steuerlich absetzbar (2026)</span><span class="result-row-value" id="rr-absetzbar">—</span></div>
           <div class="result-row"><span class="result-row-label">Steuerersparnis/Jahr</span><span class="result-row-value pos" id="rr-ersparnis">—</span></div>
-          <div class="result-row"><span class="result-row-label">Kapital bei 67 (ETF, <span id="rr-rendite-label">6</span> %)</span><span class="result-row-value" id="rr-kapital">—</span></div>
+          <div class="result-row"><span class="result-row-label">Abschlusskosten gesamt</span><span class="result-row-value neg" id="rr-abschluss-ges">—</span></div>
+          <div class="result-row"><span class="result-row-label">Effektive Rendite (nach Kosten)</span><span class="result-row-value" id="rr-rendite-eff">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kapital bei 67 (<span id="rr-rendite-label">7</span> % vor Kosten)</span><span class="result-row-value" id="rr-kapital">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kapital nach allen Kosten</span><span class="result-row-value" id="rr-kapital-netto">—</span></div>
           <div class="result-row"><span class="result-row-label">Lebenslange Rente (ca.)</span><span class="result-row-value pos" id="rr-rente">—</span></div>
         </div>
       </div>
@@ -529,7 +564,6 @@ const REGELRENTENALTER = 67;
 // State
 let avStd        = 0.8;
 let avRentaAlter = 67;
-let rrSK         = 1;
 let riSK         = 1;
 let riKinder     = 0;
 
@@ -553,13 +587,6 @@ function selectRenta(btn) {
   btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   calcRente();
-}
-
-function selectRRSK(btn) {
-  rrSK = parseInt(btn.dataset.val);
-  document.querySelectorAll('#rr-sk-group .toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  calcRuerup();
 }
 
 function selectRISK(btn) {
@@ -671,51 +698,83 @@ function calcRente() {
 }
 
 // ── RÜRUP-RECHNER ──
+let rrGarantie = 0;
+const GARANTIE_RENDITE_ABSCHLAG = {0: 0, 50: 1.0, 80: 1.8, 100: 2.5};
+const GARANTIE_INFO = {
+  0:   '0 % Garantie: 100 % ETF-Investment. Höchste Renditechance, volles Marktrisiko. Anbieter: myPension, Nürnberger, Alte Leipziger.',
+  50:  '50 % Garantie: Die Hälfte deiner Einzahlungen gesichert. Kompromiss aus Sicherheit und Rendite.',
+  80:  '80 % Garantie: Klassisches Sicherheitsmodell. 80 % der Einzahlungen garantiert, Rendite etwas niedriger.',
+  100: '100 % Garantie: Alle Einzahlungen gesichert. Sehr sicher, aber geringste Renditechance.'
+};
+
+function selectGarantie(btn) {
+  rrGarantie = parseInt(btn.dataset.val);
+  document.querySelectorAll('#rr-garantie-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const info = document.getElementById('rr-garantie-info');
+  if (info) info.textContent = GARANTIE_INFO[rrGarantie];
+  calcRuerup();
+}
+
 function calcRuerup() {
-  const brutto  = parseFloat(document.getElementById('rr-brutto').value) || 60000;
-  const beitrag = parseFloat(document.getElementById('rr-beitrag').value) || 300;
-  const alter   = parseInt(document.getElementById('rr-alter').value) || 40;
-  const rendite = parseFloat(document.getElementById('rr-rendite').value) / 100 || 0.06;
-  const selbst  = document.getElementById('rr-selbst').checked;
-  document.getElementById('rr-rendite-label').textContent = document.getElementById('rr-rendite').value;
+  const brutto      = parseFloat(document.getElementById('rr-brutto').value) || 60000;
+  const beitrag     = parseFloat(document.getElementById('rr-beitrag').value) || 300;
+  const alter       = parseInt(document.getElementById('rr-alter').value) || 40;
+  const grenzsteuer = parseFloat(document.getElementById('rr-grenzsteuer').value) / 100 || 0.35;
+  const renditeRoh  = parseFloat(document.getElementById('rr-rendite').value) || 7;
+  const abschlussP  = parseFloat(document.getElementById('rr-abschluss').value) / 100 || 0.03;
+  const verwaltungP = parseFloat(document.getElementById('rr-verwaltung').value) / 100 || 0.005;
+  const selbst      = document.getElementById('rr-selbst').checked;
+
+  document.getElementById('rr-rendite-label').textContent = renditeRoh;
+
+  // Rendite nach Garantie-Abschlag und Verwaltungskosten
+  const renditeNachGarantie = Math.max(0, renditeRoh - GARANTIE_RENDITE_ABSCHLAG[rrGarantie]);
+  const renditeEff = Math.max(0, renditeNachGarantie - verwaltungP * 100) / 100;
+  const renditeRoh_dec = renditeRoh / 100;
 
   const jahre = Math.max(1, 67 - alter);
   const jahresbeitrag = beitrag * 12;
+  const beitragssumme = jahresbeitrag * jahre;
 
-  // Höchstbetrag 2026: 30.826 € Alleinstehende
+  // Abschlusskosten (verteilt auf Laufzeit, vereinfacht als Einmalbetrag)
+  const abschlussGesamt = beitragssumme * abschlussP;
+
+  // Absetzbarkeit 2026
   const maxAbsetzbar = 30826;
-  // Selbstständige: voll absetzbar. Angestellte: minus RV-Beiträge (ca. 9,3% * brutto/2)
-  const rvAG = selbst ? 0 : Math.min(brutto * 0.093, 8450 * 0.093 * 12);
-  const nochVerfuegbar = Math.max(0, maxAbsetzbar - rvAG);
+  const rvAnteil = selbst ? 0 : Math.min(brutto * 0.093 * 0.5, 8450 * 12 * 0.093 * 0.5);
+  const nochVerfuegbar = Math.max(0, maxAbsetzbar - rvAnteil);
   const absetzbar = Math.min(jahresbeitrag, nochVerfuegbar);
 
-  // Steuerersparnis
-  const r1 = bruttoNetto(brutto / 12, rrSK, false, 1.45, true, 9, false, 2026, 0, 0, false);
-  const lstOhne = r1.lohnsteuer * 12 + r1.soli * 12;
-  const bruttoMitAbzug = Math.max(0, brutto - absetzbar);
-  const r2 = bruttoNetto(bruttoMitAbzug / 12, rrSK, false, 1.45, true, 9, false, 2026, 0, 0, false);
-  const lstMit = r2.lohnsteuer * 12 + r2.soli * 12;
-  const steuerersparnis = Math.max(0, lstOhne - lstMit);
+  // Steuerersparnis mit Grenzsteuersatz (vereinfacht aber praxisnäher)
+  const steuerersparnis = absetzbar * grenzsteuer;
   const nettoBeitrag = jahresbeitrag - steuerersparnis;
-  const staatAnteil  = steuerersparnis / jahresbeitrag * 100;
+  const staatAnteil = steuerersparnis / jahresbeitrag * 100;
 
-  // Kapital bei 67 (monatliche Einzahlungen)
-  const rm = rendite / 12;
+  // Kapital bei 67 — brutto Rendite
+  const rm_brutto = renditeRoh_dec / 12;
   const nm = jahre * 12;
-  const kapital = beitrag * (Math.pow(1 + rm, nm) - 1) / rm * (1 + rm);
+  const kapitalBrutto = beitrag * (Math.pow(1 + rm_brutto, nm) - 1) / rm_brutto * (1 + rm_brutto);
 
-  // Lebenslange Rente (vereinfacht: Kapital / Rentenbarwert 20 Jahre)
-  const rente = kapital / (20 * 12);
+  // Kapital nach Kosten (effektive Rendite)
+  const rm_eff = renditeEff / 12;
+  const kapitalNetto = beitrag * (Math.pow(1 + rm_eff, nm) - 1) / rm_eff * (1 + rm_eff) - abschlussGesamt;
 
-  set('rr-steuer',       f0(steuerersparnis) + ' /Jahr');
-  set('rr-netto-beitrag', f0(nettoBeitrag / 12) + ' /Monat');
-  set('rr-staat',        staatAnteil.toFixed(0) + ' %');
-  set('rr-jahre',        jahre + ' Jahre');
-  set('rr-jahresbeitrag', f0(jahresbeitrag));
-  set('rr-absetzbar',    f0(absetzbar) + ' von max. ' + f0(maxAbsetzbar));
-  set('rr-ersparnis',    f0(steuerersparnis) + ' /Jahr');
-  set('rr-kapital',      f0(kapital));
-  set('rr-rente',        f0(rente) + ' /Monat');
+  // Lebenslange Rente (Rentenbarwert 22 Jahre, Sterbetafel Vereinfachung)
+  const rente = Math.max(0, kapitalNetto) / (22 * 12);
+
+  set('rr-steuer',         f0(steuerersparnis) + ' /Jahr');
+  set('rr-netto-beitrag',  f0(nettoBeitrag / 12) + ' /Monat');
+  set('rr-staat',          staatAnteil.toFixed(0) + ' %');
+  set('rr-garantie-anzeige', rrGarantie + ' %');
+  set('rr-jahresbeitrag',  f0(jahresbeitrag) + ' /Jahr');
+  set('rr-absetzbar',      f0(absetzbar) + ' von max. ' + f0(maxAbsetzbar));
+  set('rr-ersparnis',      f0(steuerersparnis) + ' /Jahr');
+  set('rr-abschluss-ges',  '− ' + f0(abschlussGesamt));
+  set('rr-rendite-eff',    (renditeEff * 100).toFixed(1) + ' %/Jahr');
+  set('rr-kapital',        f0(kapitalBrutto));
+  set('rr-kapital-netto',  f0(Math.max(0, kapitalNetto)));
+  set('rr-rente',          f0(rente) + ' /Monat');
 }
 
 // ── RIESTER-RECHNER ──
@@ -768,6 +827,18 @@ function calcRiester() {
 document.querySelectorAll('.faq-q').forEach(q => {
   q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
 });
+
+// Hash-Navigation — z.B. /altersvorsorge-rechner#ruerup öffnet direkt den Rürup-Tab
+function handleHash() {
+  const hash = window.location.hash.replace('#','');
+  const tabMap = { luecke:'luecke', ruerup:'ruerup', riester:'riester', produkte:'produkte' };
+  if (tabMap[hash]) {
+    const btn = document.getElementById('tab-btn-' + tabMap[hash]);
+    if (btn) { btn.click(); btn.scrollIntoView({behavior:'smooth', block:'start'}); }
+  }
+}
+window.addEventListener('hashchange', handleHash);
+handleHash();
 
 // Initial berechnen
 calcRente();
