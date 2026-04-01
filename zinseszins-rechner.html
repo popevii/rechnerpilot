@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zinseszins Rechner 2026 – Vermögen & Rendite berechnen | RechnerPilot</title>
+<meta name="description" content="Zinseszins Rechner 2026: Berechne wie dein Vermögen durch den Zinseszinseffekt wächst. Mit Einmalanlage, Sparrate und Inflationsbereinigung. Kostenlos.">
+<link rel="canonical" href="https://www.rechnerpilot.de/zinseszins-rechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Zinseszins Rechner 2026",
+  "description": "Vermögenswachstum durch Zinseszins berechnen",
+  "url": "https://www.rechnerpilot.de/zinseszins-rechner",
+  "applicationCategory": "FinanceApplication",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+}
+</script>
+<style>
+.chart-wrap { position:relative; width:100%; height:300px; margin-top:16px; }
+.chart-legend { display:flex; flex-wrap:wrap; gap:14px; margin-bottom:8px; font-size:12px; color:var(--ink-2); }
+.legend-dot { width:10px; height:10px; border-radius:2px; display:inline-block; margin-right:4px; }
+.jahres-table { width:100%; border-collapse:collapse; font-size:12.5px; margin-top:12px; }
+.jahres-table th { background:var(--accent); color:#fff; padding:9px 12px; text-align:right; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.3px; }
+.jahres-table th:first-child { text-align:left; }
+.jahres-table td { padding:8px 12px; border-bottom:1px solid var(--border); text-align:right; color:var(--ink-2); }
+.jahres-table td:first-child { text-align:left; font-weight:600; }
+.jahres-table tr:last-child td { border-bottom:none; font-weight:700; color:var(--ink); background:var(--accent-light); }
+.jahres-table tr:nth-child(even) td { background:var(--bg); }
+.modus-group { display:flex; gap:8px; margin-top:8px; }
+.modus-btn { flex:1; padding:10px; border-radius:8px; border:1.5px solid var(--border); background:var(--bg); font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:600; color:var(--ink-2); cursor:pointer; text-align:center; transition:all .15s; }
+.modus-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.highlight-stat { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin:16px 0; }
+.hs-box { background:var(--bg); border:1.5px solid var(--border); border-radius:10px; padding:14px; text-align:center; }
+.hs-val { font-size:20px; font-weight:800; font-family:'Instrument Serif',serif; color:var(--accent); }
+.hs-label { font-size:11px; color:var(--ink-3); margin-top:3px; }
+</style>
+</head>
+<body data-page="zinseszins">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Zinseszins Rechner</span>
+    </div>
+    <h1>Zinseszins Rechner 2026</h1>
+    <p>Berechne wie dein Kapital durch den Zinseszinseffekt wächst — mit Einmalanlage, monatlicher Sparrate und optionaler Inflationsbereinigung.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label data-tt="Startkapital das du sofort investierst. Kann auch 0 € sein wenn du nur monatlich sparst.">Startkapital (Einmalanlage)</label>
+          <div class="input-wrap">
+            <input type="number" id="zz-start" value="5000" step="500" min="0" oninput="calcZZ()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Betrag den du jeden Monat zusätzlich investierst. Kann auch 0 € sein.">Monatliche Sparrate</label>
+          <div class="input-wrap">
+            <input type="number" id="zz-sparrate" value="200" step="50" min="0" oninput="calcZZ()">
+            <span class="input-unit">€/Monat</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Jährliche Rendite vor Steuern. Historisch MSCI World: ca. 7–8 % nominal. Tagesgeld aktuell: ca. 3 %.">Jährliche Rendite</label>
+          <div class="input-wrap">
+            <input type="number" id="zz-rendite" value="7" step="0.5" min="0.1" max="30" oninput="calcZZ()">
+            <span class="input-unit">%/Jahr</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
+            Orientierung: Tagesgeld ~3 % · Anleihen ~4 % · ETF World ~7–8 %
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Wie viele Jahre du investiert bleibst. Je länger, desto stärker der Zinseszinseffekt.">Anlagedauer</label>
+          <div class="input-wrap">
+            <input type="range" id="zz-jahre-slider" min="1" max="50" value="20" 
+              oninput="document.getElementById('zz-jahre').value=this.value; calcZZ()" style="flex:1;">
+            <input type="number" id="zz-jahre" value="20" min="1" max="50" 
+              oninput="document.getElementById('zz-jahre-slider').value=this.value; calcZZ()" style="width:60px;">
+            <span class="input-unit">Jahre</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Jährliche Inflation mindert die Kaufkraft. Aktuell ca. 2–3 % in Deutschland.">Inflation berücksichtigen</label>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+            <label class="checkbox-row" style="flex:1;">
+              <input type="checkbox" id="zz-inflation-cb" onchange="calcZZ()">
+              <span>Kaufkraft inflationsbereinigt anzeigen</span>
+            </label>
+            <div class="input-wrap" style="width:110px;flex-shrink:0;">
+              <input type="number" id="zz-inflation" value="2.0" step="0.1" min="0" max="10" oninput="calcZZ()">
+              <span class="input-unit">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Sparerpauschbetrag 2026: 1.000 € (Singles) / 2.000 € (Paare). Gewinne darüber werden mit 25 % + Soli besteuert.">Steuern berücksichtigen</label>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+            <label class="checkbox-row" style="flex:1;">
+              <input type="checkbox" id="zz-steuer-cb" onchange="calcZZ()">
+              <span>Abgeltungssteuer am Ende abziehen</span>
+            </label>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Vereinfacht: 26,375 % auf Gewinne nach 1.000 € Freibetrag</div>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis nach <span id="zz-jahre-label">20</span> Jahren</div>
+
+        <div class="result-main">
+          <div class="result-main-label">Endkapital (nominal)</div>
+          <div class="result-main-value" id="zz-endkapital">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Eingezahlt</div><div class="rms-val" id="zz-eingezahlt">—</div></div>
+            <div><div class="rms-label">Zinsgewinn</div><div class="rms-val" id="zz-gewinn">—</div></div>
+            <div><div class="rms-label">Faktor</div><div class="rms-val" id="zz-faktor">—</div></div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Endkapital nominal</span><span class="result-row-value pos" id="zz-end-nom">—</span></div>
+        <div class="result-row" id="zz-real-row" style="display:none"><span class="result-row-label">Endkapital real (inflationsbereinigt)</span><span class="result-row-value" id="zz-end-real">—</span></div>
+        <div class="result-row" id="zz-steuer-row" style="display:none"><span class="result-row-label">Steuer auf Gewinne</span><span class="result-row-value neg" id="zz-steuer-out">—</span></div>
+        <div class="result-row" id="zz-netto-row" style="display:none"><span class="result-row-label">Endkapital nach Steuer</span><span class="result-row-value pos" id="zz-end-netto">—</span></div>
+        <div class="result-row"><span class="result-row-label">Gesamte Einzahlungen</span><span class="result-row-value" id="zz-einzahl">—</span></div>
+        <div class="result-row"><span class="result-row-label">Zinsgewinne (Zinseszins)</span><span class="result-row-value pos" id="zz-zinsen">—</span></div>
+        <div class="result-row"><span class="result-row-label">Anteil Zinseszins am Endkapital</span><span class="result-row-value pos" id="zz-anteil">—</span></div>
+
+        <div class="prog-bar-wrap" style="margin-top:12px;">
+          <div class="prog-bar-labels">
+            <span>Einzahlungen</span>
+            <span>Zinseszins-Anteil: <span id="zz-bar-pct">—</span></span>
+          </div>
+          <div class="prog-bar" style="height:12px;border-radius:6px;overflow:hidden;display:flex;">
+            <div id="zz-bar-einzahl" style="height:100%;background:var(--accent);opacity:.5;transition:width .4s;"></div>
+            <div id="zz-bar-zinsen" style="height:100%;background:var(--accent);transition:width .4s;"></div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:4px;font-size:11px;color:var(--ink-3);">
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--accent);opacity:.5;border-radius:2px;margin-right:3px;"></span>Eingezahlt</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--accent);border-radius:2px;margin-right:3px;"></span>Zinseszins</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div style="margin-top:20px;">
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background:#1a5c3a;opacity:.5;"></span>Eingezahltes Kapital</span>
+        <span><span class="legend-dot" style="background:#1a5c3a;"></span>Zinseszins-Wachstum</span>
+        <span class="legend-dot" id="legend-real" style="display:none;"><span class="legend-dot" style="background:#e74c3c;"></span>Realer Wert (inflationsbereinigt)</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="zz-chart"></canvas>
+      </div>
+    </div>
+
+    <!-- JAHRESTABELLE -->
+    <div style="margin-top:20px;">
+      <h3 style="font-family:'Instrument Serif',serif;font-size:17px;margin-bottom:8px;">Jahresübersicht</h3>
+      <div style="overflow-x:auto;">
+        <table class="jahres-table">
+          <thead>
+            <tr>
+              <th>Jahr</th>
+              <th>Eingezahlt</th>
+              <th>Zinsgewinn</th>
+              <th>Kapital gesamt</th>
+              <th id="real-header" style="display:none;">Real (kaufkraftbereinigt)</th>
+            </tr>
+          </thead>
+          <tbody id="zz-tabelle"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AFFILIATE BANNER -->
+    <div style="background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:24px 28px;color:#fff;margin-top:20px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:8px;">Nächster Schritt</div>
+      <h2 style="font-family:'Instrument Serif',serif;font-size:20px;color:#fff;margin:0 0 8px;">Jetzt den Zinseszinseffekt nutzen</h2>
+      <p style="color:rgba(255,255,255,.9);font-size:13px;line-height:1.6;margin:0 0 16px;">Du hast gesehen wie mächtig der Zinseszins ist — jetzt brauchst du nur noch den richtigen Broker um loszulegen.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <a href="DEIN-AFFILIATE-LINK-SCALABLE" target="_blank" rel="noopener sponsored"
+          style="display:inline-flex;align-items:center;gap:7px;background:#fff;color:#1a5c3a;padding:11px 20px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:none;">
+          🚀 Depot bei Scalable eröffnen
+        </a>
+        <a href="etf-sparplan-rechner.html"
+          style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);color:#fff;padding:11px 20px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:none;border:1.5px solid rgba(255,255,255,.4);">
+          📈 ETF Sparplan berechnen →
+        </a>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung. Alle Berechnungen sind Schätzwerte.</p>
+  </div>
+
+  <!-- ERKLÄRUNG -->
+  <div class="content-section fu d2">
+    <h2>Was ist der Zinseszinseffekt?</h2>
+    <p>Der Zinseszinseffekt beschreibt das Phänomen, dass Zinsen selbst wieder verzinst werden. Wer heute 10.000 € zu 7 % anlegt, erhält im ersten Jahr 700 € Zinsen. Im zweiten Jahr werden nicht nur die ursprünglichen 10.000 € verzinst, sondern 10.700 € — also 749 €. Dieser Effekt wächst exponentiell über die Zeit.</p>
+    <p style="margin-top:12px;">Albert Einstein soll den Zinseszins als das <em>„achte Weltwunder"</em> bezeichnet haben. Ob das stimmt oder nicht — die Mathematik dahinter ist beeindruckend.</p>
+
+    <div class="highlight-stat" id="zz-stats" style="margin-top:16px;">
+      <div class="hs-box">
+        <div class="hs-val" id="stat-verdopplung">—</div>
+        <div class="hs-label">Jahre bis Verdopplung (72er-Regel)</div>
+      </div>
+      <div class="hs-box">
+        <div class="hs-val" id="stat-10j">—</div>
+        <div class="hs-label">Kapital nach 10 Jahren</div>
+      </div>
+      <div class="hs-box">
+        <div class="hs-val" id="stat-20j">—</div>
+        <div class="hs-label">Kapital nach 20 Jahren</div>
+      </div>
+      <div class="hs-box">
+        <div class="hs-val" id="stat-30j">—</div>
+        <div class="hs-label">Kapital nach 30 Jahren</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zum Zinseszins</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Was ist die 72er-Regel?</div>
+        <div class="faq-a">Die 72er-Regel ist eine Faustregel um schnell zu berechnen, wie lange es dauert bis sich ein Kapital verdoppelt. Einfach 72 durch die jährliche Rendite teilen. Bei 7 % Rendite: 72 / 7 = ca. 10,3 Jahre bis zur Verdopplung. Bei 4 %: 18 Jahre. Je höher die Rendite, desto schneller verdoppelt sich das Kapital.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Warum ist der Anlagezeitraum so wichtig?</div>
+        <div class="faq-a">Der Zinseszinseffekt wirkt exponentiell — nicht linear. In den ersten Jahren wächst das Kapital langsam, in den späteren Jahren immer schneller. Wer mit 25 anfängt statt mit 35 hat am Ende oft doppelt so viel Kapital, obwohl er nur 10 Jahre früher begonnen hat. Zeit ist beim Investieren der wichtigste Faktor.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie wirkt sich Inflation auf den Zinseszins aus?</div>
+        <div class="faq-a">Inflation mindert die reale Kaufkraft deines Endkapitals. Bei 7 % Rendite und 2 % Inflation beträgt die reale Rendite ca. 5 % pro Jahr. Das klingt nach wenig Unterschied, macht aber über 30 Jahre einen erheblichen Betrag aus. Deshalb ist es wichtig, eine Rendite zu erzielen die deutlich über der Inflation liegt — was mit ETFs historisch gut gelungen ist.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Welche Rendite ist realistisch?</div>
+        <div class="faq-a">Historisch hat der MSCI World Index ca. 7–8 % Rendite pro Jahr erzielt (nominal, vor Inflation). Das sind Durchschnittswerte über Jahrzehnte — einzelne Jahre können stark davon abweichen. Tagesgeld liegt aktuell bei ca. 3 %, Anleihen bei 3–5 %. Für einen langfristigen Sparplan sind 6–8 % eine vernünftige Annahme für einen diversifizierten ETF.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie werden Zinsen und Kursgewinne besteuert?</div>
+        <div class="faq-a">In Deutschland gilt die Abgeltungssteuer: 25 % + 5,5 % Soli = 26,375 % auf Kapitalerträge. Der Sparerpauschbetrag beträgt 1.000 € pro Person (2.000 € bei Paaren) — bis zu diesem Betrag sind Gewinne steuerfrei. Bei ETFs greift außerdem die Teilfreistellung von 30 % für Aktien-ETFs, was die effektive Steuerbelastung auf ca. 18,5 % senkt.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERWANDTE -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan Rechner</h3>
+        <p>Endkapital und Rendite für deinen Sparplan.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="etf-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🔬</div>
+        <h3>ETF Tools</h3>
+        <p>Vorabpauschale, Kosten und Wechsel.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="altersvorsorge-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>Altersvorsorge Rechner</h3>
+        <p>Rentenlücke berechnen und schließen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let zzChart = null;
+
+const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+const fp = n => n.toFixed(1) + ' %';
+const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
+
+function calcZZ() {
+  const start    = parseFloat(document.getElementById('zz-start').value) || 0;
+  const sparrate = parseFloat(document.getElementById('zz-sparrate').value) || 0;
+  const rendite  = parseFloat(document.getElementById('zz-rendite').value) / 100 || 0.07;
+  const jahre    = parseInt(document.getElementById('zz-jahre').value) || 20;
+  const inflation = parseFloat(document.getElementById('zz-inflation').value) / 100 || 0.02;
+  const mitInflation = document.getElementById('zz-inflation-cb').checked;
+  const mitSteuer    = document.getElementById('zz-steuer-cb').checked;
+
+  set('zz-jahre-label', jahre);
+  document.getElementById('zz-jahre-slider').value = jahre;
+
+  // Berechnung
+  const rm = rendite / 12;
+  const nm = jahre * 12;
+  const endkapital = start * Math.pow(1 + rendite, jahre) +
+    (sparrate > 0 ? sparrate * (Math.pow(1 + rm, nm) - 1) / rm * (1 + rm) : 0);
+
+  const eingezahlt = start + sparrate * 12 * jahre;
+  const zinsen = endkapital - eingezahlt;
+  const faktor = eingezahlt > 0 ? (endkapital / eingezahlt).toFixed(2) : '—';
+  const anteil = (zinsen / endkapital * 100).toFixed(1);
+
+  // Inflationsbereinigt
+  const realFaktor = Math.pow(1 / (1 + inflation), jahre);
+  const endReal = endkapital * realFaktor;
+
+  // Steuer (vereinfacht am Ende)
+  const freibetrag = 1000;
+  const steuerpflichtig = Math.max(0, zinsen - freibetrag) * 0.7; // 30% TFQ
+  const steuer = steuerpflichtig * 0.26375;
+  const endNetto = endkapital - steuer;
+
+  // Ausgabe
+  set('zz-endkapital', f0(endkapital));
+  set('zz-eingezahlt', f0(eingezahlt));
+  set('zz-gewinn', f0(zinsen));
+  set('zz-faktor', faktor + 'x');
+  set('zz-end-nom', f0(endkapital));
+  set('zz-einzahl', f0(eingezahlt));
+  set('zz-zinsen', f0(zinsen));
+  set('zz-anteil', anteil + ' %');
+  set('zz-bar-pct', anteil + ' %');
+
+  // Balken
+  const barEin = document.getElementById('zz-bar-einzahl');
+  const barZin = document.getElementById('zz-bar-zinsen');
+  if (barEin && barZin) {
+    barEin.style.width = (eingezahlt / endkapital * 100) + '%';
+    barZin.style.width = (zinsen / endkapital * 100) + '%';
+  }
+
+  // Real
+  const realRow = document.getElementById('zz-real-row');
+  if (realRow) realRow.style.display = mitInflation ? 'flex' : 'none';
+  set('zz-end-real', f0(endReal));
+  document.getElementById('legend-real').style.display = mitInflation ? 'flex' : 'none';
+  document.getElementById('real-header').style.display = mitInflation ? '' : 'none';
+
+  // Steuer
+  document.getElementById('zz-steuer-row').style.display = mitSteuer ? 'flex' : 'none';
+  document.getElementById('zz-netto-row').style.display = mitSteuer ? 'flex' : 'none';
+  set('zz-steuer-out', '− ' + f0(steuer));
+  set('zz-end-netto', f0(endNetto));
+
+  // Jahrestabelle
+  const tbody = document.getElementById('zz-tabelle');
+  const labels = [], dataEin = [], dataZins = [], dataReal = [];
+  let kapital = start;
+  const showJahre = [1,2,3,5,10,15,20,25,30,40,50].filter(j => j <= jahre);
+  if (!showJahre.includes(jahre)) showJahre.push(jahre);
+  showJahre.sort((a,b) => a-b);
+
+  tbody.innerHTML = '';
+  showJahre.forEach(j => {
+    const k = start * Math.pow(1+rendite, j) +
+      (sparrate > 0 ? sparrate * (Math.pow(1+rm, j*12)-1)/rm*(1+rm) : 0);
+    const e = start + sparrate * 12 * j;
+    const z = k - e;
+    const r = k * Math.pow(1/(1+inflation), j);
+    labels.push('Jahr ' + j);
+    dataEin.push(Math.round(e));
+    dataZins.push(Math.round(z));
+    dataReal.push(Math.round(r));
+    tbody.innerHTML += `<tr>
+      <td>Jahr ${j}</td>
+      <td>${f0(e)}</td>
+      <td style="color:var(--accent);font-weight:600;">${f0(z)}</td>
+      <td>${f0(k)}</td>
+      ${mitInflation ? `<td>${f0(r)}</td>` : ''}
+    </tr>`;
+  });
+
+  // Chart
+  if (zzChart) zzChart.destroy();
+  const ctx = document.getElementById('zz-chart').getContext('2d');
+  const datasets = [
+    { label: 'Eingezahlt', data: dataEin, backgroundColor: 'rgba(26,92,58,.35)', stack: 'a' },
+    { label: 'Zinseszins', data: dataZins, backgroundColor: 'rgba(26,92,58,.85)', stack: 'a' },
+  ];
+  if (mitInflation) {
+    datasets.push({ label: 'Realer Wert', data: dataReal, type: 'line',
+      borderColor: '#e74c3c', backgroundColor: 'transparent', borderWidth: 2,
+      pointRadius: 3, tension: 0.3 });
+  }
+  zzChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 11 } } },
+        y: { stacked: true, ticks: {
+          callback: v => v >= 1000000 ? (v/1000000).toFixed(1) + ' Mio.' : v >= 1000 ? (v/1000).toFixed(0) + 'k' : v,
+          font: { size: 11 }
+        }}
+      }
+    }
+  });
+
+  // Stats
+  const verdopplung = (72 / (rendite * 100)).toFixed(1);
+  const k10 = start * Math.pow(1+rendite,10) + (sparrate>0 ? sparrate*(Math.pow(1+rm,120)-1)/rm*(1+rm) : 0);
+  const k20 = start * Math.pow(1+rendite,20) + (sparrate>0 ? sparrate*(Math.pow(1+rm,240)-1)/rm*(1+rm) : 0);
+  const k30 = start * Math.pow(1+rendite,30) + (sparrate>0 ? sparrate*(Math.pow(1+rm,360)-1)/rm*(1+rm) : 0);
+  set('stat-verdopplung', verdopplung + ' Jahre');
+  set('stat-10j', f0(k10));
+  set('stat-20j', f0(k20));
+  set('stat-30j', f0(k30));
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+// Tooltips
+document.querySelectorAll('label[data-tt]').forEach(label => {
+  const text = label.getAttribute('data-tt');
+  if (text) label.innerHTML += ` <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span></span>`;
+});
+
+calcZZ();
+</script>
+</body>
+</html>
