@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TVöD-P Gehaltsrechner 2026 – Pflege, Krankenhaus & Altenpflege | RechnerPilot</title>
+<meta name="description" content="TVöD-P Gehaltsrechner 2026: Gehalt für Pflegefachkräfte, Krankenschwestern und Altenpfleger berechnen. P5–P16, inkl. Pflegezulage 141,82 € und Netto.">
+<link rel="canonical" href="https://www.rechnerpilot.de/tvoed-p-rechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TVöD-P Gehaltsrechner 2026",
+  "description": "Gehalt für Pflegekräfte im öffentlichen Dienst berechnen — P5 bis P16",
+  "url": "https://www.rechnerpilot.de/tvoed-p-rechner",
+  "applicationCategory": "FinanceApplication",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+}
+</script>
+<style>
+/* ── SOZIALABGABEN DETAIL ── */
+.soz-detail-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;}
+.soz-detail-toggle::after{content:'▾';font-size:11px;opacity:.6;transition:transform .2s;margin-left:4px;}
+.soz-detail-toggle.open::after{transform:rotate(180deg);}
+.soz-detail-panel{display:none;background:var(--bg);border-radius:10px;padding:12px 14px;margin-top:6px;font-size:12px;border:1px solid var(--border);}
+.soz-detail-panel.open{display:block;}
+.soz-detail-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);color:var(--ink-2);}
+.soz-detail-row:last-child{border-bottom:none;}
+.soz-detail-row span:last-child{font-weight:600;color:var(--ink);}
+.soz-detail-row.soz-total{font-weight:700;color:var(--accent);padding-top:8px;}
+
+.eg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;margin-top:8px}
+.eg-btn{padding:8px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s;line-height:1.3}
+.eg-btn:hover{border-color:var(--accent);color:var(--accent)}
+.eg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.stufe-group{display:flex;gap:8px;margin-top:8px}
+.stufe-btn{flex:1;padding:10px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:center;transition:all .15s}
+.stufe-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.beruf-badge{display:inline-block;background:var(--accent-light);color:var(--accent);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;margin-top:8px;line-height:1.4}
+
+.p-tabelle{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:12px}
+.p-tabelle th{background:var(--accent);color:#fff;padding:9px 10px;text-align:right;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.p-tabelle th:first-child{text-align:left}
+.p-tabelle td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;color:var(--ink-2)}
+.p-tabelle td:first-child{text-align:left;font-weight:700}
+.p-tabelle tr.active-row td{background:var(--accent-light);color:var(--accent);font-weight:700}
+.p-tabelle tr:hover td{background:var(--bg)}
+</style>
+</head>
+<body data-page="pflege">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <a href="tvoed-rechner.html">TVöD</a><span>›</span>
+      <span>TVöD-P Pflege</span>
+    </div>
+    <h1>TVöD-P Gehaltsrechner 2026</h1>
+    <p>Gehalt für Pflegefachkräfte, Krankenschwestern, Altenpfleger und Leitungskräfte berechnen — P5 bis P16, inkl. Pflegezulage 141,82 €, Wechselschichtzulage und Netto.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label>Entgeltgruppe (P-Tabelle)</label>
+          <div class="eg-grid" id="eg-grid"></div>
+          <div id="beruf-badge" class="beruf-badge">—</div>
+        </div>
+
+        <div class="field">
+          <label>Erfahrungsstufe</label>
+          <div class="stufe-group" id="stufe-group"></div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:6px;">Stufe 1 → 2: nach 1 Jahr · Stufe 2 → 3: nach 3 Jahren · Stufe 3 → 4: nach 5 Jahren · Stufe 4 → 5: nach 8 Jahren · Stufe 5 → 6: nach 10 Jahren</div>
+        </div>
+
+        <div class="field">
+          <label>Pflegezulage</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="p-pflegezulage" checked onchange="calcPflege()">
+            <span>Pflegezulage 141,82 €/Monat (2025) einrechnen</span>
+          </label>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Gilt für alle Beschäftigten in der Pflege. Ab 01.05.2026: +2,8% Dynamisierung.</div>
+        </div>
+
+        <div class="field">
+          <label>Schicht- / Wechselschichtzulage</label>
+          <div class="toggle-group" id="schicht-group" style="flex-wrap:wrap;gap:6px;">
+            <button class="toggle-btn active" data-val="0" onclick="selectSchicht(this)">Keine</button>
+            <button class="toggle-btn" data-val="100" onclick="selectSchicht(this)">Schicht 100 €</button>
+            <button class="toggle-btn" data-val="250" onclick="selectSchicht(this)">Wechselschicht 250 €</button>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ab 2025: Schichtzulage 100 €/Monat, Wechselschichtzulage 250 €/Monat</div>
+        </div>
+
+        <div class="field">
+          <label>Beschäftigungsumfang</label>
+          <div class="input-wrap">
+            <input type="number" id="p-teilzeit" value="100" min="10" max="100" step="5" oninput="calcPflege()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Steuerjahr</label>
+          <div class="toggle-group" id="p-jahr-group" style="flex-wrap:wrap;gap:6px;">
+            <button class="toggle-btn" data-val="2024" onclick="selectJahrP(this)">2024</button>
+            <button class="toggle-btn" data-val="2025" onclick="selectJahrP(this)">2025</button>
+            <button class="toggle-btn active" data-val="2026" onclick="selectJahrP(this)">2026</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Kirchensteuer</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <label class="checkbox-row" style="flex:1;">
+              <input type="checkbox" id="p-kirche" onchange="calcPflege()">
+              <span>Ich zahle Kirchensteuer</span>
+            </label>
+            <select id="p-kirche-bl" onchange="calcPflege()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;font-family:'Instrument Sans',sans-serif;color:var(--ink);outline:none;">
+              <option value="9">9 % (Standard)</option>
+              <option value="8">8 % (BY / BW)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>GKV-Zusatzbeitrag (AN-Anteil)</label>
+          <div class="input-wrap">
+            <input type="number" id="p-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcPflege()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Pflegeversicherung — Kinder</label>
+          <select id="p-pv-kinder" onchange="calcPflege()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
+            <option value="0">Keine Kinder, 23+ Jahre (2,1 % AN)</option>
+            <option value="-1">Unter 23 Jahre (1,8 % AN)</option>
+            <option value="1">1 Kind (1,8 % AN)</option>
+            <option value="2">2 Kinder unter 25 Jahren (1,55 % AN)</option>
+            <option value="3">3 Kinder unter 25 Jahren (1,3 % AN)</option>
+            <option value="4">4 Kinder unter 25 Jahren (1,05 % AN)</option>
+            <option value="5">5+ Kinder unter 25 Jahren (0,9 % AN)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Kinderfreibeträge (§ 32 EStG)</label>
+          <select id="p-kfb" onchange="calcPflege()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
+            <option value="0">0 — keine Kinder</option>
+            <option value="0.5">0,5</option>
+            <option value="1">1,0 — 1 Kind</option>
+            <option value="1.5">1,5</option>
+            <option value="2">2,0 — 2 Kinder</option>
+            <option value="2.5">2,5</option>
+            <option value="3">3,0 — 3 Kinder</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Zusatzversorgung (ZVK / VBL)</label>
+          <select id="p-vbl" onchange="calcPflege()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
+            <option value="west">VBL West (1,81 % AN)</option>
+            <option value="ost">VBL Ost (1,81 % AN)</option>
+            <option value="kvbw">KVBW Baden-Württemberg</option>
+            <option value="keine">Keine Zusatzversorgung</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Steuerklasse</label>
+          <div class="toggle-group" id="sk-group">
+            <button class="toggle-btn active" data-val="1" onclick="selectSK(this)">I</button>
+            <button class="toggle-btn" data-val="2" onclick="selectSK(this)">II</button>
+            <button class="toggle-btn" data-val="3" onclick="selectSK(this)">III</button>
+            <button class="toggle-btn" data-val="4" onclick="selectSK(this)">IV</button>
+            <button class="toggle-btn" data-val="5" onclick="selectSK(this)">V</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Weitere Zulagen / Zuschläge</label>
+          <div class="input-wrap">
+            <input type="number" id="p-extra" value="0" min="0" step="10" oninput="calcPflege()">
+            <span class="input-unit">€/Monat</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">z.B. Intensivzulage, Nachtdienstzulage, Ballungsraumzulage</div>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis monatlich</div>
+        <div class="result-main">
+          <div class="result-main-label">Nettogehalt</div>
+          <div class="result-main-value" id="p-netto">—</div>
+          <div class="result-main-sub">
+            <div><div class="rms-label">Brutto</div><div class="rms-val" id="p-brutto-sub">—</div></div>
+            <div><div class="rms-label">Steuern</div><div class="rms-val" id="p-steuern-sub">—</div></div>
+            <div><div class="rms-label">Sozialabg.</div><div class="rms-val" id="p-soz-sub">—</div></div>
+          </div>
+        </div>
+
+        <div id="p-soz-toggle" class="result-row soz-detail-toggle" onclick="toggleSozDetail('p-soz')">
+          <span class="result-row-label">⬇ Sozialabgaben (Details)</span>
+          <span class="result-row-value neg" id="p-soz-sum">—</span>
+        </div>
+        <div id="p-soz-panel" class="soz-detail-panel">
+          <div class="soz-detail-row"><span>Lohnsteuer</span><span id="p-det-lst">—</span></div>
+          <div class="soz-detail-row"><span>Solidaritätszuschlag</span><span id="p-det-soli">—</span></div>
+          <div class="soz-detail-row"><span>Kirchensteuer</span><span id="p-det-kir">—</span></div>
+          <div class="soz-detail-row"><span>Krankenversicherung</span><span id="p-det-kv">—</span></div>
+          <div class="soz-detail-row"><span>Pflegeversicherung</span><span id="p-det-pv">—</span></div>
+          <div class="soz-detail-row"><span>Rentenversicherung (9,3 %)</span><span id="p-det-rv">—</span></div>
+          <div class="soz-detail-row"><span>Arbeitslosenversicherung (1,3 %)</span><span id="p-det-alv">—</span></div>
+          <div class="soz-detail-row"><span>Zusatzversorgung (VBL/ZVK)</span><span id="p-det-vbl">—</span></div>
+          <div class="soz-detail-row soz-total"><span>Gesamt Abzüge</span><span id="p-det-total">—</span></div>
+        </div>
+        <div class="result-row" id="p-extra-row" style="display:none">
+          <span class="result-row-label">Weitere Zulagen</span>
+          <span class="result-row-value pos" id="p-extra-anzeige">—</span>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Entgeltgruppe / Stufe</span><span class="result-row-value" id="p-eg-label">—</span></div>
+        <div class="result-row"><span class="result-row-label">Tabellenentgelt (Vollzeit)</span><span class="result-row-value" id="p-tabelle-wert">—</span></div>
+        <div class="result-row"><span class="result-row-label">Pflegezulage</span><span class="result-row-value pos" id="p-zulage-row">—</span></div>
+        <div class="result-row"><span class="result-row-label">Schichtzulage</span><span class="result-row-value pos" id="p-schicht-row">—</span></div>
+        <div class="result-row"><span class="result-row-label">Gesamtbrutto (anteilig)</span><span class="result-row-value" id="p-gesamt">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jahressonderzahlung</span><span class="result-row-value pos" id="p-jsz">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jahresbrutto gesamt</span><span class="result-row-value" id="p-jahresbrutto">—</span></div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-labels"><span>Abzüge vom Brutto</span><span id="p-bar-pct">—</span></div>
+          <div class="prog-bar"><div class="prog-bar-fill" id="p-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box" style="background:var(--accent-light);border:1.5px solid rgba(26,92,58,.15);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--ink-2);line-height:1.6;margin-top:12px;">
+      <strong style="color:var(--accent);">💉 Besonderheiten TVöD-P 2025/2026:</strong>
+      Pflegezulage steigt von 120 € auf <strong>141,82 €/Monat</strong>.
+      Wechselschichtzulage von 155 € auf <strong>250 €/Monat</strong>, Schichtzulage auf <strong>100 €/Monat</strong>.
+      Jahressonderzahlung ab 2026 erhöht auf bis zu <strong>90 %</strong> für untere Gruppen.
+      Ab 01.05.2026 weitere Erhöhung um <strong>+2,8 %</strong>.
+    </div>
+    <div class="calc-disclaimer" style="margin-top:12px;">⚠️ Gültig ab 01.04.2025 (TVöD-P VKA). <a href="methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <!-- P-TABELLE -->
+  <div class="content-section fu d2">
+    <h2>TVöD-P Entgelttabelle 2025 (ab 01.04.2025)</h2>
+    <p>P-Tabelle für Pflege und Gesundheitsdienst. Deine Auswahl ist <span style="color:var(--accent);font-weight:600;">grün markiert</span>.</p>
+    <div style="overflow-x:auto;">
+      <table class="p-tabelle">
+        <thead>
+          <tr>
+            <th>EG</th>
+            <th>Stufe 1</th><th>Stufe 2</th><th>Stufe 3</th>
+            <th>Stufe 4</th><th>Stufe 5</th><th>Stufe 6</th>
+          </tr>
+        </thead>
+        <tbody id="p-tabelle-body"></tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">Quelle: TVöD-P (Anlage E TVöD-B) · Stand: 01.04.2025 · Nächste Erhöhung: +2,8 % ab 01.05.2026</p>
+  </div>
+
+  <!-- EINGRUPPIERUNG -->
+  <div class="content-section">
+    <h2>Wer gehört in welche Entgeltgruppe?</h2>
+    <div class="example-box">
+      <div class="example-row"><span><strong>P 5</strong></span><span>Pflegehelfer/in ohne Ausbildung</span></div>
+      <div class="example-row"><span><strong>P 6</strong></span><span>Pflegehelfer/in mit 1-jähriger Ausbildung (z.B. Altenpflegehelfer)</span></div>
+      <div class="example-row"><span><strong>P 7</strong></span><span>Krankenpflegehelfer/in, Altenpflegehelfer/in mit Aufgabenübertragung</span></div>
+      <div class="example-row"><span><strong>P 8</strong></span><span>Pflegefachkraft (3-jährig examiniert): Gesundheits- & Krankenpfleger/in, Altenpfleger/in</span></div>
+      <div class="example-row"><span><strong>P 9</strong></span><span>Pflegefachkraft mit schwieriger Tätigkeit (z.B. Intensiv, OP, Psychiatrie)</span></div>
+      <div class="example-row"><span><strong>P 10</strong></span><span>Fachpflegekraft mit anerkannter Fachweiterbildung (z.B. Intensivpflege)</span></div>
+      <div class="example-row"><span><strong>P 11</strong></span><span>Fachpflegekraft mit bes. Aufgaben · Hebammen (ab 2026)</span></div>
+      <div class="example-row"><span><strong>P 12</strong></span><span>Stationsleitung (bis 12 Beschäftigte) · Praxisanleitung</span></div>
+      <div class="example-row"><span><strong>P 13</strong></span><span>Stationsleitung (ab 13 Beschäftigte) · Bereichsleitung</span></div>
+      <div class="example-row"><span><strong>P 14</strong></span><span>Pflegedienstleitung kleinerer Einrichtungen</span></div>
+      <div class="example-row"><span><strong>P 15</strong></span><span>Pflegedienstleitung mittlerer Einrichtungen</span></div>
+      <div class="example-row"><span><strong>P 16</strong></span><span>Pflegedienstleitung großer Einrichtungen · Pflegedirektion</span></div>
+    </div>
+  </div>
+
+  <!-- ZULAGEN -->
+  <div class="content-section">
+    <h2>Zulagen und Sonderleistungen 2025</h2>
+    <div class="example-box">
+      <div class="example-row"><span>Pflegezulage</span><span><strong>141,82 €/Monat</strong> (dynamisiert, ab 01.04.2025)</span></div>
+      <div class="example-row"><span>Wechselschichtzulage</span><span><strong>250,00 €/Monat</strong> (ab 01.04.2025, vorher 155 €)</span></div>
+      <div class="example-row"><span>Schichtzulage</span><span><strong>100,00 €/Monat</strong> (ab 01.04.2025, vorher 40 €)</span></div>
+      <div class="example-row"><span>Jahressonderzahlung P5–P8</span><span><strong>84,51 %</strong> eines Monatsentgelts</span></div>
+      <div class="example-row"><span>Jahressonderzahlung P9–P12</span><span><strong>80,00 %</strong> eines Monatsentgelts</span></div>
+      <div class="example-row"><span>Jahressonderzahlung P13–P16</span><span><strong>50,00 %</strong> eines Monatsentgelts</span></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zum TVöD-P</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Was ist der Unterschied zwischen TVöD-P und TVöD-VKA?</div>
+        <div class="faq-a">Der TVöD-P (Pflege) ist ein besonderer Teil des TVöD für Beschäftigte in Pflege- und Betreuungseinrichtungen. Er gilt für kommunale Krankenhäuser, Pflegeheime und Sozialstationen. Die P-Tabelle hat eigene Entgeltgruppen (P5–P16) statt der üblichen E-Gruppen, und enthält pflegespezifische Zulagen wie die Pflegezulage und erhöhte Schichtzulagen.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Gilt der TVöD-P auch für private Krankenhäuser?</div>
+        <div class="faq-a">Nein — der TVöD-P gilt direkt nur für kommunale Träger (Städte, Landkreise, Zweckverbände). Private Krankenhäuser und freie Träger wie Caritas, Diakonie oder DRK haben eigene Tarifverträge (z.B. AVR, DRK-TV). Viele orientieren sich aber an den TVöD-Werten.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wann kommt die nächste Gehaltserhöhung?</div>
+        <div class="faq-a">Zum 01.05.2026 steigen alle P-Entgelte um +2,8 %. Auch die Pflegezulage (141,82 €) wird dynamisiert und steigt entsprechend. Die aktuelle Tabelle gilt bis 30.04.2026.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">In welche Gruppe wird eine examinierte Pflegefachkraft eingruppiert?</div>
+        <div class="faq-a">Examinierte Pflegefachkräfte (3-jährige Ausbildung) starten in der Regel in P8. Mit einer anerkannten Fachweiterbildung (z.B. Intensivpflege, OP, Psychiatrie) erfolgt die Höhergruppierung in P9 oder P10. Stationsleiterinnen werden je nach Teamgröße in P12 oder P13 eingruppiert.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERWANDTE RECHNER -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="tvoed-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>TVöD Gehaltsrechner</h3>
+        <p>E-Tabelle für alle TVöD-Bereiche.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="tvoed-sue-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🧸</div>
+        <h3>TVöD-SuE Rechner</h3>
+        <p>Gehalt für Erzieher und Sozialpädagogen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Nettogehalt für beliebiges Brutto.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+// TVöD-P Entgelttabelle 2025 (ab 01.04.2025)
+// Stufen: [S1, S2, S3, S4, S5, S6]
+const P_2025 = {
+  'P5':  [2928.29, 3076.18, 3193.66, 3310.52, 3448.32, 3551.26],
+  'P6':  [3076.18, 3193.66, 3338.29, 3482.92, 3614.59, 3726.22],
+  'P7':  [3193.66, 3338.29, 3482.92, 3649.78, 3808.41, 3944.27],
+  'P8':  [3338.29, 3516.82, 3695.36, 3895.67, 4074.21, 4231.97],
+  'P9':  [3516.82, 3695.36, 3906.43, 4117.51, 4328.59, 4495.44],
+  'P10': [3695.36, 3906.43, 4117.51, 4350.36, 4583.22, 4771.85],
+  'P11': [3906.43, 4117.51, 4350.36, 4583.22, 4838.85, 5050.92],
+  'P12': [4117.51, 4350.36, 4583.22, 4838.85, 5116.26, 5349.12],
+  'P13': [4350.36, 4616.59, 4905.60, 5194.62, 5505.40, 5760.32],
+  'P14': [4616.59, 4905.60, 5194.62, 5505.40, 5838.96, 6116.64],
+  'P15': [4905.60, 5194.62, 5505.40, 5860.96, 6238.29, 6538.02],
+  'P16': [5194.62, 6116.78, 6322.07, 6694.13, 7154.89, 7604.17],
+};
+
+// Berufsbezeichnungen
+const BERUFE_P = {
+  'P5':  'Pflegehelfer/in ohne Ausbildung',
+  'P6':  'Pflegehelfer/in mit 1-jähriger Ausbildung',
+  'P7':  'Krankenpflegehelfer/in',
+  'P8':  'Pflegefachkraft (3-jährig examiniert)',
+  'P9':  'Pflegefachkraft mit schwieriger Tätigkeit (Intensiv, OP)',
+  'P10': 'Fachpflegekraft mit Fachweiterbildung',
+  'P11': 'Fachpflegekraft mit bes. Aufgaben / Hebamme (ab 2026)',
+  'P12': 'Stationsleitung (bis 12 MA) / Praxisanleitung',
+  'P13': 'Stationsleitung (ab 13 MA) / Bereichsleitung',
+  'P14': 'Pflegedienstleitung kleinerer Einrichtungen',
+  'P15': 'Pflegedienstleitung mittlerer Einrichtungen',
+  'P16': 'Pflegedienstleitung / Pflegedirektion',
+};
+
+// JSZ-Sätze
+const JSZ_P = {
+  'P5': 84.51, 'P6': 84.51, 'P7': 84.51, 'P8': 84.51,
+  'P9': 80.00, 'P10': 80.00, 'P11': 80.00, 'P12': 80.00,
+  'P13': 50.00, 'P14': 50.00, 'P15': 50.00, 'P16': 50.00,
+};
+
+const PFLEGEZULAGE = 141.82;
+
+let aktivEG    = 'P8';
+let aktivStufe = 0;
+let aktivSK    = 1;
+let aktivSteuerjahr = 2026;
+let schichtZulage = 0;
+
+function initEGGrid() {
+  const grid = document.getElementById('eg-grid');
+  grid.innerHTML = Object.keys(P_2025).map(eg => `
+    <button class="eg-btn ${eg === aktivEG ? 'active' : ''}"
+      onclick="setEG('${eg}', this)">${eg}</button>
+  `).join('');
+}
+
+function initStufeGroup() {
+  const group = document.getElementById('stufe-group');
+  group.innerHTML = [1,2,3,4,5,6].map((s,i) => `
+    <button class="stufe-btn ${i === aktivStufe ? 'active' : ''}"
+      onclick="setStufe(${i}, this)">Stufe ${s}</button>
+  `).join('');
+}
+
+function setEG(eg, btn) {
+  aktivEG = eg;
+  document.querySelectorAll('.eg-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('beruf-badge').textContent = BERUFE_P[eg] || '—';
+  renderTabelle();
+  calcPflege();
+}
+
+function setStufe(idx, btn) {
+  aktivStufe = idx;
+  document.querySelectorAll('.stufe-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  renderTabelle();
+  calcPflege();
+}
+
+function selectSK(btn) {
+  aktivSK = parseInt(btn.dataset.val);
+  document.querySelectorAll('#sk-group .toggle-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  calcPflege();
+}
+
+function selectJahrP(btn) {
+  aktivSteuerjahr = parseInt(btn.dataset.val);
+  document.querySelectorAll('#p-jahr-group .toggle-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  calcPflege();
+}
+
+function selectSchicht(btn) {
+  schichtZulage = parseInt(btn.dataset.val);
+  document.querySelectorAll('#schicht-group .toggle-btn').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  calcPflege();
+}
+
+function renderTabelle() {
+  const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  document.getElementById('p-tabelle-body').innerHTML = Object.entries(P_2025).map(([eg, stufen]) => `
+    <tr class="${eg === aktivEG ? 'active-row' : ''}">
+      <td>${eg}</td>
+      ${stufen.map(s => `<td>${f(s)}</td>`).join('')}
+    </tr>
+  `).join('');
+}
+
+function toggleSozDetail(id) {
+  document.getElementById(id+'-toggle').classList.toggle('open');
+  document.getElementById(id+'-panel').classList.toggle('open');
+}
+
+function calcVBL(brutto, typ) {
+  const b = Math.min(brutto, 5812.50);
+  if (typ==='west'||typ==='ost') return b*0.0181;
+  if (typ==='kvbw') return b*0.0185;
+  return 0;
+}
+
+function calcPflege() {
+  const teilzeit    = parseFloat(document.getElementById('p-teilzeit').value) / 100 || 1;
+  const mitZulage   = document.getElementById('p-pflegezulage').checked;
+  const kirche      = document.getElementById('p-kirche').checked;
+  const kircheS     = parseInt(document.getElementById('p-kirche-bl').value || 9);
+  const kvz         = parseFloat(document.getElementById('p-kvz').value || 1.45);
+  const pvK_raw     = parseInt(document.getElementById('p-pv-kinder').value || 0);
+  const unter23     = pvK_raw === -1;
+  const pvK         = unter23 ? 0 : pvK_raw;
+  const kfb         = parseFloat(document.getElementById('p-kfb').value || 0);
+  const vblTyp      = document.getElementById('p-vbl').value;
+  const extra       = parseFloat(document.getElementById('p-extra').value || 0);
+
+  const tabellenVZ  = P_2025[aktivEG][aktivStufe];
+  const pflegeZul   = mitZulage ? PFLEGEZULAGE * teilzeit : 0;
+  const schichtZul  = schichtZulage * teilzeit;
+  const bruttoAZ    = tabellenVZ * teilzeit + pflegeZul + schichtZul + extra;
+
+  const r = bruttoNetto(bruttoAZ, aktivSK, kirche, kvz,
+    pvK===0 && !unter23, kircheS, false, aktivSteuerjahr, kfb, pvK, unter23);
+  const vblBetrag = calcVBL(bruttoAZ, vblTyp);
+  const nettoFinal = r.netto - vblBetrag;
+
+  const jszPct = (JSZ_P[aktivEG] || 84.51) / 100;
+  const jsz = bruttoAZ * jszPct;
+  const jahresbrutto = bruttoAZ * 12 + jsz;
+
+  const f  = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+  const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+
+  set('p-netto',         f(nettoFinal));
+  set('p-brutto-sub',    f(bruttoAZ));
+  set('p-steuern-sub',   '−' + f0(r.lohnsteuer + r.soli + r.kirche));
+  set('p-soz-sub',       '−' + f0(r.sozialAbgaben + vblBetrag));
+  set('p-soz-sum',       '− ' + f0(r.gesamtAbzuege + vblBetrag));
+  set('p-det-lst',       '− ' + f(r.lohnsteuer));
+  set('p-det-soli',      r.soli > 0 ? '− ' + f(r.soli) : '0,00 €');
+  set('p-det-kir',       r.kirche > 0 ? '− ' + f(r.kirche) : '0,00 €');
+  set('p-det-kv',        '− ' + f(r.kv));
+  set('p-det-pv',        '− ' + f(r.pv));
+  set('p-det-rv',        '− ' + f(r.rv));
+  set('p-det-alv',       '− ' + f(r.alv));
+  set('p-det-vbl',       vblBetrag > 0 ? '− ' + f(vblBetrag) : '0,00 €');
+  set('p-det-total',     '− ' + f0(r.gesamtAbzuege + vblBetrag));
+  set('p-eg-label',      aktivEG + ' · Stufe ' + (aktivStufe + 1));
+  set('p-tabelle-wert',  f(tabellenVZ * teilzeit));
+  set('p-zulage-row',    mitZulage ? '+ ' + f(pflegeZul) : '0,00 €');
+  set('p-schicht-row',   schichtZulage > 0 ? '+ ' + f(schichtZul) : '0,00 €');
+  set('p-gesamt',        f(bruttoAZ));
+  set('p-jsz',           '+ ' + f0(jsz) + ' (' + jszPct.toFixed(2).replace('.',',') + ' %)');
+  set('p-jahresbrutto',  f0(jahresbrutto));
+  set('p-bar-pct',       r.abgabenQuote + ' %');
+  document.getElementById('p-bar').style.width = Math.min(parseFloat(r.abgabenQuote), 100) + '%';
+
+  const extraRow = document.getElementById('p-extra-row');
+  if (extra > 0) { extraRow.style.display='flex'; set('p-extra-anzeige', '+ ' + f(extra)); }
+  else extraRow.style.display='none';
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+initEGGrid();
+initStufeGroup();
+document.getElementById('beruf-badge').textContent = BERUFE_P[aktivEG];
+renderTabelle();
+calcPflege();
+</script>
+</body>
+</html>

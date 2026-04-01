@@ -80,7 +80,7 @@ function renderNav(activePage = '') {
       </li>
 
       <li class="nav-dropdown">
-        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['tvoed','tvl','beamte','beamte-laender','sue'])}">
+        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['tvoed','tvl','beamte','beamte-laender','sue','pflege'])}">
           Öffentlicher Dienst <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
@@ -99,9 +99,9 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">🧸</span>
               <span><strong>TVöD-SuE</strong><small>Erzieher & Sozialpädagogen</small></span>
             </a>
-            <a href="${base}/tvoed-rechner#pflege" class="${isActive('tvoed')}">
+            <a href="${base}/tvoed-p-rechner" class="${isActive('pflege')}">
               <span class="nav-item-icon">🏥</span>
-              <span><strong>TVöD-P</strong><small>Pflege — bald verfügbar</small></span>
+              <span><strong>TVöD-P</strong><small>Pflege & Gesundheit</small></span>
             </a>
           </div>
 
