@@ -532,3 +532,32 @@ footer { background:#0f1a0f; padding:56px 36px 36px; }
   .nav-links { display: none !important; }
   .nav-hamburger { display: flex; }
 }
+
+/* ── TOOLTIPS ── */
+.tooltip-wrap { position:relative; display:inline-flex; align-items:center; gap:6px; }
+.tooltip-icon {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:16px; height:16px; border-radius:50%;
+  background:var(--border); color:var(--ink-3);
+  font-size:10px; font-weight:700; cursor:help;
+  flex-shrink:0; transition:background .15s;
+}
+.tooltip-icon:hover { background:var(--accent); color:#fff; }
+.tooltip-box {
+  position:absolute; bottom:calc(100% + 8px); left:50%;
+  transform:translateX(-50%);
+  background:#1a1a2e; color:#fff;
+  font-size:12px; line-height:1.5; font-weight:400;
+  padding:8px 12px; border-radius:8px;
+  width:220px; z-index:999; pointer-events:none;
+  opacity:0; transition:opacity .15s;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+}
+.tooltip-box::after {
+  content:''; position:absolute; top:100%; left:50%;
+  transform:translateX(-50%);
+  border:5px solid transparent;
+  border-top-color:#1a1a2e;
+}
+.tooltip-icon:hover + .tooltip-box,
+.tooltip-wrap:hover .tooltip-box { opacity:1; }

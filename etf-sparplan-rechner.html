@@ -70,7 +70,7 @@ document.addEventListener('click', e => {
     <div class="calc-body">
       <div class="inputs-panel">
         <div class="field">
-          <label>Monatliche Sparrate</label>
+          <label data-tt="Regelmäßiger Betrag den du monatlich zurücklegst.">Monatliche Sparrate <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Regelmäßiger Betrag den du monatlich zurücklegst.</span></span></label>
           <div class="input-wrap">
             <input type="number" id="etf-rate" value="250" min="1" max="10000" oninput="calcETF()">
             <span class="input-unit">€</span>
@@ -80,7 +80,7 @@ document.addEventListener('click', e => {
         </div>
 
         <div class="field">
-          <label>Anlagedauer</label>
+          <label data-tt="Je länger, desto stärker der Zinseszinseffekt. Über 20+ Jahre wächst dein Kapital exponentiell.">Anlagedauer <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Je länger, desto stärker der Zinseszinseffekt. Über 20+ Jahre wächst dein Kapital exponentiell.</span></span></label>
           <div class="input-wrap">
             <input type="number" id="etf-jahre" value="20" min="1" max="50" oninput="calcETF()">
             <span class="input-unit">Jahre</span>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETF Rechner 2026 – Kosten, Vorabpauschale & Wechsel berechnen | RechnerPilot</title>
+<meta name="description" content="ETF Rechner 2026: Vorabpauschale berechnen, ETF-Kosten vergleichen und ETF-Wechsel-Break-even ermitteln. Kostenlos und aktuell.">
+<link rel="canonical" href="https://www.rechnerpilot.de/etf-rechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.etf-tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;}
+.etf-tab{padding:9px 18px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:all .15s;}
+.etf-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.etf-section{display:none;}
+.etf-section.active{display:block;}
+.result-highlight{background:var(--accent-light);border:1.5px solid rgba(26,92,58,.15);border-radius:12px;padding:16px 18px;margin:12px 0;}
+.result-highlight .rh-val{font-size:28px;font-weight:800;font-family:'Instrument Serif',serif;color:var(--accent);}
+.result-highlight .rh-label{font-size:12px;color:var(--ink-3);margin-top:2px;}
+.vergleich-bar{margin:16px 0;}
+.vergleich-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.vergleich-bar-label{font-size:12px;font-weight:600;color:var(--ink-2);min-width:80px;}
+.vergleich-bar-track{flex:1;height:10px;background:var(--border);border-radius:5px;overflow:hidden;}
+.vergleich-bar-fill{height:100%;border-radius:5px;transition:width .4s;}
+.bar-gut{background:#1a5c3a;}
+.bar-schlecht{background:#e74c3c;}
+.vergleich-bar-val{font-size:12px;font-weight:700;min-width:70px;text-align:right;}
+</style>
+</head>
+<body data-page="etf-tools">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <a href="etf-sparplan-rechner.html">ETF</a><span>›</span>
+      <span>ETF Tools</span>
+    </div>
+    <h1>ETF Rechner 2026</h1>
+    <p>Vorabpauschale berechnen, ETF-Kosten vergleichen und den richtigen Zeitpunkt für einen ETF-Wechsel ermitteln.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="etf-tabs">
+      <button class="etf-tab active" onclick="switchTab('vorab', this)">📊 Vorabpauschale</button>
+      <button class="etf-tab" onclick="switchTab('kosten', this)">💰 ETF-Kosten vergleichen</button>
+      <button class="etf-tab" onclick="switchTab('wechsel', this)">🔄 ETF-Wechsel</button>
+    </div>
+
+    <!-- TAB 1: VORABPAUSCHALE -->
+    <div id="tab-vorab" class="etf-section active">
+      <div class="calc-body">
+        <div class="inputs-panel">
+          <div class="field">
+            <label data-tt="Der Wert deiner ETF-Anteile am 1. Januar des Berechnungsjahres.">Fondswert am Jahresanfang</label>
+            <div class="input-wrap">
+              <input type="number" id="vp-wert" value="10000" step="100" oninput="calcVorab()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Das Jahr für das die Vorabpauschale berechnet wird. Fällig im Januar des Folgejahres.">Berechnungsjahr</label>
+            <div class="toggle-group" style="flex-wrap:wrap;gap:6px;" id="vp-jahr-group">
+              <button class="toggle-btn" data-val="2024" onclick="selectVPJahr(this)">2024</button>
+              <button class="toggle-btn active" data-val="2025" onclick="selectVPJahr(this)">2025</button>
+              <button class="toggle-btn" data-val="2026" onclick="selectVPJahr(this)">2026</button>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Basiszins 2025: 2,53 % · 2024: 2,29 % · 2026: noch nicht bekannt (Schätzung 2,4 %)</div>
+          </div>
+          <div class="field">
+            <label data-tt="Ausschüttungen deines ETFs im Laufe des Jahres (z.B. Dividenden). Bei thesaurierenden ETFs: 0 €.">Ausschüttungen im Jahr</label>
+            <div class="input-wrap">
+              <input type="number" id="vp-ausschuettung" value="0" step="10" oninput="calcVorab()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Bei Aktien-ETFs mit mind. 51 % Aktienanteil: 30 % Teilfreistellung. Gilt für die meisten ETFs.">Teilfreistellung</label>
+            <div class="toggle-group" style="flex-wrap:wrap;gap:6px;">
+              <button class="toggle-btn active" data-val="0.3" onclick="selectTFQ(this)">30 % (Aktien-ETF)</button>
+              <button class="toggle-btn" data-val="0.15" onclick="selectTFQ(this)">15 % (Misch)</button>
+              <button class="toggle-btn" data-val="0" onclick="selectTFQ(this)">0 % (Anleihen)</button>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Noch nicht genutzter Sparerpauschbetrag. Singles: 1.000 € · Paare: 2.000 €.">Verbleibender Freistellungsauftrag</label>
+            <div class="input-wrap">
+              <input type="number" id="vp-freistellung" value="1000" step="50" oninput="calcVorab()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Kirchensteuer erhöht die Gesamtsteuer leicht.">Kirchensteuer</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" data-val="0" onclick="selectVPKirche(this)">Keine</button>
+              <button class="toggle-btn" data-val="9" onclick="selectVPKirche(this)">9 %</button>
+              <button class="toggle-btn" data-val="8" onclick="selectVPKirche(this)">8 % (BY/BW)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">Vorabpauschale <span id="vp-jahr-label">2025</span></div>
+          <div class="result-highlight">
+            <div class="rh-val" id="vp-steuer">—</div>
+            <div class="rh-label">Steuer auf Vorabpauschale (wird im Januar abgebucht)</div>
+          </div>
+          <div class="result-row"><span class="result-row-label">Basiszins</span><span class="result-row-value" id="vp-basiszins">—</span></div>
+          <div class="result-row"><span class="result-row-label">Basisertrag (max. Vorabpauschale)</span><span class="result-row-value" id="vp-basisertrag">—</span></div>
+          <div class="result-row"><span class="result-row-label">Vorabpauschale (vor TFQ)</span><span class="result-row-value" id="vp-brutto">—</span></div>
+          <div class="result-row"><span class="result-row-label">Vorabpauschale (nach 30 % TFQ)</span><span class="result-row-value" id="vp-netto">—</span></div>
+          <div class="result-row"><span class="result-row-label">Steuerpflichtig (nach Freistellung)</span><span class="result-row-value" id="vp-steuerpflichtig">—</span></div>
+          <div class="result-row"><span class="result-row-label">Abgeltungssteuer (25 %)</span><span class="result-row-value neg" id="vp-abgeltung">—</span></div>
+          <div class="result-row"><span class="result-row-label">Soli (5,5 % auf Steuer)</span><span class="result-row-value neg" id="vp-soli">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kirchensteuer</span><span class="result-row-value neg" id="vp-kirche-row">—</span></div>
+          <div class="result-row"><span class="result-row-label">Steuer gesamt</span><span class="result-row-value neg" id="vp-gesamt-steuer">—</span></div>
+        </div>
+      </div>
+
+      <div style="background:var(--accent-light);border-radius:12px;padding:14px 16px;margin-top:12px;font-size:13px;color:var(--ink-2);">
+        <strong style="color:var(--accent);">💡 Was ist die Vorabpauschale?</strong><br>
+        Bei thesaurierenden ETFs werden keine Dividenden ausgeschüttet — um eine dauerhafte Steuerstundung zu verhindern, wird jährlich eine fiktive Mindestrendite (Basiszins × 70 %) besteuert. Die Steuer wird im Januar des Folgejahres direkt vom Verrechnungskonto abgezogen. Bei Verkauf wird die gezahlte Vorabpauschale angerechnet.
+      </div>
+    </div>
+
+    <!-- TAB 2: ETF KOSTEN VERGLEICHEN -->
+    <div id="tab-kosten" class="etf-section">
+      <div class="calc-body">
+        <div class="inputs-panel">
+          <div class="field">
+            <label data-tt="Der Betrag den du einmalig oder als Startkapital investierst.">Startkapital</label>
+            <div class="input-wrap">
+              <input type="number" id="ek-kapital" value="10000" step="500" oninput="calcKosten()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Regelmäßiger monatlicher Betrag zusätzlich zum Startkapital.">Monatliche Sparrate</label>
+            <div class="input-wrap">
+              <input type="number" id="ek-sparrate" value="200" step="50" oninput="calcKosten()">
+              <span class="input-unit">€/Monat</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Wie lange du investiert bleibst. Je länger, desto größer der Kostenvorteil günstiger ETFs.">Anlagedauer</label>
+            <div class="input-wrap">
+              <input type="number" id="ek-jahre" value="20" min="1" max="50" oninput="calcKosten()">
+              <span class="input-unit">Jahre</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Erwartete jährliche Rendite vor Kosten. Historisch MSCI World: ca. 7–8 %.">Erwartete Rendite (vor Kosten)</label>
+            <div class="input-wrap">
+              <input type="number" id="ek-rendite" value="7" step="0.5" min="1" max="15" oninput="calcKosten()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">
+          <div class="field">
+            <label data-tt="TER des günstigen ETFs. Günstige MSCI World ETFs: 0,12–0,20 % p.a.">ETF A — TER (günstig)</label>
+            <div class="input-wrap">
+              <input type="number" id="ek-ter-a" value="0.12" step="0.01" min="0" max="3" oninput="calcKosten()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="TER des teureren ETFs. Aktiv gemanagte Fonds: oft 1,0–2,0 % p.a.">ETF B — TER (teurer)</label>
+            <div class="input-wrap">
+              <input type="number" id="ek-ter-b" value="1.5" step="0.1" min="0" max="3" oninput="calcKosten()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">Kostenvergleich nach <span id="ek-jahre-label">20</span> Jahren</div>
+          <div class="result-highlight">
+            <div class="rh-val" id="ek-vorteil">—</div>
+            <div class="rh-label">Kostenvorteil ETF A gegenüber ETF B</div>
+          </div>
+
+          <div class="vergleich-bar" id="ek-bar-container">
+            <div class="vergleich-bar-row">
+              <div class="vergleich-bar-label">ETF A</div>
+              <div class="vergleich-bar-track"><div class="vergleich-bar-fill bar-gut" id="ek-bar-a" style="width:100%"></div></div>
+              <div class="vergleich-bar-val" id="ek-end-a">—</div>
+            </div>
+            <div class="vergleich-bar-row">
+              <div class="vergleich-bar-label">ETF B</div>
+              <div class="vergleich-bar-track"><div class="vergleich-bar-fill bar-schlecht" id="ek-bar-b" style="width:100%"></div></div>
+              <div class="vergleich-bar-val" id="ek-end-b">—</div>
+            </div>
+          </div>
+
+          <div class="result-row"><span class="result-row-label">Eingezahltes Kapital</span><span class="result-row-value" id="ek-eingezahlt">—</span></div>
+          <div class="result-row"><span class="result-row-label">ETF A Endkapital (<span id="ek-ter-a-label">0,12</span> % TER)</span><span class="result-row-value pos" id="ek-end-a2">—</span></div>
+          <div class="result-row"><span class="result-row-label">ETF B Endkapital (<span id="ek-ter-b-label">1,50</span> % TER)</span><span class="result-row-value" id="ek-end-b2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kosten ETF A gesamt</span><span class="result-row-value neg" id="ek-kosten-a">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kosten ETF B gesamt</span><span class="result-row-value neg" id="ek-kosten-b">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: ETF WECHSEL -->
+    <div id="tab-wechsel" class="etf-section">
+      <div class="calc-body">
+        <div class="inputs-panel">
+          <div class="field">
+            <label data-tt="Der aktuelle Marktwert deiner ETF-Position.">Aktueller ETF-Wert</label>
+            <div class="input-wrap">
+              <input type="number" id="ew-wert" value="20000" step="500" oninput="calcWechsel()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Dein ursprünglicher Kaufpreis (Einstandspreis). Differenz zum aktuellen Wert = Kursgewinn.">Ursprünglicher Kaufpreis</label>
+            <div class="input-wrap">
+              <input type="number" id="ew-kaufpreis" value="12000" step="500" oninput="calcWechsel()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="TER des aktuellen ETFs den du wechseln möchtest.">TER aktueller ETF</label>
+            <div class="input-wrap">
+              <input type="number" id="ew-ter-alt" value="0.5" step="0.01" min="0" max="3" oninput="calcWechsel()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="TER des neuen günstigeren ETFs auf den du wechseln möchtest.">TER neuer ETF</label>
+            <div class="input-wrap">
+              <input type="number" id="ew-ter-neu" value="0.12" step="0.01" min="0" max="3" oninput="calcWechsel()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Ordergebühren beim Verkauf des alten und Kauf des neuen ETFs.">Transaktionskosten</label>
+            <div class="input-wrap">
+              <input type="number" id="ew-transakt" value="0" step="1" min="0" oninput="calcWechsel()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+          <div class="field">
+            <label data-tt="Noch nicht genutzter Sparerpauschbetrag mindert die anfallende Steuer.">Verbleibender Freistellungsauftrag</label>
+            <div class="input-wrap">
+              <input type="number" id="ew-freistellung" value="0" step="50" min="0" max="2000" oninput="calcWechsel()">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">ETF-Wechsel Analyse</div>
+          <div class="result-highlight">
+            <div class="rh-val" id="ew-breakeven">—</div>
+            <div class="rh-label">Break-even — nach dieser Zeit hat sich der Wechsel gelohnt</div>
+          </div>
+          <div class="result-row"><span class="result-row-label">Kursgewinn (steuerpflichtig)</span><span class="result-row-value" id="ew-gewinn">—</span></div>
+          <div class="result-row"><span class="result-row-label">Steuer beim Verkauf</span><span class="result-row-value neg" id="ew-steuer">—</span></div>
+          <div class="result-row"><span class="result-row-label">Transaktionskosten</span><span class="result-row-value neg" id="ew-transakt-out">—</span></div>
+          <div class="result-row"><span class="result-row-label">Gesamtkosten des Wechsels</span><span class="result-row-value neg" id="ew-gesamtkosten">—</span></div>
+          <div class="result-row"><span class="result-row-label">TER-Ersparnis pro Jahr</span><span class="result-row-value pos" id="ew-ter-ersparnis">—</span></div>
+          <div class="result-row"><span class="result-row-label">Lohnt sich der Wechsel?</span><span class="result-row-value" id="ew-urteil">—</span></div>
+        </div>
+      </div>
+
+      <div style="background:var(--accent-light);border-radius:12px;padding:14px 16px;margin-top:12px;font-size:13px;color:var(--ink-2);">
+        <strong style="color:var(--accent);">💡 Wann lohnt sich ein ETF-Wechsel?</strong><br>
+        Beim Verkauf werden Kapitalertragsteuer (25 % + Soli) auf alle Gewinne fällig. Das kostet den Steuerstundungseffekt. Der Wechsel lohnt sich nur wenn die TER-Ersparnis diese Kosten innerhalb deines geplanten Anlagehorizonts überwiegt.
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Wann fällt die Vorabpauschale an?</div>
+        <div class="faq-a">Die Vorabpauschale fällt immer im Januar des Folgejahres an — die Steuer auf die Vorabpauschale 2025 wird also im Januar 2026 vom Verrechnungskonto abgezogen. Voraussetzung: Der ETF muss tatsächlich eine positive Wertentwicklung gehabt haben. Bei Verlust oder Wertstagnation entfällt die Vorabpauschale.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Gilt die Vorabpauschale auch für ausschüttende ETFs?</div>
+        <div class="faq-a">Ja — aber nur wenn die Ausschüttungen geringer sind als der Basisertrag (Fondswert × Basiszins × 70 %). In diesem Fall wird die Differenz als Vorabpauschale besteuert. Bei ausschüttenden ETFs mit hoher Dividende entfällt die Vorabpauschale oft vollständig.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie viel TER-Unterschied rechtfertigt einen ETF-Wechsel?</div>
+        <div class="faq-a">Als Faustregel: TER-Unterschied von 0,3 % oder mehr bei einem langen Anlagehorizont (10+ Jahre) und einem großen Kursgewinn lohnt sich häufig nicht wegen der Steuerkosten. Bei kleinen Positionen oder kürzlichem Kauf (wenig Gewinn = wenig Steuer) kann es sich lohnen. Nutze den Wechsel-Rechner für deine konkrete Situation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERWANDTE RECHNER -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan Rechner</h3>
+        <p>Endkapital und Rendite berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="altersvorsorge-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>Altersvorsorge Rechner</h3>
+        <p>Rentenlücke, Rürup und Riester.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Nettogehalt berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+// Basiszinsen je Jahr (von Bundesbank / BMF)
+const BASISZINS = { 2024: 0.0229, 2025: 0.0253, 2026: 0.024 };
+
+let vpJahr = 2025, vpTFQ = 0.3, vpKirche = 0;
+
+const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
+const fp = n => n.toFixed(2).replace('.',',')+' %';
+const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.etf-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.etf-section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+function selectVPJahr(btn) {
+  vpJahr = parseInt(btn.dataset.val);
+  document.querySelectorAll('#vp-jahr-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  set('vp-jahr-label', vpJahr);
+  calcVorab();
+}
+
+function selectTFQ(btn) {
+  vpTFQ = parseFloat(btn.dataset.val);
+  btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcVorab();
+}
+
+function selectVPKirche(btn) {
+  vpKirche = parseInt(btn.dataset.val);
+  btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcVorab();
+}
+
+// ── VORABPAUSCHALE ──
+function calcVorab() {
+  const wert         = parseFloat(document.getElementById('vp-wert').value) || 0;
+  const ausschuettung= parseFloat(document.getElementById('vp-ausschuettung').value) || 0;
+  const freistellung = parseFloat(document.getElementById('vp-freistellung').value) || 0;
+  const basiszins    = BASISZINS[vpJahr] || 0.0253;
+
+  // Basisertrag = Fondswert × Basiszins × 0,7
+  const basisertrag = wert * basiszins * 0.7;
+  
+  // Vorabpauschale = max(Basisertrag - Ausschüttungen, 0)
+  const vorabBrutto = Math.max(0, basisertrag - ausschuettung);
+  
+  // Nach Teilfreistellung
+  const vorabNetto = vorabBrutto * (1 - vpTFQ);
+  
+  // Steuerpflichtig nach Freistellungsauftrag
+  const steuerpflichtig = Math.max(0, vorabNetto - freistellung);
+  
+  // Steuern
+  const abgeltung = steuerpflichtig * 0.25;
+  const soli      = abgeltung > 0 ? abgeltung * 0.055 : 0;
+  const kirche    = vpKirche > 0 ? abgeltung * (vpKirche/100) : 0;
+  const gesamt    = abgeltung + soli + kirche;
+
+  set('vp-basiszins',       fp(basiszins * 100));
+  set('vp-basisertrag',     f(basisertrag));
+  set('vp-brutto',          f(vorabBrutto));
+  set('vp-netto',           f(vorabNetto));
+  set('vp-steuerpflichtig', f(steuerpflichtig));
+  set('vp-abgeltung',       gesamt > 0 ? '− '+f(abgeltung) : '0,00 €');
+  set('vp-soli',            soli > 0 ? '− '+f(soli) : '0,00 €');
+  set('vp-kirche-row',      kirche > 0 ? '− '+f(kirche) : '0,00 €');
+  set('vp-gesamt-steuer',   gesamt > 0 ? '− '+f(gesamt) : '0,00 €');
+  set('vp-steuer',          gesamt > 0 ? f(gesamt) : '0,00 €');
+}
+
+// ── ETF KOSTEN ──
+function calcKosten() {
+  const kapital  = parseFloat(document.getElementById('ek-kapital').value) || 0;
+  const sparrate = parseFloat(document.getElementById('ek-sparrate').value) || 0;
+  const jahre    = parseInt(document.getElementById('ek-jahre').value) || 20;
+  const rendite  = parseFloat(document.getElementById('ek-rendite').value) / 100 || 0.07;
+  const terA     = parseFloat(document.getElementById('ek-ter-a').value) / 100 || 0.0012;
+  const terB     = parseFloat(document.getElementById('ek-ter-b').value) / 100 || 0.015;
+
+  set('ek-jahre-label', jahre);
+  set('ek-ter-a-label', (terA*100).toFixed(2).replace('.',','));
+  set('ek-ter-b-label', (terB*100).toFixed(2).replace('.',','));
+  document.getElementById('ek-ter-b-label').textContent = (terB*100).toFixed(2).replace('.',',');
+
+  function endkapital(ter) {
+    const r = (rendite - ter) / 12;
+    const n = jahre * 12;
+    return kapital * Math.pow(1+rendite-ter, jahre) +
+           sparrate * (Math.pow(1+r, n) - 1) / r * (1+r);
+  }
+
+  const endA = endkapital(terA);
+  const endB = endkapital(terB);
+  const eingezahlt = kapital + sparrate * 12 * jahre;
+  const kostenA = endkapital(0) - endA;
+  const kostenB = endkapital(0) - endB;
+  const vorteil = endA - endB;
+
+  set('ek-vorteil',    f0(vorteil));
+  set('ek-end-a',      f0(endA));
+  set('ek-end-b',      f0(endB));
+  set('ek-end-a2',     f0(endA));
+  set('ek-end-b2',     f0(endB));
+  set('ek-eingezahlt', f0(eingezahlt));
+  set('ek-kosten-a',   '− '+f0(kostenA));
+  set('ek-kosten-b',   '− '+f0(kostenB));
+
+  // Balken
+  const maxVal = Math.max(endA, endB);
+  document.getElementById('ek-bar-a').style.width = (endA/maxVal*100)+'%';
+  document.getElementById('ek-bar-b').style.width = (endB/maxVal*100)+'%';
+}
+
+// ── ETF WECHSEL ──
+function calcWechsel() {
+  const wert        = parseFloat(document.getElementById('ew-wert').value) || 0;
+  const kaufpreis   = parseFloat(document.getElementById('ew-kaufpreis').value) || 0;
+  const terAlt      = parseFloat(document.getElementById('ew-ter-alt').value) / 100 || 0;
+  const terNeu      = parseFloat(document.getElementById('ew-ter-neu').value) / 100 || 0;
+  const transakt    = parseFloat(document.getElementById('ew-transakt').value) || 0;
+  const freistellung= parseFloat(document.getElementById('ew-freistellung').value) || 0;
+
+  const gewinn = Math.max(0, wert - kaufpreis);
+  const tfq    = 0.3; // Aktien-ETF Standard
+  const steuerpflichtig = Math.max(0, gewinn * (1-tfq) - freistellung);
+  const steuer = steuerpflichtig * 0.26375; // 25% + Soli
+  const gesamtkosten = steuer + transakt;
+
+  const terDiff = terAlt - terNeu;
+  const ersparnis = wert * terDiff; // pro Jahr (vereinfacht)
+
+  // Break-even in Jahren
+  const breakeven = ersparnis > 0 ? gesamtkosten / ersparnis : Infinity;
+  const breakEvenText = ersparnis <= 0 
+    ? '❌ Kein Vorteil (neuer ETF nicht günstiger)'
+    : breakeven < 1 ? '< 1 Jahr ✅'
+    : breakeven < 30 ? breakeven.toFixed(1).replace('.',',') + ' Jahre'
+    : '> 30 Jahre ❌';
+
+  const lohnt = ersparnis <= 0 ? '❌ Nicht empfohlen'
+    : breakeven < 5 ? '✅ Empfohlen'
+    : breakeven < 15 ? '⚡ Grenzwertig'
+    : '❌ Eher nicht empfohlen';
+
+  set('ew-breakeven',    breakEvenText);
+  set('ew-gewinn',       f(gewinn));
+  set('ew-steuer',       steuer > 0 ? '− '+f(steuer) : '0,00 €');
+  set('ew-transakt-out', transakt > 0 ? '− '+f(transakt) : '0,00 €');
+  set('ew-gesamtkosten', '− '+f(gesamtkosten));
+  set('ew-ter-ersparnis', f(ersparnis)+' /Jahr');
+  set('ew-urteil',       lohnt);
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+calcVorab();
+calcKosten();
+calcWechsel();
+</script>
+</body>
+</html>

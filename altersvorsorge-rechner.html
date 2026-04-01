@@ -114,7 +114,7 @@
           </div>
 
           <div class="field">
-            <label>Bereits gesammelte Rentenpunkte</label>
+            <label data-tt="Auf deiner jährlichen Renteninformation der DRV. 1 Punkt = 40,79 €/Monat (ab Juli 2026: 42,52 €).">Bereits gesammelte Rentenpunkte <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Auf deiner jährlichen Renteninformation der DRV. 1 Punkt = 40,79 €/Monat (ab Juli 2026: 42,52 €).</span></span></label>
             <div class="input-wrap">
               <input type="number" id="av-punkte" value="12" step="0.5" min="0" max="80" oninput="calcRente()">
               <span class="input-unit">Punkte</span>
@@ -326,7 +326,7 @@
             </div>
           </div>
           <div class="field">
-            <label>Grenzsteuersatz</label>
+            <label data-tt="Dein persönlicher Steuersatz auf jeden zusätzlich verdienten Euro. Bis 30k€: ~20–25% · bis 60k€: ~35–42% · ab 80k€: 42–45%.">Grenzsteuersatz <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Dein persönlicher Steuersatz auf jeden zusätzlich verdienten Euro. Bis 30k€: ~20–25% · bis 60k€: ~35–42% · ab 80k€: 42–45%.</span></span></label>
             <div class="input-wrap">
               <input type="number" id="rr-grenzsteuer" value="35" step="1" min="14" max="45" oninput="calcRuerup()">
               <span class="input-unit">%</span>
@@ -447,7 +447,7 @@
             <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Kinder nach 2008 geboren: 300 €/Kind. Vorher: 185 €/Kind.</div>
           </div>
           <div class="field">
-            <label>Steuerklasse</label>
+            <label data-tt="I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK) · V: Verheiratet (niedrigeres EK)">Steuerklasse <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK) · V: Verheiratet (niedrigeres EK)</span></span></label>
             <div class="toggle-group" id="ri-sk-group">
               <button class="toggle-btn active" data-val="1" onclick="selectRISK(this)">I</button>
               <button class="toggle-btn" data-val="3" onclick="selectRISK(this)">III</button>

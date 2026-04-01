@@ -84,7 +84,7 @@
       <!-- INPUTS -->
       <div class="inputs-panel">
         <div class="field">
-          <label>Bruttogehalt</label>
+          <label data-tt="Monatliches Gehalt vor Steuern und Abgaben — so wie im Arbeitsvertrag.">Bruttogehalt <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Monatliches Gehalt vor Steuern und Abgaben — so wie im Arbeitsvertrag.</span></span></label>
           <div class="jahres-toggle" style="margin-bottom:8px;">
             <button class="jt-btn active" onclick="setModus('monat',this)">Monatlich</button>
             <button class="jt-btn" onclick="setModus('jahr',this)">Jährlich</button>
@@ -116,7 +116,7 @@
         </div>
 
         <div class="field">
-          <label>Steuerklasse</label>
+          <label data-tt="I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK) · V: Verheiratet (niedrigeres EK)">Steuerklasse <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK) · V: Verheiratet (niedrigeres EK)</span></span></label>
           <div class="toggle-group" id="klasse-group">
             <button class="toggle-btn active" data-val="1" onclick="selectKlasse(this)">I</button>
             <button class="toggle-btn" data-val="2" onclick="selectKlasse(this)">II</button>
@@ -152,7 +152,7 @@
         </div>
 
         <div class="field">
-          <label>Kirchensteuer</label>
+          <label data-tt="9 % in den meisten Bundesländern, 8 % in Bayern und Baden-Württemberg.">Kirchensteuer <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">9 % in den meisten Bundesländern, 8 % in Bayern und Baden-Württemberg.</span></span></label>
           <label class="checkbox-row">
             <input type="checkbox" id="bn-kirche" onchange="calcBN()">
             <span>Ich zahle Kirchensteuer (<span id="kirche-satz-label">9</span> %)</span>

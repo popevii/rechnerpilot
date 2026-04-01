@@ -103,17 +103,17 @@
         </div>
 
         <div class="field">
-          <label>Besoldungsgruppe</label>
+          <label data-tt="Bestimmt das Grundgehalt. A3–A5: einfacher Dienst · A6–A9: mittlerer Dienst · A9–A13: gehobener Dienst · A13–A16: höherer Dienst.">Besoldungsgruppe <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Bestimmt das Grundgehalt. A3–A5: einfacher Dienst · A6–A9: mittlerer Dienst · A9–A13: gehobener Dienst · A13–A16: höherer Dienst.</span></span></label>
           <div class="bg-grid" id="bg-grid"></div>
         </div>
 
         <div class="field">
-          <label>Erfahrungsstufe</label>
+          <label data-tt="Steigt automatisch nach Dienstzeit. Stufe 1 = Einstieg, Stufe 6/8 = max. nach ca. 15–28 Jahren.">Erfahrungsstufe <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Steigt automatisch nach Dienstzeit. Stufe 1 = Einstieg, Stufe 6/8 = max. nach ca. 15–28 Jahren.</span></span></label>
           <div class="stufe-group" id="stufe-group"></div>
         </div>
 
         <div class="field">
-          <label>Steuerklasse</label>
+          <label data-tt="I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK) · V: Verheiratet (niedrigeres EK)">Steuerklasse <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK) · V: Verheiratet (niedrigeres EK)</span></span></label>
           <div class="toggle-group" id="sk-group">
             <button class="toggle-btn active" data-val="1" onclick="selectSK(this)">I</button>
             <button class="toggle-btn" data-val="2" onclick="selectSK(this)">II</button>
@@ -126,7 +126,7 @@
 
 
         <div class="field">
-          <label>Steuerjahr</label>
+          <label data-tt="Grundfreibetrag, BBG und Soli-Freigrenze ändern sich jährlich. 2026: GFB 12.348 €.">Steuerjahr <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Grundfreibetrag, BBG und Soli-Freigrenze ändern sich jährlich. 2026: GFB 12.348 €.</span></span></label>
           <div class="toggle-group" id="bl-jahr-group" style="flex-wrap:wrap;gap:6px;">
             <button class="toggle-btn" data-val="2024" onclick="selectJahr(this)">2024</button>
             <button class="toggle-btn" data-val="2025" onclick="selectJahr(this)">2025</button>
@@ -135,7 +135,7 @@
         </div>
 
         <div class="field">
-          <label>Kirchensteuer</label>
+          <label data-tt="9 % in den meisten Bundesländern, 8 % in Bayern und Baden-Württemberg.">Kirchensteuer <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">9 % in den meisten Bundesländern, 8 % in Bayern und Baden-Württemberg.</span></span></label>
           <div style="display:flex;gap:8px;align-items:center;">
             <label class="checkbox-row" style="flex:1;">
               <input type="checkbox" id="bl-kirche" onchange="calcLand()">
@@ -149,7 +149,7 @@
         </div>
 
         <div class="field">
-          <label>GKV-Zusatzbeitrag (AN-Anteil)</label>
+          <label data-tt="Ø 2026: 1,45 % AN-Anteil (Gesamt 2,9 %). Je nach Krankenkasse niedriger oder höher.">GKV-Zusatzbeitrag (AN-Anteil) <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Ø 2026: 1,45 % AN-Anteil (Gesamt 2,9 %). Je nach Krankenkasse niedriger oder höher.</span></span></label>
           <div class="input-wrap">
             <input type="number" id="bl-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcLand()">
             <span class="input-unit">%</span>
@@ -158,7 +158,7 @@
         </div>
 
         <div class="field">
-          <label>Kinderfreibeträge (§ 32 EStG)</label>
+          <label data-tt="4.878 € je Elternteil (2026). Wirkt nur bei Günstigerprüfung ggü. Kindergeld.">Kinderfreibeträge (§ 32 EStG) <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">4.878 € je Elternteil (2026). Wirkt nur bei Günstigerprüfung ggü. Kindergeld.</span></span></label>
           <select id="bl-kfb" onchange="calcLand()" class="hc-input" style="font-size:13px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-weight:500;color:var(--ink);width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;outline:none;">
             <option value="0">0 — keine Kinder</option>
             <option value="0.5">0,5 — anteilig</option>
@@ -174,7 +174,7 @@
         </div>
 
         <div class="field">
-          <label>Pflegeversicherung — Kinder</label>
+          <label data-tt="Kinderlose 23+: 2,1 % AN · Unter 23: 1,8 % · 1 Kind: 1,8 % · 2 Kinder unter 25: 1,55 % usw.">Pflegeversicherung — Kinder <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Kinderlose 23+: 2,1 % AN · Unter 23: 1,8 % · 1 Kind: 1,8 % · 2 Kinder unter 25: 1,55 % usw.</span></span></label>
           <select id="bl-pv-kinder" onchange="calcLand()" class="hc-input" style="font-size:13px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-weight:500;color:var(--ink);width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;outline:none;">
             <option value="0">Keine Kinder, 23+ Jahre (2,1 % AN)</option>
             <option value="-1">Unter 23 Jahre (1,8 % AN)</option>
