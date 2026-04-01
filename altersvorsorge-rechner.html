@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Altersvorsorge Rechner 2026 – Rentenlücke berechnen & schließen | RechnerPilot</title>
+<meta name="description" content="Altersvorsorge Rechner 2026: Rentenlücke berechnen, Riester vs. Rürup vs. ETF vergleichen. Wie viel Rente bekomme ich? Jetzt kostenlos berechnen.">
+<link rel="canonical" href="https://www.rechnerpilot.de/altersvorsorge-rechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Altersvorsorge Rechner 2026",
+  "description": "Rentenlücke berechnen und Altersvorsorge planen",
+  "url": "https://www.rechnerpilot.de/altersvorsorge-rechner",
+  "applicationCategory": "FinanceApplication",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+}
+</script>
+<style>
+/* ── ALTERSVORSORGE SPEZIFISCH ── */
+.av-tabs { display:flex; gap:4px; margin-bottom:20px; flex-wrap:wrap; }
+.av-tab { padding:9px 18px; border-radius:8px; border:1.5px solid var(--border); background:var(--bg); font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:600; color:var(--ink-2); cursor:pointer; transition:all .15s; }
+.av-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.av-section { display:none; }
+.av-section.active { display:block; }
+
+/* Rentenlücken-Ampel */
+.ampel { display:flex; gap:12px; margin:16px 0; flex-wrap:wrap; }
+.ampel-box { flex:1; min-width:120px; border-radius:12px; padding:16px; text-align:center; }
+.ampel-box .ampel-val { font-size:22px; font-weight:800; font-family:'Instrument Serif',serif; }
+.ampel-box .ampel-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.4px; margin-top:4px; opacity:.85; }
+.ampel-gruen { background:#d1f0e0; color:#0a3622; }
+.ampel-gelb  { background:#fef3cd; color:#6b4c00; }
+.ampel-rot   { background:#fde8e8; color:#7a1212; }
+.ampel-blau  { background:#e0eeff; color:#0a2a66; }
+
+/* Produktkarten */
+.produkt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; margin-top:16px; }
+.produkt-card { background:var(--white); border:1.5px solid var(--border); border-radius:14px; padding:20px; position:relative; }
+.produkt-card.highlight { border-color:var(--accent); }
+.produkt-card .badge { position:absolute; top:-10px; left:16px; background:var(--accent); color:#fff; font-size:10px; font-weight:700; padding:3px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:.4px; }
+.produkt-icon { font-size:28px; margin-bottom:10px; }
+.produkt-title { font-size:15px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+.produkt-sub { font-size:12px; color:var(--ink-3); margin-bottom:12px; line-height:1.5; }
+.produkt-pros { list-style:none; padding:0; margin:0 0 12px; }
+.produkt-pros li { font-size:12px; color:var(--ink-2); padding:3px 0; }
+.produkt-pros li::before { content:'✓ '; color:var(--accent); font-weight:700; }
+.produkt-cons li::before { content:'✗ '; color:#e74c3c; font-weight:700; }
+.produkt-fuer { background:var(--accent-light); border-radius:8px; padding:8px 12px; font-size:11.5px; color:var(--accent); font-weight:600; }
+
+/* Fortschrittsbalken Rentenlücke */
+.luecke-bar { margin:16px 0; }
+.luecke-bar-track { height:16px; background:var(--border); border-radius:8px; overflow:hidden; position:relative; }
+.luecke-bar-rente { height:100%; background:var(--accent); border-radius:8px 0 0 8px; transition:width .4s; }
+.luecke-bar-labels { display:flex; justify-content:space-between; font-size:11px; color:var(--ink-3); margin-top:4px; }
+
+/* Spar-Empfehlungen */
+.empfehlung-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; margin-top:12px; }
+.empfehlung-card { background:var(--white); border:1.5px solid var(--border); border-radius:12px; padding:16px; text-align:center; }
+.empfehlung-card .e-betrag { font-size:20px; font-weight:800; color:var(--accent); font-family:'Instrument Serif',serif; }
+.empfehlung-card .e-label { font-size:11px; color:var(--ink-3); margin-top:4px; }
+.empfehlung-card .e-produkt { font-size:12px; font-weight:600; color:var(--ink-2); margin-top:8px; }
+
+.affiliate-banner { background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%); border-radius:16px; padding:24px 28px; color:#fff; margin-top:8px; }
+.affiliate-banner h3 { font-family:'Instrument Serif',serif; font-size:20px; color:#fff; margin:0 0 8px; }
+.affiliate-banner p { color:rgba(255,255,255,.9); font-size:13px; line-height:1.6; margin:0 0 16px; }
+.affiliate-btn { display:inline-flex; align-items:center; gap:6px; background:#fff; color:#1a5c3a; padding:11px 20px; border-radius:10px; font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; margin:4px; }
+.affiliate-btn.ghost { background:rgba(255,255,255,.15); color:#fff; border:1.5px solid rgba(255,255,255,.4); }
+</style>
+</head>
+<body data-page="altersvorsorge">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Altersvorsorge</span>
+    </div>
+    <h1>Altersvorsorge Rechner 2026</h1>
+    <p>Rentenlücke berechnen, gesetzliche Rente schätzen und die richtige Vorsorgestrategie finden — Riester, Rürup, ETF oder private Rentenversicherung.</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="calc-box fu d1">
+    <div class="av-tabs">
+      <button class="av-tab active" onclick="switchTab('luecke', this)">📊 Rentenlücke</button>
+      <button class="av-tab" onclick="switchTab('produkte', this)">🔍 Produkte vergleichen</button>
+      <button class="av-tab" onclick="switchTab('ruerup', this)">📈 Rürup-Rechner</button>
+      <button class="av-tab" onclick="switchTab('riester', this)">🏠 Riester-Rechner</button>
+    </div>
+
+    <!-- TAB 1: RENTENLÜCKE -->
+    <div id="tab-luecke" class="av-section active">
+      <div class="calc-body">
+        <div class="inputs-panel">
+
+          <div class="field">
+            <label>Aktuelles Bruttogehalt</label>
+            <div class="input-wrap">
+              <input type="number" id="av-brutto" value="3500" step="100" oninput="calcRente()">
+              <span class="input-unit">€/Monat</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Aktuelles Alter</label>
+            <div class="input-wrap">
+              <input type="number" id="av-alter" value="35" min="18" max="64" oninput="calcRente()">
+              <span class="input-unit">Jahre</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Bereits gesammelte Rentenpunkte</label>
+            <div class="input-wrap">
+              <input type="number" id="av-punkte" value="12" step="0.5" min="0" max="80" oninput="calcRente()">
+              <span class="input-unit">Punkte</span>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Findest du auf deiner Renteninformation der DRV (jährliche Post)</div>
+          </div>
+
+          <div class="field">
+            <label>Gewünschter Lebensstandard im Alter</label>
+            <div class="toggle-group" style="flex-wrap:wrap;gap:6px;" id="av-std-group">
+              <button class="toggle-btn" data-val="0.6" onclick="selectStd(this)">60 %</button>
+              <button class="toggle-btn active" data-val="0.8" onclick="selectStd(this)">80 %</button>
+              <button class="toggle-btn" data-val="1.0" onclick="selectStd(this)">100 %</button>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">% des heutigen Nettogehalts — 80 % ist der Standardwert der Deutschen Rentenversicherung</div>
+          </div>
+
+          <div class="field">
+            <label>Inflation pro Jahr</label>
+            <div class="input-wrap">
+              <input type="number" id="av-inflation" value="2.0" step="0.1" min="0" max="6" oninput="calcRente()">
+              <span class="input-unit">%</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Renteneintrittsalter</label>
+            <div class="toggle-group" style="flex-wrap:wrap;gap:6px;">
+              <button class="toggle-btn" data-val="63" onclick="selectRenta(this)">63</button>
+              <button class="toggle-btn active" data-val="67" onclick="selectRenta(this)">67</button>
+              <button class="toggle-btn" data-val="70" onclick="selectRenta(this)">70</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">Deine Rentensituation</div>
+
+          <div class="ampel" id="ampel-container">
+            <div class="ampel-box ampel-blau">
+              <div class="ampel-val" id="av-rente-brutto">—</div>
+              <div class="ampel-label">Gesetzl. Rente (brutto)</div>
+            </div>
+            <div class="ampel-box ampel-gruen">
+              <div class="ampel-val" id="av-bedarf">—</div>
+              <div class="ampel-label">Bedarf im Alter</div>
+            </div>
+          </div>
+
+          <div class="luecke-bar">
+            <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:6px;">
+              <span>Rente deckt deinen Bedarf zu:</span>
+              <span id="av-deckung-pct" style="color:var(--accent);">—</span>
+            </div>
+            <div class="luecke-bar-track">
+              <div class="luecke-bar-rente" id="av-bar" style="width:0%"></div>
+            </div>
+            <div class="luecke-bar-labels">
+              <span>0 %</span>
+              <span>Ziel: 100 %</span>
+            </div>
+          </div>
+
+          <div class="result-main" style="margin-top:12px;">
+            <div class="result-main-label">Monatliche Rentenlücke</div>
+            <div class="result-main-value" id="av-luecke" style="color:#e74c3c;">—</div>
+            <div class="result-main-sub">
+              <div><div class="rms-label">Inflationsbereinigt</div><div class="rms-val" id="av-luecke-real">—</div></div>
+              <div><div class="rms-label">Jahre bis Rente</div><div class="rms-val" id="av-jahre">—</div></div>
+              <div><div class="rms-label">Neue Rentenpunkte</div><div class="rms-val" id="av-neue-punkte">—</div></div>
+            </div>
+          </div>
+
+          <div class="result-row"><span class="result-row-label">Gesamte Rentenpunkte (geschätzt)</span><span class="result-row-value" id="av-gesamt-punkte">—</span></div>
+          <div class="result-row"><span class="result-row-label">Gesetzl. Rente brutto/Monat</span><span class="result-row-value" id="av-rente-brutto2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Benötigtes Kapital (4%-Regel)</span><span class="result-row-value" id="av-kapital">—</span></div>
+          <div class="result-row"><span class="result-row-label">Monatl. Sparbetrag nötig</span><span class="result-row-value pos" id="av-sparbetrag">—</span></div>
+        </div>
+      </div>
+
+      <!-- EMPFEHLUNGEN -->
+      <div id="av-empfehlungen" style="margin-top:20px;display:none;">
+        <h3 style="font-family:'Instrument Serif',serif;font-size:18px;margin-bottom:4px;">So kannst du deine Rentenlücke schließen</h3>
+        <p style="font-size:13px;color:var(--ink-3);margin-bottom:12px;">Basierend auf deinen Angaben — monatlich nötiger Sparbetrag aufgeteilt auf mögliche Strategien:</p>
+        <div class="empfehlung-grid" id="empfehlung-grid"></div>
+      </div>
+
+      <div class="affiliate-banner" style="margin-top:20px;">
+        <h3>Jetzt Altersvorsorge starten</h3>
+        <p>Dein Bedarf ist berechnet — jetzt brauchst du den richtigen Partner. Vergleiche kostenlos Rürup, Riester und ETF-Policen.</p>
+        <a href="DEIN-AFFILIATE-LINK-ALTERSVORSORGE" class="affiliate-btn">🔍 Kostenlos vergleichen auf CHECK24</a>
+        <a href="DEIN-AFFILIATE-LINK-SCALABLE" class="affiliate-btn ghost">📈 ETF-Sparplan bei Scalable</a>
+      </div>
+      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlinks. Keine Anlageberatung. Alle Berechnungen sind Schätzungen.</p>
+    </div>
+
+    <!-- TAB 2: PRODUKTE VERGLEICHEN -->
+    <div id="tab-produkte" class="av-section">
+      <h2 style="font-family:'Instrument Serif',serif;font-size:20px;margin-bottom:4px;">Welche Altersvorsorge passt zu mir?</h2>
+      <p style="font-size:13px;color:var(--ink-3);margin-bottom:20px;">Alle vier Hauptprodukte im direkten Vergleich — Vor- und Nachteile, für wen geeignet.</p>
+
+      <div class="produkt-grid">
+        <div class="produkt-card highlight">
+          <div class="badge">Beliebt 2026</div>
+          <div class="produkt-icon">📈</div>
+          <div class="produkt-title">ETF-Sparplan</div>
+          <div class="produkt-sub">Flexibel, günstig, transparent. Kein Garantieprodukt.</div>
+          <ul class="produkt-pros">
+            <li>Höchste Renditeerwartung (6–8 %/Jahr)</li>
+            <li>Vollständig flexibel & kündbar</li>
+            <li>Keine Versicherungskosten</li>
+            <li>Vererbbar, beleihbar</li>
+          </ul>
+          <ul class="produkt-pros produkt-cons">
+            <li>Keine Steuervorteile beim Einzahlen</li>
+            <li>Kursrisiko (kein Kapitalschutz)</li>
+            <li>Keine lebenslange Rente</li>
+          </ul>
+          <div class="produkt-fuer">Für: Alle mit langem Anlagehorizont (10+ Jahre)</div>
+        </div>
+
+        <div class="produkt-card">
+          <div class="produkt-icon">🏛️</div>
+          <div class="produkt-title">Rürup / Basisrente</div>
+          <div class="produkt-sub">Steuerlich hochattraktiv — besonders für Selbstständige & Gutverdiener.</div>
+          <ul class="produkt-pros">
+            <li>100 % steuerlich absetzbar (bis 30.826 €)</li>
+            <li>Mit ETF: 0 % Garantie möglich</li>
+            <li>Pfändungssicher</li>
+            <li>Hohe Steuerersparnis heute</li>
+          </ul>
+          <ul class="produkt-pros produkt-cons">
+            <li>Nicht kündbar, nicht vererbbar</li>
+            <li>Lebenslange Rente (keine Einmalzahlung)</li>
+            <li>Rentenbesteuerung im Alter</li>
+          </ul>
+          <div class="produkt-fuer">Für: Selbstständige, Gutverdiener (ab 50k€/Jahr)</div>
+        </div>
+
+        <div class="produkt-card">
+          <div class="produkt-icon">🏠</div>
+          <div class="produkt-title">Riester-Rente</div>
+          <div class="produkt-sub">Staatliche Förderung — lohnt sich noch für bestimmte Gruppen.</div>
+          <ul class="produkt-pros">
+            <li>Zulagen bis 175 €/Jahr + 300 € je Kind</li>
+            <li>Steuerlich absetzbar (bis 2.100 €)</li>
+            <li>Kapitalgarantie der Einzahlungen</li>
+          </ul>
+          <ul class="produkt-pros produkt-cons">
+            <li>Komplexe Förderregeln</li>
+            <li>Rentenbesteuerung im Alter</li>
+            <li>Hohe Kosten bei vielen Anbietern</li>
+            <li>Politisch unsicher</li>
+          </ul>
+          <div class="produkt-fuer">Für: Eltern mit Kindern, TVöD/Beamte mit VBL</div>
+        </div>
+
+        <div class="produkt-card">
+          <div class="produkt-icon">📋</div>
+          <div class="produkt-title">Private Rentenversicherung</div>
+          <div class="produkt-sub">Klassisch oder fondsgebunden — lebenslange Rente garantiert.</div>
+          <ul class="produkt-pros">
+            <li>Lebenslange Rente (kein Langlebigkeitsrisiko)</li>
+            <li>Steuerlich günstig im Alter (Ertragsanteil)</li>
+            <li>Fondspolicen mit ETFs möglich</li>
+          </ul>
+          <ul class="produkt-pros produkt-cons">
+            <li>Hohe Kosten (Abschluss + Verwaltung)</li>
+            <li>Rendite oft niedriger als ETF-Sparplan</li>
+            <li>Wenig flexibel</li>
+          </ul>
+          <div class="produkt-fuer">Für: Wer lebenslange Rente wünscht</div>
+        </div>
+      </div>
+
+      <div style="background:var(--accent-light);border-radius:12px;padding:16px 18px;margin-top:20px;font-size:13px;color:var(--ink-2);line-height:1.6;">
+        <strong style="color:var(--accent);">💡 Empfehlung für die meisten:</strong>
+        Kombination aus <strong>ETF-Sparplan</strong> (Basis, flexibel) +
+        <strong>Rürup mit ETF</strong> wenn Steuervorteil sinnvoll +
+        <strong>betriebliche Altersvorsorge</strong> wenn Arbeitgeber zuschießt.
+        Riester nur noch sinnvoll bei vielen Kindern oder VBL-Zuschuss.
+      </div>
+
+      <div class="affiliate-banner" style="margin-top:20px;">
+        <h3>Persönliche Beratung & Vergleich</h3>
+        <p>Finde den günstigsten Rürup- oder Riester-Anbieter mit echtem ETF-Anteil.</p>
+        <a href="DEIN-AFFILIATE-LINK-ALTERSVORSORGE" class="affiliate-btn">🔍 Jetzt kostenlos vergleichen</a>
+      </div>
+      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung.</p>
+    </div>
+
+    <!-- TAB 3: RÜRUP RECHNER -->
+    <div id="tab-ruerup" class="av-section">
+      <div class="calc-body">
+        <div class="inputs-panel">
+          <div class="field">
+            <label>Jahresbrutto</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-brutto" value="60000" step="1000" oninput="calcRuerup()">
+              <span class="input-unit">€/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Monatlicher Beitrag</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-beitrag" value="300" step="50" oninput="calcRuerup()">
+              <span class="input-unit">€/Monat</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Steuerklasse</label>
+            <div class="toggle-group" id="rr-sk-group">
+              <button class="toggle-btn active" data-val="1" onclick="selectRRSK(this)">I</button>
+              <button class="toggle-btn" data-val="3" onclick="selectRRSK(this)">III</button>
+              <button class="toggle-btn" data-val="4" onclick="selectRRSK(this)">IV</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Alter</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-alter" value="40" min="18" max="64" oninput="calcRuerup()">
+              <span class="input-unit">Jahre</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>ETF-Rendite (angenommen)</label>
+            <div class="input-wrap">
+              <input type="number" id="rr-rendite" value="6" step="0.5" min="1" max="12" oninput="calcRuerup()">
+              <span class="input-unit">%/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Selbstständig?</label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="rr-selbst" onchange="calcRuerup()">
+              <span>Ja (kein GRV-Höchstbetrag-Abzug)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">Rürup-Analyse</div>
+          <div class="result-main">
+            <div class="result-main-label">Jährliche Steuerersparnis</div>
+            <div class="result-main-value pos" id="rr-steuer">—</div>
+            <div class="result-main-sub">
+              <div><div class="rms-label">Effektiver Eigenbeitrag</div><div class="rms-val" id="rr-netto-beitrag">—</div></div>
+              <div><div class="rms-label">Staat zahlt mit</div><div class="rms-val" id="rr-staat">—</div></div>
+              <div><div class="rms-label">Jahre bis 67</div><div class="rms-val" id="rr-jahre">—</div></div>
+            </div>
+          </div>
+          <div class="result-row"><span class="result-row-label">Jahresbeitrag</span><span class="result-row-value" id="rr-jahresbeitrag">—</span></div>
+          <div class="result-row"><span class="result-row-label">Steuerlich absetzbar (2026)</span><span class="result-row-value" id="rr-absetzbar">—</span></div>
+          <div class="result-row"><span class="result-row-label">Steuerersparnis/Jahr</span><span class="result-row-value pos" id="rr-ersparnis">—</span></div>
+          <div class="result-row"><span class="result-row-label">Kapital bei 67 (ETF, <span id="rr-rendite-label">6</span> %)</span><span class="result-row-value" id="rr-kapital">—</span></div>
+          <div class="result-row"><span class="result-row-label">Lebenslange Rente (ca.)</span><span class="result-row-value pos" id="rr-rente">—</span></div>
+        </div>
+      </div>
+
+      <div style="background:var(--accent-light);border-radius:12px;padding:14px 16px;margin-top:16px;font-size:13px;color:var(--ink-2);">
+        <strong style="color:var(--accent);">Rürup mit 0 % Garantie — was bedeutet das?</strong><br>
+        Moderne Rürup-Tarife (z.B. von Nürnberger, Alte Leipziger, myPension) investieren 100 % in ETFs — ohne Kapitalgarantie.
+        Das bedeutet höhere Renditeerwartung bei vollem Marktrisiko. Ideal für alle mit langem Anlagehorizont und hohem Steuersatz.
+      </div>
+
+      <div class="affiliate-banner" style="margin-top:16px;">
+        <h3>Günstigen Rürup-ETF-Tarif finden</h3>
+        <p>Die Kostenunterschiede zwischen Anbietern sind enorm — bis zu 30 % mehr Rente durch den richtigen Tarif.</p>
+        <a href="DEIN-AFFILIATE-LINK-RUERUP" class="affiliate-btn">🔍 Rürup-Vergleich starten</a>
+      </div>
+      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung. Alle Angaben Schätzwerte.</p>
+    </div>
+
+    <!-- TAB 4: RIESTER RECHNER -->
+    <div id="tab-riester" class="av-section">
+      <div class="calc-body">
+        <div class="inputs-panel">
+          <div class="field">
+            <label>Jahresbrutto (Vorjahr)</label>
+            <div class="input-wrap">
+              <input type="number" id="ri-brutto" value="40000" step="1000" oninput="calcRiester()">
+              <span class="input-unit">€/Jahr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Anzahl förderberechtigte Kinder</label>
+            <div class="toggle-group" style="flex-wrap:wrap;gap:6px;">
+              <button class="toggle-btn active" data-val="0" onclick="selectRiKinder(this)">0</button>
+              <button class="toggle-btn" data-val="1" onclick="selectRiKinder(this)">1</button>
+              <button class="toggle-btn" data-val="2" onclick="selectRiKinder(this)">2</button>
+              <button class="toggle-btn" data-val="3" onclick="selectRiKinder(this)">3</button>
+              <button class="toggle-btn" data-val="4" onclick="selectRiKinder(this)">4+</button>
+            </div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Kinder nach 2008 geboren: 300 €/Kind. Vorher: 185 €/Kind.</div>
+          </div>
+          <div class="field">
+            <label>Steuerklasse</label>
+            <div class="toggle-group" id="ri-sk-group">
+              <button class="toggle-btn active" data-val="1" onclick="selectRISK(this)">I</button>
+              <button class="toggle-btn" data-val="3" onclick="selectRISK(this)">III</button>
+              <button class="toggle-btn" data-val="4" onclick="selectRISK(this)">IV</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Alter</label>
+            <div class="input-wrap">
+              <input type="number" id="ri-alter" value="35" min="18" max="64" oninput="calcRiester()">
+              <span class="input-unit">Jahre</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-label">Riester-Förderung</div>
+          <div class="result-main">
+            <div class="result-main-label">Staatliche Zulage/Jahr</div>
+            <div class="result-main-value pos" id="ri-zulage">—</div>
+            <div class="result-main-sub">
+              <div><div class="rms-label">Grundzulage</div><div class="rms-val" id="ri-grundzulage">175 €</div></div>
+              <div><div class="rms-label">Kinderzulagen</div><div class="rms-val" id="ri-kindzulage">—</div></div>
+              <div><div class="rms-label">Steuerbonus</div><div class="rms-val" id="ri-steuerbonus">—</div></div>
+            </div>
+          </div>
+          <div class="result-row"><span class="result-row-label">Mindesteigenbeitrag/Jahr</span><span class="result-row-value" id="ri-mindest">—</span></div>
+          <div class="result-row"><span class="result-row-label">Optimaler Eigenbeitrag/Jahr</span><span class="result-row-value" id="ri-optimal">—</span></div>
+          <div class="result-row"><span class="result-row-label">Gesamtförderung (Zulage + Steuer)</span><span class="result-row-value pos" id="ri-gesamt-foerder">—</span></div>
+          <div class="result-row"><span class="result-row-label">Effektive Förderquote</span><span class="result-row-value pos" id="ri-foerderquote">—</span></div>
+          <div class="result-row"><span class="result-row-label">Lohnt sich Riester?</span><span class="result-row-value" id="ri-urteil">—</span></div>
+        </div>
+      </div>
+
+      <div style="background:var(--accent-light);border-radius:12px;padding:14px 16px;margin-top:16px;font-size:13px;color:var(--ink-2);">
+        <strong style="color:var(--accent);">Riester 2026 — die wichtigsten Änderungen:</strong><br>
+        Die Grundzulage beträgt 175 €/Jahr. Für Kinder ab Geburtsjahrgang 2008: 300 €/Kind. Der Eigenbeitrag muss mindestens 4 % des Vorjahresbruttos betragen (max. 2.100 €) um die volle Zulage zu erhalten.
+      </div>
+
+      <div class="affiliate-banner" style="margin-top:16px;">
+        <h3>Günstigen Riester-Vertrag finden</h3>
+        <p>Besonders für Eltern mit Kindern kann Riester sehr attraktiv sein. Vergleiche jetzt kostenlos.</p>
+        <a href="DEIN-AFFILIATE-LINK-RIESTER" class="affiliate-btn">🔍 Riester-Vergleich starten</a>
+      </div>
+      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung.</p>
+    </div>
+
+    <div class="calc-disclaimer" style="margin-top:16px;">⚠️ Alle Berechnungen sind Schätzungen. Rentenpunkte 2026: 40,79 € (ab Juli 2026: 42,52 €). Durchschnittsentgelt 2026: 51.944 €. <a href="methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zur Altersvorsorge</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Wie berechne ich meine gesetzliche Rente?</div>
+        <div class="faq-a">Die gesetzliche Rente ergibt sich aus: <strong>Rentenpunkte × Rentenwert × Zugangsfaktor</strong>. Ein Rentenpunkt ist derzeit 40,79 € wert (ab Juli 2026: 42,52 €). Wer 45 Jahre lang das Durchschnittseinkommen (51.944 €/Jahr) verdient, bekommt die Standardrente von ca. 1.835 €/Monat brutto. Die genauen Rentenpunkte findest du auf der jährlichen Renteninformation der DRV.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Rürup oder ETF-Sparplan — was ist besser?</div>
+        <div class="faq-a">Für Gutverdiener (ab ca. 50.000 €/Jahr) lohnt sich Rürup wegen der Steuerersparnis sehr. Bei einem Grenzsteuersatz von 42 % trägt der Staat fast die Hälfte der Einzahlung. Wer mehr Flexibilität möchte, fährt mit einem ETF-Sparplan besser — keine Bindung, kein Versicherungsmantel, höhere Nettrendite. Ideal ist oft eine Kombination.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Lohnt sich Riester noch 2026?</div>
+        <div class="faq-a">Riester lohnt sich vor allem für drei Gruppen: Eltern mit vielen Kindern (Kinderzulage 300 €/Kind), Geringverdiener (hohe Förderquote) und TVöD/Beamte mit VBL-Zuschuss. Für Singles ohne Kinder mit mittlerem Einkommen ist der ETF-Sparplan meist besser — wegen der hohen Kosten vieler Riester-Produkte und der vollen Besteuerung im Alter.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist die Rentenlücke?</div>
+        <div class="faq-a">Die Rentenlücke ist die Differenz zwischen deiner erwarteten gesetzlichen Rente und dem Betrag, den du im Alter tatsächlich für deinen Lebensstandard brauchst. Da die gesetzliche Rente bei den meisten Arbeitnehmern nur 40–50 % des letzten Nettogehalts ausmacht, entsteht eine erhebliche Lücke — die du privat schließen musst.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was bedeutet Rürup mit 0 % Garantie?</div>
+        <div class="faq-a">Moderne Rürup-Tarife bieten die Möglichkeit, das Kapital zu 100 % in ETFs anzulegen — ohne Kapitalgarantie. Das bedeutet: kein Sicherheitspuffer, aber maximale Renditechance. Der Steuerbonus bleibt in vollem Umfang erhalten. Anbieter wie myPension, Nürnberger oder Condor bieten solche Tarife an. Geeignet für alle mit einem Anlagehorizont von mindestens 15 Jahren.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEITERE RECHNER -->
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan Rechner</h3>
+        <p>Endkapital und Rendite für deinen Sparplan berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Nettogehalt und Abzüge berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="krankenkassenrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏥</div>
+        <h3>Krankenkassenrechner</h3>
+        <p>GKV-Beiträge vergleichen und sparen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+// ── KONSTANTEN 2026 ──
+const RENTENWERT_2025 = 40.79;   // ab Juli 2025
+const RENTENWERT_2026 = 42.52;   // ab Juli 2026
+const DURCHSCHNITTSENTGELT = 51944;
+const REGELRENTENALTER = 67;
+
+// State
+let avStd        = 0.8;
+let avRentaAlter = 67;
+let rrSK         = 1;
+let riSK         = 1;
+let riKinder     = 0;
+
+// ── TAB NAVIGATION ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.av-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.av-section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+function selectStd(btn) {
+  avStd = parseFloat(btn.dataset.val);
+  document.querySelectorAll('#av-std-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcRente();
+}
+
+function selectRenta(btn) {
+  avRentaAlter = parseInt(btn.dataset.val);
+  btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcRente();
+}
+
+function selectRRSK(btn) {
+  rrSK = parseInt(btn.dataset.val);
+  document.querySelectorAll('#rr-sk-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcRuerup();
+}
+
+function selectRISK(btn) {
+  riSK = parseInt(btn.dataset.val);
+  document.querySelectorAll('#ri-sk-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcRiester();
+}
+
+function selectRiKinder(btn) {
+  riKinder = parseInt(btn.dataset.val);
+  btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcRiester();
+}
+
+const f  = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+const fp = n => n.toFixed(1) + ' %';
+const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+
+// ── RENTENLÜCKEN-RECHNER ──
+function calcRente() {
+  const brutto      = parseFloat(document.getElementById('av-brutto').value) || 3500;
+  const alter       = parseInt(document.getElementById('av-alter').value) || 35;
+  const punkteIst   = parseFloat(document.getElementById('av-punkte').value) || 0;
+  const inflation   = parseFloat(document.getElementById('av-inflation').value) / 100 || 0.02;
+
+  const jahreBisRente = Math.max(1, avRentaAlter - alter);
+  const bruttoJahr    = brutto * 12;
+
+  // Jährliche Rentenpunkte ab heute
+  const punkteProJahr = Math.min(bruttoJahr / DURCHSCHNITTSENTGELT, 1.95);
+  const neuePunkte    = punkteProJahr * jahreBisRente;
+  const gesamtPunkte  = punkteIst + neuePunkte;
+
+  // Rentenabschlag bei frühem Renteneintritt
+  const abschlag = avRentaAlter < REGELRENTENALTER
+    ? 1 - (REGELRENTENALTER - avRentaAlter) * 0.036
+    : 1;
+
+  // Gesetzliche Rente (heutige Rentenwerte)
+  const renteBrutto = gesamtPunkte * RENTENWERT_2026 * abschlag;
+
+  // Netto-Rente (vereinfacht: ~85% der Bruttorente nach KV/PV/Steuer)
+  const renteNetto = renteBrutto * 0.85;
+
+  // Bedarf im Alter: heutiges Netto × Standard × inflationsbereinigt
+  const r = bruttoNetto(brutto, 1, false, 1.45, true, 9, false, 2026, 0, 0, false);
+  const nettoHeute = r.netto;
+  const bedarfHeute = nettoHeute * avStd;
+  // Inflationsbereinigter Bedarf (realer Wert in heutigen Euro)
+  const bedarfReal = bedarfHeute; // Wir zeigen in heutigen Euro
+
+  // Rentenlücke
+  const luecke = Math.max(0, bedarfReal - renteNetto);
+  const deckungPct = Math.min(100, (renteNetto / bedarfReal * 100));
+
+  // Benötigtes Kapital (4%-Regel): Lücke × 12 / 0.04
+  const kapital = luecke * 12 / 0.04;
+
+  // Monatlicher Sparbetrag (Zinseszins bei 6%)
+  const r_monat = 0.06 / 12;
+  const n_monate = jahreBisRente * 12;
+  const sparbetrag = n_monate > 0 && kapital > 0
+    ? kapital * r_monat / (Math.pow(1 + r_monat, n_monate) - 1)
+    : 0;
+
+  // Ausgabe
+  set('av-rente-brutto',  f0(renteBrutto));
+  set('av-rente-brutto2', f(renteBrutto));
+  set('av-bedarf',        f0(bedarfReal));
+  set('av-luecke',        luecke > 0 ? '− ' + f0(luecke) + '/Monat' : '✓ Keine Lücke');
+  set('av-luecke-real',   luecke > 0 ? f0(luecke) + '/Monat' : '—');
+  set('av-jahre',         jahreBisRente + ' Jahre');
+  set('av-neue-punkte',   neuePunkte.toFixed(1) + ' Punkte');
+  set('av-gesamt-punkte', gesamtPunkte.toFixed(1) + ' Punkte');
+  set('av-kapital',       f0(kapital));
+  set('av-sparbetrag',    sparbetrag > 0 ? f0(sparbetrag) + '/Monat' : '—');
+  set('av-deckung-pct',   fp(deckungPct));
+
+  const bar = document.getElementById('av-bar');
+  if (bar) bar.style.width = Math.min(deckungPct, 100) + '%';
+
+  // Farbe der Deckungsanzeige
+  const barEl = document.getElementById('av-bar');
+  if (barEl) {
+    barEl.style.background = deckungPct >= 90 ? '#1a5c3a'
+      : deckungPct >= 60 ? '#f0a500' : '#e74c3c';
+  }
+
+  // Empfehlungen
+  if (luecke > 0) {
+    document.getElementById('av-empfehlungen').style.display = 'block';
+    const grid = document.getElementById('empfehlung-grid');
+    grid.innerHTML = [
+      { label: 'ETF-Sparplan', betrag: sparbetrag * 0.5, sub: 'Basis-Baustein, flexibel' },
+      { label: 'Rürup-ETF', betrag: sparbetrag * 0.3, sub: 'Steuervorteil nutzen' },
+      { label: 'Betriebliche AV', betrag: sparbetrag * 0.2, sub: 'AG-Zuschuss mitnehmen' },
+    ].map(e => `
+      <div class="empfehlung-card">
+        <div class="e-betrag">${f0(e.betrag)}</div>
+        <div class="e-label">pro Monat</div>
+        <div class="e-produkt">${e.label}</div>
+        <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">${e.sub}</div>
+      </div>
+    `).join('');
+  }
+}
+
+// ── RÜRUP-RECHNER ──
+function calcRuerup() {
+  const brutto  = parseFloat(document.getElementById('rr-brutto').value) || 60000;
+  const beitrag = parseFloat(document.getElementById('rr-beitrag').value) || 300;
+  const alter   = parseInt(document.getElementById('rr-alter').value) || 40;
+  const rendite = parseFloat(document.getElementById('rr-rendite').value) / 100 || 0.06;
+  const selbst  = document.getElementById('rr-selbst').checked;
+  document.getElementById('rr-rendite-label').textContent = document.getElementById('rr-rendite').value;
+
+  const jahre = Math.max(1, 67 - alter);
+  const jahresbeitrag = beitrag * 12;
+
+  // Höchstbetrag 2026: 30.826 € Alleinstehende
+  const maxAbsetzbar = 30826;
+  // Selbstständige: voll absetzbar. Angestellte: minus RV-Beiträge (ca. 9,3% * brutto/2)
+  const rvAG = selbst ? 0 : Math.min(brutto * 0.093, 8450 * 0.093 * 12);
+  const nochVerfuegbar = Math.max(0, maxAbsetzbar - rvAG);
+  const absetzbar = Math.min(jahresbeitrag, nochVerfuegbar);
+
+  // Steuerersparnis
+  const r1 = bruttoNetto(brutto / 12, rrSK, false, 1.45, true, 9, false, 2026, 0, 0, false);
+  const lstOhne = r1.lohnsteuer * 12 + r1.soli * 12;
+  const bruttoMitAbzug = Math.max(0, brutto - absetzbar);
+  const r2 = bruttoNetto(bruttoMitAbzug / 12, rrSK, false, 1.45, true, 9, false, 2026, 0, 0, false);
+  const lstMit = r2.lohnsteuer * 12 + r2.soli * 12;
+  const steuerersparnis = Math.max(0, lstOhne - lstMit);
+  const nettoBeitrag = jahresbeitrag - steuerersparnis;
+  const staatAnteil  = steuerersparnis / jahresbeitrag * 100;
+
+  // Kapital bei 67 (monatliche Einzahlungen)
+  const rm = rendite / 12;
+  const nm = jahre * 12;
+  const kapital = beitrag * (Math.pow(1 + rm, nm) - 1) / rm * (1 + rm);
+
+  // Lebenslange Rente (vereinfacht: Kapital / Rentenbarwert 20 Jahre)
+  const rente = kapital / (20 * 12);
+
+  set('rr-steuer',       f0(steuerersparnis) + ' /Jahr');
+  set('rr-netto-beitrag', f0(nettoBeitrag / 12) + ' /Monat');
+  set('rr-staat',        staatAnteil.toFixed(0) + ' %');
+  set('rr-jahre',        jahre + ' Jahre');
+  set('rr-jahresbeitrag', f0(jahresbeitrag));
+  set('rr-absetzbar',    f0(absetzbar) + ' von max. ' + f0(maxAbsetzbar));
+  set('rr-ersparnis',    f0(steuerersparnis) + ' /Jahr');
+  set('rr-kapital',      f0(kapital));
+  set('rr-rente',        f0(rente) + ' /Monat');
+}
+
+// ── RIESTER-RECHNER ──
+function calcRiester() {
+  const brutto = parseFloat(document.getElementById('ri-brutto').value) || 40000;
+  const alter  = parseInt(document.getElementById('ri-alter').value) || 35;
+
+  // Zulagen 2026
+  const grundzulage = 175;
+  const kindzulage  = riKinder * 300; // vereinfacht: alle Kinder nach 2008
+  const gesamtZulage = grundzulage + kindzulage;
+
+  // Mindestbeitrag: 4% des Vorjahresbruttos - Zulagen, mind. 60 €
+  const minBrutto    = brutto * 0.04;
+  const mindestEigen = Math.max(60, minBrutto - gesamtZulage);
+  const optimalEigen = Math.min(2100, minBrutto) - gesamtZulage;
+
+  // Steuervorteil (Sonderausgabenabzug bis 2.100 €)
+  const maxAbzug = 2100;
+  const gesamtBeitrag = mindestEigen + gesamtZulage;
+  const abzugsfaehig = Math.min(gesamtBeitrag, maxAbzug);
+
+  const r1 = bruttoNetto(brutto / 12, riSK, false, 1.45, riKinder > 0, 9, false, 2026, 0, riKinder > 0 ? 1 : 0, false);
+  const lstOhne = r1.lohnsteuer * 12;
+  const r2 = bruttoNetto((brutto - abzugsfaehig) / 12, riSK, false, 1.45, riKinder > 0, 9, false, 2026, 0, riKinder > 0 ? 1 : 0, false);
+  const lstMit = r2.lohnsteuer * 12;
+  const steuerbonus = Math.max(0, lstOhne - lstMit - gesamtZulage); // Steuer zusätzlich zur Zulage
+
+  const gesamtFoerderung = gesamtZulage + steuerbonus;
+  const foerderquote = gesamtBeitrag > 0 ? gesamtFoerderung / gesamtBeitrag * 100 : 0;
+
+  // Urteil
+  let urteil = '⚠️ Kaum lohnenswert';
+  if (riKinder >= 2) urteil = '✅ Lohnt sich (Kinderzulagen)';
+  else if (foerderquote > 30) urteil = '✅ Lohnt sich';
+  else if (foerderquote > 15) urteil = '⚡ Grenzwertig';
+
+  set('ri-zulage',         f0(gesamtZulage) + ' /Jahr');
+  set('ri-grundzulage',    f0(grundzulage));
+  set('ri-kindzulage',     riKinder > 0 ? f0(kindzulage) : '0 €');
+  set('ri-steuerbonus',    steuerbonus > 0 ? f0(steuerbonus) : '0 €');
+  set('ri-mindest',        f0(Math.max(60, mindestEigen)) + ' /Jahr');
+  set('ri-optimal',        f0(Math.max(0, optimalEigen)) + ' /Jahr');
+  set('ri-gesamt-foerder', f0(gesamtFoerderung) + ' /Jahr');
+  set('ri-foerderquote',   fp(foerderquote));
+  set('ri-urteil',         urteil);
+}
+
+// FAQ Toggle
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+// Initial berechnen
+calcRente();
+calcRuerup();
+calcRiester();
+</script>
+</body>
+</html>
