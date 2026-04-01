@@ -336,6 +336,21 @@
     document.getElementById('h-pct').textContent = result.abgabenQuote+'%';
   }
   calcHero();
+
+// FAQ Toggle
+// FAQ Toggle — robust
+function initFAQ() {
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.onclick = () => q.closest('.faq-row').classList.toggle('open');
+  });
+}
+initFAQ();
+// Fallback via Event Delegation
+document.addEventListener('click', e => {
+  const q = e.target.closest('.faq-q');
+  if (q) q.closest('.faq-row')?.classList.toggle('open');
+});
+
 </script>
 </body>
 </html>

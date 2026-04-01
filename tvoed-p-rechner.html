@@ -538,8 +538,17 @@ function calcPflege() {
   else extraRow.style.display='none';
 }
 
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+// FAQ Toggle — robust
+function initFAQ() {
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.onclick = () => q.closest('.faq-row').classList.toggle('open');
+  });
+}
+initFAQ();
+// Fallback via Event Delegation
+document.addEventListener('click', e => {
+  const q = e.target.closest('.faq-q');
+  if (q) q.closest('.faq-row')?.classList.toggle('open');
 });
 
 initEGGrid();
