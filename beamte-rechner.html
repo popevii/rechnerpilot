@@ -443,64 +443,7 @@ function updateSozDetail(prefix, r, vblBetrag, extra) {
 
 </script>
 <script src="steuer2026.js">
-let aktivSteuerjahr = 2026;
-let _currentCalc = null;
 
-function selectJahr(btn) {
-  btn.closest('[id$="-jahr-group"]').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  aktivSteuerjahr = parseInt(btn.dataset.val);
-  if (typeof _currentCalc === 'function') _currentCalc();
-}
-
-function getP(prefix) {
-  const kirche   = document.getElementById(prefix+'-kirche')?.checked || false;
-  const kircheS  = parseInt(document.getElementById(prefix+'-kirche-bl')?.value || 9);
-  const kvz      = parseFloat(document.getElementById(prefix+'-kvz')?.value || 1.45);
-  const kfb      = parseFloat(document.getElementById(prefix+'-kfb')?.value || 0);
-  const pvK_raw  = parseInt(document.getElementById(prefix+'-pv-kinder')?.value || 0);
-  const unter23  = pvK_raw === -1;
-  const pvK      = unter23 ? 0 : pvK_raw;
-  const extra    = parseFloat(document.getElementById(prefix+'-extra')?.value || 0);
-  const vbl      = document.getElementById(prefix+'-vbl')?.value || 'keine';
-  return { kirche, kircheS, kvz, kfb, pvK, unter23, extra, vbl };
-}
-
-function calcVBL(brutto, typ) {
-  const b = Math.min(brutto, 5812.50);
-  if (typ==='west'||typ==='ost') return b*0.0181;
-  if (typ==='ost-riester') return b*0.0281;
-  if (typ==='kvbw') return b*0.0185;
-  return 0;
-}
-
-function toggleSozDetail(id) {
-  document.getElementById(id+'-toggle').classList.toggle('open');
-  document.getElementById(id+'-panel').classList.toggle('open');
-}
-
-function updateSozDetail(prefix, r, vblBetrag, extra) {
-  const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
-  const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
-  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-  set(prefix+'-det-lst',  '− '+f(r.lohnsteuer));
-  set(prefix+'-det-soli', r.soli>0 ? '− '+f(r.soli) : '0,00 €');
-  set(prefix+'-det-kir',  r.kirche>0 ? '− '+f(r.kirche) : '0,00 €');
-  if (document.getElementById(prefix+'-det-kv'))  set(prefix+'-det-kv',  '− '+f(r.kv));
-  if (document.getElementById(prefix+'-det-pv'))  set(prefix+'-det-pv',  '− '+f(r.pv));
-  if (document.getElementById(prefix+'-det-rv'))  set(prefix+'-det-rv',  '− '+f(r.rv));
-  if (document.getElementById(prefix+'-det-alv')) set(prefix+'-det-alv', '− '+f(r.alv));
-  if (document.getElementById(prefix+'-det-vbl')) set(prefix+'-det-vbl', vblBetrag>0 ? '− '+f(vblBetrag) : '0,00 €');
-  const tot = r.gesamtAbzuege + vblBetrag;
-  set(prefix+'-soz-sum',   '− '+f0(tot));
-  set(prefix+'-det-total', '− '+f0(tot));
-  // Extra
-  const exRow = document.getElementById(prefix+'-extra-row');
-  if (exRow) {
-    exRow.style.display = extra>0 ? 'flex' : 'none';
-    if(extra>0) set(prefix+'-extra-anzeige', '+ '+f(extra));
-  }
-}
 
 </script>
 <script>
@@ -741,64 +684,7 @@ updateLaufbahnBadge();
 renderTabelle();
 calcBeamte();
 
-let aktivSteuerjahr = 2026;
-let _currentCalc = null;
 
-function selectJahr(btn) {
-  btn.closest('[id$="-jahr-group"]').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  aktivSteuerjahr = parseInt(btn.dataset.val);
-  if (typeof _currentCalc === 'function') _currentCalc();
-}
-
-function getP(prefix) {
-  const kirche   = document.getElementById(prefix+'-kirche')?.checked || false;
-  const kircheS  = parseInt(document.getElementById(prefix+'-kirche-bl')?.value || 9);
-  const kvz      = parseFloat(document.getElementById(prefix+'-kvz')?.value || 1.45);
-  const kfb      = parseFloat(document.getElementById(prefix+'-kfb')?.value || 0);
-  const pvK_raw  = parseInt(document.getElementById(prefix+'-pv-kinder')?.value || 0);
-  const unter23  = pvK_raw === -1;
-  const pvK      = unter23 ? 0 : pvK_raw;
-  const extra    = parseFloat(document.getElementById(prefix+'-extra')?.value || 0);
-  const vbl      = document.getElementById(prefix+'-vbl')?.value || 'keine';
-  return { kirche, kircheS, kvz, kfb, pvK, unter23, extra, vbl };
-}
-
-function calcVBL(brutto, typ) {
-  const b = Math.min(brutto, 5812.50);
-  if (typ==='west'||typ==='ost') return b*0.0181;
-  if (typ==='ost-riester') return b*0.0281;
-  if (typ==='kvbw') return b*0.0185;
-  return 0;
-}
-
-function toggleSozDetail(id) {
-  document.getElementById(id+'-toggle').classList.toggle('open');
-  document.getElementById(id+'-panel').classList.toggle('open');
-}
-
-function updateSozDetail(prefix, r, vblBetrag, extra) {
-  const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
-  const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
-  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-  set(prefix+'-det-lst',  '− '+f(r.lohnsteuer));
-  set(prefix+'-det-soli', r.soli>0 ? '− '+f(r.soli) : '0,00 €');
-  set(prefix+'-det-kir',  r.kirche>0 ? '− '+f(r.kirche) : '0,00 €');
-  if (document.getElementById(prefix+'-det-kv'))  set(prefix+'-det-kv',  '− '+f(r.kv));
-  if (document.getElementById(prefix+'-det-pv'))  set(prefix+'-det-pv',  '− '+f(r.pv));
-  if (document.getElementById(prefix+'-det-rv'))  set(prefix+'-det-rv',  '− '+f(r.rv));
-  if (document.getElementById(prefix+'-det-alv')) set(prefix+'-det-alv', '− '+f(r.alv));
-  if (document.getElementById(prefix+'-det-vbl')) set(prefix+'-det-vbl', vblBetrag>0 ? '− '+f(vblBetrag) : '0,00 €');
-  const tot = r.gesamtAbzuege + vblBetrag;
-  set(prefix+'-soz-sum',   '− '+f0(tot));
-  set(prefix+'-det-total', '− '+f0(tot));
-  // Extra
-  const exRow = document.getElementById(prefix+'-extra-row');
-  if (exRow) {
-    exRow.style.display = extra>0 ? 'flex' : 'none';
-    if(extra>0) set(prefix+'-extra-anzeige', '+ '+f(extra));
-  }
-}
 
 </script>
 </body>

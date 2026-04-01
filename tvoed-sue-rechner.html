@@ -123,31 +123,72 @@
 
 
         <div class="field">
-          <label>Pflegeversicherung</label>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
-            <label class="checkbox-row">
-              <input type="checkbox" id="sue-kinder" onchange="calcSuE()">
-              <span>Ich habe Kinder (PV-Satz 1,8 %)</span>
-            </label>
-            <label class="checkbox-row">
-              <input type="checkbox" id="sue-unter23" onchange="calcSuE()">
-              <span>Ich bin unter 23 Jahre (kein Kinderlosenzuschlag)</span>
-            </label>
+          <label>Pflegeversicherung — Kinder</label>
+          <select id="sue-pv-kinder" onchange="calcSuE()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
+            <option value="0">Keine Kinder, 23+ Jahre (2,1 % AN)</option>
+            <option value="-1">Unter 23 Jahre (1,8 % AN)</option>
+            <option value="1">1 Kind (1,8 % AN)</option>
+            <option value="2">2 Kinder unter 25 Jahren (1,55 % AN)</option>
+            <option value="3">3 Kinder unter 25 Jahren (1,3 % AN)</option>
+            <option value="4">4 Kinder unter 25 Jahren (1,05 % AN)</option>
+            <option value="5">5+ Kinder unter 25 Jahren (0,9 % AN)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Steuerjahr</label>
+          <div class="toggle-group" id="sue-jahr-group" style="flex-wrap:wrap;gap:6px;">
+            <button class="toggle-btn" data-val="2024" onclick="selectJahrSuE(this)">2024</button>
+            <button class="toggle-btn" data-val="2025" onclick="selectJahrSuE(this)">2025</button>
+            <button class="toggle-btn active" data-val="2026" onclick="selectJahrSuE(this)">2026</button>
           </div>
         </div>
 
         <div class="field">
-          <label>Zusatzversorgung (ZVK / VBL)</label>
-          <div class="input-wrap">
-            <select id="sue-vbl" onchange="calcSuE()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
-              <option value="west">VBL West (1,81 % AN) — Standard</option>
-              <option value="ost">VBL Ost (1,81 % AN)</option>
-              <option value="ost-riester">VBL Ost + Riester (2,81 % AN)</option>
-              <option value="kvbw">KVBW Baden-Württemberg (1,85 %)</option>
-              <option value="keine">Keine Zusatzversorgung</option>
+          <label>Kirchensteuer</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <label class="checkbox-row" style="flex:1;">
+              <input type="checkbox" id="sue-kirche" onchange="calcSuE()">
+              <span>Ich zahle Kirchensteuer</span>
+            </label>
+            <select id="sue-kirche-bl" onchange="calcSuE()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;font-family:'Instrument Sans',sans-serif;color:var(--ink);outline:none;">
+              <option value="9">9 % (Standard)</option>
+              <option value="8">8 % (BY / BW)</option>
             </select>
           </div>
-          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">AG zahlt zusätzlich ca. 6,45 % (nicht vom Netto abgezogen)</div>
+        </div>
+
+        <div class="field">
+          <label>GKV-Zusatzbeitrag (AN-Anteil)</label>
+          <div class="input-wrap">
+            <input type="number" id="sue-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcSuE()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Kinderfreibeträge (§ 32 EStG)</label>
+          <select id="sue-kfb" onchange="calcSuE()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
+            <option value="0">0 — keine Kinder</option>
+            <option value="0.5">0,5</option>
+            <option value="1">1,0 — 1 Kind</option>
+            <option value="1.5">1,5</option>
+            <option value="2">2,0 — 2 Kinder</option>
+            <option value="2.5">2,5</option>
+            <option value="3">3,0 — 3 Kinder</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Zusatzversorgung (ZVK / VBL)</label>
+          <select id="sue-vbl" onchange="calcSuE()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;">
+            <option value="west">VBL West (1,81 % AN) — Standard</option>
+            <option value="ost">VBL Ost (1,81 % AN)</option>
+            <option value="ost-riester">VBL Ost + Riester (2,81 % AN)</option>
+            <option value="kvbw">KVBW Baden-Württemberg (1,85 %)</option>
+            <option value="keine">Keine Zusatzversorgung</option>
+          </select>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">AG zahlt zusätzlich ca. 6,45 % — hier nicht abgezogen</div>
         </div>
 
         <div class="field">
@@ -337,131 +378,10 @@
 </div>
 
 <div id="footer-placeholder"></div>
-<script src="components.js">
-let aktivSteuerjahr = 2026;
-let _currentCalc = null;
-
-function selectJahr(btn) {
-  btn.closest('[id$="-jahr-group"]').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  aktivSteuerjahr = parseInt(btn.dataset.val);
-  if (typeof _currentCalc === 'function') _currentCalc();
-}
-
-function getP(prefix) {
-  const kirche   = document.getElementById(prefix+'-kirche')?.checked || false;
-  const kircheS  = parseInt(document.getElementById(prefix+'-kirche-bl')?.value || 9);
-  const kvz      = parseFloat(document.getElementById(prefix+'-kvz')?.value || 1.45);
-  const kfb      = parseFloat(document.getElementById(prefix+'-kfb')?.value || 0);
-  const pvK_raw  = parseInt(document.getElementById(prefix+'-pv-kinder')?.value || 0);
-  const unter23  = pvK_raw === -1;
-  const pvK      = unter23 ? 0 : pvK_raw;
-  const extra    = parseFloat(document.getElementById(prefix+'-extra')?.value || 0);
-  const vbl      = document.getElementById(prefix+'-vbl')?.value || 'keine';
-  return { kirche, kircheS, kvz, kfb, pvK, unter23, extra, vbl };
-}
-
-function calcVBL(brutto, typ) {
-  const b = Math.min(brutto, 5812.50);
-  if (typ==='west'||typ==='ost') return b*0.0181;
-  if (typ==='ost-riester') return b*0.0281;
-  if (typ==='kvbw') return b*0.0185;
-  return 0;
-}
-
-function toggleSozDetail(id) {
-  document.getElementById(id+'-toggle').classList.toggle('open');
-  document.getElementById(id+'-panel').classList.toggle('open');
-}
-
-function updateSozDetail(prefix, r, vblBetrag, extra) {
-  const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
-  const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
-  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-  set(prefix+'-det-lst',  '− '+f(r.lohnsteuer));
-  set(prefix+'-det-soli', r.soli>0 ? '− '+f(r.soli) : '0,00 €');
-  set(prefix+'-det-kir',  r.kirche>0 ? '− '+f(r.kirche) : '0,00 €');
-  if (document.getElementById(prefix+'-det-kv'))  set(prefix+'-det-kv',  '− '+f(r.kv));
-  if (document.getElementById(prefix+'-det-pv'))  set(prefix+'-det-pv',  '− '+f(r.pv));
-  if (document.getElementById(prefix+'-det-rv'))  set(prefix+'-det-rv',  '− '+f(r.rv));
-  if (document.getElementById(prefix+'-det-alv')) set(prefix+'-det-alv', '− '+f(r.alv));
-  if (document.getElementById(prefix+'-det-vbl')) set(prefix+'-det-vbl', vblBetrag>0 ? '− '+f(vblBetrag) : '0,00 €');
-  const tot = r.gesamtAbzuege + vblBetrag;
-  set(prefix+'-soz-sum',   '− '+f0(tot));
-  set(prefix+'-det-total', '− '+f0(tot));
-  // Extra
-  const exRow = document.getElementById(prefix+'-extra-row');
-  if (exRow) {
-    exRow.style.display = extra>0 ? 'flex' : 'none';
-    if(extra>0) set(prefix+'-extra-anzeige', '+ '+f(extra));
-  }
-}
-
-</script>
-<script src="steuer2026.js">
-let aktivSteuerjahr = 2026;
-let _currentCalc = null;
-
-function selectJahr(btn) {
-  btn.closest('[id$="-jahr-group"]').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  aktivSteuerjahr = parseInt(btn.dataset.val);
-  if (typeof _currentCalc === 'function') _currentCalc();
-}
-
-function getP(prefix) {
-  const kirche   = document.getElementById(prefix+'-kirche')?.checked || false;
-  const kircheS  = parseInt(document.getElementById(prefix+'-kirche-bl')?.value || 9);
-  const kvz      = parseFloat(document.getElementById(prefix+'-kvz')?.value || 1.45);
-  const kfb      = parseFloat(document.getElementById(prefix+'-kfb')?.value || 0);
-  const pvK_raw  = parseInt(document.getElementById(prefix+'-pv-kinder')?.value || 0);
-  const unter23  = pvK_raw === -1;
-  const pvK      = unter23 ? 0 : pvK_raw;
-  const extra    = parseFloat(document.getElementById(prefix+'-extra')?.value || 0);
-  const vbl      = document.getElementById(prefix+'-vbl')?.value || 'keine';
-  return { kirche, kircheS, kvz, kfb, pvK, unter23, extra, vbl };
-}
-
-function calcVBL(brutto, typ) {
-  const b = Math.min(brutto, 5812.50);
-  if (typ==='west'||typ==='ost') return b*0.0181;
-  if (typ==='ost-riester') return b*0.0281;
-  if (typ==='kvbw') return b*0.0185;
-  return 0;
-}
-
-function toggleSozDetail(id) {
-  document.getElementById(id+'-toggle').classList.toggle('open');
-  document.getElementById(id+'-panel').classList.toggle('open');
-}
-
-function updateSozDetail(prefix, r, vblBetrag, extra) {
-  const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
-  const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
-  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-  set(prefix+'-det-lst',  '− '+f(r.lohnsteuer));
-  set(prefix+'-det-soli', r.soli>0 ? '− '+f(r.soli) : '0,00 €');
-  set(prefix+'-det-kir',  r.kirche>0 ? '− '+f(r.kirche) : '0,00 €');
-  if (document.getElementById(prefix+'-det-kv'))  set(prefix+'-det-kv',  '− '+f(r.kv));
-  if (document.getElementById(prefix+'-det-pv'))  set(prefix+'-det-pv',  '− '+f(r.pv));
-  if (document.getElementById(prefix+'-det-rv'))  set(prefix+'-det-rv',  '− '+f(r.rv));
-  if (document.getElementById(prefix+'-det-alv')) set(prefix+'-det-alv', '− '+f(r.alv));
-  if (document.getElementById(prefix+'-det-vbl')) set(prefix+'-det-vbl', vblBetrag>0 ? '− '+f(vblBetrag) : '0,00 €');
-  const tot = r.gesamtAbzuege + vblBetrag;
-  set(prefix+'-soz-sum',   '− '+f0(tot));
-  set(prefix+'-det-total', '− '+f0(tot));
-  // Extra
-  const exRow = document.getElementById(prefix+'-extra-row');
-  if (exRow) {
-    exRow.style.display = extra>0 ? 'flex' : 'none';
-    if(extra>0) set(prefix+'-extra-anzeige', '+ '+f(extra));
-  }
-}
-
-</script>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
 <script>
-// TVöD-SuE Entgelttabelle ab 01.04.2025
-// Stufen: [S1, S2, S3, S4, S5, S6]
+// TVöD-SuE Entgelttabelle 2025
 const SUE_2025 = {
   'S2':   [2829.14, 2948.41, 3036.64, 3132.45, 3240.19, 3347.95],
   'S3':   [3034.89, 3229.62, 3410.78, 3577.12, 3653.23, 3744.14],
@@ -481,8 +401,7 @@ const SUE_2025 = {
   'S18':  [4591.95, 4708.94, 5288.55, 5723.21, 6375.22, 6773.65],
 };
 
-// Berufsbezeichnungen je EG
-const BERUFE = {
+const BERUFE_SUE = {
   'S2':   'Hilfskräfte, einfache Tätigkeiten',
   'S3':   'Kinderpfleger/in ohne staatl. Anerkennung',
   'S4':   'Kinderpfleger/in mit staatl. Anerkennung',
@@ -501,7 +420,6 @@ const BERUFE = {
   'S18':  'Kita-Leitung besonders großer Einrichtungen',
 };
 
-// Jahressonderzahlung SuE (%)
 const JSZ_SUE = {
   'S2': 84.51, 'S3': 84.51, 'S4': 84.51,
   'S7': 84.51, 'S8a': 84.51, 'S8b': 84.51,
@@ -510,11 +428,37 @@ const JSZ_SUE = {
   'S15': 70.28, 'S16': 70.28, 'S17': 70.28, 'S18': 70.28,
 };
 
-const SUE_ZULAGE = 130.68; // 2025
+const SUE_ZULAGE = 130.68;
 
 let aktivEG    = 'S7';
 let aktivStufe = 0;
 let aktivSK    = 1;
+let sueJahr    = 2026;
+
+// Hilfsfunktionen
+const f  = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+
+function calcVBL(brutto, typ) {
+  const b = Math.min(brutto, 5812.50);
+  if (typ==='west'||typ==='ost') return b*0.0181;
+  if (typ==='ost-riester') return b*0.0281;
+  if (typ==='kvbw') return b*0.0185;
+  return 0;
+}
+
+function toggleSozDetail(id) {
+  document.getElementById(id+'-toggle').classList.toggle('open');
+  document.getElementById(id+'-panel').classList.toggle('open');
+}
+
+function selectJahrSuE(btn) {
+  sueJahr = parseInt(btn.dataset.val);
+  document.querySelectorAll('#sue-jahr-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcSuE();
+}
 
 function initEGGrid() {
   const grid = document.getElementById('eg-grid');
@@ -526,34 +470,17 @@ function initEGGrid() {
 
 function initStufeGroup() {
   const group = document.getElementById('stufe-group');
-  group.innerHTML = [1,2,3,4,5,6].map((s, i) => `
+  group.innerHTML = [1,2,3,4,5,6].map((s,i) => `
     <button class="stufe-btn ${i === aktivStufe ? 'active' : ''}"
       onclick="setStufe(${i}, this)">Stufe ${s}</button>
   `).join('');
-}
-
-
-function toggleSozDetail(id) {
-  document.getElementById(id + '-toggle').classList.toggle('open');
-  document.getElementById(id + '-panel').classList.toggle('open');
-}
-function calcVBLBeitrag(brutto, vblTyp) {
-  const b = Math.min(brutto, 5812.50);
-  if (vblTyp === 'west' || vblTyp === 'ost') return b * 0.0181;
-  if (vblTyp === 'ost-riester') return b * 0.0281;
-  if (vblTyp === 'kvbw') return b * 0.0185;
-  return 0;
-}
-function getPVSatz(kinder, unter23) {
-  if (kinder || unter23) return 0.018;
-  return 0.021;
 }
 
 function setEG(eg, btn) {
   aktivEG = eg;
   document.querySelectorAll('.eg-btn').forEach(x => x.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('beruf-badge').textContent = BERUFE[eg] || '—';
+  document.getElementById('beruf-badge').textContent = BERUFE_SUE[eg] || '—';
   renderTabelle();
   calcSuE();
 }
@@ -574,141 +501,80 @@ function selectSK(btn) {
 }
 
 function renderTabelle() {
-  const f = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const f2 = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
   document.getElementById('sue-tabelle-body').innerHTML = Object.entries(SUE_2025).map(([eg, stufen]) => `
     <tr class="${eg === aktivEG ? 'active-row' : ''}">
       <td>${eg}</td>
-      ${stufen.map(s => `<td>${f(s)}</td>`).join('')}
+      ${stufen.map(s => `<td>${f2(s)}</td>`).join('')}
     </tr>
   `).join('');
 }
 
 function calcSuE() {
-  const teilzeit    = parseFloat(document.getElementById('sue-teilzeit').value) / 100 || 1;
+  const teilzeit  = parseFloat(document.getElementById('sue-teilzeit').value) / 100 || 1;
   const mitZulage = document.getElementById('sue-zulage').checked;
-  const p_sue = getP('sue');
-  _currentCalc = calcSuE;
-  const tabellenVZ = SUE_2025[aktivEG][aktivStufe];
+  const kirche    = document.getElementById('sue-kirche')?.checked || false;
+  const kircheS   = parseInt(document.getElementById('sue-kirche-bl')?.value || 9);
+  const kvz       = parseFloat(document.getElementById('sue-kvz')?.value || 1.45);
+  const pvK_raw   = parseInt(document.getElementById('sue-pv-kinder')?.value || 0);
+  const unter23   = pvK_raw === -1;
+  const pvK       = unter23 ? 0 : pvK_raw;
+  const kfb       = parseFloat(document.getElementById('sue-kfb')?.value || 0);
+  const vblTyp    = document.getElementById('sue-vbl').value;
+  const extra     = parseFloat(document.getElementById('sue-extra')?.value || 0);
+
+  const tabellenVZ  = SUE_2025[aktivEG][aktivStufe];
   const zulageBetrag = mitZulage ? SUE_ZULAGE * teilzeit : 0;
-  const bruttoAZ = (tabellenVZ + (mitZulage ? SUE_ZULAGE : 0)) * teilzeit + p_sue.extra;
-  const r = bruttoNetto(bruttoAZ, aktivSK, p_sue.kirche, p_sue.kvz, p_sue.pvK===0&&!p_sue.unter23, p_sue.kircheS, false, aktivSteuerjahr, p_sue.kfb, p_sue.pvK, p_sue.unter23);
-  const sue_vbl = calcVBL(bruttoAZ, p_sue.vbl);
+  const bruttoAZ    = (tabellenVZ + (mitZulage ? SUE_ZULAGE : 0)) * teilzeit + extra;
 
-
-
-
-
-
-
-  const zulageBetrag = mitZulage ? SUE_ZULAGE * teilzeit : 0;
-  const bruttoVZ    = tabellenVZ + (mitZulage ? SUE_ZULAGE : 0);
-  const bruttoAZ    = bruttoVZ * teilzeit;
-
-  const r = bruttoNetto(bruttoAZ, aktivSK, false, 1.45, !kinder);
+  const r = bruttoNetto(bruttoAZ, aktivSK, kirche, kvz,
+    pvK===0 && !unter23, kircheS, false, sueJahr, kfb, pvK, unter23);
+  const sue_vbl = calcVBL(bruttoAZ, vblTyp);
+  const nettoFinal = r.netto - sue_vbl;
 
   const jszPct = (JSZ_SUE[aktivEG] || 84.51) / 100;
-  const jsz    = bruttoAZ * jszPct;
+  const jsz = bruttoAZ * jszPct;
   const jahresbrutto = bruttoAZ * 12 + jsz;
 
-  const f  = n => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
-  const f0 = n => Math.round(n).toLocaleString('de-DE') + ' €';
+  set('sue-netto',        f(nettoFinal));
+  set('sue-brutto-sub',   f(bruttoAZ));
+  set('sue-steuern-sub',  '−' + f0(r.lohnsteuer + r.soli + r.kirche));
+  set('sue-soz-sub',      '−' + f0(r.sozialAbgaben + sue_vbl));
+  set('sue-soz-sum',      '− ' + f0(r.gesamtAbzuege + sue_vbl));
+  set('sue-det-lst',      '− ' + f(r.lohnsteuer));
+  set('sue-det-soli',     r.soli > 0 ? '− ' + f(r.soli) : '0,00 €');
+  set('sue-det-kir',      r.kirche > 0 ? '− ' + f(r.kirche) : '0,00 €');
+  set('sue-det-kv',       '− ' + f(r.kv));
+  set('sue-det-pv',       '− ' + f(r.pv));
+  set('sue-det-rv',       '− ' + f(r.rv));
+  set('sue-det-alv',      '− ' + f(r.alv));
+  set('sue-det-vbl',      sue_vbl > 0 ? '− ' + f(sue_vbl) : '0,00 €');
+  set('sue-det-total',    '− ' + f0(r.gesamtAbzuege + sue_vbl));
+  set('sue-eg-label',     aktivEG + ' · Stufe ' + (aktivStufe + 1));
+  set('sue-tabelle-wert', f(tabellenVZ * teilzeit));
+  set('sue-zulage-row',   mitZulage ? '+ ' + f(zulageBetrag) : '0,00 €');
+  set('sue-gesamt',       f(bruttoAZ));
+  set('sue-jsz',          '+ ' + f0(jsz) + ' (' + jszPct.toFixed(2).replace('.',',') + ' %)');
+  set('sue-jahresbrutto', f0(jahresbrutto));
+  set('sue-bar-pct',      r.abgabenQuote + ' %');
+  document.getElementById('sue-bar').style.width = Math.min(parseFloat(r.abgabenQuote), 100) + '%';
 
-  document.getElementById('sue-netto').textContent        = f(r.netto);
-  document.getElementById('sue-brutto-sub').textContent   = f(bruttoAZ);
-  document.getElementById('sue-steuern-sub').textContent  = '−' + f0(r.lohnsteuer + r.soli);
-  document.getElementById('sue-soz-sub').textContent      = '−' + f0(r.sozialAbgaben);
-  document.getElementById('sue-eg-label').textContent     = aktivEG + ' · Stufe ' + (aktivStufe + 1);
-  document.getElementById('sue-tabelle-wert').textContent = f(tabellenVZ * teilzeit);
-  document.getElementById('sue-zulage-row').textContent   = mitZulage ? '+ ' + f(zulageBetrag) : '0,00 €';
-  document.getElementById('sue-gesamt').textContent       = f(bruttoAZ);
-  document.getElementById('sue-jsz').textContent          = '+ ' + f0(jsz) + ' (' + jszPct.toFixed(2).replace('.',',') + ' %)';
-  document.getElementById('sue-jahresbrutto').textContent = f0(jahresbrutto);
-  document.getElementById('sue-bar-pct').textContent      = r.abgabenQuote + ' %';
-  document.getElementById('sue-bar').style.width          = Math.min(r.abgabenQuote, 100) + '%';
+  const exRow = document.getElementById('sue-extra-row');
+  if (exRow) {
+    exRow.style.display = extra > 0 ? 'flex' : 'none';
+    if (extra > 0) set('sue-extra-anzeige', '+ ' + f(extra));
+  }
 }
 
-// FAQ Toggle — warten bis DOM vollständig geladen
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.faq-q').forEach(q => {
-    q.addEventListener('click', () => {
-      q.closest('.faq-row').classList.toggle('open');
-    });
-  });
-});
-
-// Fallback: direkter Klick-Handler auf .faq Container
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('faq-q') || e.target.closest('.faq-q')) {
-    const q = e.target.closest('.faq-q') || e.target;
-    q.closest('.faq-row')?.classList.toggle('open');
-  }
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
 });
 
 initEGGrid();
 initStufeGroup();
-document.getElementById('beruf-badge').textContent = BERUFE[aktivEG];
+document.getElementById('beruf-badge').textContent = BERUFE_SUE[aktivEG];
 renderTabelle();
 calcSuE();
-
-let aktivSteuerjahr = 2026;
-let _currentCalc = null;
-
-function selectJahr(btn) {
-  btn.closest('[id$="-jahr-group"]').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  aktivSteuerjahr = parseInt(btn.dataset.val);
-  if (typeof _currentCalc === 'function') _currentCalc();
-}
-
-function getP(prefix) {
-  const kirche   = document.getElementById(prefix+'-kirche')?.checked || false;
-  const kircheS  = parseInt(document.getElementById(prefix+'-kirche-bl')?.value || 9);
-  const kvz      = parseFloat(document.getElementById(prefix+'-kvz')?.value || 1.45);
-  const kfb      = parseFloat(document.getElementById(prefix+'-kfb')?.value || 0);
-  const pvK_raw  = parseInt(document.getElementById(prefix+'-pv-kinder')?.value || 0);
-  const unter23  = pvK_raw === -1;
-  const pvK      = unter23 ? 0 : pvK_raw;
-  const extra    = parseFloat(document.getElementById(prefix+'-extra')?.value || 0);
-  const vbl      = document.getElementById(prefix+'-vbl')?.value || 'keine';
-  return { kirche, kircheS, kvz, kfb, pvK, unter23, extra, vbl };
-}
-
-function calcVBL(brutto, typ) {
-  const b = Math.min(brutto, 5812.50);
-  if (typ==='west'||typ==='ost') return b*0.0181;
-  if (typ==='ost-riester') return b*0.0281;
-  if (typ==='kvbw') return b*0.0185;
-  return 0;
-}
-
-function toggleSozDetail(id) {
-  document.getElementById(id+'-toggle').classList.toggle('open');
-  document.getElementById(id+'-panel').classList.toggle('open');
-}
-
-function updateSozDetail(prefix, r, vblBetrag, extra) {
-  const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
-  const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
-  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-  set(prefix+'-det-lst',  '− '+f(r.lohnsteuer));
-  set(prefix+'-det-soli', r.soli>0 ? '− '+f(r.soli) : '0,00 €');
-  set(prefix+'-det-kir',  r.kirche>0 ? '− '+f(r.kirche) : '0,00 €');
-  if (document.getElementById(prefix+'-det-kv'))  set(prefix+'-det-kv',  '− '+f(r.kv));
-  if (document.getElementById(prefix+'-det-pv'))  set(prefix+'-det-pv',  '− '+f(r.pv));
-  if (document.getElementById(prefix+'-det-rv'))  set(prefix+'-det-rv',  '− '+f(r.rv));
-  if (document.getElementById(prefix+'-det-alv')) set(prefix+'-det-alv', '− '+f(r.alv));
-  if (document.getElementById(prefix+'-det-vbl')) set(prefix+'-det-vbl', vblBetrag>0 ? '− '+f(vblBetrag) : '0,00 €');
-  const tot = r.gesamtAbzuege + vblBetrag;
-  set(prefix+'-soz-sum',   '− '+f0(tot));
-  set(prefix+'-det-total', '− '+f0(tot));
-  // Extra
-  const exRow = document.getElementById(prefix+'-extra-row');
-  if (exRow) {
-    exRow.style.display = extra>0 ? 'flex' : 'none';
-    if(extra>0) set(prefix+'-extra-anzeige', '+ '+f(extra));
-  }
-}
-
 </script>
 </body>
 </html>
