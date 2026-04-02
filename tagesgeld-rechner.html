@@ -444,9 +444,20 @@ document.querySelectorAll('.faq-q').forEach(q => {
   q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
 });
 
-document.querySelectorAll('label[data-tt]').forEach(label => {
-  const text = label.getAttribute('data-tt');
-  if (text) label.innerHTML += ` <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span></span>`;
+// Tooltips mit korrekter Positionierung
+document.querySelectorAll('[data-tt]').forEach(el => {
+  const text = el.getAttribute('data-tt');
+  if (!text) return;
+  const icon = document.createElement('span');
+  icon.className = 'tooltip-wrap';
+  icon.innerHTML = `<span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span>`;
+  const box = icon.querySelector('.tooltip-box');
+  icon.addEventListener('mouseenter', e => {
+    const r = icon.getBoundingClientRect();
+    box.style.left = Math.min(r.left, window.innerWidth - 260) + 'px';
+    box.style.top  = (r.top - box.offsetHeight - 10) + 'px';
+  });
+  el.appendChild(icon);
 });
 
 renderAnbieter();
