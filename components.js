@@ -61,6 +61,14 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">🏦</span>
               <span><strong>Tagesgeld Rechner</strong><small>Zinsen berechnen & vergleichen</small></span>
             </a>
+            <a href="${base}/festgeld-rechner" class="${isActive('festgeld')}">
+              <span class="nav-item-icon">🔒</span>
+              <span><strong>Festgeld Rechner</strong><small>Feste Zinsen vergleichen</small></span>
+            </a>
+            <a href="${base}/abgeltungssteuer-rechner" class="${isActive('abgeltung')}">
+              <span class="nav-item-icon">💶</span>
+              <span><strong>Abgeltungssteuer</strong><small>Kapitalertragsteuer berechnen</small></span>
+            </a>
             <a href="${base}/etf-rechner" class="${isActive('etf-tools')}">
               <span class="nav-item-icon">🔬</span>
               <span><strong>ETF Tools</strong><small>Vorabpauschale, Kosten, Wechsel</small></span>
@@ -177,10 +185,14 @@ function renderNav(activePage = '') {
       <a href="${base}/zinseszins-rechner">♾️ Zinseszins Rechner</a>
       <a href="${base}/inflationsrechner">📉 Inflationsrechner</a>
       <a href="${base}/tagesgeld-rechner">🏦 Tagesgeld Rechner</a>
+      <a href="${base}/festgeld-rechner">🔒 Festgeld Rechner</a>
+      <a href="${base}/abgeltungssteuer-rechner">💶 Abgeltungssteuer</a>
       <a href="${base}/etf-rechner">🔬 ETF Tools</a>
       <a href="${base}/zinseszins-rechner">♾️ Zinseszins Rechner</a>
       <a href="${base}/inflationsrechner">📉 Inflationsrechner</a>
       <a href="${base}/tagesgeld-rechner">🏦 Tagesgeld Rechner</a>
+      <a href="${base}/festgeld-rechner">🔒 Festgeld Rechner</a>
+      <a href="${base}/abgeltungssteuer-rechner">💶 Abgeltungssteuer</a>
       <a href="${base}/etf-rechner">🔬 ETF Tools</a>
       <a href="${base}/altersvorsorge-rechner">🏛️ Altersvorsorge & Rente</a>
       <a href="${base}/krankenkassenrechner">🏥 Krankenkasse</a>
@@ -227,10 +239,14 @@ function renderFooter() {
             <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
             <li><a href="${base}/inflationsrechner">Inflationsrechner</a></li>
             <li><a href="${base}/tagesgeld-rechner">Tagesgeld Rechner</a></li>
+            <li><a href="${base}/festgeld-rechner">Festgeld Rechner</a></li>
+            <li><a href="${base}/abgeltungssteuer-rechner">Abgeltungssteuer</a></li>
             <li><a href="${base}/etf-rechner">ETF Tools</a></li>
             <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
             <li><a href="${base}/inflationsrechner">Inflationsrechner</a></li>
             <li><a href="${base}/tagesgeld-rechner">Tagesgeld Rechner</a></li>
+            <li><a href="${base}/festgeld-rechner">Festgeld Rechner</a></li>
+            <li><a href="${base}/abgeltungssteuer-rechner">Abgeltungssteuer</a></li>
             <li><a href="${base}/etf-rechner">ETF Tools</a></li>
             <li><a href="${base}/altersvorsorge-rechner">Altersvorsorge & Rente</a></li>
             <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>

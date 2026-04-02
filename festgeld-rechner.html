@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Festgeld Rechner 2026 – Zinsen & beste Angebote | RechnerPilot</title>
+<meta name="description" content="Festgeld Rechner 2026: Zinsen berechnen, Laufzeiten vergleichen und beste Festgeld-Angebote finden. Aktuell bis zu 3,5 % p.a. Kostenlos.">
+<link rel="canonical" href="https://www.rechnerpilot.de/festgeld-rechner">
+<link rel="stylesheet" href="style.css">
+<style>
+.fg-laufzeit-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(80px,1fr)); gap:8px; margin-top:8px; }
+.fg-btn { padding:10px 4px; border-radius:9px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:700; color:var(--ink-2); cursor:pointer; text-align:center; transition:all .15s; }
+.fg-btn:hover { border-color:var(--accent); color:var(--accent); }
+.fg-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.fg-vergleich { width:100%; border-collapse:collapse; font-size:13px; margin-top:12px; }
+.fg-vergleich th { background:var(--accent); color:#fff; padding:10px 12px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.3px; }
+.fg-vergleich th:not(:first-child) { text-align:right; }
+.fg-vergleich td { padding:10px 12px; border-bottom:1px solid var(--border); }
+.fg-vergleich td:not(:first-child) { text-align:right; font-weight:600; }
+.fg-vergleich tr.highlight td { background:var(--accent-light); color:var(--accent); font-weight:700; }
+.fg-vergleich tr:last-child td { border-bottom:none; }
+.anbieter-row { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--border); }
+.anbieter-row:last-child { border-bottom:none; }
+.anbieter-info { display:flex; flex-direction:column; gap:2px; }
+.anbieter-name-fg { font-size:14px; font-weight:700; color:var(--ink); }
+.anbieter-detail { font-size:12px; color:var(--ink-3); }
+.anbieter-zins-fg { font-size:20px; font-weight:800; font-family:'Instrument Serif',serif; color:var(--accent); }
+</style>
+</head>
+<body data-page="festgeld">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Festgeld Rechner</span>
+    </div>
+    <h1>Festgeld Rechner 2026</h1>
+    <p>Berechne deine Zinsen für verschiedene Laufzeiten, vergleiche Angebote und finde das beste Festgeld für dein Erspartes. Aktuell bis zu <strong>3,5 % p.a.</strong></p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label data-tt="Betrag den du für eine feste Laufzeit anlegen möchtest. Einlagensicherung bis 100.000 € pro Bank.">Anlagebetrag</label>
+          <div class="input-wrap">
+            <input type="number" id="fg-betrag" value="10000" step="1000" min="1" oninput="calcFestgeld()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Festgeld wird für eine feste Laufzeit angelegt. Vorzeitige Kündigung ist meist nicht möglich.">Laufzeit</label>
+          <div class="fg-laufzeit-grid" id="fg-laufzeit-grid">
+            <button class="fg-btn" data-m="3" onclick="selectFGLaufzeit(this)">3 Mo.</button>
+            <button class="fg-btn" data-m="6" onclick="selectFGLaufzeit(this)">6 Mo.</button>
+            <button class="fg-btn active" data-m="12" onclick="selectFGLaufzeit(this)">1 Jahr</button>
+            <button class="fg-btn" data-m="24" onclick="selectFGLaufzeit(this)">2 Jahre</button>
+            <button class="fg-btn" data-m="36" onclick="selectFGLaufzeit(this)">3 Jahre</button>
+            <button class="fg-btn" data-m="60" onclick="selectFGLaufzeit(this)">5 Jahre</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Jährlicher Zinssatz für die gewählte Laufzeit. Klicke auf ein Angebot unten um ihn automatisch zu übernehmen.">Zinssatz p.a.</label>
+          <div class="input-wrap">
+            <input type="number" id="fg-zins" value="3.25" step="0.05" min="0" max="10" oninput="calcFestgeld()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Bei Zinsgutschrift am Ende der Laufzeit gibt es keinen Zinseszinseffekt. Bei jährlicher Gutschrift schon.">Zinsgutschrift</label>
+          <div class="toggle-group" id="fg-gutschrift-group">
+            <button class="toggle-btn active" data-val="end" onclick="selectFGGutschrift(this)">Am Ende</button>
+            <button class="toggle-btn" data-val="yearly" onclick="selectFGGutschrift(this)">Jährlich</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Abgeltungssteuer 25 % + Soli auf Zinsen nach Abzug des Sparerpauschbetrags.">Steuer berücksichtigen</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="fg-steuer-cb" onchange="calcFestgeld()">
+            <span>Abgeltungssteuer abziehen</span>
+          </label>
+          <div id="fg-freibetrag-wrap" style="display:none;margin-top:6px;">
+            <div class="input-wrap">
+              <input type="number" id="fg-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcFestgeld()">
+              <span class="input-unit">€ Freibetrag</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Zum Vergleich: Was würde Tagesgeld mit dem aktuellen Durchschnittszins bringen?">Vergleich Tagesgeld</label>
+          <div class="input-wrap">
+            <input type="number" id="fg-tagesgeld" value="2.75" step="0.05" min="0" max="10" oninput="calcFestgeld()">
+            <span class="input-unit">% p.a.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Ergebnis nach <span id="fg-laufzeit-label">12</span> Monaten</div>
+
+        <div class="result-main">
+          <div class="result-main-label">Zinsen gesamt</div>
+          <div class="result-main-value" id="fg-zinsen-main">—</div>
+          <div class="result-main-sub">
+            <div>
+              <div class="rms-label">Endkapital</div>
+              <div class="rms-val" id="fg-end-main">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Nach Steuer</div>
+              <div class="rms-val" id="fg-netto-main">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Vorteil vs. Tagesgeld</div>
+              <div class="rms-val" id="fg-vorteil-main">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Anlagebetrag</span><span class="result-row-value" id="fg-betrag-out">—</span></div>
+        <div class="result-row"><span class="result-row-label">Zinsen brutto</span><span class="result-row-value pos" id="fg-zinsen-out">—</span></div>
+        <div class="result-row" id="fg-steuer-row" style="display:none"><span class="result-row-label">Steuer (26,375 %)</span><span class="result-row-value neg" id="fg-steuer-out">—</span></div>
+        <div class="result-row"><span class="result-row-label">Zinsen netto</span><span class="result-row-value pos" id="fg-zinsen-netto">—</span></div>
+        <div class="result-row"><span class="result-row-label">Endkapital</span><span class="result-row-value" id="fg-endkapital">—</span></div>
+        <div class="result-row"><span class="result-row-label">Effektiver Jahreszins</span><span class="result-row-value" id="fg-effzins">—</span></div>
+        <div class="result-row"><span class="result-row-label">Vorteil vs. Tagesgeld (<span id="fg-tg-label">2,75</span> %)</span><span class="result-row-value pos" id="fg-vorteil">—</span></div>
+
+        <!-- Laufzeit-Vergleich -->
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;">
+            Alle Laufzeiten im Vergleich (bei <span id="fg-zins-label">3,25</span> %)
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="fg-vergleich">
+              <thead>
+                <tr>
+                  <th>Laufzeit</th>
+                  <th>Zinsen</th>
+                  <th>Endkapital</th>
+                </tr>
+              </thead>
+              <tbody id="fg-vergleich-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AKTUELLE ANGEBOTE -->
+  <div class="content-section fu d2">
+    <h2>Aktuelle Festgeld-Angebote April 2026</h2>
+    <p style="font-size:13px;color:var(--ink-3);">Klicke auf ein Angebot um Zins und Laufzeit zu übernehmen. Stand: 01.04.2026.</p>
+
+    <div style="margin-top:12px;">
+      <div class="anbieter-row">
+        <div class="anbieter-info">
+          <div class="anbieter-name-fg">Renault Bank direkt</div>
+          <div class="anbieter-detail">12 Monate · Einlagensicherung Frankreich (AAA)</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="anbieter-zins-fg">3,50 %</div>
+          <button onclick="useFGAngebot(3.5, 12)" style="padding:8px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">Übernehmen</button>
+        </div>
+      </div>
+      <div class="anbieter-row">
+        <div class="anbieter-info">
+          <div class="anbieter-name-fg">Bigbank</div>
+          <div class="anbieter-detail">12 Monate · Einlagensicherung Estland (AA−)</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="anbieter-zins-fg">3,45 %</div>
+          <button onclick="useFGAngebot(3.45, 12)" style="padding:8px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">Übernehmen</button>
+        </div>
+      </div>
+      <div class="anbieter-row">
+        <div class="anbieter-info">
+          <div class="anbieter-name-fg">Santander</div>
+          <div class="anbieter-detail">12 Monate · Einlagensicherung Deutschland</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="anbieter-zins-fg">3,30 %</div>
+          <button onclick="useFGAngebot(3.30, 12)" style="padding:8px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">Übernehmen</button>
+        </div>
+      </div>
+      <div class="anbieter-row">
+        <div class="anbieter-info">
+          <div class="anbieter-name-fg">Bank of Scotland</div>
+          <div class="anbieter-detail">24 Monate · Einlagensicherung UK</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="anbieter-zins-fg">3,20 %</div>
+          <button onclick="useFGAngebot(3.20, 24)" style="padding:8px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">Übernehmen</button>
+        </div>
+      </div>
+      <div class="anbieter-row">
+        <div class="anbieter-info">
+          <div class="anbieter-name-fg">DKB</div>
+          <div class="anbieter-detail">12 Monate · Einlagensicherung Deutschland</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="anbieter-zins-fg">2,50 %</div>
+          <button onclick="useFGAngebot(2.50, 12)" style="padding:8px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">Übernehmen</button>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:12px;">* Alle Angaben ohne Gewähr. Bitte aktuelle Konditionen beim Anbieter prüfen.</p>
+
+    <div style="background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:22px 24px;color:#fff;margin-top:20px;">
+      <h3 style="font-family:'Instrument Serif',serif;font-size:18px;color:#fff;margin:0 0 8px;">Alle Festgeld-Angebote vergleichen</h3>
+      <p style="color:rgba(255,255,255,.9);font-size:13px;line-height:1.5;margin:0 0 14px;">CHECK24 vergleicht hunderte Festgeld-Angebote täglich aktuell — kostenlos und unverbindlich.</p>
+      <a href="https://www.c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored"
+        style="display:inline-flex;align-items:center;gap:7px;background:#fff;color:#1a5c3a;padding:10px 18px;border-radius:9px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:none;">
+        🏦 Jetzt Festgeld vergleichen →
+      </a>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zum Festgeld</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Was ist der Unterschied zwischen Festgeld und Tagesgeld?</div>
+        <div class="faq-a">Beim Festgeld legst du Geld für eine feste Laufzeit (z.B. 6 oder 12 Monate) zu einem garantierten Zinssatz an. Du kannst während der Laufzeit nicht auf das Geld zugreifen. Dafür ist der Zinssatz höher als beim Tagesgeld. Tagesgeld ist täglich verfügbar, bietet aber variable (veränderliche) Zinsen. Festgeld eignet sich für Geld das du sicher anlegen möchtest und nicht kurzfristig brauchst.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Ist Festgeld bei ausländischen Banken sicher?</div>
+        <div class="faq-a">Ja — innerhalb der EU gilt die gesetzliche Einlagensicherung bis 100.000 € pro Person und Bank. Länder mit AAA-Rating (z.B. Deutschland, Frankreich, Niederlande) gelten als besonders sicher. Bei Banken aus Ländern mit niedrigerem Rating (z.B. einige osteuropäische Länder) besteht theoretisch ein etwas höheres Risiko, obwohl die EU-Einlagensicherung gilt. Viele Vergleichsportale filtern nach Mindest-Länderrating.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Lohnt sich längeres Festgeld?</div>
+        <div class="faq-a">Das hängt von der Zinserwartung ab. Wenn die Zinsen steigen, lohnt sich kürzeres Festgeld — du kannst nach Ablauf zu besseren Konditionen wechseln. Wenn die Zinsen sinken (wie aktuell erwartet), lohnt sich längeres Festgeld um den aktuell guten Zins zu sichern. Aktuell (2026) sinken die EZB-Zinsen — deshalb kann es sich lohnen, längere Laufzeiten zu wählen.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="tagesgeld-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏦</div>
+        <h3>Tagesgeld Rechner</h3>
+        <p>Flexible Alternative zum Festgeld.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="zinseszins-rechner.html" class="cc">
+        <div class="cc-icon bg-g">♾️</div>
+        <h3>Zinseszins Rechner</h3>
+        <p>Langfristiges Vermögenswachstum.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="abgeltungssteuer-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💶</div>
+        <h3>Abgeltungssteuer</h3>
+        <p>Steuer auf Zinsen berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script>
+let fgMonate = 12;
+let fgGutschrift = 'end';
+
+const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
+const fp = n => n.toFixed(2).replace('.',',')+' %';
+const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+
+function selectFGLaufzeit(btn) {
+  fgMonate = parseInt(btn.dataset.m);
+  document.querySelectorAll('.fg-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  set('fg-laufzeit-label', fgMonate < 12 ? fgMonate + ' Monate' : (fgMonate/12) + (fgMonate===12?' Jahr':' Jahre'));
+  calcFestgeld();
+}
+
+function selectFGGutschrift(btn) {
+  fgGutschrift = btn.dataset.val;
+  document.querySelectorAll('#fg-gutschrift-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcFestgeld();
+}
+
+function useFGAngebot(zins, monate) {
+  document.getElementById('fg-zins').value = zins;
+  fgMonate = monate;
+  document.querySelectorAll('.fg-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.m) === monate);
+  });
+  set('fg-laufzeit-label', monate < 12 ? monate + ' Monate' : (monate/12) + (monate===12?' Jahr':' Jahre'));
+  calcFestgeld();
+}
+
+function calcFestgeld() {
+  const betrag    = parseFloat(document.getElementById('fg-betrag').value) || 0;
+  const zins      = parseFloat(document.getElementById('fg-zins').value) / 100 || 0;
+  const tgZins    = parseFloat(document.getElementById('fg-tagesgeld').value) / 100 || 0;
+  const mitSteuer = document.getElementById('fg-steuer-cb').checked;
+  const freibetrag= parseFloat(document.getElementById('fg-freibetrag').value) || 1000;
+  const jahre     = fgMonate / 12;
+
+  document.getElementById('fg-freibetrag-wrap').style.display = mitSteuer ? 'block' : 'none';
+  document.getElementById('fg-steuer-row').style.display = mitSteuer ? 'flex' : 'none';
+  set('fg-tg-label', (tgZins*100).toFixed(2).replace('.',','));
+  set('fg-zins-label', (zins*100).toFixed(2).replace('.',','));
+
+  // Zinsen berechnen
+  let zinsen;
+  if (fgGutschrift === 'end' || fgMonate <= 12) {
+    zinsen = betrag * zins * jahre;
+  } else {
+    // Jährliche Gutschrift mit Zinseszins
+    zinsen = betrag * (Math.pow(1 + zins, jahre) - 1);
+  }
+
+  const endkapital = betrag + zinsen;
+  const steuer = mitSteuer ? Math.max(0, zinsen - freibetrag) * 0.26375 : 0;
+  const zinsenNetto = zinsen - steuer;
+  const effZins = (Math.pow(endkapital / betrag, 1/jahre) - 1) * 100;
+
+  // Tagesgeld Vergleich
+  const tgZinsen = betrag * tgZins * jahre;
+  const vorteil = zinsen - tgZinsen;
+
+  set('fg-zinsen-main', '+ ' + f(zinsen));
+  set('fg-end-main',    f(endkapital));
+  set('fg-netto-main',  f(betrag + zinsenNetto));
+  set('fg-vorteil-main', vorteil >= 0 ? '+ ' + f(vorteil) : '− ' + f(Math.abs(vorteil)));
+  set('fg-betrag-out',  f(betrag));
+  set('fg-zinsen-out',  '+ ' + f(zinsen));
+  set('fg-steuer-out',  steuer > 0 ? '− ' + f(steuer) : '0,00 €');
+  set('fg-zinsen-netto','+ ' + f(zinsenNetto));
+  set('fg-endkapital',  f(endkapital));
+  set('fg-effzins',     fp(effZins));
+  set('fg-vorteil',     vorteil >= 0 ? '+ ' + f(vorteil) : '− ' + f(Math.abs(vorteil)));
+
+  // Laufzeiten-Vergleich
+  const laufzeiten = [3, 6, 12, 24, 36, 60];
+  const tbody = document.getElementById('fg-vergleich-body');
+  tbody.innerHTML = laufzeiten.map(m => {
+    const j = m / 12;
+    const z = betrag * zins * j;
+    const e = betrag + z;
+    const isActive = m === fgMonate;
+    return `<tr class="${isActive ? 'highlight' : ''}">
+      <td>${m < 12 ? m+' Monate' : (m/12)+(m===12?' Jahr':' Jahre')}</td>
+      <td>+ ${f(z)}</td>
+      <td>${f(e)}</td>
+    </tr>`;
+  }).join('');
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+document.querySelectorAll('[data-tt]').forEach(el => {
+  const text = el.getAttribute('data-tt');
+  if (!text) return;
+  const wrap = document.createElement('span');
+  wrap.className = 'tooltip-wrap';
+  wrap.innerHTML = `<span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span>`;
+  const box = wrap.querySelector('.tooltip-box');
+  wrap.addEventListener('mouseenter', () => {
+    const r = wrap.getBoundingClientRect();
+    box.style.left = Math.min(r.left, window.innerWidth - 260) + 'px';
+    box.style.top  = (r.top + window.scrollY - box.offsetHeight - 10) + 'px';
+    box.style.position = 'absolute';
+  });
+  el.appendChild(wrap);
+});
+
+calcFestgeld();
+</script>
+</body>
+</html>

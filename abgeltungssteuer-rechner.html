@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abgeltungssteuer Rechner 2026 – Kapitalertragsteuer berechnen | RechnerPilot</title>
+<meta name="description" content="Abgeltungssteuer Rechner 2026: Kapitalertragsteuer auf Zinsen, Dividenden und Kursgewinne berechnen. Mit Sparerpauschbetrag, Soli und Kirchensteuer. Kostenlos.">
+<link rel="canonical" href="https://www.rechnerpilot.de/abgeltungssteuer-rechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Abgeltungssteuer Rechner 2026",
+  "description": "Kapitalertragsteuer auf Zinsen, Dividenden und Kursgewinne berechnen",
+  "url": "https://www.rechnerpilot.de/abgeltungssteuer-rechner",
+  "applicationCategory": "FinanceApplication",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+}
+</script>
+<style>
+.steuer-breakdown {
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:20px;
+  margin-top:12px;
+}
+.steuer-breakdown-title {
+  font-size:11px; font-weight:700; color:var(--ink-3);
+  text-transform:uppercase; letter-spacing:.6px;
+  margin-bottom:14px;
+}
+.sb-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:9px 0; border-bottom:1px solid var(--border);
+  font-size:13.5px;
+}
+.sb-row:last-child { border-bottom:none; font-weight:700; color:var(--ink); }
+.sb-label { color:var(--ink-2); }
+.sb-val { font-weight:600; }
+.sb-val.neg { color:#dc2626; }
+.sb-val.pos { color:var(--accent); }
+.sb-val.neutral { color:var(--ink); }
+
+.ertragsart-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
+  gap:8px; margin-top:8px;
+}
+.ea-btn {
+  padding:12px 10px; border-radius:10px; border:1.5px solid var(--border);
+  background:#fff; text-align:center; cursor:pointer; transition:all .15s;
+}
+.ea-btn:hover { border-color:var(--accent); }
+.ea-btn.active { background:var(--accent-light); border-color:var(--accent); }
+.ea-icon { font-size:20px; margin-bottom:4px; }
+.ea-name { font-size:12px; font-weight:700; color:var(--ink); }
+.ea-tfq  { font-size:11px; color:var(--ink-3); margin-top:2px; }
+
+.vergleich-szen {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px; margin-top:16px;
+}
+.szen-box {
+  background:#fff; border:1.5px solid var(--border);
+  border-radius:12px; padding:16px;
+}
+.szen-box.best { border-color:var(--accent); background:var(--accent-light); }
+.szen-title { font-size:12px; font-weight:700; color:var(--ink-2); margin-bottom:10px; }
+.szen-val { font-size:24px; font-weight:800; font-family:'Instrument Serif',serif; color:var(--accent); }
+.szen-sub { font-size:11px; color:var(--ink-3); margin-top:2px; }
+</style>
+</head>
+<body data-page="abgeltung">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Abgeltungssteuer Rechner</span>
+    </div>
+    <h1>Abgeltungssteuer Rechner 2026</h1>
+    <p>Berechne die Kapitalertragsteuer auf Zinsen, Dividenden und Kursgewinne — mit Sparerpauschbetrag, Teilfreistellung und Kirchensteuer.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label data-tt="Welche Art von Kapitalertrag möchtest du versteuern? Beeinflusst die Teilfreistellung.">Art des Kapitalertrags</label>
+          <div class="ertragsart-grid" id="ea-grid">
+            <div class="ea-btn active" data-tfq="0.3" data-name="Aktien-ETF" onclick="selectEA(this)">
+              <div class="ea-icon">📈</div>
+              <div class="ea-name">Aktien-ETF</div>
+              <div class="ea-tfq">30 % Teilfreistellung</div>
+            </div>
+            <div class="ea-btn" data-tfq="0" data-name="Zinsen" onclick="selectEA(this)">
+              <div class="ea-icon">🏦</div>
+              <div class="ea-name">Zinsen</div>
+              <div class="ea-tfq">0 % Teilfreistellung</div>
+            </div>
+            <div class="ea-btn" data-tfq="0" data-name="Dividenden" onclick="selectEA(this)">
+              <div class="ea-icon">💰</div>
+              <div class="ea-name">Dividenden</div>
+              <div class="ea-tfq">0 % Teilfreistellung</div>
+            </div>
+            <div class="ea-btn" data-tfq="0.15" data-name="Misch-ETF" onclick="selectEA(this)">
+              <div class="ea-icon">🔀</div>
+              <div class="ea-name">Misch-ETF</div>
+              <div class="ea-tfq">15 % Teilfreistellung</div>
+            </div>
+            <div class="ea-btn" data-tfq="0" data-name="Kursgewinne" onclick="selectEA(this)">
+              <div class="ea-icon">📊</div>
+              <div class="ea-name">Kursgewinne</div>
+              <div class="ea-tfq">0 % Teilfreistellung</div>
+            </div>
+            <div class="ea-btn" data-tfq="0.6" data-name="Immo-ETF" onclick="selectEA(this)">
+              <div class="ea-icon">🏠</div>
+              <div class="ea-name">Immobilien-ETF</div>
+              <div class="ea-tfq">60 % Teilfreistellung</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Dein Kapitalgewinn vor Steuern — z.B. Kursgewinne beim Verkauf, Zinsen oder Dividenden.">Kapitalertrag (brutto)</label>
+          <div class="input-wrap">
+            <input type="number" id="ag-ertrag" value="5000" step="100" min="0" oninput="calcAbgeltung()">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Noch nicht genutzter Sparerpauschbetrag. Singles: 1.000 € · Paare: 2.000 €. Gewinne bis zu diesem Betrag sind steuerfrei.">Verbleibender Freistellungsauftrag</label>
+          <div class="input-wrap">
+            <input type="number" id="ag-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcAbgeltung()">
+            <span class="input-unit">€</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
+            Singles: max. 1.000 € · Verheiratet/Paare: max. 2.000 €
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Kirchensteuer erhöht die Gesamtbelastung und beeinflusst leicht auch den Soli.">Kirchensteuer</label>
+          <div class="toggle-group" id="ag-kirche-group">
+            <button class="toggle-btn active" data-val="0" onclick="selectAGKirche(this)">Keine</button>
+            <button class="toggle-btn" data-val="9" onclick="selectAGKirche(this)">9 %</button>
+            <button class="toggle-btn" data-val="8" onclick="selectAGKirche(this)">8 % (BY/BW)</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Hast du bereits Verluste aus anderen Kapitalanlagen? Diese können mit Gewinnen verrechnet werden.">Verrechenbare Verluste</label>
+          <div class="input-wrap">
+            <input type="number" id="ag-verluste" value="0" step="100" min="0" oninput="calcAbgeltung()">
+            <span class="input-unit">€</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
+            Verluste aus Wertpapierverkäufen mindern den steuerpflichtigen Gewinn.
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Die Teilfreistellung wird automatisch je nach Ertragsart gesetzt. Du kannst sie hier manuell anpassen.">Teilfreistellung (TFQ)</label>
+          <div class="input-wrap">
+            <input type="number" id="ag-tfq" value="30" step="5" min="0" max="80" oninput="calcAbgeltung()">
+            <span class="input-unit">%</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
+            Aktien-ETF: 30 % · Misch-ETF: 15 % · Immobilien-ETF: 60 % · Zinsen/Dividenden: 0 %
+          </div>
+        </div>
+
+      </div>
+
+      <div class="results-panel">
+        <div class="results-label">Steuerberechnung 2026</div>
+
+        <div class="result-main">
+          <div class="result-main-label">Steuer gesamt</div>
+          <div class="result-main-value neg" id="ag-steuer-gesamt" style="color:#fff;">—</div>
+          <div class="result-main-sub">
+            <div>
+              <div class="rms-label">Ertrag nach Steuer</div>
+              <div class="rms-val" id="ag-netto">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Effektive Steuerquote</div>
+              <div class="rms-val" id="ag-effquote">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Ertragsart</div>
+              <div class="rms-val" id="ag-art-anzeige">Aktien-ETF</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="steuer-breakdown">
+          <div class="steuer-breakdown-title">Steuerberechnung im Detail</div>
+          <div class="sb-row">
+            <span class="sb-label">Kapitalertrag (brutto)</span>
+            <span class="sb-val neutral" id="sb-brutto">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Verrechenbare Verluste</span>
+            <span class="sb-val neutral" id="sb-verluste">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Teilfreistellung (<span id="sb-tfq-label">30</span> %)</span>
+            <span class="sb-val pos" id="sb-tfq-betrag">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Nach Teilfreistellung</span>
+            <span class="sb-val neutral" id="sb-nach-tfq">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Sparerpauschbetrag</span>
+            <span class="sb-val pos" id="sb-freibetrag">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Steuerpflichtiger Betrag</span>
+            <span class="sb-val neutral" id="sb-steuerpflichtig">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Abgeltungssteuer (25 %)</span>
+            <span class="sb-val neg" id="sb-abgeltung">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Solidaritätszuschlag (5,5 %)</span>
+            <span class="sb-val neg" id="sb-soli">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Kirchensteuer</span>
+            <span class="sb-val neg" id="sb-kirche">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Steuer gesamt</span>
+            <span class="sb-val neg" id="sb-gesamt">—</span>
+          </div>
+          <div class="sb-row">
+            <span class="sb-label">Ertrag nach Steuer (netto)</span>
+            <span class="sb-val pos" id="sb-netto">—</span>
+          </div>
+        </div>
+
+        <!-- Szenarien-Vergleich -->
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;">
+            Vergleich: Mit vs. ohne Freistellungsauftrag
+          </div>
+          <div class="vergleich-szen">
+            <div class="szen-box best">
+              <div class="szen-title">✅ Mit Freistellungsauftrag</div>
+              <div class="szen-val" id="szen-mit">—</div>
+              <div class="szen-sub">Steuer</div>
+            </div>
+            <div class="szen-box">
+              <div class="szen-title">❌ Ohne Freistellungsauftrag</div>
+              <div class="szen-val" id="szen-ohne" style="color:#dc2626;">—</div>
+              <div class="szen-sub">Steuer</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--ink-3);margin-top:8px;text-align:center;">
+            Ersparnis durch Freistellungsauftrag: <strong id="szen-ersparnis" style="color:var(--accent);">—</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">
+      ⚠️ Vereinfachte Berechnung. Keine Steuerberatung. Individuelle Verlustverrechnungstöpfe, Quellensteuer und persönliche Steuersituation können abweichen.
+    </div>
+  </div>
+
+  <!-- ERKLÄRSECTION -->
+  <div class="content-section fu d2">
+    <h2>Was ist die Abgeltungssteuer?</h2>
+    <p>Die Abgeltungssteuer ist eine pauschale Steuer von 25 % auf alle Kapitalerträge in Deutschland — also auf Zinsen, Dividenden und Kursgewinne. Hinzu kommen 5,5 % Solidaritätszuschlag auf die Steuer sowie ggf. Kirchensteuer.</p>
+    <p>Der <strong>Sparerpauschbetrag</strong> (auch Freistellungsauftrag) beträgt 1.000 € pro Person (2.000 € bei Ehepaaren). Bis zu diesem Betrag sind Kapitalerträge steuerfrei.</p>
+
+    <div class="example-box" style="margin-top:16px;">
+      <div class="example-row"><span>Kapitalertrag</span><span>5.000 €</span></div>
+      <div class="example-row"><span>Teilfreistellung Aktien-ETF (30 %)</span><span>− 1.500 €</span></div>
+      <div class="example-row"><span>Sparerpauschbetrag</span><span>− 1.000 €</span></div>
+      <div class="example-row"><span>Steuerpflichtiger Betrag</span><span>2.500 €</span></div>
+      <div class="example-row"><span>Abgeltungssteuer (25 %)</span><span>625 €</span></div>
+      <div class="example-row"><span>Soli (5,5 %)</span><span>34,38 €</span></div>
+      <div class="example-row"><span><strong>Steuer gesamt</strong></span><span><strong>659,38 €</strong></span></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zur Abgeltungssteuer</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Was ist die Teilfreistellung bei ETFs?</div>
+        <div class="faq-a">Die Teilfreistellung kompensiert die Vorbelastung von ETFs auf Fondsebene. Bei Aktien-ETFs mit mindestens 51 % Aktienanteil bleiben 30 % der Erträge steuerfrei. Bei Misch-Fonds (mindestens 25 % Aktien) sind es 15 %, bei Immobilien-ETFs 60 % bzw. 80 % (bei ausländischen Immobilienfonds). Diese Regelung gilt seit der Investmentsteuerreform 2018.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Zahle ich Soli auf Kapitalerträge?</div>
+        <div class="faq-a">Ja — aber nur wenn deine Kapitalertragsteuer im Jahr 972 € übersteigt (Stand 2026). Unterhalb dieser Freigrenze entfällt der Soli vollständig. Für die meisten Kleinanleger mit Sparerpauschbetrag fällt daher kein Soli an. Bei höheren Beträgen beträgt der Soli 5,5 % der Abgeltungssteuer.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie funktioniert die Verlustverrechnung?</div>
+        <div class="faq-a">Verluste aus Wertpapierverkäufen können mit Gewinnen verrechnet werden — aber nur innerhalb bestimmter Töpfe. Aktienverluste können nur mit Aktiengewinnen verrechnet werden. Verluste aus anderen Kapitalanlagen können mit Zinsen und Dividenden verrechnet werden. Nicht verrechenbare Verluste werden ins nächste Jahr vorgetragen (Verlusttopf).</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Muss ich Kapitalerträge in der Steuererklärung angeben?</div>
+        <div class="faq-a">Bei deutschen Banken und Brokern wird die Abgeltungssteuer automatisch einbehalten und abgeführt — du musst nichts tun. Bei ausländischen Brokern (z.B. Interactive Brokers, DEGIRO) musst du die Erträge selbst in der Anlage KAP angeben. Es kann aber trotzdem sinnvoll sein die Anlage KAP auszufüllen — z.B. wenn dein Grenzsteuersatz unter 25 % liegt (Günstigerprüfung).</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist die Günstigerprüfung?</div>
+        <div class="faq-a">Wenn dein persönlicher Einkommensteuersatz unter 25 % liegt (typisch bei geringem Einkommen, Studenten, Rentnern), kannst du beim Finanzamt die Günstigerprüfung beantragen. Das Finanzamt berechnet dann ob es günstiger ist, die Kapitalerträge mit dem persönlichen Steuersatz zu versteuern. Ist der persönliche Satz niedriger, bekommst du zu viel gezahlte Abgeltungssteuer zurück.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="etf-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🔬</div>
+        <h3>ETF Tools</h3>
+        <p>Vorabpauschale und ETF-Kosten berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="tagesgeld-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏦</div>
+        <h3>Tagesgeld Rechner</h3>
+        <p>Zinsen nach Abzug der Steuer berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="zinseszins-rechner.html" class="cc">
+        <div class="cc-icon bg-g">♾️</div>
+        <h3>Zinseszins Rechner</h3>
+        <p>Vermögenswachstum mit Steuer simulieren.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script>
+let agTFQ = 0.30;
+let agKirche = 0;
+
+const f  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+const f0 = n => Math.round(n).toLocaleString('de-DE')+' €';
+const fp = n => n.toFixed(2).replace('.',',')+' %';
+const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+
+function selectEA(btn) {
+  document.querySelectorAll('.ea-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  agTFQ = parseFloat(btn.dataset.tfq);
+  document.getElementById('ag-tfq').value = Math.round(agTFQ * 100);
+  set('ag-art-anzeige', btn.dataset.name);
+  calcAbgeltung();
+}
+
+function selectAGKirche(btn) {
+  agKirche = parseInt(btn.dataset.val);
+  document.querySelectorAll('#ag-kirche-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcAbgeltung();
+}
+
+function calcAbgeltung() {
+  const ertrag     = parseFloat(document.getElementById('ag-ertrag').value) || 0;
+  const freibetrag = parseFloat(document.getElementById('ag-freibetrag').value) || 0;
+  const verluste   = parseFloat(document.getElementById('ag-verluste').value) || 0;
+  const tfqPct     = parseFloat(document.getElementById('ag-tfq').value) / 100 || 0;
+
+  set('sb-tfq-label', Math.round(tfqPct * 100));
+
+  // Berechnung
+  const nachVerluste  = Math.max(0, ertrag - verluste);
+  const tfqBetrag     = nachVerluste * tfqPct;
+  const nachTFQ       = nachVerluste - tfqBetrag;
+  const genutztFrei   = Math.min(freibetrag, nachTFQ);
+  const steuerpflichtig = Math.max(0, nachTFQ - genutztFrei);
+
+  // Steuer mit Kirchensteuer (beeinflusst Soli-Berechnung)
+  const abgeltung = steuerpflichtig * 0.25;
+  let soli = 0;
+  // Soli-Freigrenze 2026: 972 € Abgeltungssteuer
+  if (abgeltung > 972) {
+    soli = abgeltung * 0.055;
+  } else if (abgeltung > 0) {
+    // Gleitzone: kein harter Schnitt
+    soli = Math.max(0, (abgeltung - 972) * 0.055);
+  }
+  const kircheSteuer = agKirche > 0 ? abgeltung * (agKirche / 100) : 0;
+  const gesamt = abgeltung + soli + kircheSteuer;
+  const netto  = ertrag - gesamt;
+  const effQuote = ertrag > 0 ? (gesamt / ertrag * 100) : 0;
+
+  // Ohne Freistellungsauftrag
+  const steuerpflichtigOhne = Math.max(0, nachTFQ);
+  const abgeltungOhne = steuerpflichtigOhne * 0.25;
+  const soliOhne = abgeltungOhne > 0 ? abgeltungOhne * 0.055 : 0;
+  const gesamtOhne = abgeltungOhne + soliOhne + (agKirche > 0 ? abgeltungOhne * (agKirche/100) : 0);
+
+  // Ausgabe Hauptergebnis
+  set('ag-steuer-gesamt', '− ' + f(gesamt));
+  set('ag-netto',         f(netto));
+  set('ag-effquote',      fp(effQuote));
+
+  // Detail-Breakdown
+  set('sb-brutto',         f(ertrag));
+  set('sb-verluste',       verluste > 0 ? '− ' + f(verluste) : '0,00 €');
+  set('sb-tfq-betrag',     tfqBetrag > 0 ? '− ' + f(tfqBetrag) : '0,00 €');
+  set('sb-nach-tfq',       f(nachTFQ));
+  set('sb-freibetrag',     genutztFrei > 0 ? '− ' + f(genutztFrei) : '0,00 €');
+  set('sb-steuerpflichtig',f(steuerpflichtig));
+  set('sb-abgeltung',      abgeltung > 0 ? '− ' + f(abgeltung) : '0,00 €');
+  set('sb-soli',           soli > 0 ? '− ' + f(soli) : '0,00 €');
+  set('sb-kirche',         kircheSteuer > 0 ? '− ' + f(kircheSteuer) : '0,00 €');
+  set('sb-gesamt',         gesamt > 0 ? '− ' + f(gesamt) : '0,00 €');
+  set('sb-netto',          f(netto));
+
+  // Szenarien
+  set('szen-mit',       gesamt > 0 ? f(gesamt) : '0,00 €');
+  set('szen-ohne',      f(gesamtOhne));
+  set('szen-ersparnis', f(gesamtOhne - gesamt));
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+// Tooltips
+document.querySelectorAll('[data-tt]').forEach(el => {
+  const text = el.getAttribute('data-tt');
+  if (!text) return;
+  const wrap = document.createElement('span');
+  wrap.className = 'tooltip-wrap';
+  wrap.innerHTML = `<span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span>`;
+  const box = wrap.querySelector('.tooltip-box');
+  wrap.addEventListener('mouseenter', () => {
+    const r = wrap.getBoundingClientRect();
+    box.style.left = Math.min(r.left, window.innerWidth - 260) + 'px';
+    box.style.top  = (r.top + window.scrollY - box.offsetHeight - 10) + 'px';
+    box.style.position = 'absolute';
+  });
+  el.appendChild(wrap);
+});
+
+calcAbgeltung();
+</script>
+</body>
+</html>
