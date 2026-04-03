@@ -4,119 +4,129 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brutto-Netto-Rechner 2026 – Nettogehalt berechnen | RechnerPilot</title>
-<meta name="description" content="Brutto-Netto-Rechner 2026: Nettogehalt nach Lohnsteuer, Solidaritätszuschlag und Sozialabgaben berechnen. Alle 16 Bundesländer, alle Steuerklassen.">
+<meta name="description" content="Brutto-Netto-Rechner 2026: Nettogehalt nach Lohnsteuer, Soli und Sozialabgaben berechnen. Alle Steuerklassen, alle 16 Bundesländer, Arbeitgeberkosten & Jahresübersicht.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.rechnerpilot.de/brutto-netto-rechner">
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebPage",
+  "@type": "WebApplication",
   "name": "Brutto-Netto-Rechner 2026",
-  "description": "Nettogehalt nach Steuerklasse und Sozialabgaben berechnen",
-  "url": "https://rechnerpilot.de/brutto-netto-rechner",
-  "breadcrumb": {
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type":"ListItem","position":1,"name":"Startseite","item":"https://rechnerpilot.de"},
-      {"@type":"ListItem","position":2,"name":"Brutto-Netto-Rechner","item":"https://rechnerpilot.de/brutto-netto-rechner"}
-    ]
-  }
+  "description": "Nettogehalt nach Lohnsteuer und Sozialabgaben berechnen",
+  "url": "https://www.rechnerpilot.de/brutto-netto-rechner",
+  "applicationCategory": "FinanceApplication",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
 }
 </script>
-<style>
-.toggle-group { display:flex; gap:8px; flex-wrap:wrap; }
-.toggle-btn {
-  padding:7px 14px; border-radius:8px; border:1.5px solid var(--border);
-  background:var(--bg); font-family:'Instrument Sans',sans-serif;
-  font-size:13px; font-weight:500; color:var(--ink-2); cursor:pointer; transition:all .15s;
-}
-.toggle-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
-.checkbox-row { display:flex; align-items:center; gap:8px; cursor:pointer; }
-.slider-track-labels {
-  position: relative;
-  height: 16px;
-  margin-top: 4px;
-}
-.slider-track-labels span {
-  position: absolute;
-  transform: translateX(-50%);
-  font-size: 10px;
-  color: var(--ink-3);
-  font-weight: 600;
-  white-space: nowrap;
-}
-.slider-track-labels span:first-child { transform: translateX(0); }
-.slider-track-labels span:last-child  { transform: translateX(-100%); }
-.checkbox-row input { width:16px; height:16px; accent-color:var(--accent); cursor:pointer; }
-.checkbox-row span { font-size:13.5px; color:var(--ink-2); }
-.jahres-toggle { display:flex; gap:4px; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:4px; }
-.jt-btn { padding:5px 12px; border-radius:6px; border:none; background:transparent; font-family:'Instrument Sans',sans-serif; font-size:12.5px; font-weight:600; color:var(--ink-3); cursor:pointer; transition:all .15s; }
-.jt-btn.active { background:var(--white); color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.08); }
-</style>
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.rechnerpilot.de/brutto-netto-rechner">
-<meta property="og:title" content="Brutto-Netto-Rechner 2026">
+<meta property="og:title" content="Brutto-Netto-Rechner 2026 | RechnerPilot">
 <meta property="og:description" content="Nettogehalt berechnen mit allen 16 Bundesländern und Steuerklassen.">
-<meta property="og:site_name" content="RechnerPilot">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Brutto-Netto-Rechner 2026">
-<meta name="twitter:description" content="Nettogehalt berechnen mit allen 16 Bundesländern und Steuerklassen.">
+<meta property="og:url" content="https://www.rechnerpilot.de/brutto-netto-rechner">
+<style>
+/* Monatlich/Jährlich Toggle */
+.eingabe-modus { display:flex; gap:4px; background:var(--border); border-radius:10px; padding:4px; margin-bottom:10px; width:fit-content; }
+.em-btn { padding:6px 18px; border-radius:7px; border:none; background:transparent; font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:600; color:var(--ink-3); cursor:pointer; transition:all .15s; }
+.em-btn.active { background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.1); }
+
+/* Slider */
+.slider-wrap { margin-top:6px; }
+.range-slider { -webkit-appearance:none; appearance:none; width:100%; height:4px; border-radius:100px; background:var(--border); outline:none; cursor:pointer; }
+.range-slider::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; background:#fff; border:2px solid var(--accent); border-radius:50%; cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,.15); }
+.range-slider::-moz-range-thumb { width:20px; height:20px; background:#fff; border:2px solid var(--accent); border-radius:50%; cursor:pointer; }
+.slider-labels { display:flex; justify-content:space-between; margin-top:4px; }
+.slider-labels span { font-size:10px; color:var(--ink-3); font-weight:600; }
+
+/* Steuerjahr Tabs */
+.jahr-tabs { display:flex; gap:4px; }
+.jahr-tab { padding:7px 14px; border-radius:8px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:12px; font-weight:700; color:var(--ink-3); cursor:pointer; transition:all .15s; }
+.jahr-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* AG-Kosten Box */
+.ag-box { background:var(--accent-light); border:1.5px solid rgba(26,92,58,.15); border-radius:12px; padding:16px 18px; margin-top:4px; }
+.ag-box-title { font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px; }
+.ag-row { display:flex; justify-content:space-between; font-size:13px; padding:5px 0; border-bottom:1px solid rgba(26,92,58,.1); }
+.ag-row:last-child { border-bottom:none; font-weight:700; }
+
+/* Jahrestabelle */
+.jahr-table { width:100%; border-collapse:collapse; font-size:12.5px; margin-top:12px; }
+.jahr-table th { background:var(--accent); color:#fff; padding:9px 12px; text-align:right; font-size:11px; text-transform:uppercase; letter-spacing:.3px; }
+.jahr-table th:first-child { text-align:left; }
+.jahr-table td { padding:8px 12px; border-bottom:1px solid var(--border); text-align:right; color:var(--ink-2); }
+.jahr-table td:first-child { text-align:left; font-weight:600; color:var(--ink); }
+.jahr-table tfoot td { font-weight:700; color:var(--accent); background:var(--accent-light); border-top:2px solid var(--accent); }
+
+/* Sankey-ähnliches Balkendiagramm */
+.sankey-wrap { margin:16px 0; }
+.sankey-row { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+.sankey-label { font-size:12px; color:var(--ink-2); min-width:130px; font-weight:500; }
+.sankey-bar-track { flex:1; height:24px; background:var(--border); border-radius:6px; overflow:hidden; position:relative; }
+.sankey-bar-fill { height:100%; border-radius:6px; display:flex; align-items:center; padding-left:8px; font-size:11px; font-weight:700; color:#fff; transition:width .4s; }
+.sankey-val { font-size:12px; font-weight:600; min-width:90px; text-align:right; color:var(--ink-2); }
+
+/* Tags */
+.tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.tag { display:inline-block; padding:6px 14px; background:#fff; border:1.5px solid var(--border); border-radius:20px; font-size:13px; font-weight:500; color:var(--ink-2); text-decoration:none; transition:all .15s; }
+.tag:hover { border-color:var(--accent); color:var(--accent); }
+
+/* Abschnitt-Toggle */
+.section-toggle { cursor:pointer; display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); }
+.section-toggle::after { content:'▾'; color:var(--ink-3); transition:transform .2s; }
+.section-toggle.open::after { transform:rotate(180deg); }
+.section-body { display:none; padding-top:12px; }
+.section-body.open { display:block; }
+</style>
 </head>
 <body data-page="brutto">
 <div id="nav-placeholder"></div>
 
 <div class="calc-page">
-  <!-- HEADER -->
   <div class="calc-header fu">
     <div class="calc-breadcrumb">
-      <a href="index.html">Startseite</a>
-      <span>›</span>
+      <a href="index.html">Startseite</a><span>›</span>
       <span>Brutto-Netto-Rechner</span>
     </div>
     <h1>Brutto-Netto-Rechner 2026</h1>
-    <p>Berechne dein Nettogehalt nach Lohnsteuer, Solidaritätszuschlag und Sozialabgaben. Aktuell für das Jahr 2026.</p>
+    <p>Berechne dein Nettogehalt nach Lohnsteuer, Solidaritätszuschlag und Sozialabgaben — mit Arbeitgeberkosten und Jahresübersicht.</p>
   </div>
 
-  <!-- RECHNER -->
   <div class="calc-box fu d1">
     <div class="calc-body">
       <!-- INPUTS -->
       <div class="inputs-panel">
+
+        <!-- Steuerjahr -->
         <div class="field">
-          <label data-tt="Monatliches Gehalt vor Steuern und Abgaben — so wie im Arbeitsvertrag.">Bruttogehalt <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Monatliches Gehalt vor Steuern und Abgaben — so wie im Arbeitsvertrag.</span></span></label>
-          <div class="jahres-toggle" style="margin-bottom:8px;">
-            <button class="jt-btn active" onclick="setModus('monat',this)">Monatlich</button>
-            <button class="jt-btn" onclick="setModus('jahr',this)">Jährlich</button>
-          </div>
-          <div class="input-wrap">
-            <input type="number" id="bn-brutto" value="3500" min="0" max="500000" oninput="calcBN()">
-            <span class="input-unit">€</span>
-          </div>
-          <input type="range" class="range-slider" min="500" max="20000" step="25" value="3500" id="bn-slider" oninput="
-    const snapped = snapToNearest(parseFloat(this.value), modus==='jahr' ? SNAP_JAHR : SNAP_MONAT);
-    this.value = snapped;
-    document.getElementById('bn-brutto').value = snapped;
-    calcBN();
-  ">
-          <div class="slider-track-labels" id="slider-labels-monat">
-            <span style="left:0.0%">500</span>
-            <span style="left:23.1%">5k</span>
-            <span style="left:48.7%">10k</span>
-            <span style="left:74.4%">15k</span>
-            <span style="left:100.0%">20k</span>
-          </div>
-          <div class="slider-track-labels" id="slider-labels-jahr" style="display:none;">
-            <span style="left:0.0%">10k</span>
-            <span style="left:21.1%">50k</span>
-            <span style="left:47.4%">100k</span>
-            <span style="left:73.7%">150k</span>
-            <span style="left:100.0%">200k</span>
+          <label>Steuerjahr</label>
+          <div class="jahr-tabs">
+            <button class="jahr-tab" data-val="2024" onclick="selectJahrBN(this)">2024</button>
+            <button class="jahr-tab" data-val="2025" onclick="selectJahrBN(this)">2025</button>
+            <button class="jahr-tab active" data-val="2026" onclick="selectJahrBN(this)">2026</button>
           </div>
         </div>
 
+        <!-- Brutto mit Monat/Jahr Toggle -->
         <div class="field">
-          <label data-tt="I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK) · V: Verheiratet (niedrigeres EK)">Steuerklasse <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK) · V: Verheiratet (niedrigeres EK)</span></span></label>
+          <label data-tt="Gehalt vor Steuern — so wie im Arbeitsvertrag. Umschaltbar zwischen monatlich und jährlich.">Bruttogehalt</label>
+          <div class="eingabe-modus">
+            <button class="em-btn active" onclick="setModus('monat',this)">Monatlich</button>
+            <button class="em-btn" onclick="setModus('jahr',this)">Jährlich</button>
+          </div>
+          <div class="input-wrap">
+            <input type="number" id="bn-brutto" value="3500" min="0" max="500000" step="50" oninput="syncSlider(); calcBN()">
+            <span class="input-unit">€</span>
+          </div>
+          <div class="slider-wrap">
+            <input type="range" class="range-slider" id="bn-slider" min="500" max="20000" step="50" value="3500"
+              oninput="syncInput(); calcBN()">
+            <div class="slider-labels" id="slider-labels">
+              <span>500 €</span><span>5k</span><span>10k</span><span>15k</span><span>20k</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Steuerklasse -->
+        <div class="field">
+          <label data-tt="I: ledig · II: Alleinerziehend · III: Verheiratet (höheres EK) · IV: gleiches EK · V: niedrigeres EK · VI: Zweitjob">Steuerklasse</label>
           <div class="toggle-group" id="klasse-group">
             <button class="toggle-btn active" data-val="1" onclick="selectKlasse(this)">I</button>
             <button class="toggle-btn" data-val="2" onclick="selectKlasse(this)">II</button>
@@ -127,54 +137,76 @@
           </div>
         </div>
 
+        <!-- Bundesland -->
         <div class="field">
-          <label>Bundesland</label>
-          <div class="input-wrap">
-            <select class="hc-input" id="bn-bundesland" onchange="updateBundesland()" style="font-size:14px;padding-right:14px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-weight:500;color:var(--ink);width:100%;outline:none;">
-              <option value="bw">Baden-Württemberg</option>
-              <option value="by">Bayern</option>
-              <option value="be">Berlin</option>
-              <option value="bb">Brandenburg</option>
-              <option value="hb">Bremen</option>
-              <option value="hh">Hamburg</option>
-              <option value="he">Hessen</option>
-              <option value="mv">Mecklenburg-Vorpommern</option>
-              <option value="ni">Niedersachsen</option>
-              <option value="nw" selected>Nordrhein-Westfalen</option>
-              <option value="rp">Rheinland-Pfalz</option>
-              <option value="sl">Saarland</option>
-              <option value="sn">Sachsen</option>
-              <option value="st">Sachsen-Anhalt</option>
-              <option value="sh">Schleswig-Holstein</option>
-              <option value="th">Thüringen</option>
-            </select>
-          </div>
+          <label data-tt="Beeinflusst den Kirchensteuersatz (8% in BY+BW, sonst 9%) und die Pflegeversicherung (Sachsen: +0,5% AN).">Bundesland</label>
+          <select id="bn-bundesland" onchange="updateBundesland()">
+            <option value="bw">Baden-Württemberg</option>
+            <option value="by">Bayern</option>
+            <option value="be">Berlin</option>
+            <option value="bb">Brandenburg</option>
+            <option value="hb">Bremen</option>
+            <option value="hh">Hamburg</option>
+            <option value="he">Hessen</option>
+            <option value="mv">Mecklenburg-Vorpommern</option>
+            <option value="ni">Niedersachsen</option>
+            <option value="nw" selected>Nordrhein-Westfalen</option>
+            <option value="rp">Rheinland-Pfalz</option>
+            <option value="sl">Saarland</option>
+            <option value="sn">Sachsen</option>
+            <option value="st">Sachsen-Anhalt</option>
+            <option value="sh">Schleswig-Holstein</option>
+            <option value="th">Thüringen</option>
+          </select>
         </div>
 
+        <!-- Kirchensteuer -->
         <div class="field">
-          <label data-tt="9 % in den meisten Bundesländern, 8 % in Bayern und Baden-Württemberg.">Kirchensteuer <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">9 % in den meisten Bundesländern, 8 % in Bayern und Baden-Württemberg.</span></span></label>
+          <label data-tt="8 % in Bayern und Baden-Württemberg, 9 % in allen anderen Bundesländern.">Kirchensteuer</label>
           <label class="checkbox-row">
             <input type="checkbox" id="bn-kirche" onchange="calcBN()">
             <span>Ich zahle Kirchensteuer (<span id="kirche-satz-label">9</span> %)</span>
           </label>
         </div>
 
+        <!-- Kinderfreibeträge -->
         <div class="field">
-          <label>Kinder</label>
-          <label class="checkbox-row">
-            <input type="checkbox" id="bn-kinder" onchange="calcBN()">
-            <span>Ich habe Kinder (niedrigerer PV-Beitrag)</span>
-          </label>
+          <label data-tt="Kinderfreibeträge beeinflussen die Pflegeversicherung (PV-Zuschlag entfällt ab 1 Kind) und die Lohnsteuer bei Günstigerprüfung.">Kinderfreibeträge</label>
+          <select id="bn-kfb" onchange="calcBN()">
+            <option value="0">0 — keine Kinder</option>
+            <option value="0.5">0,5 Kinderfreibetrag</option>
+            <option value="1">1,0 — 1 Kind</option>
+            <option value="1.5">1,5 Kinderfreibeträge</option>
+            <option value="2">2,0 — 2 Kinder</option>
+            <option value="2.5">2,5 Kinderfreibeträge</option>
+            <option value="3">3,0 — 3 Kinder</option>
+          </select>
         </div>
 
+        <!-- PV Kinder -->
         <div class="field">
-          <label>GKV-Zusatzbeitrag AN-Anteil</label>
+          <label data-tt="Kinderlose über 23 zahlen 2,1 % AN-Anteil. Ab 1 Kind: 1,8 %. Weitere Kinder unter 25 senken den Beitrag weiter.">Pflegeversicherung — Kinder</label>
+          <select id="bn-pv-kinder" onchange="calcBN()">
+            <option value="0">Kinderlos, 23+ Jahre (2,1 % AN)</option>
+            <option value="-1">Unter 23 Jahre (1,8 % AN)</option>
+            <option value="1">1 Kind (1,8 % AN)</option>
+            <option value="2">2 Kinder unter 25 (1,55 % AN)</option>
+            <option value="3">3 Kinder unter 25 (1,3 % AN)</option>
+            <option value="4">4 Kinder unter 25 (1,05 % AN)</option>
+            <option value="5">5+ Kinder unter 25 (0,9 % AN)</option>
+          </select>
+        </div>
+
+        <!-- KV Zusatzbeitrag -->
+        <div class="field">
+          <label data-tt="Ø 2026: 1,45 % (AN-Anteil). Du zahlst die Hälfte des kassenindividuellen Zusatzbeitrags.">GKV-Zusatzbeitrag (AN-Anteil)</label>
           <div class="input-wrap">
-            <input type="number" id="bn-kvzusatz" value="1.45" step="0.05" min="0" max="5" oninput="calcBN()">
+            <input type="number" id="bn-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcBN()">
             <span class="input-unit">%</span>
           </div>
-          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø 2026: 1,45 % (kassenindividuell)</div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø 2026: 1,45 % · <a href="krankenkassenrechner.html" style="color:var(--accent);">KK-Vergleich →</a></div>
         </div>
+
       </div>
 
       <!-- RESULTS -->
@@ -185,83 +217,151 @@
           <div class="result-main-label">Nettogehalt</div>
           <div class="result-main-value" id="bn-netto">—</div>
           <div class="result-main-sub">
-            <div><div class="rms-label">Steuern</div><div class="rms-val" id="bn-steuern-sum">—</div></div>
-            <div><div class="rms-label">Sozialabgaben</div><div class="rms-val" id="bn-soz-sum">—</div></div>
-            <div><div class="rms-label">Abgabenquote</div><div class="rms-val" id="bn-quote">—</div></div>
+            <div>
+              <div class="rms-label">Steuern</div>
+              <div class="rms-val neg" id="bn-steuern-sum">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Sozialabgaben</div>
+              <div class="rms-val neg" id="bn-soz-sum">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Abgabenquote</div>
+              <div class="rms-val" id="bn-quote">—</div>
+            </div>
           </div>
         </div>
 
+        <!-- Sankey Balken -->
+        <div class="sankey-wrap" id="bn-sankey">
+          <div class="sankey-row">
+            <div class="sankey-label">Nettogehalt</div>
+            <div class="sankey-bar-track"><div class="sankey-bar-fill" id="sk-netto" style="background:var(--accent);"></div></div>
+            <div class="sankey-val" id="sk-netto-val">—</div>
+          </div>
+          <div class="sankey-row">
+            <div class="sankey-label">Lohnsteuer</div>
+            <div class="sankey-bar-track"><div class="sankey-bar-fill" id="sk-lst" style="background:#e74c3c;"></div></div>
+            <div class="sankey-val" id="sk-lst-val">—</div>
+          </div>
+          <div class="sankey-row">
+            <div class="sankey-label">Sozialversicherung</div>
+            <div class="sankey-bar-track"><div class="sankey-bar-fill" id="sk-soz" style="background:#f39c12;"></div></div>
+            <div class="sankey-val" id="sk-soz-val">—</div>
+          </div>
+        </div>
+
+        <!-- Detail Zeilen -->
+        <div class="result-row"><span class="result-row-label">Bruttogehalt</span><span class="result-row-value" id="bn-brutto-out">—</span></div>
         <div class="result-row"><span class="result-row-label">Lohnsteuer</span><span class="result-row-value neg" id="bn-lst">—</span></div>
         <div class="result-row"><span class="result-row-label">Solidaritätszuschlag</span><span class="result-row-value neg" id="bn-soli">—</span></div>
         <div class="result-row"><span class="result-row-label">Kirchensteuer</span><span class="result-row-value neg" id="bn-kirche-out">—</span></div>
-        <div class="result-row"><span class="result-row-label">Rentenversicherung</span><span class="result-row-value neg" id="bn-rv">—</span></div>
+        <div class="result-row"><span class="result-row-label">Rentenversicherung (9,3 %)</span><span class="result-row-value neg" id="bn-rv">—</span></div>
         <div class="result-row"><span class="result-row-label">Krankenversicherung</span><span class="result-row-value neg" id="bn-kv">—</span></div>
         <div class="result-row"><span class="result-row-label">Pflegeversicherung</span><span class="result-row-value neg" id="bn-pv">—</span></div>
-        <div class="result-row"><span class="result-row-label">Arbeitslosenversicherung</span><span class="result-row-value neg" id="bn-alv">—</span></div>
+        <div class="result-row"><span class="result-row-label">Arbeitslosenversicherung (1,3 %)</span><span class="result-row-value neg" id="bn-alv">—</span></div>
+        <div class="result-row" style="font-weight:700;"><span class="result-row-label">Nettogehalt</span><span class="result-row-value pos" id="bn-netto2">—</span></div>
+      </div>
+    </div>
 
-        <div class="prog-bar-wrap">
-          <div class="prog-bar-labels"><span>Abzüge vom Brutto</span><span id="bn-bar-pct">—</span></div>
-          <div class="prog-bar"><div class="prog-bar-fill" id="bn-bar" style="width:0%"></div></div>
+    <!-- ARBEITGEBERKOSTEN -->
+    <div style="padding:20px 28px;border-top:1px solid var(--border);background:var(--bg);">
+      <div class="section-toggle" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open')">
+        <span style="font-size:13px;font-weight:700;color:var(--ink-2);">💼 Arbeitgeberkosten (was dein AG wirklich zahlt)</span>
+      </div>
+      <div class="section-body">
+        <div class="ag-box" style="margin-top:10px;">
+          <div class="ag-box-title">Gesamtkosten für den Arbeitgeber</div>
+          <div class="ag-row"><span>Dein Bruttogehalt</span><span id="ag-brutto">—</span></div>
+          <div class="ag-row"><span>AG-Anteil Rentenversicherung (9,3 %)</span><span id="ag-rv">—</span></div>
+          <div class="ag-row"><span>AG-Anteil Krankenversicherung</span><span id="ag-kv">—</span></div>
+          <div class="ag-row"><span>AG-Anteil Pflegeversicherung</span><span id="ag-pv">—</span></div>
+          <div class="ag-row"><span>AG-Anteil Arbeitslosenversicherung (1,3 %)</span><span id="ag-alv">—</span></div>
+          <div class="ag-row"><span>AG-Anteil Unfallversicherung (ca. 1,3 %)</span><span id="ag-uv">—</span></div>
+          <div class="ag-row"><span><strong>Gesamtkosten für Arbeitgeber</strong></span><span id="ag-gesamt"><strong>—</strong></span></div>
+        </div>
+        <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">Der Arbeitgeber zahlt zusätzlich etwa 21 % auf dein Bruttogehalt an Sozialabgaben. Diese erscheinen nicht auf deiner Gehaltsabrechnung.</p>
+      </div>
+    </div>
+
+    <!-- JAHRESÜBERSICHT -->
+    <div style="padding:20px 28px;border-top:1px solid var(--border);">
+      <div class="section-toggle" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open')">
+        <span style="font-size:13px;font-weight:700;color:var(--ink-2);">📅 Jahresübersicht (12 Monate)</span>
+      </div>
+      <div class="section-body">
+        <div style="overflow-x:auto;margin-top:10px;">
+          <table class="jahr-table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Monat</th>
+                <th>Brutto</th>
+                <th>Steuern</th>
+                <th>Sozialabg.</th>
+                <th>Netto</th>
+              </tr>
+            </thead>
+            <tbody id="bn-jahres-body"></tbody>
+            <tfoot id="bn-jahres-foot"></tfoot>
+          </table>
         </div>
       </div>
     </div>
+
     <div class="calc-disclaimer">
-      ⚠️ Näherungsrechnung auf Basis der Steuergesetzgebung <span class="cur-year"></span>. Kein Ersatz für individuelle Steuerberatung. Abweichungen durch Freibeträge, individuelle Kassenzusatzbeiträge und andere Faktoren möglich. <a href="methodik.html" style="color:var(--accent);">Zur Methodik →</a>
+      ⚠️ Näherungsrechnung auf Basis §32a EStG 2026. Kein Ersatz für individuelle Steuerberatung. <a href="methodik.html" style="color:var(--accent);">Zur Methodik →</a>
     </div>
   </div>
 
   <!-- CONTENT -->
   <div class="content-section fu d2">
     <h2>Was bedeutet Brutto und Netto?</h2>
-    <p><strong>Brutto</strong> ist dein Gehalt vor allen Abzügen — der Betrag, der in deinem Arbeitsvertrag steht. <strong>Netto</strong> ist das, was am Ende auf deinem Konto landet, nach Abzug von Lohnsteuer und Sozialabgaben.</p>
-    <p>Der Unterschied zwischen Brutto und Netto ist in Deutschland erheblich: Je nach Steuerklasse und Einkommen behältst du zwischen 55 % und 75 % deines Bruttogehalts.</p>
+    <p><strong>Brutto</strong> ist dein Gehalt vor allen Abzügen — der Betrag im Arbeitsvertrag. <strong>Netto</strong> ist was am Ende auf deinem Konto landet. Der Unterschied ist erheblich: Je nach Steuerklasse und Einkommen behältst du zwischen 55 % und 78 % deines Bruttogehalts.</p>
+    <p>Hauptfaktoren für die Abzüge sind die <strong>Lohnsteuer</strong> (progressiv nach Einkommen), die <strong>Sozialversicherungsbeiträge</strong> (Rente, Kranken, Pflege, Arbeitslosigkeit) und optional die <strong>Kirchensteuer</strong>.</p>
   </div>
 
   <div class="content-section">
-    <h2>Beispielrechnung: 3.500 € brutto (Steuerklasse I)</h2>
+    <h2>Die Steuerklassen 2026 im Überblick</h2>
     <div class="example-box">
-      <h3>📋 Beispiel – Ledig, Steuerklasse I, GKV, keine Kirchensteuer, 2026</h3>
-      <div class="example-row"><span>Bruttogehalt</span><span><strong>3.500,00 €</strong></span></div>
-      <div class="example-row"><span>Lohnsteuer (ca.)</span><span>− 415,00 €</span></div>
-      <div class="example-row"><span>Solidaritätszuschlag</span><span>− 0,00 €</span></div>
-      <div class="example-row"><span>Rentenversicherung (9,3 %)</span><span>− 325,50 €</span></div>
-      <div class="example-row"><span>Krankenversicherung (7,3 % + 1,45 %)</span><span>− 305,55 €</span></div>
-      <div class="example-row"><span>Pflegeversicherung (2,1 % kinderlos)</span><span>− 73,50 €</span></div>
-      <div class="example-row"><span>Arbeitslosenversicherung (1,3 %)</span><span>− 45,50 €</span></div>
-      <div class="example-row"><span><strong>Nettogehalt</strong></span><span><strong>≈ 2.334,95 €</strong></span></div>
+      <div class="example-row"><span><strong>Klasse I</strong></span><span>Ledig, geschieden, verwitwet</span></div>
+      <div class="example-row"><span><strong>Klasse II</strong></span><span>Alleinerziehende (+ Entlastungsbetrag 4.260 €)</span></div>
+      <div class="example-row"><span><strong>Klasse III</strong></span><span>Verheiratet, höheres Einkommen (günstigste Besteuerung)</span></div>
+      <div class="example-row"><span><strong>Klasse IV</strong></span><span>Verheiratet, ähnliches Einkommen</span></div>
+      <div class="example-row"><span><strong>Klasse V</strong></span><span>Verheiratet, niedrigeres Einkommen (höchste Abzüge)</span></div>
+      <div class="example-row"><span><strong>Klasse VI</strong></span><span>Zweitjob / mehrere Arbeitgeber</span></div>
     </div>
-    <p>Nutze den Rechner oben, um dein persönliches Nettogehalt zu berechnen — mit deiner eigenen Steuerklasse und Krankenkasse.</p>
   </div>
 
   <div class="content-section">
-    <h2>Die Steuerklassen im Überblick</h2>
-    <ul>
-      <li><strong>Klasse I:</strong> Ledig, geschieden, verwitwet — Standardbesteuerung</li>
-      <li><strong>Klasse II:</strong> Alleinerziehende mit Anspruch auf Entlastungsbetrag</li>
-      <li><strong>Klasse III:</strong> Verheiratete mit höherem Einkommen — günstigste Besteuerung</li>
-      <li><strong>Klasse IV:</strong> Verheiratete mit ähnlichem Einkommen — Standardbesteuerung</li>
-      <li><strong>Klasse V:</strong> Verheiratete mit niedrigerem Einkommen — höchste Abzüge</li>
-      <li><strong>Klasse VI:</strong> Mehrere Arbeitgeber — höchste Besteuerung für Zweitjobs</li>
-    </ul>
-  </div>
-
-  <div class="content-section">
-    <h2>Häufige Fragen</h2>
+    <h2>Häufige Fragen zum Brutto-Netto-Rechner</h2>
     <div class="faq">
-      <div class="faq-row"><div class="faq-q">Warum weicht mein Netto vom Rechner ab?</div><div class="faq-a">Der Rechner berechnet eine Näherung. Individuelle Freibeträge (z.B. Werbungskostenpauschale, Kinderfreibetrag), der genaue Zusatzbeitrag deiner Krankenkasse und besondere Lohnbestandteile können abweichen.</div></div>
-      <div class="faq-row"><div class="faq-q">Was ist der Solidaritätszuschlag?</div><div class="faq-a">Der Soli wurde 2021 für ca. 90 % der Steuerzahler abgeschafft. Er greift nur noch bei einer Jahres-Lohnsteuer über 20.350 € (2026). Die meisten Arbeitnehmer zahlen keinen Soli mehr.</div></div>
-      <div class="faq-row"><div class="faq-q">Wie hoch ist der Grundfreibetrag 2026?</div><div class="faq-a">Der Grundfreibetrag beträgt 2026 exakt 12.348 € für Ledige und 24.696 € für zusammenveranlagte Ehepaare. Einkommen bis zu diesem Betrag ist steuerfrei.</div></div>
-      <div class="faq-row"><div class="faq-q">Was zahlt der Arbeitgeber zusätzlich?</div><div class="faq-a">Dein Arbeitgeber zahlt ebenfalls Sozialversicherungsbeiträge (gleiche Höhe wie du) — diese erscheinen nicht auf deiner Gehaltsabrechnung. Dein Brutto kostet den Arbeitgeber ca. 20 % mehr als es dir erscheint.</div></div>
+      <div class="faq-row">
+        <div class="faq-q">Warum weicht mein Netto vom Rechner ab?</div>
+        <div class="faq-a">Der Rechner berechnet eine Näherung nach §32a EStG. Individuelle Freibeträge (Werbungskosten, Pendlerpauschale), der genaue Zusatzbeitrag deiner Kasse und besondere Lohnbestandteile wie Bonuszahlungen können abweichen. Auch betriebliche Altersvorsorgeverträge oder Sachleistungen des Arbeitgebers sind nicht berücksichtigt.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist der Solidaritätszuschlag?</div>
+        <div class="faq-a">Der Soli wurde 2021 für ca. 90 % der Steuerzahler abgeschafft. Er greift 2026 nur noch bei einer Jahres-Lohnsteuer über ca. 20.350 €. Bei einem Monatsbrutto unter ca. 6.000 € (Steuerklasse I) fällt in der Regel kein Soli an.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie hoch ist der Grundfreibetrag 2026?</div>
+        <div class="faq-a">Der Grundfreibetrag beträgt 2026 genau 12.348 € für Ledige (24.696 € für Verheiratete). Einkommen bis zu diesem Betrag ist vollständig steuerfrei — erst darüber beginnt die Besteuerung progressiv.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was zahlt der Arbeitgeber zusätzlich?</div>
+        <div class="faq-a">Dein Arbeitgeber zahlt zusätzlich zu deinem Brutto ca. 20–21 % Sozialabgaben (je hälftig Rente, Kranken, Pflege, Arbeitslosigkeit + Unfallversicherung). Ein Brutto von 3.500 € kostet den Arbeitgeber also rund 4.200 €. Diese Kosten erscheinen nicht auf deiner Gehaltsabrechnung.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist der Unterschied zwischen Steuerklasse III und V?</div>
+        <div class="faq-a">Verheiratete können zwischen den Kombinationen III/V und IV/IV wählen. Bei III/V zahlt der Besserverdienende in Klasse III kaum Steuern, der Partner in Klasse V dafür sehr viel. Unterm Strich ist die Gesamtsteuerlast gleich — aber die monatliche Verteilung verschiebt sich. Seit 2030 ist ein Wechsel des Splitting-Verfahrens geplant.</div>
+      </div>
     </div>
   </div>
-
-  <!-- RELATED -->
 
   <!-- VARIANTEN -->
   <div class="content-section">
     <h2>Beliebte Berechnungen</h2>
-    <p>Direkt zum vorausgefüllten Rechner für dein Gehalt:</p>
-    <div class="tags" style="margin-top:16px;">
+    <div class="tags">
       <a href="brutto-netto-rechner/2000-euro.html" class="tag">2.000 € brutto</a>
       <a href="brutto-netto-rechner/2500-euro.html" class="tag">2.500 € brutto</a>
       <a href="brutto-netto-rechner/3000-euro.html" class="tag">3.000 € brutto</a>
@@ -278,23 +378,23 @@
   <div class="content-section">
     <h2>Verwandte Rechner</h2>
     <div class="related-grid">
+      <a href="tvoed-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>TVöD Gehaltsrechner</h3>
+        <p>Gehalt im öffentlichen Dienst berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
       <a href="kreditrechner.html" class="cc">
         <div class="cc-icon bg-g">🏦</div>
         <h3>Kreditrechner</h3>
-        <p>Monatsrate und Gesamtkosten für deinen Kredit.</p>
-        <div class="cc-link">Berechnen →</div>
+        <p>Monatsrate und Tilgungsplan.</p>
+        <div class="cc-link">Zum Rechner →</div>
       </a>
       <a href="etf-sparplan-rechner.html" class="cc">
-        <div class="cc-icon bg-y">📈</div>
-        <h3>ETF-Sparplan</h3>
-        <p>Wie viel Vermögen baust du monatlich auf?</p>
-        <div class="cc-link">Berechnen →</div>
-      </a>
-      <a href="index.html" class="cc">
-        <div class="cc-icon bg-s">🧮</div>
-        <h3>Alle Rechner</h3>
-        <p>Zur Übersicht aller Finanzrechner.</p>
-        <div class="cc-link">Zur Übersicht →</div>
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan</h3>
+        <p>Vermögen langfristig aufbauen.</p>
+        <div class="cc-link">Zum Rechner →</div>
       </a>
     </div>
   </div>
@@ -304,123 +404,183 @@
 <script src="components.js"></script>
 <script src="steuer2026.js"></script>
 <script>
-  document.querySelectorAll('.cur-year').forEach(el => el.textContent = new Date().getFullYear());
+let modus = 'monat';
+let aktuelleKlasse = 1;
+let bnJahr = 2026;
 
-  let modus = 'monat';
-  let aktuelleKlasse = 1;
+const MONATE = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const SNAP_MONAT = [500,1000,1500,2000,2500,3000,3500,4000,5000,6000,7500,10000,12500,15000,20000];
+const SNAP_JAHR  = [10000,20000,30000,40000,50000,60000,70000,80000,100000,120000,150000,200000];
 
-  function setModus(m, btn) {
-    const aktuell = parseFloat(document.getElementById('bn-brutto').value) || 0;
-    const slider = document.getElementById('bn-slider');
-    if (modus === 'monat' && m === 'jahr') {
-      document.getElementById('bn-brutto').value = Math.round(aktuell * 12);
-      slider.max = 200000;
-      slider.step = 1000;
-    } else if (modus === 'jahr' && m === 'monat') {
-      document.getElementById('bn-brutto').value = Math.round(aktuell / 12);
-      slider.max = 20000;
-      slider.step = 50;
-    }
-    slider.style.display = 'block';
-    modus = m;
-    document.querySelectorAll('.jt-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('bn-modus-label').textContent = m === 'monat' ? 'monatlich' : 'jährlich';
-    document.getElementById('slider-labels-monat').style.display = m === 'monat' ? 'flex' : 'none';
-    document.getElementById('slider-labels-jahr').style.display = m === 'jahr' ? 'flex' : 'none';
-    calcBN();
-  }
+function fmtE(n) { return n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'; }
+function neg(n)  { return n > 0.005 ? '− '+fmtE(n) : '0,00 €'; }
+function set(id, v) { const el=document.getElementById(id); if(el) el.textContent=v; }
 
-  function selectKlasse(btn) {
-    document.querySelectorAll('#klasse-group .toggle-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    aktuelleKlasse = parseInt(btn.dataset.val);
-    calcBN();
-  }
-
-  // Snap-Punkte je Modus
-  const SNAP_MONAT = [500,1000,1500,2000,2500,3000,3500,4000,5000,6000,7500,10000,12500,15000,20000];
-  const SNAP_JAHR  = [10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,120000,150000,200000];
-
-  function snapToNearest(val, snapPoints) {
-    let nearest = snapPoints[0];
-    let minDist = Math.abs(val - nearest);
-    for (const p of snapPoints) {
-      const dist = Math.abs(val - p);
-      if (dist < minDist) { minDist = dist; nearest = p; }
-    }
-    // Nur einrasten wenn nah genug (5% des Maximalwerts)
-    const threshold = snapPoints[snapPoints.length-1] * 0.04;
-    return minDist < threshold ? nearest : val;
-  }
-
-  function updateSlider() {
-    const eingabe = parseFloat(document.getElementById('bn-brutto').value) || 0;
-    const slider = document.getElementById('bn-slider');
-    const sliderMax = modus === 'jahr' ? 200000 : 20000;
-    slider.min = modus === 'jahr' ? 10000 : 500;
-    slider.max = sliderMax;
-    slider.step = modus === 'jahr' ? 500 : 25;
-    slider.value = Math.min(eingabe, sliderMax);
-  }
-
-  // Kirchensteuer: Bayern + BaWü = 8%, alle anderen = 9%
-  // Sachsen: AN zahlt 0,5% mehr Pflegeversicherung
-  function updateBundesland() {
-    const bl = document.getElementById('bn-bundesland').value;
-    const kircheSatz = (bl === 'by' || bl === 'bw') ? 8 : 9;
-    document.getElementById('kirche-satz-label').textContent = kircheSatz;
-    calcBN();
-  }
-
-  function calcBN() {
-    let brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
-    updateSlider();
-    if (modus === 'jahr') brutto = brutto / 12;
-
-    const bl = document.getElementById('bn-bundesland').value;
-    const kircheSatz = (bl === 'by' || bl === 'bw') ? 8 : 9;
-    const sachsen = bl === 'sn';
-    const kirche = document.getElementById('bn-kirche').checked;
-    const kinder = document.getElementById('bn-kinder').checked;
-    const kvZusatz = parseFloat(document.getElementById('bn-kvzusatz').value) || 1.45;
-
-    const r = bruttoNetto(brutto, aktuelleKlasse, kirche, kvZusatz, !kinder, kircheSatz, sachsen);
-    const faktor = modus === 'monat' ? 1 : 12;
-    const neg = n => '− ' + fmtEuro(n * faktor);
-    const pos = n => fmtEuro(n * faktor);
-
-    document.getElementById('bn-netto').textContent       = pos(r.netto);
-    document.getElementById('bn-steuern-sum').textContent = neg(r.lohnsteuer + r.soli + r.kirche);
-    document.getElementById('bn-soz-sum').textContent     = neg(r.sozialAbgaben);
-    document.getElementById('bn-quote').textContent       = r.abgabenQuote + ' %';
-    document.getElementById('bn-lst').textContent         = neg(r.lohnsteuer);
-    document.getElementById('bn-soli').textContent        = r.soli > 0 ? neg(r.soli) : '0,00 €';
-    document.getElementById('bn-kirche-out').textContent  = r.kirche > 0 ? neg(r.kirche) : '0,00 €';
-    document.getElementById('bn-rv').textContent          = neg(r.rv);
-    document.getElementById('bn-kv').textContent          = neg(r.kv);
-    document.getElementById('bn-pv').textContent          = neg(r.pv);
-    document.getElementById('bn-alv').textContent         = neg(r.alv);
-    document.getElementById('bn-bar-pct').textContent     = r.abgabenQuote + ' %';
-    document.getElementById('bn-bar').style.width         = Math.min(r.abgabenQuote, 100) + '%';
-  }
-
+function selectJahrBN(btn) {
+  bnJahr = parseInt(btn.dataset.val);
+  document.querySelectorAll('.jahr-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
   calcBN();
-
-// FAQ Toggle
-// FAQ Toggle — robust
-function initFAQ() {
-  document.querySelectorAll('.faq-q').forEach(q => {
-    q.onclick = () => q.closest('.faq-row').classList.toggle('open');
-  });
 }
-initFAQ();
-// Fallback via Event Delegation
-document.addEventListener('click', e => {
-  const q = e.target.closest('.faq-q');
-  if (q) q.closest('.faq-row')?.classList.toggle('open');
+
+function selectKlasse(btn) {
+  document.querySelectorAll('#klasse-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  aktuelleKlasse = parseInt(btn.dataset.val);
+  calcBN();
+}
+
+function setModus(m, btn) {
+  const val = parseFloat(document.getElementById('bn-brutto').value) || 0;
+  const slider = document.getElementById('bn-slider');
+  if (modus === 'monat' && m === 'jahr') {
+    document.getElementById('bn-brutto').value = Math.round(val * 12);
+    slider.min = 10000; slider.max = 200000; slider.step = 1000;
+    document.getElementById('slider-labels').innerHTML =
+      '<span>10k</span><span>50k</span><span>100k</span><span>150k</span><span>200k</span>';
+  } else if (modus === 'jahr' && m === 'monat') {
+    document.getElementById('bn-brutto').value = Math.round(val / 12);
+    slider.min = 500; slider.max = 20000; slider.step = 50;
+    document.getElementById('slider-labels').innerHTML =
+      '<span>500 €</span><span>5k</span><span>10k</span><span>15k</span><span>20k</span>';
+  }
+  modus = m;
+  document.querySelectorAll('.em-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  set('bn-modus-label', m === 'monat' ? 'monatlich' : 'jährlich');
+  syncSlider(); calcBN();
+}
+
+function syncSlider() {
+  const val = parseFloat(document.getElementById('bn-brutto').value) || 0;
+  const slider = document.getElementById('bn-slider');
+  slider.value = Math.min(val, parseFloat(slider.max));
+}
+
+function syncInput() {
+  document.getElementById('bn-brutto').value = document.getElementById('bn-slider').value;
+}
+
+function updateBundesland() {
+  const bl = document.getElementById('bn-bundesland').value;
+  const ks = (bl==='by'||bl==='bw') ? 8 : 9;
+  set('kirche-satz-label', ks);
+  calcBN();
+}
+
+function calcBN() {
+  let brutto = parseFloat(document.getElementById('bn-brutto').value) || 0;
+  if (modus === 'jahr') brutto = brutto / 12;
+
+  const bl      = document.getElementById('bn-bundesland').value;
+  const kircheS = (bl==='by'||bl==='bw') ? 8 : 9;
+  const sachsen = bl === 'sn';
+  const kirche  = document.getElementById('bn-kirche').checked;
+  const kfb     = parseFloat(document.getElementById('bn-kfb').value) || 0;
+  const pvKRaw  = parseInt(document.getElementById('bn-pv-kinder').value) || 0;
+  const unter23 = pvKRaw === -1;
+  const pvK     = unter23 ? 0 : pvKRaw;
+  const kvz     = parseFloat(document.getElementById('bn-kvz').value) || 1.45;
+
+  const r = bruttoNetto(brutto, aktuelleKlasse, kirche, kvz, pvK===0&&!unter23, kircheS, sachsen, bnJahr, kfb, pvK, unter23);
+  const f = modus === 'monat' ? 1 : 12;
+
+  // Hauptergebnis
+  set('bn-netto',       fmtE(r.netto * f));
+  set('bn-netto2',      fmtE(r.netto * f));
+  set('bn-steuern-sum', neg((r.lohnsteuer + r.soli + r.kirche) * f));
+  set('bn-soz-sum',     neg(r.sozialAbgaben * f));
+  set('bn-quote',       r.abgabenQuote + ' %');
+  set('bn-brutto-out',  fmtE(brutto * f));
+  set('bn-lst',         neg(r.lohnsteuer * f));
+  set('bn-soli',        r.soli > 0 ? neg(r.soli * f) : '0,00 €');
+  set('bn-kirche-out',  r.kirche > 0 ? neg(r.kirche * f) : '0,00 €');
+  set('bn-rv',          neg(r.rv * f));
+  set('bn-kv',          neg(r.kv * f));
+  set('bn-pv',          neg(r.pv * f));
+  set('bn-alv',         neg(r.alv * f));
+
+  // Sankey Balken
+  const total = brutto;
+  const steuern = r.lohnsteuer + r.soli + r.kirche;
+  const soz = r.sozialAbgaben;
+  const netto = r.netto;
+  ['sk-netto','sk-lst','sk-soz'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const val = id==='sk-netto' ? netto : id==='sk-lst' ? steuern : soz;
+    const pct = (val / total * 100).toFixed(1);
+    el.style.width = pct + '%';
+    el.textContent = pct + ' %';
+  });
+  set('sk-netto-val', fmtE(netto * f));
+  set('sk-lst-val',   neg(steuern * f));
+  set('sk-soz-val',   neg(soz * f));
+
+  // Arbeitgeberkosten
+  const agRV  = Math.min(brutto, 8450) * 0.093;
+  const agKV  = Math.min(brutto, 5812.50) * (0.073 + kvz/2/100);
+  const agPV  = Math.min(brutto, 5812.50) * 0.018;
+  const agALV = Math.min(brutto, 8450) * 0.013;
+  const agUV  = brutto * 0.013;
+  const agGes = brutto + agRV + agKV + agPV + agALV + agUV;
+  set('ag-brutto', fmtE(brutto * f));
+  set('ag-rv',     fmtE(agRV * f));
+  set('ag-kv',     fmtE(agKV * f));
+  set('ag-pv',     fmtE(agPV * f));
+  set('ag-alv',    fmtE(agALV * f));
+  set('ag-uv',     fmtE(agUV * f));
+  set('ag-gesamt', fmtE(agGes * f));
+
+  // Jahrestabelle
+  const tbody = document.getElementById('bn-jahres-body');
+  const tfoot = document.getElementById('bn-jahres-foot');
+  let jahrBrutto=0, jahrSteuern=0, jahrSoz=0, jahrNetto=0;
+  tbody.innerHTML = MONATE.map(m => {
+    jahrBrutto  += brutto;
+    jahrSteuern += r.lohnsteuer + r.soli + r.kirche;
+    jahrSoz     += r.sozialAbgaben;
+    jahrNetto   += r.netto;
+    return `<tr>
+      <td>${m}</td>
+      <td>${fmtE(brutto)}</td>
+      <td style="color:#dc2626;">${neg(r.lohnsteuer+r.soli+r.kirche)}</td>
+      <td style="color:#f39c12;">${neg(r.sozialAbgaben)}</td>
+      <td style="color:var(--accent);font-weight:700;">${fmtE(r.netto)}</td>
+    </tr>`;
+  }).join('');
+  tfoot.innerHTML = `<tr>
+    <td>Jahressumme</td>
+    <td>${fmtE(jahrBrutto)}</td>
+    <td>${neg(jahrSteuern)}</td>
+    <td>${neg(jahrSoz)}</td>
+    <td>${fmtE(jahrNetto)}</td>
+  </tr>`;
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
 });
 
+// Tooltips
+document.querySelectorAll('[data-tt]').forEach(el => {
+  const text = el.getAttribute('data-tt');
+  if (!text) return;
+  const wrap = document.createElement('span');
+  wrap.className = 'tooltip-wrap';
+  wrap.innerHTML = `<span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span>`;
+  const box = wrap.querySelector('.tooltip-box');
+  wrap.addEventListener('mouseenter', () => {
+    const r = wrap.getBoundingClientRect();
+    box.style.left = Math.min(r.left, window.innerWidth - 260) + 'px';
+    box.style.top  = (r.top + window.scrollY - box.offsetHeight - 10) + 'px';
+    box.style.position = 'absolute';
+  });
+  el.appendChild(wrap);
+});
+
+document.querySelectorAll('.cur-year').forEach(el => el.textContent = new Date().getFullYear());
+calcBN();
 </script>
 </body>
 </html>
