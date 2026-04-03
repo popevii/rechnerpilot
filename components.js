@@ -38,6 +38,10 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">💼</span>
               <span><strong>Brutto-Netto-Rechner</strong><small>Nettogehalt berechnen</small></span>
             </a>
+            <a href="${base}/gehaltserhöhung-rechner" class="${isActive('gehaltserhöhung')}">
+              <span class="nav-item-icon">📊</span>
+              <span><strong>Gehaltserhöhung</strong><small>Netto-Gewinn berechnen</small></span>
+            </a>
           </div>
           <div class="nav-dropdown-group">
             <div class="nav-dropdown-label">Kredit & Anlage</div>
@@ -184,6 +188,7 @@ function renderNav(activePage = '') {
     <div class="mobile-nav-section">
       <div class="mobile-nav-label">Finanzen</div>
       <a href="${base}/brutto-netto-rechner">💼 Brutto-Netto-Rechner</a>
+      <a href="${base}/gehaltserhöhung-rechner">📊 Gehaltserhöhung Rechner</a>
       <a href="${base}/kreditrechner">🏦 Kreditrechner</a>
       <a href="${base}/etf-sparplan-rechner">📈 ETF Sparplan</a>
       <a href="${base}/zinseszins-rechner">♾️ Zinseszins Rechner</a>
@@ -240,6 +245,7 @@ function renderFooter() {
           <h4>Finanzen</h4>
           <ul>
             <li><a href="${base}/brutto-netto-rechner">Brutto-Netto</a></li>
+            <li><a href="${base}/gehaltserhöhung-rechner">Gehaltserhöhung</a></li>
             <li><a href="${base}/kreditrechner">Kreditrechner</a></li>
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
             <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
