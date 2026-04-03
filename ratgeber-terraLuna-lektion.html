@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wie ich 20.000 € verloren habe – und was mich das über Investieren gelehrt hat | RechnerPilot</title>
+<meta name="description" content="Eine ehrliche Geschichte über Gier, TerraLuna, 20.000 € Verlust und die wichtigsten Lektionen die daraus entstanden sind. Persönliche Erfahrungen eines Wirtschaftsingenieurs.">
+<link rel="canonical" href="https://www.rechnerpilot.de/ratgeber/terraLuna-lektion">
+<link rel="stylesheet" href="../style.css">
+<style>
+.artikel-wrap { max-width: 740px; margin: 0 auto; padding: 0 20px; }
+.artikel-header { margin-bottom: 40px; }
+.artikel-meta { display:flex; align-items:center; gap:12px; font-size:13px; color:var(--ink-3); margin-bottom:16px; flex-wrap:wrap; }
+.autor-badge { display:flex; align-items:center; gap:8px; background:var(--accent-light); border:1px solid rgba(26,92,58,.15); border-radius:20px; padding:6px 14px; }
+.autor-avatar { width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; }
+.artikel-tag { display:inline-block; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:3px 10px; font-size:11px; font-weight:600; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; }
+
+.artikel-body { font-size:16px; line-height:1.85; color:var(--ink-2); }
+.artikel-body h2 { font-family:'Instrument Serif',serif; font-size:26px; color:var(--ink); margin:48px 0 16px; letter-spacing:-.3px; }
+.artikel-body h3 { font-family:'Instrument Serif',serif; font-size:20px; color:var(--ink); margin:36px 0 12px; }
+.artikel-body p { margin-bottom:20px; }
+.artikel-body strong { color:var(--ink); font-weight:700; }
+.artikel-body a { color:var(--accent); text-decoration:underline; text-decoration-color:rgba(26,92,58,.3); }
+.artikel-body a:hover { text-decoration-color:var(--accent); }
+
+/* Highlight-Box */
+.highlight-box { background:var(--accent-light); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:20px 24px; margin:32px 0; }
+.highlight-box p { margin:0; color:var(--ink); font-size:15px; }
+.highlight-box .hb-title { font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
+
+/* Warnung-Box */
+.warn-box { background:#fff3cd; border-left:4px solid #ffc107; border-radius:0 10px 10px 0; padding:20px 24px; margin:32px 0; }
+.warn-box p { margin:0; color:#856404; font-size:14px; }
+
+/* Persönliche Box */
+.personal-box { background:#fff; border:1.5px solid var(--border); border-radius:14px; padding:24px; margin:32px 0; position:relative; }
+.personal-box::before { content:'💬'; position:absolute; top:-14px; left:20px; font-size:24px; background:#fff; padding:0 4px; }
+.personal-box p { margin:0; font-size:15px; color:var(--ink-2); font-style:italic; line-height:1.7; }
+.personal-box .pb-autor { font-size:13px; color:var(--ink-3); margin-top:12px; font-style:normal; font-weight:600; }
+
+/* Lektion-Box */
+.lektion { display:flex; gap:16px; background:#fff; border:1.5px solid var(--border); border-radius:12px; padding:20px; margin:16px 0; }
+.lektion-num { width:36px; height:36px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; flex-shrink:0; }
+.lektion-content h4 { font-size:15px; font-weight:700; color:var(--ink); margin:0 0 6px; }
+.lektion-content p { font-size:14px; color:var(--ink-2); margin:0; line-height:1.6; }
+
+/* Disclaimer */
+.disclaimer { background:var(--bg); border:1.5px solid var(--border); border-radius:10px; padding:16px 20px; margin:40px 0; font-size:13px; color:var(--ink-3); line-height:1.6; }
+
+/* Inhaltsverzeichnis */
+.toc { background:#fff; border:1.5px solid var(--border); border-radius:12px; padding:20px 24px; margin:32px 0; }
+.toc-title { font-size:13px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px; }
+.toc ol { margin:0; padding-left:20px; }
+.toc li { font-size:14px; color:var(--ink-2); margin-bottom:6px; }
+.toc a { color:var(--accent); text-decoration:none; }
+.toc a:hover { text-decoration:underline; }
+
+/* CTA am Ende */
+.artikel-cta { background:var(--accent); border-radius:16px; padding:32px; color:#fff; text-align:center; margin:48px 0; }
+.artikel-cta h3 { font-family:'Instrument Serif',serif; font-size:24px; color:#fff; margin:0 0 12px; }
+.artikel-cta p { color:rgba(255,255,255,.85); font-size:14px; margin:0 0 20px; line-height:1.6; }
+
+/* Verwandte Artikel */
+.related-artikel { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:16px; }
+.ra-card { background:#fff; border:1.5px solid var(--border); border-radius:12px; padding:16px; text-decoration:none; transition:border-color .15s; }
+.ra-card:hover { border-color:var(--accent); }
+.ra-tag { font-size:10px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.ra-title { font-size:14px; font-weight:700; color:var(--ink); line-height:1.4; }
+</style>
+</head>
+<body data-page="ratgeber">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+<div class="artikel-wrap">
+
+  <!-- BREADCRUMB -->
+  <div class="calc-breadcrumb" style="margin-bottom:24px;">
+    <a href="../index.html">Startseite</a><span>›</span>
+    <a href="#">Ratgeber</a><span>›</span>
+    <span>TerraLuna & 20.000 € Lektion</span>
+  </div>
+
+  <!-- HEADER -->
+  <div class="artikel-header fu">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+      <span class="artikel-tag">Erfahrungsbericht</span>
+      <span class="artikel-tag">Krypto</span>
+      <span class="artikel-tag">Anlegerfehler</span>
+    </div>
+    <h1 style="font-family:'Instrument Serif',serif;font-size:38px;line-height:1.2;letter-spacing:-.5px;color:var(--ink);margin:0 0 16px;">Wie ich 20.000 € verloren habe — und was mich das über Investieren gelehrt hat</h1>
+    <p style="font-size:18px;color:var(--ink-3);line-height:1.6;margin:0 0 20px;">Eine ehrliche Geschichte über Gier, TerraLuna, einen Kredit den ich noch heute abbezahle — und die Lektionen die mein Denken über Geld für immer verändert haben.</p>
+
+    <div class="artikel-meta">
+      <div class="autor-badge">
+        <div class="autor-avatar">P</div>
+        <span style="font-weight:600;color:var(--ink-2);">Paul · RechnerPilot</span>
+      </div>
+      <span>April 2026</span>
+      <span>·</span>
+      <span>12 Min. Lesezeit</span>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Hinweis:</strong> Dieser Artikel teilt ausschließlich meine persönlichen Erfahrungen und Meinungen. Er stellt keine Anlageberatung dar und ich behaupte nicht zu wissen wie man "richtig" investiert — das ist individuell und hängt von deiner Lebenssituation, deinen Zielen und deinem Charakter ab. Ich möchte ehrlich über meine Fehler sprechen, damit du vielleicht eigene vermeiden kannst.
+  </div>
+
+  <!-- INHALTSVERZEICHNIS -->
+  <div class="toc">
+    <div class="toc-title">Inhalt</div>
+    <ol>
+      <li><a href="#anfang">Wie alles begann — Student, BAföG und Corona</a></li>
+      <li><a href="#goldrausch">Der Krypto-Goldrausch 2021</a></li>
+      <li><a href="#terraLuna">TerraLuna: Wie ein Stablecoin alles vernichtete</a></li>
+      <li><a href="#danach">20.000 € Schulden — und wie ich damit umgegangen bin</a></li>
+      <li><a href="#lektionen">5 Lektionen die mein Investieren für immer verändert haben</a></li>
+      <li><a href="#heute">Wo ich heute stehe</a></li>
+    </ol>
+  </div>
+
+  <!-- ARTIKEL BODY -->
+  <div class="artikel-body">
+
+    <h2 id="anfang">Wie alles begann — Student, BAföG und Corona</h2>
+
+    <p>Ich bin Wirtschaftsingenieur. Ich habe jahrelang studiert, Statistik, Finanzmathematik und Unternehmensplanung gelernt — und trotzdem war ich mit 29 Jahren völlig blank was mein eigenes Geld anging. BAföG, Minijobs, irgendwie durch den Monat kommen. Das war meine finanzielle Realität während des Studiums.</p>
+
+    <p>Das erste Mal wirklich konfrontiert mit dem Thema Investieren wurde ich durch einen Finanzberater. Er hat mir Riester, Rürup, eine Unfallversicherung und eine Pflegeversicherung verkauft. Alles hübsch im Paket. Ich habe alles wieder gekündigt — zum Glück — aber das erste Bild von "Finanzen" das ich hatte war: kompliziert, intransparent, und jemand verdient an mir.</p>
+
+    <p>Dann kam 2020. Corona-Crash. Plötzlich sprachen alle über Aktien, ETFs, Krypto. Meine Geschwister zeigten mir Bitcoin, Silber, Edelmetalle. Und ich — frisch mit Gehalt ausgestattet nach meinem Master — dachte: <em>jetzt bin ich dran.</em></p>
+
+    <div class="personal-box">
+      <p>Ich hatte das Gefühl, etwas verpasst zu haben. Jahrelang kein Geld, und jetzt schauen alle anderen zu wie ihr Depot wächst. Das ist ein gefährlicher Startpunkt — weil man dann nicht aus Überzeugung investiert, sondern aus FOMO.</p>
+      <div class="pb-autor">— meine ehrliche Selbstreflexion im Rückblick</div>
+    </div>
+
+    <h2 id="goldrausch">Der Krypto-Goldrausch 2021</h2>
+
+    <p>Ich fing an mit Silber. Physisch, greifbar, sicher. Ein paar Tausend Euro. Das fühlte sich gut an — konservativ, verständlich. Doch dann begann der große Krypto-Bullrun 2021 und ich wurde hineingezogen wie in einen Strudel.</p>
+
+    <p>Bitcoin war nur der Anfang. Schnell kamen Altcoins dazu — Ethereum, dann kleinere Projekte, dann immer exotischere Token. Der Markt stieg, alles stieg, und mit jeder Woche wurde ich überzeugter: Das ist die Zukunft. Das ist die einmalige Chance.</p>
+
+    <div class="warn-box">
+      <p><strong>Was ich damals nicht verstand:</strong> In einem Bullenmarkt sieht jeder wie ein Genie aus. Wenn alle Werte steigen, braucht man keine Strategie — man braucht nur Kapital. Das verführt dazu zu glauben, man hätte besondere Fähigkeiten. Ich hatte keine. Ich hatte Glück.</p>
+    </div>
+
+    <p>Das Problem mit Altcoins ist, dass sie in Bullenmärkten schneller steigen als Bitcoin — und in Bärenmärkten schneller fallen. Manchmal auf null. Das wusste ich, aber ich verdrängte es. Die Gewinne auf dem Bildschirm fühlten sich realer an als das Risiko.</p>
+
+    <h2 id="terraLuna">TerraLuna: Wie ein Stablecoin alles vernichtete</h2>
+
+    <p>Im Mai 2022 kollabierte TerraLuna — eines der spektakulärsten Desaster in der Geschichte der Kryptowährungen. Das Ökosystem bestand aus zwei Token: <strong>LUNA</strong> (der volatile Coin) und <strong>UST</strong> (ein sogenannter algorithmischer Stablecoin, der seinen Wert durch einen Mechanismus mit LUNA halten sollte).</p>
+
+    <p>Die Idee: UST sollte immer genau 1 US-Dollar wert sein. Kein echtes Geld dahinter, keine Sicherheiten wie bei anderen Stablecoins — nur ein Algorithmus. Und ein Versprechen auf 20 % jährliche "Rendite" durch das Anchor Protocol. Das hätte mich warnen sollen. Hat es nicht.</p>
+
+    <div class="highlight-box">
+      <div class="hb-title">Was TerraLuna war</div>
+      <p>Das TerraLuna-System funktionierte wie folgt: Wenn UST unter 1 Dollar fiel, konnte man UST gegen LUNA tauschen und dabei einen kleinen Gewinn mitnehmen — das sollte den Preis stabilisieren. Dieses System funktionierte, solange genug Vertrauen im Markt war. Als es fehlte, brach das System zusammen: UST verlor seinen Dollar-Peg, LUNA wurde massiv geminted um die Differenz auszugleichen, was LUNA hyperinflationierte, was UST weiter destabilisierte — eine Todesspirale. Innerhalb weniger Tage verloren beide Coins nahezu 100 % ihres Wertes.</p>
+    </div>
+
+    <p>Ich hatte 20.000 Euro Kredit aufgenommen. In UST investiert. Weil 20 % "stabiler" Rendite verlockend klang. Weil alle davon sprachen. Weil ich dachte: Es ist ein Stablecoin — was kann schon passieren?</p>
+
+    <p>Ich erinnere mich noch genau an den Morgen wo ich auf mein Handy schaute und sah, wie mein Portfolio innerhalb von Stunden implodierte. Nicht 20 %, nicht 50 %. Über 99 %. Was übrig blieb war nicht der Rede wert.</p>
+
+    <h2 id="danach">20.000 € Schulden — und wie ich damit umgegangen bin</h2>
+
+    <p>Ich will ehrlich sein über das was danach kam, weil ich glaube dass darüber selten gesprochen wird.</p>
+
+    <p>Es war emotional devastierend. Nicht weil das Geld weg war — obwohl das natürlich schmerzte. Sondern weil ich erkannte, was ich getan hatte: Ich hatte Geld das ich nicht besaß in etwas investiert das ich nicht vollständig verstand, aus einem Grund der auf Gier basierte.</p>
+
+    <div class="personal-box">
+      <p>Den Kredit zahle ich heute noch ab. Jeden Monat. Es ist ein Reminder — manchmal nervig, manchmal ernüchternd, aber meistens dankbar. Dankbar weil dieser monatliche Abzug der teuerste aber auch nachhaltigste Lernmoment meines Lebens war. Ich zahle nicht nur den Kredit ab. Ich zahle für eine Ausbildung.</p>
+      <div class="pb-autor">— meine aktuelle Sichtweise, rückblickend</div>
+    </div>
+
+    <p>Was ich in dieser Zeit lernte: Finanzielle Fehler passieren nicht weil man dumm ist. Sie passieren weil Menschen Emotionen haben — Gier, FOMO, das Bedürfnis dazuzugehören, das Gefühl etwas zu verpassen. Ich bin Wirtschaftsingenieur. Ich kann Cashflow-Modelle bauen. Und trotzdem habe ich 20.000 Euro in einen algorithmischen Stablecoin gesteckt weil 20 % Rendite verlockend klangen.</p>
+
+    <h2 id="lektionen">5 Lektionen die mein Investieren für immer verändert haben</h2>
+
+    <div class="lektion">
+      <div class="lektion-num">1</div>
+      <div class="lektion-content">
+        <h4>Investiere nur Geld das du wirklich hast</h4>
+        <p>Kreditfinanzierte Investments sind eines der größten Risiken die ein Privatanleger eingehen kann. Wenn ein Investment fällt bist du nicht nur im Minus — du schuldest jemandem Geld. Das verändert alles: deinen Schlaf, deine Entscheidungen, deine emotionale Stabilität. Fremdkapital gehört nicht ins Risikoportfolio eines Privatanlegers.</p>
+      </div>
+    </div>
+
+    <div class="lektion">
+      <div class="lektion-num">2</div>
+      <div class="lektion-content">
+        <h4>Wenn etwas zu gut klingt, ist es das meistens</h4>
+        <p>20 % stabile Jahresrendite bei einem "Stablecoin" — das ist ein Satz der jede Alarmglocke hätte klingeln lassen sollen. Nachhaltige Renditen gibt es nicht ohne Risiko. Der Markt ist kein Geldautomat. Jedes Versprechen auf außerordentliche Renditen bei minimalem Risiko ist entweder Betrug oder ein System das auf Vertrauen und Momentum basiert — und das kollabiert sobald beides fehlt.</p>
+      </div>
+    </div>
+
+    <div class="lektion">
+      <div class="lektion-num">3</div>
+      <div class="lektion-content">
+        <h4>Verstehe was du kaufst — wirklich</h4>
+        <p>Ich verstand das TerraLuna-System oberflächlich. Nicht tief genug um seine fundamentale Schwäche zu erkennen: dass es bei einem Bank-Run-Szenario keine Rettung gab. Heute ist meine Regel: Wenn ich einem Freund nicht in 2 Minuten erklären kann wie ein Investment funktioniert und warum es Wert schafft, kaufe ich es nicht.</p>
+      </div>
+    </div>
+
+    <div class="lektion">
+      <div class="lektion-num">4</div>
+      <div class="lektion-content">
+        <h4>Es gibt kein universell "bestes" Investment</h4>
+        <p>Immobilien, ETFs, Aktien, Gold, Krypto — jede Anlageklasse hat ihre Berechtigung. Und jeder Mensch hat eine andere Lebensrealität, andere Ziele, einen anderen Charakter. Ich bin Fan von liquiden Assets: Aktien, ETFs, Bitcoin, Edelmetalle. Ich kann sie innerhalb von Sekunden verkaufen, ich bin ortsunabhängig, ich brauche keinen Makler. Das passt zu mir. Ob das zu dir passt musst du selbst herausfinden.</p>
+      </div>
+    </div>
+
+    <div class="lektion">
+      <div class="lektion-num">5</div>
+      <div class="lektion-content">
+        <h4>Fehler machen ist Teil des Prozesses — aber sie müssen leistbar sein</h4>
+        <p>Jeder große Investor hat teure Fehler gemacht. Warren Buffett hat Fehlkäufe bereut. Peter Lynch hatte schlechte Jahre. Der Unterschied: ihre Fehler haben sie nicht ruiniert. Mein Fehler hat mich nicht ruiniert — aber er hätte es können. Der Schlüssel ist nicht Fehler zu vermeiden, sondern sicherzustellen dass kein einzelner Fehler so groß sein kann dass er dich aus dem Spiel wirft.</p>
+      </div>
+    </div>
+
+    <h2 id="heute">Wo ich heute stehe</h2>
+
+    <p>Ich investiere heute anders. Strukturierter, ruhiger, mit mehr Überzeugung und weniger Emotion. Mein Portfolio besteht hauptsächlich aus Einzelaktien die ich nach einem eigenen Scoring-Modell auswähle — Qualität, Marge, Verschuldung, Bewertung. Dazu passive ETFs als Basis, und ja: ich halte noch Bitcoin. Nicht weil ich glaube dass es bald 1 Million Dollar wert ist, sondern weil ich es verstehe und an die langfristige Thesis glaube.</p>
+
+    <p>Altcoins besitze ich keine mehr. Die letzten habe ich im Bullrun 2024 in Bitcoin umgeschichtet. Das war eine bewusste Entscheidung.</p>
+
+    <div class="highlight-box">
+      <div class="hb-title">Meine heutige Philosophie</div>
+      <p>Investieren ist kein Sprint. Es ist kein Weg um schnell reich zu werden. Es ist ein Werkzeug um das Geld das du verdienst für dich arbeiten zu lassen — systematisch, geduldig, strukturiert. Wer das versteht und konsequent umsetzt kann sich über Jahrzehnte ein lebensveränderndes Vermögen aufbauen. Nicht über Nacht. Aber sicher.</p>
+    </div>
+
+    <p>Ich habe RechnerPilot aufgebaut weil ich glaube dass die meisten Menschen nicht die richtigen Werkzeuge haben um strukturiert mit Geld umzugehen. Nicht weil sie es nicht könnten — sondern weil niemand es ihnen jemals wirklich beigebracht hat. Die Rechner auf dieser Seite sollen helfen, Entscheidungen auf Basis von Daten zu treffen statt auf Basis von Gefühlen oder dem Rat von jemandem der Provision verdient.</p>
+
+    <p>Und dieser Artikel soll zeigen: Ich mache keine Werbung für risikolose Gewinne. Ich verkaufe keine Kurse. Ich erzähle dir meine Geschichte — mit allen Fehlern. Was du daraus machst ist deine Entscheidung.</p>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="artikel-cta">
+    <h3>Strukturiert investieren beginnen</h3>
+    <p>Nutze die Rechner auf RechnerPilot um deine Investitionen datenbasiert zu planen — von Zinseszins über ETF-Sparplan bis Baufinanzierung. Kostenlos, ohne Anmeldung.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+      <a href="../zinseszins-rechner.html" style="display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--accent);padding:11px 20px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:none;">♾️ Zinseszins Rechner</a>
+      <a href="../etf-sparplan-rechner.html" style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);color:#fff;padding:11px 20px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:none;border:1.5px solid rgba(255,255,255,.3);">📈 ETF Sparplan Rechner</a>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER FINAL -->
+  <div class="disclaimer">
+    <strong>Rechtlicher Hinweis:</strong> Alle Inhalte dieses Artikels dienen ausschließlich zur Information und stellen keine Anlageberatung oder Empfehlung zum Kauf oder Verkauf von Wertpapieren, Kryptowährungen oder anderen Finanzprodukten dar. Investitionen sind mit Risiken verbunden — bis zum Totalverlust. Vergangene Entwicklungen sind kein Indikator für zukünftige Ergebnisse. Bitte konsultiere bei konkreten Anlageentscheidungen einen unabhängigen Finanzberater.
+  </div>
+
+</div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="../components.js"></script>
+</body>
+</html>
