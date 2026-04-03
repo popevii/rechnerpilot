@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entnahmerechner 2026 – Entsparrechner & 4%-Regel | RechnerPilot</title>
+<meta name="description" content="Entnahmerechner 2026: Berechne wie lange dein Vermögen reicht, wie viel du monatlich entnehmen kannst und wann du finanziell frei bist. Mit 4%-Regel und Inflation.">
+<link rel="canonical" href="https://www.rechnerpilot.de/entnahmerechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Entnahmerechner 2026","url":"https://www.rechnerpilot.de/entnahmerechner","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}
+</script>
+<style>
+.range-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:100px;background:var(--border);outline:none;cursor:pointer;margin-top:6px}
+.range-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:#fff;border:2px solid var(--accent);border-radius:50%;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.range-slider::-moz-range-thumb{width:20px;height:20px;background:#fff;border:2px solid var(--accent);border-radius:50%;cursor:pointer}
+.slider-labels{display:flex;justify-content:space-between;margin-top:3px}
+.slider-labels span{font-size:10px;color:var(--ink-3);font-weight:600}
+
+/* Modus Tabs */
+.modus-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:20px}
+.modus-tab{padding:12px 8px;border-radius:10px;border:1.5px solid var(--border);background:#fff;text-align:center;cursor:pointer;transition:all .15s}
+.modus-tab:hover{border-color:var(--accent)}
+.modus-tab.active{border-color:var(--accent);background:var(--accent-light)}
+.modus-tab-icon{font-size:20px;margin-bottom:4px}
+.modus-tab-name{font-size:12px;font-weight:700;color:var(--ink)}
+.modus-tab-desc{font-size:10px;color:var(--ink-3);margin-top:2px;line-height:1.3}
+.modus-tab.active .modus-tab-name{color:var(--accent)}
+
+/* Highlight Box */
+.result-highlight-box{background:var(--accent-light);border:2px solid var(--accent);border-radius:14px;padding:20px 22px;margin-bottom:12px;text-align:center}
+.rhb-label{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.rhb-val{font-size:40px;font-weight:800;font-family:'Instrument Serif',serif;color:var(--accent);line-height:1}
+.rhb-sub{font-size:13px;color:var(--ink-3);margin-top:6px}
+
+/* Regel Karten */
+.regel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.regel-card{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .15s}
+.regel-card:hover{border-color:var(--accent)}
+.regel-card.active{border-color:var(--accent);background:var(--accent-light)}
+.regel-name{font-size:13px;font-weight:700;color:var(--ink)}
+.regel-pct{font-size:22px;font-weight:800;font-family:'Instrument Serif',serif;color:var(--accent);margin:4px 0}
+.regel-desc{font-size:11px;color:var(--ink-3);line-height:1.4}
+
+/* Status Badge */
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-top:8px}
+.badge-green{background:#d4edda;color:#155724}
+.badge-yellow{background:#fff3cd;color:#856404}
+.badge-red{background:#f8d7da;color:#721c24}
+
+/* Chart */
+.chart-wrap{position:relative;width:100%;height:300px;margin-top:12px}
+.chart-legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px;font-size:12px;color:var(--ink-2)}
+.legend-dot{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+
+/* Jahrestabelle */
+.ent-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.ent-table th{background:var(--accent);color:#fff;padding:9px 12px;text-align:right;font-size:11px;text-transform:uppercase}
+.ent-table th:first-child{text-align:left}
+.ent-table td{padding:8px 12px;border-bottom:1px solid var(--border);text-align:right;color:var(--ink-2)}
+.ent-table td:first-child{text-align:left;font-weight:600;color:var(--ink)}
+.ent-table tr.warning td{background:#fff3cd}
+.ent-table tr.danger td{background:#f8d7da;color:#721c24;font-weight:700}
+.ent-table tr.safe td{background:var(--accent-light);color:var(--accent);font-weight:700}
+
+/* Stats Grid */
+.stats-4{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
+.stat-box{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.stat-val{font-size:20px;font-weight:800;font-family:'Instrument Serif',serif;color:var(--accent)}
+.stat-label{font-size:11px;color:var(--ink-3);margin-top:3px;line-height:1.3}
+</style>
+</head>
+<body data-page="entnahme">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Entnahmerechner</span>
+    </div>
+    <h1>Entnahmerechner 2026</h1>
+    <p>Berechne wie lange dein Vermögen bei monatlichen Entnahmen reicht, wie viel du entnehmen kannst ohne es aufzubrauchen — oder wie viel Startkapital du für finanzielle Freiheit brauchst.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+
+    <!-- MODUS -->
+    <div style="padding:24px 28px 0;">
+      <div class="modus-tabs">
+        <div class="modus-tab active" data-modus="dauer" onclick="selectModus(this)">
+          <div class="modus-tab-icon">⏳</div>
+          <div class="modus-tab-name">Wie lange reicht es?</div>
+          <div class="modus-tab-desc">Vermögen + Entnahme → Dauer</div>
+        </div>
+        <div class="modus-tab" data-modus="entnahme" onclick="selectModus(this)">
+          <div class="modus-tab-icon">💸</div>
+          <div class="modus-tab-name">Wie viel entnehmen?</div>
+          <div class="modus-tab-desc">Vermögen + Dauer → Entnahme</div>
+        </div>
+        <div class="modus-tab" data-modus="kapital" onclick="selectModus(this)">
+          <div class="modus-tab-icon">🎯</div>
+          <div class="modus-tab-name">Wie viel brauche ich?</div>
+          <div class="modus-tab-desc">Entnahme + Dauer → Kapital</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-body">
+      <!-- INPUTS -->
+      <div class="inputs-panel">
+
+        <!-- Startkapital — nicht bei Modus "kapital" -->
+        <div class="field" id="field-kapital">
+          <label data-tt="Dein angespartes Vermögen zu Beginn der Entnahmephase — z.B. ETF-Depot, Tagesgeld, Immobilien.">Startkapital (Vermögen)</label>
+          <div class="input-wrap">
+            <input type="number" id="en-kapital" value="500000" step="10000" min="0"
+              oninput="document.getElementById('en-kapital-slider').value=Math.min(this.value,2000000); calcEnt()">
+            <span class="input-unit">€</span>
+          </div>
+          <input type="range" class="range-slider" id="en-kapital-slider" min="0" max="2000000" step="10000" value="500000"
+            oninput="document.getElementById('en-kapital').value=this.value; calcEnt()">
+          <div class="slider-labels"><span>0 €</span><span>500k</span><span>1 Mio.</span><span>1,5 Mio.</span><span>2 Mio.</span></div>
+        </div>
+
+        <!-- Monatliche Entnahme — nicht bei Modus "entnahme" -->
+        <div class="field" id="field-entnahme">
+          <label data-tt="Betrag den du monatlich aus deinem Vermögen entnimmst — z.B. für Lebenshaltungskosten.">Monatliche Entnahme</label>
+          <div class="input-wrap">
+            <input type="number" id="en-entnahme" value="2000" step="100" min="0"
+              oninput="document.getElementById('en-entnahme-slider').value=Math.min(this.value,10000); calcEnt()">
+            <span class="input-unit">€/Monat</span>
+          </div>
+          <input type="range" class="range-slider" id="en-entnahme-slider" min="0" max="10000" step="100" value="2000"
+            oninput="document.getElementById('en-entnahme').value=this.value; calcEnt()">
+          <div class="slider-labels"><span>0 €</span><span>2.500</span><span>5.000</span><span>7.500</span><span>10.000</span></div>
+        </div>
+
+        <!-- Rendite -->
+        <div class="field">
+          <label data-tt="Jährliche Rendite deines Vermögens während der Entnahme. ETF-Portfolio: ca. 4–7 %. Sicherheitspuffer einplanen.">Jährliche Rendite</label>
+          <div class="input-wrap">
+            <input type="number" id="en-rendite" value="5" step="0.5" min="0" max="15"
+              oninput="document.getElementById('en-rendite-slider').value=this.value; calcEnt()">
+            <span class="input-unit">%/Jahr</span>
+          </div>
+          <input type="range" class="range-slider" id="en-rendite-slider" min="0" max="12" step="0.5" value="5"
+            oninput="document.getElementById('en-rendite').value=this.value; calcEnt()">
+          <div class="slider-labels"><span>0 %</span><span>3 %</span><span>6 %</span><span>9 %</span><span>12 %</span></div>
+        </div>
+
+        <!-- Dauer — nur bei Modus "entnahme" und "kapital" -->
+        <div class="field" id="field-dauer" style="display:none;">
+          <label data-tt="Wie viele Jahre du von deinem Vermögen leben möchtest. Für echte finanzielle Freiheit: 30–50+ Jahre.">Entnahmedauer</label>
+          <div class="input-wrap">
+            <input type="number" id="en-dauer" value="30" step="1" min="1" max="80"
+              oninput="document.getElementById('en-dauer-slider').value=this.value; calcEnt()">
+            <span class="input-unit">Jahre</span>
+          </div>
+          <input type="range" class="range-slider" id="en-dauer-slider" min="1" max="60" step="1" value="30"
+            oninput="document.getElementById('en-dauer').value=this.value; calcEnt()">
+          <div class="slider-labels"><span>1</span><span>15</span><span>30</span><span>45</span><span>60</span></div>
+        </div>
+
+        <!-- Inflation -->
+        <div class="field">
+          <label data-tt="Inflation erhöht die Lebenshaltungskosten jedes Jahr. Deine Entnahme steigt entsprechend — oder deine Kaufkraft sinkt.">Inflationsanpassung</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="en-inflation-cb" checked onchange="calcEnt()">
+            <span>Entnahme jährlich inflationsanpassen</span>
+          </label>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
+            <span style="font-size:12px;color:var(--ink-3);flex:1;">Inflationsrate:</span>
+            <div class="input-wrap" style="width:100px;">
+              <input type="number" id="en-inflation" value="2.0" step="0.1" min="0" max="10" oninput="calcEnt()">
+              <span class="input-unit">%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4%-Regel Shortcuts -->
+        <div class="field">
+          <label data-tt="Die 4%-Regel besagt: Du kannst jährlich 4% deines Startkapitals entnehmen und dein Vermögen hält 30+ Jahre. Entwickelt von Finanzforscher William Bengen 1994.">Entnahme-Regeln als Orientierung</label>
+          <div class="regel-grid">
+            <div class="regel-card active" data-pct="4" onclick="selectRegel(this)">
+              <div class="regel-name">4%-Regel</div>
+              <div class="regel-pct">4 %</div>
+              <div class="regel-desc">Klassisch, 30+ Jahre, historisch sicher</div>
+            </div>
+            <div class="regel-card" data-pct="3" onclick="selectRegel(this)">
+              <div class="regel-name">3%-Regel</div>
+              <div class="regel-pct">3 %</div>
+              <div class="regel-desc">Konservativ, 40–50 Jahre, sehr sicher</div>
+            </div>
+            <div class="regel-card" data-pct="3.5" onclick="selectRegel(this)">
+              <div class="regel-name">3,5%-Regel</div>
+              <div class="regel-pct">3,5 %</div>
+              <div class="regel-desc">Kompromiss, empfohlen für DE/EU</div>
+            </div>
+            <div class="regel-card" data-pct="5" onclick="selectRegel(this)">
+              <div class="regel-name">5%-Regel</div>
+              <div class="regel-pct">5 %</div>
+              <div class="regel-desc">Aggressiv, Vermögen wird aufgebraucht</div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:6px;">Klick → übernimmt automatisch passende Entnahme für dein Kapital</div>
+        </div>
+
+      </div>
+
+      <!-- RESULTS -->
+      <div class="results-panel">
+        <div class="results-label" id="en-results-label">Ergebnis</div>
+
+        <div class="result-highlight-box">
+          <div class="rhb-label" id="en-highlight-label">Reicht für</div>
+          <div class="rhb-val" id="en-highlight-val">—</div>
+          <div class="rhb-sub" id="en-highlight-sub">—</div>
+        </div>
+
+        <div class="result-main">
+          <div class="result-main-label">Zusammenfassung</div>
+          <div class="result-main-value" id="en-main-val">—</div>
+          <div class="result-main-sub">
+            <div>
+              <div class="rms-label">Startkapital</div>
+              <div class="rms-val" id="en-kapital-out">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Entnahme/Mo.</div>
+              <div class="rms-val" id="en-entnahme-out">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Rendite</div>
+              <div class="rms-val" id="en-rendite-out">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-4">
+          <div class="stat-box">
+            <div class="stat-val" id="en-gesamt-entnommen">—</div>
+            <div class="stat-label">Gesamt entnommen</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="en-restwert">—</div>
+            <div class="stat-label">Restwert am Ende</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="en-rendite-gewinn">—</div>
+            <div class="stat-label">Rendite-Gewinn gesamt</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="en-4pct-kapital">—</div>
+            <div class="stat-label">4%-Regel: Zielkapital</div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Startkapital</span><span class="result-row-value" id="en-r-kapital">—</span></div>
+        <div class="result-row"><span class="result-row-label">Monatliche Entnahme (Start)</span><span class="result-row-value neg" id="en-r-entnahme">—</span></div>
+        <div class="result-row"><span class="result-row-label">Jährliche Rendite</span><span class="result-row-value" id="en-r-rendite">—</span></div>
+        <div class="result-row"><span class="result-row-label">Inflationsanpassung</span><span class="result-row-value" id="en-r-inflation">—</span></div>
+        <div class="result-row"><span class="result-row-label">Restwert am Ende</span><span class="result-row-value pos" id="en-r-restwert">—</span></div>
+        <div class="result-row"><span class="result-row-label">Nachhaltiger Entnahmesatz</span><span class="result-row-value" id="en-r-satz">—</span></div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div style="padding:0 28px 20px;">
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background:var(--accent);"></span>Verbleibendes Vermögen</span>
+        <span><span class="legend-dot" style="background:rgba(231,76,60,.7);"></span>Entnommen (kumuliert)</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="en-chart"></canvas>
+      </div>
+    </div>
+
+    <!-- JAHRESTABELLE -->
+    <div style="padding:0 28px 28px;">
+      <h3 style="font-family:'Instrument Serif',serif;font-size:18px;margin-bottom:10px;">Jahresübersicht</h3>
+      <div style="overflow-x:auto;max-height:400px;overflow-y:auto;border-radius:10px;border:1.5px solid var(--border);">
+        <table class="ent-table">
+          <thead style="position:sticky;top:0;z-index:1;">
+            <tr>
+              <th style="text-align:left;">Jahr</th>
+              <th>Entnahme/Mo.</th>
+              <th>Entnommen</th>
+              <th>Rendite</th>
+              <th>Vermögen</th>
+            </tr>
+          </thead>
+          <tbody id="en-tabelle"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="calc-disclaimer">* Vereinfachte Berechnung ohne Steuern (Abgeltungssteuer auf Entnahmen) und Transaktionskosten. Historische Renditen keine Garantie.</div>
+  </div>
+
+  <!-- 4% REGEL ERKLÄRUNG -->
+  <div class="content-section fu d2">
+    <h2>Die 4%-Regel erklärt</h2>
+    <p>Die 4%-Regel wurde 1994 vom Finanzforscher William Bengen entwickelt. Sie besagt: Ein Portfolio aus 50 % Aktien und 50 % Anleihen hält mindestens 30 Jahre, wenn man jährlich maximal 4 % des Startkapitals entnimmt.</p>
+    <div class="example-box">
+      <div class="example-row"><span>Zielkapital für 2.000 €/Monat</span><span><strong>600.000 €</strong></span></div>
+      <div class="example-row"><span>Zielkapital für 3.000 €/Monat</span><span><strong>900.000 €</strong></span></div>
+      <div class="example-row"><span>Zielkapital für 4.000 €/Monat</span><span><strong>1.200.000 €</strong></span></div>
+      <div class="example-row"><span>Formel</span><span><strong>Monatsbedarf × 12 × 25</strong></span></div>
+    </div>
+    <p style="margin-top:12px;">Für Deutschland wird oft die <strong>3,5%-Regel</strong> empfohlen — wegen niedrigerer historischer Renditen und höherer Steuerlast. Das entspricht dem Faktor 28,6 statt 25.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zum Entsparen</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Was ist die 4%-Regel und gilt sie noch?</div>
+        <div class="faq-a">Die 4%-Regel von William Bengen (1994) basiert auf US-amerikanischen Daten: Ein 50/50 Aktien-Anleihen-Portfolio überlebte 30 Jahre bei 4% jährlicher Entnahme in allen historischen Perioden. Für Deutschland und Europa wird die Regel kritisch gesehen: Niedrigere historische Renditen, höhere Steuern und Sequenzrisiken sprechen eher für 3–3,5%. Für sehr lange Entnahmen (40+ Jahre) oder frühe Rente empfehlen viele Experten maximal 3,5%.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist das Sequenzrisiko?</div>
+        <div class="faq-a">Das Sequenzrisiko beschreibt die Gefahr, dass schlechte Börsenjahre am Anfang der Entnahmephase das gesamte Plan zerstören — selbst wenn die langfristige Rendite positiv ist. Wer 2000 oder 2008 mit der Entnahme startete, hatte es deutlich schwerer als jemand der in guten Börsenphasen startete. Gegenmaßnahmen: Cash-Reserve für 1–2 Jahre, flexible Entnahme (in schlechten Jahren weniger entnehmen), Bucket-Strategie.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Muss ich auf Entnahmen Steuern zahlen?</div>
+        <div class="faq-a">Ja — bei ETF-Anteilen oder anderen Kapitalanlagen fällt beim Verkauf Abgeltungssteuer (25% + Soli = 26,375%) auf den Gewinnanteil an. Bei thesaurierenden ETFs wird außerdem die Vorabpauschale jährlich fällig. Der Sparerpauschbetrag (1.000 € / 2.000 € für Paare) ist steuerfrei. Der Rechner oben berücksichtigt keine Steuern — plane deshalb einen Puffer ein.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie viel Kapital brauche ich für finanzielle Freiheit?</div>
+        <div class="faq-a">Das hängt von deinen monatlichen Ausgaben ab. Faustformel: Jahresausgaben × 25 (bei 4%-Regel) oder × 28,6 (bei 3,5%-Regel). Wer 3.000 € im Monat braucht, benötigt 36.000 € × 25 = 900.000 € Kapital. Wichtig: Gesetzliche Rente und andere Einnahmen können das Zielkapital erheblich reduzieren — nutze den Altersvorsorge-Rechner für die vollständige Planung.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="zinseszins-rechner.html" class="cc">
+        <div class="cc-icon bg-g">♾️</div>
+        <h3>Zinseszins Rechner</h3>
+        <p>Ansparphase berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="altersvorsorge-rechner.html" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>Altersvorsorge Rechner</h3>
+        <p>Rentenlücke und Vorsorgebedarf.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="etf-sparplan-rechner.html" class="cc">
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan Rechner</h3>
+        <p>Zielkapital ansparen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let enChart = null;
+let enModus = 'dauer';
+
+const f0  = n => Math.round(n).toLocaleString('de-DE') + ' €';
+const f2  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const fp  = n => n.toFixed(1) + ' %';
+const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+
+function selectModus(tab) {
+  enModus = tab.dataset.modus;
+  document.querySelectorAll('.modus-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById('field-kapital').style.display  = enModus === 'kapital'  ? 'none' : 'flex';
+  document.getElementById('field-entnahme').style.display = enModus === 'entnahme' ? 'none' : 'flex';
+  document.getElementById('field-dauer').style.display    = enModus === 'dauer'    ? 'none' : 'flex';
+  calcEnt();
+}
+
+function selectRegel(card) {
+  document.querySelectorAll('.regel-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  const pct = parseFloat(card.dataset.pct);
+  const kapital = parseFloat(document.getElementById('en-kapital').value) || 0;
+  const monatlich = (kapital * pct / 100) / 12;
+  document.getElementById('en-entnahme').value = Math.round(monatlich);
+  document.getElementById('en-entnahme-slider').value = Math.min(Math.round(monatlich), 10000);
+  calcEnt();
+}
+
+function simJahre(kapital, entnahme, renditeP, inflationP, mitInflation, maxJahre) {
+  const rm = renditeP / 12;
+  const infM = mitInflation ? inflationP / 12 : 0;
+  let kap = kapital;
+  let entM = entnahme;
+  const daten = [];
+  let gesamtEntnommen = 0;
+
+  for (let j = 1; j <= maxJahre; j++) {
+    let jahresRendite = 0;
+    let jahresEntnahme = 0;
+
+    for (let m = 1; m <= 12; m++) {
+      const renditeM = kap * rm;
+      jahresRendite += renditeM;
+      kap += renditeM - entM;
+      jahresEntnahme += entM;
+      if (kap <= 0) { kap = 0; break; }
+    }
+
+    gesamtEntnommen += jahresEntnahme;
+    // Inflation: Entnahme jährlich anpassen
+    if (mitInflation) entM *= (1 + inflationP);
+
+    daten.push({ jahr:j, kap:Math.max(0,kap), entM, jahresEntnahme, gesamtEntnommen, jahresRendite });
+    if (kap <= 0) break;
+  }
+  return daten;
+}
+
+function calcEnt() {
+  const rendite   = parseFloat(document.getElementById('en-rendite').value) / 100 || 0.05;
+  const inflation = parseFloat(document.getElementById('en-inflation').value) / 100 || 0.02;
+  const mitInf    = document.getElementById('en-inflation-cb').checked;
+
+  let kapital, entnahme, dauer;
+  let highlightLabel, highlightVal, highlightSub, mainVal;
+  let daten = [];
+
+  if (enModus === 'dauer') {
+    kapital  = parseFloat(document.getElementById('en-kapital').value) || 0;
+    entnahme = parseFloat(document.getElementById('en-entnahme').value) || 0;
+
+    // Simuliere bis Kapital aufgebraucht oder 100 Jahre
+    daten = simJahre(kapital, entnahme, rendite, inflation, mitInf, 100);
+    dauer = daten.length;
+    const letztes = daten[daten.length - 1];
+    const ewig = letztes.kap > 0 && daten.length < 100;
+
+    highlightLabel = 'Reicht für';
+    highlightVal   = ewig ? '∞ Ewig' : dauer < 1 ? '< 1 Jahr' : dauer + ' Jahre';
+    highlightSub   = ewig
+      ? `Dein Vermögen wächst weiter — nachhaltige Entnahme! Restwert: ${f0(letztes.kap)}`
+      : dauer < 1
+      ? 'Entnahme zu hoch — reduziere sie'
+      : `Kapital aufgebraucht nach ${dauer} Jahren`;
+    mainVal = f0(kapital);
+
+  } else if (enModus === 'entnahme') {
+    kapital = parseFloat(document.getElementById('en-kapital').value) || 0;
+    dauer   = parseInt(document.getElementById('en-dauer').value) || 30;
+
+    // Berechne max. nachhaltige Entnahme für gegebene Dauer
+    // Iterativ: suche Entnahme bei der Kapital nach dauer Jahren > 0
+    let lo = 0, hi = kapital / 12;
+    for (let i = 0; i < 50; i++) {
+      const mid = (lo + hi) / 2;
+      const d = simJahre(kapital, mid, rendite, inflation, mitInf, dauer);
+      if (d[d.length-1].kap > 0 && d.length >= dauer) lo = mid; else hi = mid;
+    }
+    entnahme = lo;
+    document.getElementById('en-entnahme').value = Math.round(entnahme);
+    daten = simJahre(kapital, entnahme, rendite, inflation, mitInf, dauer);
+
+    highlightLabel = 'Monatliche Entnahme';
+    highlightVal   = f0(entnahme) + '/Mo.';
+    highlightSub   = `für ${dauer} Jahre bei ${(rendite*100).toFixed(1)} % Rendite`;
+    mainVal = f0(kapital);
+
+  } else {
+    // Modus: Kapital berechnen
+    entnahme = parseFloat(document.getElementById('en-entnahme').value) || 0;
+    dauer    = parseInt(document.getElementById('en-dauer').value) || 30;
+
+    // Iterativ: Suche Startkapital
+    let lo = entnahme * 12, hi = entnahme * 12 * 100;
+    for (let i = 0; i < 60; i++) {
+      const mid = (lo + hi) / 2;
+      const d = simJahre(mid, entnahme, rendite, inflation, mitInf, dauer);
+      if (d[d.length-1].kap > 0 && d.length >= dauer) hi = mid; else lo = mid;
+    }
+    kapital = hi;
+    document.getElementById('en-kapital').value = Math.round(kapital);
+    document.getElementById('en-kapital-slider').value = Math.min(Math.round(kapital), 2000000);
+    daten = simJahre(kapital, entnahme, rendite, inflation, mitInf, dauer);
+
+    highlightLabel = 'Benötigtes Startkapital';
+    highlightVal   = f0(kapital);
+    highlightSub   = `für ${f0(entnahme)}/Monat über ${dauer} Jahre`;
+    mainVal = f0(kapital);
+  }
+
+  const letztes = daten[daten.length - 1];
+  const restwert = letztes ? Math.max(0, letztes.kap) : 0;
+  const gesamtEntnommen = letztes ? letztes.gesamtEntnommen : 0;
+  const jahresEntnahme = entnahme * 12;
+  const nachhaltigerSatz = kapital > 0 ? (entnahme * 12 / kapital * 100) : 0;
+  const renditeGewinn = gesamtEntnommen + restwert - kapital;
+  const zielkapital4pct = entnahme * 12 * 25;
+
+  // Ausgabe
+  set('en-results-label', 'Ergebnis');
+  set('en-highlight-label', highlightLabel);
+  set('en-highlight-val', highlightVal);
+  set('en-highlight-sub', highlightSub);
+  set('en-main-val', mainVal);
+  set('en-kapital-out', f0(kapital));
+  set('en-entnahme-out', f0(entnahme) + '/Mo.');
+  set('en-rendite-out', fp(rendite * 100));
+  set('en-gesamt-entnommen', f0(gesamtEntnommen));
+  set('en-restwert', f0(restwert));
+  set('en-rendite-gewinn', f0(Math.max(0, renditeGewinn)));
+  set('en-4pct-kapital', f0(zielkapital4pct));
+  set('en-r-kapital', f0(kapital));
+  set('en-r-entnahme', f0(entnahme) + '/Mo.');
+  set('en-r-rendite', fp(rendite * 100));
+  set('en-r-inflation', mitInf ? fp(inflation*100) + ' p.a.' : 'Keine');
+  set('en-r-restwert', f0(restwert));
+  set('en-r-satz', fp(nachhaltigerSatz));
+
+  // Jahrestabelle
+  const tbody = document.getElementById('en-tabelle');
+  tbody.innerHTML = daten.map(d => {
+    const lowWarn = d.kap < kapital * 0.25 && d.kap > 0;
+    const danger  = d.kap === 0;
+    const safe    = d.kap > kapital * 1.1;
+    return `<tr class="${danger?'danger':lowWarn?'warning':safe?'safe':''}">
+      <td>Jahr ${d.jahr}</td>
+      <td>${f0(d.jahresEntnahme/12)}</td>
+      <td style="color:#dc2626;">−${f0(d.jahresEntnahme)}</td>
+      <td style="color:var(--accent);">+${f0(d.jahresRendite)}</td>
+      <td>${f0(d.kap)}</td>
+    </tr>`;
+  }).join('');
+
+  // Chart
+  if (enChart) enChart.destroy();
+  const labels = daten.map(d => 'J'+d.jahr);
+  const dataKap = daten.map(d => Math.round(d.kap));
+  const dataEnt = daten.map(d => Math.round(d.gesamtEntnommen));
+  const ctx = document.getElementById('en-chart').getContext('2d');
+  enChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Vermögen',
+          data: dataKap,
+          borderColor: '#1a5c3a',
+          backgroundColor: 'rgba(26,92,58,.12)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 2,
+          borderWidth: 2,
+        },
+        {
+          label: 'Entnommen',
+          data: dataEnt,
+          borderColor: 'rgba(231,76,60,.8)',
+          backgroundColor: 'rgba(231,76,60,.08)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 2,
+          borderWidth: 2,
+          borderDash: [4,3],
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ' '+Math.round(c.raw).toLocaleString('de-DE')+' €' }}
+      },
+      scales: {
+        x: { ticks: { maxTicksLimit: 12, font:{size:11}, color:'#8a9688' }, grid:{display:false} },
+        y: { ticks: {
+          callback: v => v>=1000000?(v/1000000).toFixed(1)+' Mio.':v>=1000?(v/1000).toFixed(0)+'k':v,
+          font:{size:11}, color:'#8a9688'
+        }, grid:{color:'rgba(0,0,0,.05)'} }
+      }
+    }
+  });
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+document.querySelectorAll('[data-tt]').forEach(el => {
+  const text = el.getAttribute('data-tt');
+  if (!text) return;
+  const wrap = document.createElement('span');
+  wrap.className = 'tooltip-wrap';
+  wrap.innerHTML = `<span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span>`;
+  const box = wrap.querySelector('.tooltip-box');
+  wrap.addEventListener('mouseenter', () => {
+    const r = wrap.getBoundingClientRect();
+    box.style.left = Math.min(r.left, window.innerWidth-260)+'px';
+    box.style.top = (r.top+window.scrollY-box.offsetHeight-10)+'px';
+    box.style.position='absolute';
+  });
+  el.appendChild(wrap);
+});
+
+calcEnt();
+</script>
+</body>
+</html>

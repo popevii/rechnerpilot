@@ -38,6 +38,10 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">💼</span>
               <span><strong>Brutto-Netto-Rechner</strong><small>Nettogehalt berechnen</small></span>
             </a>
+            <a href="${base}/gehaltserhoeung-rechner" class="${isActive('gehalt-erhoehung')}">
+              <span class="nav-item-icon">📊</span>
+              <span><strong>Gehaltserhöhung Rechner</strong><small>Wie viel Netto bleibt?</small></span>
+            </a>
             <a href="${base}/gehaltserhöhung-rechner" class="${isActive('gehaltserhöhung')}">
               <span class="nav-item-icon">📊</span>
               <span><strong>Gehaltserhöhung</strong><small>Netto-Gewinn berechnen</small></span>
@@ -60,6 +64,10 @@ function renderNav(activePage = '') {
             <a href="${base}/sparrechner" class="${isActive('sparrechner')}">
               <span class="nav-item-icon">🎯</span>
               <span><strong>Sparrechner</strong><small>Sparziel & Sparrate berechnen</small></span>
+            </a>
+            <a href="${base}/entnahmerechner" class="${isActive('entnahme')}">
+              <span class="nav-item-icon">💸</span>
+              <span><strong>Entnahmerechner</strong><small>4%-Regel & finanzielle Freiheit</small></span>
             </a>
             <a href="${base}/inflationsrechner" class="${isActive('inflation')}">
               <span class="nav-item-icon">📉</span>
@@ -188,6 +196,7 @@ function renderNav(activePage = '') {
     <div class="mobile-nav-section">
       <div class="mobile-nav-label">Finanzen</div>
       <a href="${base}/brutto-netto-rechner">💼 Brutto-Netto-Rechner</a>
+      <a href="${base}/gehaltserhoeung-rechner">📊 Gehaltserhöhung Rechner</a>
       <a href="${base}/gehaltserhöhung-rechner">📊 Gehaltserhöhung Rechner</a>
       <a href="${base}/kreditrechner">🏦 Kreditrechner</a>
       <a href="${base}/etf-sparplan-rechner">📈 ETF Sparplan</a>
@@ -245,6 +254,7 @@ function renderFooter() {
           <h4>Finanzen</h4>
           <ul>
             <li><a href="${base}/brutto-netto-rechner">Brutto-Netto</a></li>
+            <li><a href="${base}/gehaltserhoeung-rechner">Gehaltserhöhung</a></li>
             <li><a href="${base}/gehaltserhöhung-rechner">Gehaltserhöhung</a></li>
             <li><a href="${base}/kreditrechner">Kreditrechner</a></li>
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
