@@ -56,12 +56,13 @@
 .jahr-table tfoot td { font-weight:700; color:var(--accent); background:var(--accent-light); border-top:2px solid var(--accent); }
 
 /* Sankey-ähnliches Balkendiagramm */
-.sankey-wrap { margin:16px 0; }
-.sankey-row { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
-.sankey-label { font-size:12px; color:var(--ink-2); min-width:130px; font-weight:500; }
-.sankey-bar-track { flex:1; height:24px; background:var(--border); border-radius:6px; overflow:hidden; position:relative; }
-.sankey-bar-fill { height:100%; border-radius:6px; display:flex; align-items:center; padding-left:8px; font-size:11px; font-weight:700; color:#fff; transition:width .4s; }
-.sankey-val { font-size:12px; font-weight:600; min-width:90px; text-align:right; color:var(--ink-2); }
+.sankey-wrap { margin:12px 0; }
+.sankey-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.sankey-label { font-size:12.5px; color:var(--ink-2); min-width:120px; font-weight:500; }
+.sankey-bar-track { flex:1; height:26px; background:var(--border); border-radius:6px; overflow:hidden; position:relative; }
+.sankey-bar-fill { height:100%; border-radius:6px; transition:width .5s ease; display:flex; align-items:center; justify-content:center; }
+.sankey-bar-pct { font-size:11px; font-weight:700; color:#fff; white-space:nowrap; padding:0 6px; }
+.sankey-val { font-size:13px; font-weight:600; min-width:90px; text-align:right; color:var(--ink-2); }
 
 /* Tags */
 .tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
@@ -236,17 +237,29 @@
         <div class="sankey-wrap" id="bn-sankey">
           <div class="sankey-row">
             <div class="sankey-label">Nettogehalt</div>
-            <div class="sankey-bar-track"><div class="sankey-bar-fill" id="sk-netto" style="background:var(--accent);"></div></div>
+            <div class="sankey-bar-track">
+              <div class="sankey-bar-fill" id="sk-netto" style="background:var(--accent);">
+                <span class="sankey-bar-pct" id="sk-netto-pct"></span>
+              </div>
+            </div>
             <div class="sankey-val" id="sk-netto-val">—</div>
           </div>
           <div class="sankey-row">
             <div class="sankey-label">Lohnsteuer</div>
-            <div class="sankey-bar-track"><div class="sankey-bar-fill" id="sk-lst" style="background:#e74c3c;"></div></div>
+            <div class="sankey-bar-track">
+              <div class="sankey-bar-fill" id="sk-lst" style="background:#e74c3c;">
+                <span class="sankey-bar-pct" id="sk-lst-pct"></span>
+              </div>
+            </div>
             <div class="sankey-val" id="sk-lst-val">—</div>
           </div>
           <div class="sankey-row">
             <div class="sankey-label">Sozialversicherung</div>
-            <div class="sankey-bar-track"><div class="sankey-bar-fill" id="sk-soz" style="background:#f39c12;"></div></div>
+            <div class="sankey-bar-track">
+              <div class="sankey-bar-fill" id="sk-soz" style="background:#f39c12;">
+                <span class="sankey-bar-pct" id="sk-soz-pct"></span>
+              </div>
+            </div>
             <div class="sankey-val" id="sk-soz-val">—</div>
           </div>
         </div>
@@ -500,19 +513,29 @@ function calcBN() {
   set('bn-pv',          neg(r.pv * f));
   set('bn-alv',         neg(r.alv * f));
 
-  // Sankey Balken
-  const total = brutto;
+  // Sankey Balken — relativ zum Brutto
   const steuern = r.lohnsteuer + r.soli + r.kirche;
   const soz = r.sozialAbgaben;
   const netto = r.netto;
-  ['sk-netto','sk-lst','sk-soz'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const val = id==='sk-netto' ? netto : id==='sk-lst' ? steuern : soz;
-    const pct = (val / total * 100).toFixed(1);
-    el.style.width = pct + '%';
-    el.textContent = pct + ' %';
-  });
+  const netPct  = (netto   / brutto * 100).toFixed(1);
+  const lstPct  = (steuern / brutto * 100).toFixed(1);
+  const sozPct  = (soz     / brutto * 100).toFixed(1);
+
+  const skNetto = document.getElementById('sk-netto');
+  const skLst   = document.getElementById('sk-lst');
+  const skSoz   = document.getElementById('sk-soz');
+  if (skNetto) skNetto.style.width = netPct + '%';
+  if (skLst)   skLst.style.width   = lstPct + '%';
+  if (skSoz)   skSoz.style.width   = sozPct + '%';
+
+  // Prozent nur anzeigen wenn Balken breit genug
+  const pctNetto = document.getElementById('sk-netto-pct');
+  const pctLst   = document.getElementById('sk-lst-pct');
+  const pctSoz   = document.getElementById('sk-soz-pct');
+  if (pctNetto) pctNetto.textContent = parseFloat(netPct) > 8 ? netPct + ' %' : '';
+  if (pctLst)   pctLst.textContent   = parseFloat(lstPct) > 8 ? lstPct + ' %' : '';
+  if (pctSoz)   pctSoz.textContent   = parseFloat(sozPct) > 8 ? sozPct + ' %' : '';
+
   set('sk-netto-val', fmtE(netto * f));
   set('sk-lst-val',   neg(steuern * f));
   set('sk-soz-val',   neg(soz * f));
