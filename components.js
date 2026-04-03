@@ -169,6 +169,21 @@ function renderNav(activePage = '') {
       </li>
 
       <li class="nav-dropdown">
+        <a href="#" class="nav-dropdown-trigger ${isGroupActive(['ratgeber'])}">
+          Ratgeber <span class="nav-arrow">▾</span>
+        </a>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-group">
+            <div class="nav-dropdown-label">Meine Erfahrungen</div>
+            <a href="${base}/ratgeber/terraLuna-lektion" class="${isActive('ratgeber')}">
+              <span class="nav-item-icon">📖</span>
+              <span><strong>20.000 € Lektion</strong><small>TerraLuna & was ich lernte</small></span>
+            </a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-dropdown">
         <a href="#" class="nav-dropdown-trigger ${isGroupActive(['strom','gas'])}">
           Energie <span class="nav-arrow">▾</span>
         </a>
@@ -299,6 +314,7 @@ function renderFooter() {
         <div class="footer-col">
           <h4>Rechtliches</h4>
           <ul>
+            <li><a href="${base}/ratgeber/terraLuna-lektion">Ratgeber: 20.000 € Lektion</a></li>
             <li><a href="${base}/impressum">Impressum</a></li>
             <li><a href="${base}/datenschutz">Datenschutz</a></li>
             <li><a href="${base}/methodik">Methodik</a></li>
