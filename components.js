@@ -53,6 +53,10 @@ function renderNav(activePage = '') {
               <span class="nav-item-icon">🏦</span>
               <span><strong>Kreditrechner</strong><small>Rate & Tilgungsplan</small></span>
             </a>
+            <a href="${base}/baufinanzierung-rechner" class="${isActive('baufinanzierung')}">
+              <span class="nav-item-icon">🏠</span>
+              <span><strong>Baufinanzierung</strong><small>Immobilienkredit berechnen</small></span>
+            </a>
             <a href="${base}/etf-sparplan-rechner" class="${isActive('etf')}">
               <span class="nav-item-icon">📈</span>
               <span><strong>ETF Sparplan Rechner</strong><small>Rendite & Endkapital</small></span>
@@ -199,6 +203,7 @@ function renderNav(activePage = '') {
       <a href="${base}/gehaltserhoeung-rechner">📊 Gehaltserhöhung Rechner</a>
       <a href="${base}/gehaltserhöhung-rechner">📊 Gehaltserhöhung Rechner</a>
       <a href="${base}/kreditrechner">🏦 Kreditrechner</a>
+      <a href="${base}/baufinanzierung-rechner">🏠 Baufinanzierung Rechner</a>
       <a href="${base}/etf-sparplan-rechner">📈 ETF Sparplan</a>
       <a href="${base}/zinseszins-rechner">♾️ Zinseszins Rechner</a>
       <a href="${base}/sparrechner">🎯 Sparrechner</a>
@@ -257,6 +262,7 @@ function renderFooter() {
             <li><a href="${base}/gehaltserhoeung-rechner">Gehaltserhöhung</a></li>
             <li><a href="${base}/gehaltserhöhung-rechner">Gehaltserhöhung</a></li>
             <li><a href="${base}/kreditrechner">Kreditrechner</a></li>
+            <li><a href="${base}/baufinanzierung-rechner">Baufinanzierung</a></li>
             <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
             <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
             <li><a href="${base}/sparrechner">Sparrechner</a></li>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baufinanzierung Rechner 2026 – Monatsrate & Tilgungsplan | RechnerPilot</title>
+<meta name="description" content="Baufinanzierung Rechner 2026: Monatsrate, Gesamtkosten und vollständigen Tilgungsplan berechnen. Aktuelle Bauzinsen ab 3,69 %. Mit Sondertilgung und Anschlussfinanzierung.">
+<link rel="canonical" href="https://www.rechnerpilot.de/baufinanzierung-rechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Baufinanzierung Rechner 2026","url":"https://www.rechnerpilot.de/baufinanzierung-rechner","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}
+</script>
+<style>
+.range-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:100px;background:var(--border);outline:none;cursor:pointer;margin-top:6px}
+.range-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:#fff;border:2px solid var(--accent);border-radius:50%;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.range-slider::-moz-range-thumb{width:20px;height:20px;background:#fff;border:2px solid var(--accent);border-radius:50%;cursor:pointer}
+.slider-labels{display:flex;justify-content:space-between;margin-top:3px}
+.slider-labels span{font-size:10px;color:var(--ink-3);font-weight:600}
+
+/* Zinsbindung Tabs */
+.zb-group{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.zb-btn{padding:9px 14px;border-radius:9px;border:1.5px solid var(--border);background:#fff;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:all .15s}
+.zb-btn:hover{border-color:var(--accent);color:var(--accent)}
+.zb-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Kosten-Übersicht */
+.kosten-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
+.kosten-box{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.kosten-box.accent{border-color:var(--accent);background:var(--accent-light)}
+.kosten-val{font-size:20px;font-weight:800;font-family:'Instrument Serif',serif;color:var(--accent)}
+.kosten-label{font-size:11px;color:var(--ink-3);margin-top:3px;line-height:1.3}
+
+/* Aktuelle Zinsen */
+.zinsen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:8px}
+.zins-card{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all .15s}
+.zins-card:hover{border-color:var(--accent)}
+.zins-card.active{border-color:var(--accent);background:var(--accent-light)}
+.zins-laufzeit{font-size:11px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.4px}
+.zins-wert{font-size:22px;font-weight:800;font-family:'Instrument Serif',serif;color:var(--accent)}
+.zins-effektiv{font-size:10px;color:var(--ink-3);margin-top:2px}
+
+/* Chart */
+.chart-wrap{position:relative;width:100%;height:300px;margin-top:12px}
+.chart-legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px;font-size:12px;color:var(--ink-2)}
+.legend-dot{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+
+/* Tilgungsplan Tabelle */
+.tilg-table{width:100%;border-collapse:collapse;font-size:12px}
+.tilg-table th{background:var(--accent);color:#fff;padding:8px 10px;text-align:right;font-size:10.5px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+.tilg-table th:first-child{text-align:left}
+.tilg-table td{padding:7px 10px;border-bottom:1px solid var(--border);text-align:right;color:var(--ink-2)}
+.tilg-table td:first-child{text-align:left;font-weight:600;color:var(--ink)}
+.tilg-table tr.zinsbindung-end td{background:#fff3cd;font-weight:700;color:#856404}
+.tilg-table tr.last-row td{background:var(--accent-light);color:var(--accent);font-weight:700}
+
+/* Nebenkosten */
+.nk-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.nk-row{display:flex;justify-content:space-between;padding:8px 12px;background:#fff;border-radius:8px;border:1px solid var(--border);font-size:13px}
+.nk-label{color:var(--ink-2)}
+.nk-val{font-weight:600;color:var(--ink)}
+</style>
+</head>
+<body data-page="baufinanzierung">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Baufinanzierung Rechner</span>
+    </div>
+    <h1>Baufinanzierung Rechner 2026</h1>
+    <p>Berechne deine monatliche Rate, Gesamtkosten und vollständigen Tilgungsplan. Aktuelle Bauzinsen: ab <strong>3,69 %</strong> für 10 Jahre (Stand April 2026).</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+      <!-- INPUTS -->
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label data-tt="Der Kaufpreis der Immobilie. Nebenkosten (Notar, Grunderwerbsteuer, Makler) kommen noch oben drauf.">Kaufpreis / Immobilienwert</label>
+          <div class="input-wrap">
+            <input type="number" id="bf-kaufpreis" value="400000" step="5000" min="0"
+              oninput="document.getElementById('bf-kaufpreis-slider').value=Math.min(this.value,2000000); calcBF()">
+            <span class="input-unit">€</span>
+          </div>
+          <input type="range" class="range-slider" id="bf-kaufpreis-slider" min="100000" max="2000000" step="10000" value="400000"
+            oninput="document.getElementById('bf-kaufpreis').value=this.value; calcBF()">
+          <div class="slider-labels"><span>100k</span><span>600k</span><span>1,1 Mio.</span><span>1,6 Mio.</span><span>2 Mio.</span></div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Eigenkapital das du einbringst. Empfehlung: mind. 20–30 % des Kaufpreises. Je mehr Eigenkapital, desto besser der Zinssatz.">Eigenkapital</label>
+          <div class="input-wrap">
+            <input type="number" id="bf-eigenkapital" value="80000" step="5000" min="0"
+              oninput="document.getElementById('bf-ek-slider').value=Math.min(this.value,500000); calcBF()">
+            <span class="input-unit">€</span>
+          </div>
+          <input type="range" class="range-slider" id="bf-ek-slider" min="0" max="500000" step="5000" value="80000"
+            oninput="document.getElementById('bf-eigenkapital').value=this.value; calcBF()">
+          <div class="slider-labels"><span>0 €</span><span>125k</span><span>250k</span><span>375k</span><span>500k</span></div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Beleihungsquote: <strong id="bf-beleihung">—</strong> — je niedriger, desto besser der Zinssatz</div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Jährlicher Sollzins. Aktuell: 3,5–4,0 % für 10 Jahre. Wähle eine Zinsbindung unten oder gib deinen eigenen Zinssatz ein.">Sollzins p.a.</label>
+          <div class="input-wrap">
+            <input type="number" id="bf-zins" value="3.82" step="0.05" min="0.5" max="15"
+              oninput="document.getElementById('bf-zins-slider').value=this.value; calcBF()">
+            <span class="input-unit">%</span>
+          </div>
+          <input type="range" class="range-slider" id="bf-zins-slider" min="1" max="10" step="0.05" value="3.82"
+            oninput="document.getElementById('bf-zins').value=parseFloat(this.value).toFixed(2); calcBF()">
+          <div class="slider-labels"><span>1 %</span><span>3 %</span><span>5 %</span><span>7,5 %</span><span>10 %</span></div>
+
+          <div style="margin-top:8px;">
+            <div style="font-size:11px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Aktuelle Zinsen April 2026 — klick zum Übernehmen</div>
+            <div class="zinsen-grid">
+              <div class="zins-card" data-z="3.69" data-zb="10" onclick="selectZins(this)">
+                <div class="zins-laufzeit">5 Jahre</div>
+                <div class="zins-wert">3,69 %</div>
+                <div class="zins-effektiv">Topzins</div>
+              </div>
+              <div class="zins-card active" data-z="3.82" data-zb="10" onclick="selectZins(this)">
+                <div class="zins-laufzeit">10 Jahre</div>
+                <div class="zins-wert">3,82 %</div>
+                <div class="zins-effektiv">Beliebteste Laufzeit</div>
+              </div>
+              <div class="zins-card" data-z="4.01" data-zb="15" onclick="selectZins(this)">
+                <div class="zins-laufzeit">15 Jahre</div>
+                <div class="zins-wert">4,01 %</div>
+                <div class="zins-effektiv">Planungssicherheit</div>
+              </div>
+              <div class="zins-card" data-z="4.18" data-zb="20" onclick="selectZins(this)">
+                <div class="zins-laufzeit">20 Jahre</div>
+                <div class="zins-wert">4,18 %</div>
+                <div class="zins-effektiv">Lange Bindung</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Anfängliche Tilgung pro Jahr. Mindestens 1–2 % empfohlen. Höhere Tilgung → schneller schuldenfrei, aber höhere Monatsrate.">Anfängliche Tilgung p.a.</label>
+          <div class="input-wrap">
+            <input type="number" id="bf-tilgung" value="2" step="0.25" min="0.5" max="10"
+              oninput="document.getElementById('bf-tilgung-slider').value=this.value; calcBF()">
+            <span class="input-unit">%</span>
+          </div>
+          <input type="range" class="range-slider" id="bf-tilgung-slider" min="0.5" max="6" step="0.25" value="2"
+            oninput="document.getElementById('bf-tilgung').value=parseFloat(this.value).toFixed(2); calcBF()">
+          <div class="slider-labels"><span>0,5 %</span><span>2 %</span><span>3,5 %</span><span>5 %</span><span>6 %</span></div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Wie lange du den Zinssatz fixierst. Danach kommt die Anschlussfinanzierung zu dann aktuellen Zinsen.">Zinsbindung</label>
+          <div class="zb-group" id="bf-zb-group">
+            <button class="zb-btn" data-val="5" onclick="selectZB(this)">5 Jahre</button>
+            <button class="zb-btn active" data-val="10" onclick="selectZB(this)">10 Jahre</button>
+            <button class="zb-btn" data-val="15" onclick="selectZB(this)">15 Jahre</button>
+            <button class="zb-btn" data-val="20" onclick="selectZB(this)">20 Jahre</button>
+            <button class="zb-btn" data-val="30" onclick="selectZB(this)">30 Jahre</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Einmalige Sondertilgungen reduzieren die Restschuld und damit die Zinskosten erheblich.">Jährliche Sondertilgung</label>
+          <div class="input-wrap">
+            <input type="number" id="bf-sonder" value="0" step="500" min="0" oninput="calcBF()">
+            <span class="input-unit">€/Jahr</span>
+          </div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Die meisten Banken erlauben 5 % der Darlehenssumme p.a. kostenfrei</div>
+        </div>
+
+        <!-- Nebenkosten -->
+        <div class="field">
+          <label data-tt="Kaufnebenkosten werden in der Regel aus Eigenkapital bezahlt und erhöhen die Gesamtinvestition.">Kaufnebenkosten (Bundesland)</label>
+          <select id="bf-bundesland" onchange="calcBF()" style="width:100%;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink);outline:none;">
+            <option value="6.5">Bayern (6,5 %)</option>
+            <option value="5.0">Hamburg (5,0 %)</option>
+            <option value="6.0">Berlin (6,0 %)</option>
+            <option value="6.5" selected>Nordrhein-Westfalen (6,5 %)</option>
+            <option value="5.0">Baden-Württemberg (5,0 %)</option>
+            <option value="5.5">Brandenburg (5,5 %)</option>
+            <option value="6.0">Niedersachsen (6,0 %)</option>
+            <option value="5.0">Rheinland-Pfalz (5,0 %)</option>
+            <option value="6.5">Sachsen-Anhalt (6,5 %)</option>
+            <option value="5.0">Sachsen (5,0 %)</option>
+            <option value="6.5">Schleswig-Holstein (6,5 %)</option>
+            <option value="6.5">Thüringen (6,5 %)</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- RESULTS -->
+      <div class="results-panel">
+        <div class="results-label">Ergebnis Baufinanzierung</div>
+
+        <div class="result-main">
+          <div class="result-main-label">Monatliche Rate (Annuität)</div>
+          <div class="result-main-value" id="bf-rate">—</div>
+          <div class="result-main-sub">
+            <div>
+              <div class="rms-label">Davon Zinsen</div>
+              <div class="rms-val" id="bf-zins-anteil">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Davon Tilgung</div>
+              <div class="rms-val" id="bf-tilg-anteil">—</div>
+            </div>
+            <div>
+              <div class="rms-label">Laufzeit</div>
+              <div class="rms-val" id="bf-laufzeit">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="kosten-grid">
+          <div class="kosten-box">
+            <div class="kosten-val" id="bf-darlehenssumme">—</div>
+            <div class="kosten-label">Darlehenssumme</div>
+          </div>
+          <div class="kosten-box">
+            <div class="kosten-val" id="bf-restschuld">—</div>
+            <div class="kosten-label">Restschuld nach Zinsbindung</div>
+          </div>
+          <div class="kosten-box accent">
+            <div class="kosten-val" id="bf-gesamtzinsen">—</div>
+            <div class="kosten-label">Gesamte Zinskosten</div>
+          </div>
+          <div class="kosten-box">
+            <div class="kosten-val" id="bf-gesamtkosten">—</div>
+            <div class="kosten-label">Gesamtaufwand inkl. EK</div>
+          </div>
+        </div>
+
+        <div class="result-row"><span class="result-row-label">Kaufpreis</span><span class="result-row-value" id="bf-r-kaufpreis">—</span></div>
+        <div class="result-row"><span class="result-row-label">Eigenkapital</span><span class="result-row-value pos" id="bf-r-ek">—</span></div>
+        <div class="result-row"><span class="result-row-label">Darlehenssumme</span><span class="result-row-value" id="bf-r-darlehen">—</span></div>
+        <div class="result-row"><span class="result-row-label">Monatliche Annuität</span><span class="result-row-value" id="bf-r-rate">—</span></div>
+        <div class="result-row"><span class="result-row-label">Zinsen nach Zinsbindung</span><span class="result-row-value neg" id="bf-r-zinsen">—</span></div>
+        <div class="result-row"><span class="result-row-label">Restschuld nach <span id="bf-zb-label">10</span> Jahren</span><span class="result-row-value neg" id="bf-r-restschuld">—</span></div>
+        <div class="result-row"><span class="result-row-label">Bis vollständige Tilgung</span><span class="result-row-value" id="bf-r-laufzeit">—</span></div>
+
+        <!-- Kaufnebenkosten -->
+        <div style="margin-top:12px;">
+          <div style="font-size:11px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Kaufnebenkosten (geschätzt)</div>
+          <div class="nk-row"><span class="nk-label">Grunderwerbsteuer</span><span class="nk-val" id="nk-gst">—</span></div>
+          <div class="nk-row" style="margin-top:4px;"><span class="nk-label">Notar & Grundbuch (~2 %)</span><span class="nk-val" id="nk-notar">—</span></div>
+          <div class="nk-row" style="margin-top:4px;"><span class="nk-label">Maklerprovision (~3,57 %)*</span><span class="nk-val" id="nk-makler">—</span></div>
+          <div class="nk-row" style="margin-top:4px;font-weight:700;"><span class="nk-label">Nebenkosten gesamt</span><span class="nk-val" id="nk-gesamt">—</span></div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">* Makler nur wenn beauftragt. Seit 2020: Kosten werden hälftig geteilt.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div style="padding:0 28px 20px;">
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background:var(--accent);"></span>Tilgungsanteil</span>
+        <span><span class="legend-dot" style="background:rgba(231,76,60,.7);"></span>Zinsanteil</span>
+        <span><span class="legend-dot" style="background:rgba(26,92,58,.3);"></span>Restschuld</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="bf-chart"></canvas>
+      </div>
+    </div>
+
+    <!-- TILGUNGSPLAN -->
+    <div style="padding:0 28px 28px;">
+      <h3 style="font-family:'Instrument Serif',serif;font-size:18px;margin-bottom:10px;">Tilgungsplan (Jahresübersicht)</h3>
+      <div style="overflow-x:auto;max-height:420px;overflow-y:auto;border-radius:10px;border:1.5px solid var(--border);">
+        <table class="tilg-table">
+          <thead style="position:sticky;top:0;z-index:1;">
+            <tr>
+              <th style="text-align:left;">Jahr</th>
+              <th>Zahlung</th>
+              <th>Zinsen</th>
+              <th>Tilgung</th>
+              <th>Sonder-T.</th>
+              <th>Restschuld</th>
+            </tr>
+          </thead>
+          <tbody id="bf-tilgungsplan"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="calc-disclaimer">
+      ⚠️ Näherungsrechnung. Effektivzins kann durch Bearbeitungsgebühren abweichen. Stand: April 2026. <a href="https://www.check24.de/baufinanzierung/" target="_blank" rel="noopener sponsored" style="color:var(--accent);">Jetzt individuelles Angebot einholen →</a>
+    </div>
+  </div>
+
+  <!-- AFFILIATE -->
+  <div class="content-section fu d2">
+    <div style="background:var(--accent);border-radius:16px;padding:24px;color:#fff;">
+      <div style="font-size:10px;font-weight:700;opacity:.65;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;">Nächster Schritt</div>
+      <h2 style="font-family:'Instrument Serif',serif;font-size:22px;color:#fff;margin:0 0 10px;">Jetzt persönliches Angebot einholen</h2>
+      <p style="color:rgba(255,255,255,.85);font-size:13px;line-height:1.6;margin:0 0 16px;">Der Rechner zeigt eine Schätzung — dein persönlicher Zinssatz hängt von Bonität, Eigenkapital und Immobilie ab. CHECK24 vergleicht über 500 Banken kostenlos und unverbindlich.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <a href="https://www.check24.de/baufinanzierung/" target="_blank" rel="noopener sponsored"
+          style="display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--accent);padding:12px 22px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;">
+          🏠 Baufinanzierung vergleichen →
+        </a>
+      </div>
+      <div style="font-size:11px;opacity:.6;margin-top:12px;">* Partnerlink · Kostenlos & unverbindlich · Über 500 Banken im Vergleich</div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zur Baufinanzierung</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Wie viel Eigenkapital brauche ich?</div>
+        <div class="faq-a">Empfohlen werden mindestens 20–30 % des Kaufpreises als Eigenkapital — plus die Kaufnebenkosten (je nach Bundesland 7–15 % des Kaufpreises). Mit mehr Eigenkapital sinkt die Beleihungsquote und damit der Zinssatz. Eine Vollfinanzierung ohne Eigenkapital ist zwar möglich, aber deutlich teurer und riskanter. Faustregel: Je höher dein Eigenkapital, desto besser die Zinskonditionen.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie hoch sollte die Tilgung sein?</div>
+        <div class="faq-a">Mindestens 2–3 % anfängliche Tilgung werden empfohlen. Mit 1 % Tilgung dauert die vollständige Rückzahlung bei 4 % Zins über 40 Jahre — sehr riskant. Bei 3 % Tilgung und 4 % Zins sind es ca. 22 Jahre. Wer schneller schuldenfrei sein will, sollte die Tilgung so hoch wie möglich wählen und Sondertilgungen nutzen.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was sind Kaufnebenkosten?</div>
+        <div class="faq-a">Kaufnebenkosten sind einmalige Kosten beim Immobilienkauf: Grunderwerbsteuer (je nach Bundesland 3,5–6,5 % des Kaufpreises), Notar und Grundbuch (~2 %) sowie ggf. Maklerprovision (~3,57 % je Seite seit 2020 hälftig geteilt). Insgesamt kommen so 7–15 % des Kaufpreises zusammen — diese müssen in der Regel aus Eigenkapital bezahlt werden.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was passiert nach der Zinsbindung?</div>
+        <div class="faq-a">Nach Ende der Zinsbindung wird die Restschuld zu einem neuen Zinssatz weiterfinanziert (Anschlussfinanzierung). Das Risiko: Der neue Zinssatz kann höher oder niedriger sein als heute. Um sich zu schützen, kann man ein Forward-Darlehen abschließen — damit sicherst du dir schon heute den Zinssatz für die Anschlussfinanzierung, die in 2–5 Jahren beginnt.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wie viel Haus kann ich mir leisten?</div>
+        <div class="faq-a">Eine grobe Faustregel: Die monatliche Rate sollte nicht mehr als 35–40 % des Nettohaushaltseinkommens betragen. Weitere Richtwerte: Das Gesamtdarlehen sollte nicht mehr als das 4–5-fache des Jahresbruttoeinkommens betragen. Beispiel: 80.000 € Jahresbrutto → max. 320.000–400.000 € Darlehen. Plane außerdem eine Reserve für Nebenkosten, Instandhaltung und unvorhergesehene Ausgaben ein.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Verwandte Rechner</h2>
+    <div class="related-grid">
+      <a href="kreditrechner.html" class="cc">
+        <div class="cc-icon bg-g">🏦</div>
+        <h3>Kreditrechner</h3>
+        <p>Allgemeiner Tilgungsplan für Kredite.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="brutto-netto-rechner.html" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Wie viel bleibt nach der Rate übrig?</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="sparrechner.html" class="cc">
+        <div class="cc-icon bg-g">🎯</div>
+        <h3>Sparrechner</h3>
+        <p>Eigenkapital ansparen berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let bfChart = null;
+let bfZinsbindung = 10;
+
+const f0  = n => Math.round(n).toLocaleString('de-DE') + ' €';
+const f2  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const fp  = n => n.toFixed(2).replace('.',',') + ' %';
+const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+
+function selectZins(card) {
+  document.querySelectorAll('.zins-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  const z = parseFloat(card.dataset.z);
+  const zb = parseInt(card.dataset.zb);
+  document.getElementById('bf-zins').value = z.toFixed(2);
+  document.getElementById('bf-zins-slider').value = z;
+  bfZinsbindung = zb;
+  document.querySelectorAll('.zb-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.val) === zb);
+  });
+  set('bf-zb-label', zb);
+  calcBF();
+}
+
+function selectZB(btn) {
+  bfZinsbindung = parseInt(btn.dataset.val);
+  document.querySelectorAll('.zb-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  set('bf-zb-label', bfZinsbindung);
+  calcBF();
+}
+
+function calcBF() {
+  const kaufpreis   = parseFloat(document.getElementById('bf-kaufpreis').value) || 0;
+  const eigenkapital= parseFloat(document.getElementById('bf-eigenkapital').value) || 0;
+  const zins        = parseFloat(document.getElementById('bf-zins').value) / 100 || 0.0382;
+  const tilgungP    = parseFloat(document.getElementById('bf-tilgung').value) / 100 || 0.02;
+  const sonder      = parseFloat(document.getElementById('bf-sonder').value) || 0;
+  const nkPct       = parseFloat(document.getElementById('bf-bundesland').value) / 100 || 0.065;
+
+  const darlehen = Math.max(0, kaufpreis - eigenkapital);
+  const beleihung = kaufpreis > 0 ? (darlehen / kaufpreis * 100) : 0;
+
+  // Annuität
+  const rm = zins / 12;
+  const annuitaetJahr = darlehen * (zins + tilgungP);
+  const rate = annuitaetJahr / 12;
+
+  // Tilgungsplan simulieren
+  let restschuld = darlehen;
+  const tilgungsPlan = [];
+  let laufzeit = 0;
+  let gesamtZinsen = 0;
+  let restschuldNachZB = 0;
+  let zinsenNachZB = 0;
+
+  for (let j = 1; j <= 50 && restschuld > 0.01; j++) {
+    let jahresZinsen = 0, jahresTilgung = 0;
+    for (let m = 1; m <= 12; m++) {
+      const zinsM = restschuld * rm;
+      const tilgM = Math.min(rate - zinsM, restschuld);
+      jahresZinsen += zinsM;
+      jahresTilgung += tilgM;
+      restschuld -= tilgM;
+      if (restschuld <= 0.01) { restschuld = 0; break; }
+    }
+    // Sondertilgung
+    const sonderEff = Math.min(sonder, restschuld);
+    restschuld = Math.max(0, restschuld - sonderEff);
+    gesamtZinsen += jahresZinsen;
+    laufzeit = j;
+
+    if (j === bfZinsbindung) {
+      restschuldNachZB = restschuld;
+      zinsenNachZB = gesamtZinsen;
+    }
+
+    tilgungsPlan.push({
+      jahr: j,
+      zahlung: (rate * 12 + sonderEff),
+      zinsen: jahresZinsen,
+      tilgung: jahresTilgung,
+      sonder: sonderEff,
+      restschuld: Math.max(0, restschuld),
+      isZBEnd: j === bfZinsbindung,
+    });
+
+    if (restschuld <= 0.01) break;
+  }
+
+  if (restschuldNachZB === 0 && laufzeit <= bfZinsbindung) {
+    restschuldNachZB = 0;
+    zinsenNachZB = gesamtZinsen;
+  }
+
+  // Kaufnebenkosten
+  const gst   = kaufpreis * nkPct;
+  const notar = kaufpreis * 0.02;
+  const makler= kaufpreis * 0.0357;
+  const nkGes = gst + notar + makler;
+
+  // Ausgabe
+  set('bf-beleihung', fp(beleihung));
+  set('bf-rate', f2(rate));
+  set('bf-zins-anteil', f2(darlehen * zins / 12));
+  set('bf-tilg-anteil', f2(darlehen * tilgungP / 12));
+  set('bf-laufzeit', laufzeit + ' Jahre');
+  set('bf-darlehenssumme', f0(darlehen));
+  set('bf-restschuld', f0(restschuldNachZB));
+  set('bf-gesamtzinsen', f0(laufzeit <= bfZinsbindung ? gesamtZinsen : zinsenNachZB));
+  set('bf-gesamtkosten', f0(kaufpreis + gesamtZinsen));
+  set('bf-r-kaufpreis', f0(kaufpreis));
+  set('bf-r-ek', f0(eigenkapital));
+  set('bf-r-darlehen', f0(darlehen));
+  set('bf-r-rate', f2(rate) + '/Monat');
+  set('bf-r-zinsen', '− ' + f0(zinsenNachZB));
+  set('bf-r-restschuld', f0(restschuldNachZB));
+  set('bf-r-laufzeit', laufzeit + ' Jahre');
+  set('nk-gst', f0(gst));
+  set('nk-notar', f0(notar));
+  set('nk-makler', f0(makler));
+  set('nk-gesamt', f0(nkGes));
+
+  // Tilgungsplan Tabelle
+  const tbody = document.getElementById('bf-tilgungsplan');
+  tbody.innerHTML = tilgungsPlan.map(d => `
+    <tr class="${d.isZBEnd?'zinsbindung-end':''} ${d.restschuld===0?'last-row':''}">
+      <td>Jahr ${d.jahr}${d.isZBEnd?' ⚠️ Ende Zinsbindung':''}</td>
+      <td>${f0(d.zahlung)}</td>
+      <td style="color:#dc2626;">− ${f0(d.zinsen)}</td>
+      <td style="color:var(--accent);">+ ${f0(d.tilgung)}</td>
+      <td>${d.sonder > 0 ? f0(d.sonder) : '—'}</td>
+      <td>${f0(d.restschuld)}</td>
+    </tr>`).join('');
+
+  // Chart
+  if (bfChart) bfChart.destroy();
+  const labels = tilgungsPlan.map(d => 'J'+d.jahr);
+  const ctx = document.getElementById('bf-chart').getContext('2d');
+  bfChart = new Chart(ctx, {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Tilgung',
+          data: tilgungsPlan.map(d => Math.round(d.tilgung)),
+          backgroundColor: 'rgba(26,92,58,.8)',
+          stack: 'a',
+        },
+        {
+          type: 'bar',
+          label: 'Zinsen',
+          data: tilgungsPlan.map(d => Math.round(d.zinsen)),
+          backgroundColor: 'rgba(231,76,60,.65)',
+          stack: 'a',
+        },
+        {
+          type: 'line',
+          label: 'Restschuld',
+          data: tilgungsPlan.map(d => Math.round(d.restschuld)),
+          borderColor: 'rgba(26,92,58,.4)',
+          backgroundColor: 'transparent',
+          yAxisID: 'y2',
+          borderWidth: 2,
+          pointRadius: 2,
+          tension: 0.3,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c=>' '+Math.round(c.raw).toLocaleString('de-DE')+' €' }}},
+      scales: {
+        x: { stacked:true, ticks:{maxTicksLimit:12,font:{size:11},color:'#8a9688'}, grid:{display:false} },
+        y: { stacked:true, ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v,font:{size:11},color:'#8a9688'}, grid:{color:'rgba(0,0,0,.05)'} },
+        y2: { position:'right', ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v,font:{size:11},color:'rgba(26,92,58,.5)'}, grid:{display:false} }
+      }
+    }
+  });
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+document.querySelectorAll('[data-tt]').forEach(el => {
+  const text = el.getAttribute('data-tt');
+  if (!text) return;
+  const wrap = document.createElement('span');
+  wrap.className = 'tooltip-wrap';
+  wrap.innerHTML = `<span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span>`;
+  const box = wrap.querySelector('.tooltip-box');
+  wrap.addEventListener('mouseenter', () => {
+    const r = wrap.getBoundingClientRect();
+    box.style.left = Math.min(r.left, window.innerWidth-260)+'px';
+    box.style.top = (r.top+window.scrollY-box.offsetHeight-10)+'px';
+    box.style.position='absolute';
+  });
+  el.appendChild(wrap);
+});
+
+calcBF();
+</script>
+</body>
+</html>
