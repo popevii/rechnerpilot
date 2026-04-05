@@ -72,11 +72,14 @@
         <div class="field">
           <label data-tt="Wie lange du das Geld anlegen möchtest. Tagesgeld ist täglich verfügbar — du kannst jederzeit ein- und auszahlen.">Anlagedauer</label>
           <div class="input-wrap">
-            <input type="range" id="tg-monate-slider" min="1" max="60" value="12"
-              oninput="document.getElementById('tg-monate').value=this.value; calcTagesgeld()" style="flex:1;">
             <input type="number" inputmode="decimal" id="tg-monate" value="12" min="1" max="60"
-              oninput="document.getElementById('tg-monate-slider').value=this.value; calcTagesgeld()" style="width:60px;">
+              oninput="document.getElementById('tg-monate-slider').value=this.value; calcTagesgeld()">
             <span class="input-unit">Monate</span>
+          </div>
+          <input type="range" class="range-slider" id="tg-monate-slider" min="1" max="60" step="1" value="12"
+            oninput="document.getElementById('tg-monate').value=this.value; calcTagesgeld()">
+          <div class="slider-labels">
+            <span>1 Mo.</span><span>12</span><span>24</span><span>36</span><span>60</span>
           </div>
         </div>
 
