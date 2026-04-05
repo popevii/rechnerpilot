@@ -119,6 +119,35 @@
   line-height:1.6;
 }
 .aha-box strong { color:var(--accent); }
+
+.affiliate-kontext { background:#fff; border:1.5px solid var(--border); border-radius:14px; padding:20px 22px; margin-top:12px; }
+.ak-badge { font-size:10px; font-weight:700; background:var(--accent-light); color:var(--accent); border:1px solid rgba(26,92,58,.2); border-radius:4px; padding:2px 8px; text-transform:uppercase; letter-spacing:.4px; }
+.ak-context-text { font-size:13px; color:var(--ink-3); margin:10px 0 14px; line-height:1.5; }
+.ak-table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:12px; }
+.ak-table th { font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.4px; padding:6px 10px; text-align:left; border-bottom:1.5px solid var(--border); }
+.ak-table td { padding:10px; border-bottom:1px solid var(--border); vertical-align:middle; }
+.ak-table tr:last-child td { border-bottom:none; }
+.ak-anbieter { font-weight:700; color:var(--ink); }
+.ak-detail { font-size:11px; color:var(--ink-3); }
+.ak-highlight { font-weight:700; color:var(--accent); font-family:'Instrument Serif',serif; font-size:15px; }
+.ak-link { display:inline-flex; align-items:center; gap:4px; background:var(--accent); color:#fff; padding:6px 14px; border-radius:7px; font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap; transition:opacity .15s; }
+.ak-link:hover { opacity:.85; }
+.ak-disclaimer { font-size:11px; color:var(--ink-3); line-height:1.5; }
+
+.naechster-schritt { margin:0 28px 24px; border:1.5px solid var(--border); border-radius:14px; overflow:hidden; }
+.ns-header { display:flex; align-items:center; gap:8px; padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); font-size:11px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; }
+.ns-context { padding:12px 18px 10px; font-size:13px; color:var(--ink-2); border-bottom:1px solid var(--border); background:#fff; line-height:1.5; }
+.ns-context strong { color:var(--accent); font-weight:700; }
+.ns-links { display:flex; flex-direction:column; background:#fff; }
+.ns-link { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-bottom:1px solid var(--border); text-decoration:none; transition:background .12s; gap:12px; }
+.ns-link:last-child { border-bottom:none; }
+.ns-link:hover { background:var(--accent-light); }
+.ns-link-left { display:flex; align-items:center; gap:10px; }
+.ns-link-icon { font-size:18px; flex-shrink:0; }
+.ns-link-text strong { font-size:14px; color:var(--ink); display:block; }
+.ns-link-text span { font-size:12px; color:var(--ink-3); }
+.ns-link-arrow { font-size:13px; font-weight:700; color:var(--accent); white-space:nowrap; flex-shrink:0; }
+.ns-disclaimer { padding:8px 18px; font-size:11px; color:var(--ink-3); background:var(--bg); border-top:1px solid var(--border); }
 </style>
 
 <script type="application/ld+json">
@@ -315,34 +344,42 @@ document.addEventListener('click', e => {
       ⚠️ Vergangenheitsrenditen sind keine Garantie für zukünftige Erträge. Keine Berücksichtigung von Abgeltungssteuer (26,375 %) auf Kapitalerträge. Keine Anlageberatung. <a href="methodik.html" style="color:var(--accent);">Zur Methodik →</a>
     </div>
   </div>
-  <!-- AFFILIATE BANNER -->
+  <!-- AFFILIATE — KONTEXTUELL -->
   <div class="content-section fu d1">
-    <div style="background:linear-gradient(135deg,#1a5c3a 0%,#2d7a52 100%);border-radius:16px;padding:28px 28px 24px;color:#fff;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:rgba(255,255,255,.05);border-radius:50%;pointer-events:none;"></div>
-      <div style="position:absolute;bottom:-30px;left:-20px;width:120px;height:120px;background:rgba(255,255,255,.04);border-radius:50%;pointer-events:none;"></div>
-      <div style="position:relative;z-index:1;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:8px;">Nächster Schritt</div>
-        <h2 style="font-family:'Instrument Serif',serif;font-size:22px;color:#fff;margin:0 0 10px;letter-spacing:-.2px;line-height:1.3;">ETF-Sparplan jetzt kostenlos starten</h2>
-        <p style="color:rgba(255,255,255,.92);font-size:13.5px;line-height:1.65;max-width:520px;margin:0 0 20px;">Du hast ausgerechnet wie dein Vermögen wächst — jetzt brauchst du nur noch den richtigen Broker. Kein Depot-Mindestguthaben, keine Ordergebühren, ab 1 € monatlich besparen.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
-          <a href="DEIN-AFFILIATE-LINK-SCALABLE" target="_blank" rel="noopener sponsored"
-            style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1a5c3a;padding:13px 22px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.15);">
-            🚀 Scalable Capital — Depot eröffnen
-          </a>
-          <a href="DEIN-AFFILIATE-LINK-ETF" target="_blank" rel="noopener sponsored"
-            style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);color:#fff;padding:13px 22px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid rgba(255,255,255,.4);">
-            📊 ETF-Vergleich auf CHECK24
-          </a>
+    <div id="etf-affiliate-block">
+      <div class="affiliate-kontext">
+        <span class="ak-badge">Passend zu deiner Berechnung</span>
+        <div class="ak-context-text" id="etf-ak-context">
+          Du hast deinen Sparplan berechnet — jetzt brauchst du den richtigen Broker.
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18);">
-          <span style="font-size:12px;color:#ffffff;">✓ 0 € Depotgebühren</span>
-          <span style="font-size:12px;color:#ffffff;">✓ Ab 1 € Sparrate</span>
-          <span style="font-size:12px;color:#ffffff;">✓ 2.000+ ETFs</span>
-          <span style="font-size:12px;color:#ffffff;">✓ In 5 Minuten fertig</span>
-        </div>
+        <table class="ak-table">
+          <thead>
+            <tr><th>Anbieter</th><th>Vorteil</th><th>Sparrate ab</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="ak-anbieter">Scalable Capital</div><div class="ak-detail">Prime Broker</div></td>
+              <td><div class="ak-detail">0 € Ordergebühr · 2.500+ ETFs</div></td>
+              <td><div class="ak-highlight">1 €</div></td>
+              <td><a href="https://www.check24.de/depot/" target="_blank" rel="noopener sponsored" class="ak-link">Kostenlos starten</a></td>
+            </tr>
+            <tr>
+              <td><div class="ak-anbieter">Trade Republic</div><div class="ak-detail">App-Broker</div></td>
+              <td><div class="ak-detail">1 € Ordergebühr · einfache App</div></td>
+              <td><div class="ak-highlight">1 €</div></td>
+              <td><a href="https://www.check24.de/depot/" target="_blank" rel="noopener sponsored" class="ak-link">Unverbindlich prüfen</a></td>
+            </tr>
+            <tr>
+              <td><div class="ak-anbieter">DKB</div><div class="ak-detail">Direktbank</div></td>
+              <td><div class="ak-detail">Girokonto inklusive · solide</div></td>
+              <td><div class="ak-highlight">25 €</div></td>
+              <td><a href="DEIN-AFFILIATE-LINK-ETF" target="_blank" rel="noopener sponsored" class="ak-link">Konditionen ansehen</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="ak-disclaimer">* Partnerlinks (Affiliate) — RechnerPilot erhält ggf. eine Provision. Für dich entstehen keine Mehrkosten. Keine Anlageberatung. <a href="alle-rechner.html" style="color:var(--accent);">Mehr Rechner →</a></div>
       </div>
     </div>
-    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;line-height:1.5;">* Partnerlinks — RechnerPilot erhält eine Provision bei Depot-Eröffnung über Scalable Capital oder CHECK24. Für dich entstehen keine Mehrkosten. Dies ist keine Anlageberatung.</p>
   </div>
 
   <!-- JAHRESÜBERSICHT -->
@@ -468,6 +505,7 @@ function calcETF() {
   document.getElementById('etf-rendite-ant').textContent  = r.renditeAnteil + ' %';
   document.getElementById('etf-entnahme').textContent     = fmtEuroRund(r.entnahme4Prozent) + ' €/Monat';
   document.getElementById('etf-bar-pct').textContent      = r.renditeAnteil + ' %';
+  updateETFAff(r.endkapital);
   document.getElementById('etf-bar').style.width          = Math.min(r.renditeAnteil, 100) + '%';
 
   // ── EMOTION BOX ──
@@ -532,6 +570,20 @@ function calcETF() {
     if (entText) entText.textContent = `Reicht ${Math.round(entnahme4pct).toLocaleString('de-DE')} €/Monat für finanzielle Freiheit?`;
   }
 
+  // ── Kontextueller Affiliate ──
+  const akCtx = document.getElementById('etf-ak-context');
+  if (akCtx) {
+    if (r.endkapital >= 500000) {
+      akCtx.innerHTML = `🎉 <strong>${Math.round(r.endkapital/1000)}k €</strong> Endkapital — mit dem richtigen Broker und niedrigen Kosten noch mehr herausholen.`;
+    } else if (r.endkapital >= 200000) {
+      akCtx.innerHTML = `📈 <strong>${Math.round(r.endkapital/1000)}k €</strong> Ziel — starte jetzt mit einem kostenlosen Depot und profitiere vom Zinseszins.`;
+    } else if (r.endkapital >= 50000) {
+      akCtx.innerHTML = `🌱 Guter Start mit <strong>${Math.round(r.endkapital/1000)}k €</strong> — wähle einen Broker ohne Depot- oder Ordergebühren um jeden Euro zu maximieren.`;
+    } else {
+      akCtx.innerHTML = `Selbst kleine Sparraten wachsen mit der Zeit. Starte kostenlos — viele Broker bieten Sparpläne <strong>ab 1 € pro Monat</strong>.`;
+    }
+  }
+
   // Jahresübersicht
   const tbody = document.getElementById('jahres-body');
   tbody.innerHTML = r.jahresuebersicht.map((row, i) => `
@@ -544,6 +596,21 @@ function calcETF() {
   `).join('');
 }
 
+function updateETFAff(endkapital) {
+  const affEnd = document.getElementById('etf-aff-end');
+  const affKontext = document.getElementById('etf-aff-kontext');
+  if (!affEnd) return;
+  affEnd.textContent = Math.round(endkapital).toLocaleString('de-DE') + ' €';
+  if (affKontext) {
+    if (endkapital > 500000) {
+      affKontext.innerHTML = `Dein Ziel: <strong style="color:#fff;">${Math.round(endkapital).toLocaleString('de-DE')} €</strong> — bei diesem Volumen sind niedrige ETF-Gebühren entscheidend.`;
+    } else if (endkapital > 100000) {
+      affKontext.innerHTML = `Dein Endkapital: <strong style="color:#fff;">${Math.round(endkapital).toLocaleString('de-DE')} €</strong> — starte mit einem kostenlosen Depot und 0 € Sparplangebühren.`;
+    } else {
+      affKontext.innerHTML = `Dein Startkapital wächst auf <strong style="color:#fff;">${Math.round(endkapital).toLocaleString('de-DE')} €</strong> — schon ab 1 € monatlich investieren.`;
+    }
+  }
+}
 calcETF();
 </script>
 </body>

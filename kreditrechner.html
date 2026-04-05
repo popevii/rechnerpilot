@@ -25,6 +25,32 @@
 .tilgung-table tr:last-child td { border-bottom:none; }
 .tilgung-table tr:nth-child(even) td { background:var(--bg); }
 .range-label { font-size:12px; color:var(--accent); font-weight:700; text-align:right; margin-top:4px; }
+
+/* ── Kontextuelle Affiliate CTAs ── */
+.naechster-schritt { margin:0 28px 24px; border:1.5px solid var(--border); border-radius:14px; overflow:hidden; }
+.ns-header { display:flex; align-items:center; gap:8px; padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); font-size:11px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; }
+.ns-context { padding:12px 18px 10px; font-size:13px; color:var(--ink-2); border-bottom:1px solid var(--border); background:#fff; line-height:1.5; }
+.ns-context strong { color:var(--accent); font-weight:700; }
+.ns-links { display:flex; flex-direction:column; background:#fff; }
+.ns-link { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-bottom:1px solid var(--border); text-decoration:none; transition:background .12s; gap:12px; }
+.ns-link:last-child { border-bottom:none; }
+.ns-link:hover { background:var(--accent-light); }
+.ns-link-left { display:flex; align-items:center; gap:10px; }
+.ns-link-icon { font-size:18px; flex-shrink:0; }
+.ns-link-text strong { font-size:14px; color:var(--ink); display:block; }
+.ns-link-text span { font-size:12px; color:var(--ink-3); }
+.ns-link-arrow { font-size:13px; font-weight:700; color:var(--accent); white-space:nowrap; flex-shrink:0; }
+.ns-disclaimer { padding:8px 18px; font-size:11px; color:var(--ink-3); background:var(--bg); border-top:1px solid var(--border); }
+.vergleich-table-wrap { margin:0 28px 24px; overflow-x:auto; }
+.vergleich-table { width:100%; border-collapse:collapse; overflow:hidden; border:1.5px solid var(--border); border-radius:12px; }
+.vergleich-table th { background:var(--accent); color:#fff; padding:10px 14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
+.vergleich-table td { padding:12px 14px; border-bottom:1px solid var(--border); font-size:13px; background:#fff; vertical-align:middle; }
+.vergleich-table tr:last-child td { border-bottom:none; }
+.vergleich-table tr:hover td { background:var(--accent-light); }
+.vt-anbieter { font-weight:700; color:var(--ink); }
+.vt-zins { font-weight:700; color:var(--accent); font-size:15px; }
+.vt-btn { display:inline-block; padding:7px 14px; background:var(--accent); color:#fff; border-radius:7px; font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap; font-family:'Instrument Sans',sans-serif; }
+.vt-badge { font-size:10px; background:#fff3cd; color:#856404; border-radius:4px; padding:2px 6px; font-weight:700; margin-left:6px; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>

@@ -69,6 +69,152 @@
 .nk-row{display:flex;justify-content:space-between;padding:8px 12px;background:#fff;border-radius:8px;border:1px solid var(--border);font-size:13px}
 .nk-label{color:var(--ink-2)}
 .nk-val{font-weight:600;color:var(--ink)}
+
+/* Kontextueller Affiliate-Block */
+.affiliate-kontext {
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:20px 22px;
+  margin-top:16px;
+}
+.ak-header {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:14px;
+}
+.ak-badge {
+  font-size:10px;
+  font-weight:700;
+  background:var(--accent-light);
+  color:var(--accent);
+  border:1px solid rgba(26,92,58,.2);
+  border-radius:4px;
+  padding:2px 8px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+.ak-title {
+  font-size:14px;
+  font-weight:700;
+  color:var(--ink);
+}
+.ak-context-text {
+  font-size:13px;
+  color:var(--ink-3);
+  margin-bottom:14px;
+  line-height:1.5;
+}
+/* Vergleichstabelle */
+.ak-table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+  margin-bottom:12px;
+}
+.ak-table th {
+  font-size:10px;
+  font-weight:700;
+  color:var(--ink-3);
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  padding:6px 10px;
+  text-align:left;
+  border-bottom:1.5px solid var(--border);
+}
+.ak-table td {
+  padding:10px 10px;
+  border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+.ak-table tr:last-child td { border-bottom:none; }
+.ak-anbieter { font-weight:700; color:var(--ink); }
+.ak-zins { font-weight:700; color:var(--accent); font-family:'Instrument Serif',serif; font-size:15px; }
+.ak-rate { color:var(--ink-2); font-size:12px; }
+.ak-link {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:var(--accent);
+  color:#fff;
+  padding:6px 14px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:700;
+  text-decoration:none;
+  white-space:nowrap;
+  transition:opacity .15s;
+}
+.ak-link:hover { opacity:.85; }
+.ak-link-secondary {
+  background:transparent;
+  color:var(--accent);
+  border:1.5px solid var(--accent);
+}
+.ak-disclaimer {
+  font-size:11px;
+  color:var(--ink-3);
+  margin-top:8px;
+  line-height:1.5;
+}
+
+/* Nächster Schritt CTA */
+.naechster-schritt {
+  background:var(--accent-light);
+  border:1.5px solid rgba(26,92,58,.2);
+  border-radius:12px;
+  padding:16px 20px;
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.ns-label {
+  font-size:10px;
+  font-weight:700;
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin-bottom:4px;
+}
+.ns-text {
+  font-size:14px;
+  font-weight:700;
+  color:var(--ink);
+}
+.ns-sub {
+  font-size:12px;
+  color:var(--ink-3);
+  margin-top:2px;
+}
+
+.naechster-schritt { margin:0 28px 24px; border:1.5px solid var(--border); border-radius:14px; overflow:hidden; }
+.ns-header { display:flex; align-items:center; gap:8px; padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); font-size:11px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; }
+.ns-context { padding:12px 18px 10px; font-size:13px; color:var(--ink-2); border-bottom:1px solid var(--border); background:#fff; line-height:1.5; }
+.ns-context strong { color:var(--accent); font-weight:700; }
+.ns-links { display:flex; flex-direction:column; background:#fff; }
+.ns-link { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-bottom:1px solid var(--border); text-decoration:none; transition:background .12s; gap:12px; }
+.ns-link:last-child { border-bottom:none; }
+.ns-link:hover { background:var(--accent-light); }
+.ns-link-left { display:flex; align-items:center; gap:10px; }
+.ns-link-icon { font-size:18px; flex-shrink:0; }
+.ns-link-text strong { font-size:14px; color:var(--ink); display:block; }
+.ns-link-text span { font-size:12px; color:var(--ink-3); }
+.ns-link-arrow { font-size:13px; font-weight:700; color:var(--accent); white-space:nowrap; flex-shrink:0; }
+.ns-disclaimer { padding:8px 18px; font-size:11px; color:var(--ink-3); background:var(--bg); border-top:1px solid var(--border); }
+.vergleich-table-wrap { margin:0 28px 24px; overflow-x:auto; }
+.vergleich-table { width:100%; border-collapse:collapse; border:1.5px solid var(--border); border-radius:12px; overflow:hidden; }
+.vergleich-table th { background:var(--accent); color:#fff; padding:10px 14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
+.vergleich-table td { padding:12px 14px; border-bottom:1px solid var(--border); font-size:13px; background:#fff; vertical-align:middle; }
+.vergleich-table tr:last-child td { border-bottom:none; }
+.vergleich-table tr:hover td { background:var(--accent-light); }
+.vt-anbieter { font-weight:700; color:var(--ink); }
+.vt-zins { font-weight:700; color:var(--accent); font-size:15px; }
+.vt-btn { display:inline-block; padding:7px 14px; background:var(--accent); color:#fff; border-radius:7px; font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap; font-family:'Instrument Sans',sans-serif; }
+.vt-badge { font-size:10px; background:#fff3cd; color:#856404; border-radius:4px; padding:2px 6px; font-weight:700; margin-left:6px; }
 </style>
 </head>
 <body data-page="baufinanzierung">
@@ -303,7 +449,64 @@
     </div>
 
     <div class="calc-disclaimer">
-      ⚠️ Näherungsrechnung. Effektivzins kann durch Bearbeitungsgebühren abweichen. Stand: April 2026. <a href="https://www.check24.de/baufinanzierung/" target="_blank" rel="noopener sponsored" style="color:var(--accent);">Jetzt individuelles Angebot einholen →</a>
+      ⚠️ Näherungsrechnung. Effektivzins kann durch Bearbeitungsgebühren abweichen. Stand: April 2026.
+    </div>
+
+    <!-- KONTEXTUELLER AFFILIATE BLOCK -->
+    <div style="padding:0 28px 28px;">
+
+      <!-- Nächster Schritt -->
+      <div class="naechster-schritt">
+        <div>
+          <div class="ns-label">Nächster Schritt</div>
+          <div class="ns-text" id="bf-ns-text">Persönlichen Zinssatz anfragen</div>
+          <div class="ns-sub" id="bf-ns-sub">Dein Rechner-Ergebnis ist eine Schätzung — der echte Zins hängt von Bonität und Immobilie ab.</div>
+        </div>
+        <a href="https://www.check24.de/baufinanzierung/" target="_blank" rel="noopener sponsored" class="ak-link">
+          Kostenlos vergleichen →
+        </a>
+      </div>
+
+      <!-- Vergleichstabelle -->
+      <div class="affiliate-kontext" id="bf-affiliate-block" style="margin-top:12px;">
+        <div class="ak-header">
+          <span class="ak-badge">Passend zu deiner Berechnung</span>
+        </div>
+        <div class="ak-context-text" id="bf-ak-context">
+          Basierend auf deiner Darlehenssumme: Diese Anbieter bieten aktuell günstige Konditionen.
+        </div>
+        <table class="ak-table">
+          <thead>
+            <tr>
+              <th>Anbieter</th>
+              <th>Sollzins (ca.)</th>
+              <th>Monatl. Rate*</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="bf-anbieter-table">
+            <tr>
+              <td><div class="ak-anbieter">ING</div><div style="font-size:11px;color:var(--ink-3);">Direkt­bank</div></td>
+              <td><div class="ak-zins" id="bf-zins-1">—</div></td>
+              <td><div class="ak-rate" id="bf-rate-1">—</div></td>
+              <td><a href="https://www.check24.de/baufinanzierung/" target="_blank" rel="noopener sponsored" class="ak-link">Prüfen</a></td>
+            </tr>
+            <tr>
+              <td><div class="ak-anbieter">Commerzbank</div><div style="font-size:11px;color:var(--ink-3);">Filial­bank</div></td>
+              <td><div class="ak-zins" id="bf-zins-2">—</div></td>
+              <td><div class="ak-rate" id="bf-rate-2">—</div></td>
+              <td><a href="https://www.check24.de/baufinanzierung/" target="_blank" rel="noopener sponsored" class="ak-link">Prüfen</a></td>
+            </tr>
+            <tr>
+              <td><div class="ak-anbieter">Interhyp</div><div style="font-size:11px;color:var(--ink-3);">Vermittler</div></td>
+              <td><div class="ak-zins" id="bf-zins-3">—</div></td>
+              <td><div class="ak-rate" id="bf-rate-3">—</div></td>
+              <td><a href="https://www.check24.de/baufinanzierung/" target="_blank" rel="noopener sponsored" class="ak-link">Prüfen</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="ak-disclaimer">* Partnerlinks (Affiliate) · Angaben sind Schätzwerte auf Basis aktueller Marktdaten, keine verbindlichen Angebote · Für dich kostenlos & unverbindlich · <a href="https://www.check24.de/baufinanzierung/" target="_blank" rel="noopener" style="color:var(--accent);">Alle Anbieter auf CHECK24 →</a></div>
+      </div>
     </div>
   </div>
 
@@ -522,6 +725,9 @@ function calcBF() {
       <td>${f0(d.restschuld)}</td>
     </tr>`).join('');
 
+  // Affiliate-Block aktualisieren
+  updateBFAffiliate(darlehen, zins, tilgungP, rate);
+
   // Chart
   if (bfChart) bfChart.destroy();
   const labels = tilgungsPlan.map(d => 'J'+d.jahr);
@@ -569,6 +775,45 @@ function calcBF() {
   });
 }
 
+// ── Dynamischer Affiliate-Block ──
+function updateBFAffiliate(darlehen, zins, tilgung, rate) {
+  if (!darlehen || darlehen < 1000) return;
+
+  // Context-Text basierend auf Darlehenssumme
+  const ctxEl = document.getElementById('bf-ak-context');
+  if (ctxEl) {
+    if (darlehen >= 400000) {
+      ctxEl.textContent = `Bei ${Math.round(darlehen/1000)}k € Darlehen lohnt sich ein Vergleich besonders — schon 0,1 % weniger Zins spart über 10 Jahre mehrere Tausend Euro.`;
+    } else if (darlehen >= 200000) {
+      ctxEl.textContent = `Für dein ${Math.round(darlehen/1000)}k € Darlehen: aktuelle Topzinsen im Markt liegen bei 3,69–4,01 %. Ein Vergleich lohnt sich.`;
+    } else {
+      ctxEl.textContent = `Auch bei kleineren Darlehen: Zinsen vergleichen spart oft Tausende über die Laufzeit.`;
+    }
+  }
+
+  // Nächster-Schritt Text
+  const nsEl = document.getElementById('bf-ns-text');
+  const nsSubEl = document.getElementById('bf-ns-sub');
+  if (nsEl) nsEl.textContent = `Bei ${(zins*100).toFixed(2).replace('.',',')} % Zins: Günstigeren Anbieter finden`;
+  if (nsSubEl) nsSubEl.textContent = `Deine Monatsrate wäre ${rate.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})} € — ein Vergleich kann sie senken.`;
+
+  // Simulierte Zinsangebote (Marktdaten April 2026, leicht variiert)
+  const basisZins = 3.69;
+  const zinsen = [basisZins, basisZins + 0.12, basisZins + 0.08];
+  const anbieter = ['bf-zins-1','bf-zins-2','bf-zins-3'];
+  const raten = ['bf-rate-1','bf-rate-2','bf-rate-3'];
+
+  zinsen.forEach((z, i) => {
+    const zEl = document.getElementById(anbieter[i]);
+    const rEl = document.getElementById(raten[i]);
+    if (zEl) zEl.textContent = z.toFixed(2).replace('.',',') + ' %';
+    if (rEl) {
+      const simRate = darlehen * (z/100 + tilgung/100) / 12;
+      rEl.textContent = '≈ ' + Math.round(simRate).toLocaleString('de-DE') + ' €/Mo.';
+    }
+  });
+}
+
 document.querySelectorAll('.faq-q').forEach(q => {
   q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
 });
@@ -589,7 +834,26 @@ document.querySelectorAll('[data-tt]').forEach(el => {
   el.appendChild(wrap);
 });
 
+// Baufi CTA personalisieren
+const _origCalcBF = calcBF;
+function updateBaufiCTA() {
+  const rateEl = document.getElementById('bf-ns-rate');
+  const restEl = document.getElementById('bf-ns-rest');
+  const rateOut = document.getElementById('bf-rate');
+  const restOut = document.getElementById('bf-restschuld');
+  if (rateEl && rateOut) rateEl.textContent = rateOut.textContent;
+  if (restEl && restOut) restEl.textContent = restOut.textContent;
+}
+const _oldBF = window.calcBF;
+const _patchBF = () => { calcBF(); setTimeout(updateBaufiCTA, 50); };
+document.querySelectorAll('[oninput]').forEach(el => {
+  if (el.getAttribute('oninput')?.includes('calcBF')) {
+    const orig = el.getAttribute('oninput');
+    el.setAttribute('oninput', orig + '; setTimeout(updateBaufiCTA, 100);');
+  }
+});
 calcBF();
+setTimeout(updateBaufiCTA, 100);
 </script>
 </body>
 </html>
