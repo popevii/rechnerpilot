@@ -47,7 +47,7 @@
         <div class="field">
           <label data-tt="Betrag den du für eine feste Laufzeit anlegen möchtest. Einlagensicherung bis 100.000 € pro Bank.">Anlagebetrag</label>
           <div class="input-wrap">
-            <input type="number" id="fg-betrag" value="10000" step="1000" min="1" oninput="calcFestgeld()">
+            <input type="number" inputmode="decimal" id="fg-betrag" value="10000" step="1000" min="1" oninput="calcFestgeld()">
             <span class="input-unit">€</span>
           </div>
         </div>
@@ -67,7 +67,7 @@
         <div class="field">
           <label data-tt="Jährlicher Zinssatz für die gewählte Laufzeit. Klicke auf ein Angebot unten um ihn automatisch zu übernehmen.">Zinssatz p.a.</label>
           <div class="input-wrap">
-            <input type="number" id="fg-zins" value="3.25" step="0.05" min="0" max="10" oninput="calcFestgeld()">
+            <input type="number" inputmode="decimal" id="fg-zins" value="3.25" step="0.05" min="0" max="10" oninput="calcFestgeld()">
             <span class="input-unit">%</span>
           </div>
         </div>
@@ -88,7 +88,7 @@
           </label>
           <div id="fg-freibetrag-wrap" style="display:none;margin-top:6px;">
             <div class="input-wrap">
-              <input type="number" id="fg-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcFestgeld()">
+              <input type="number" inputmode="decimal" id="fg-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcFestgeld()">
               <span class="input-unit">€ Freibetrag</span>
             </div>
           </div>
@@ -97,7 +97,7 @@
         <div class="field">
           <label data-tt="Zum Vergleich: Was würde Tagesgeld mit dem aktuellen Durchschnittszins bringen?">Vergleich Tagesgeld</label>
           <div class="input-wrap">
-            <input type="number" id="fg-tagesgeld" value="2.75" step="0.05" min="0" max="10" oninput="calcFestgeld()">
+            <input type="number" inputmode="decimal" id="fg-tagesgeld" value="2.75" step="0.05" min="0" max="10" oninput="calcFestgeld()">
             <span class="input-unit">% p.a.</span>
           </div>
         </div>

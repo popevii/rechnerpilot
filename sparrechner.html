@@ -94,7 +94,7 @@
         <div class="field">
           <label data-tt="Bereits vorhandenes Kapital das du sofort investierst. Kann auch 0 € sein.">Startkapital</label>
           <div class="input-wrap">
-            <input type="number" id="sp-start" value="1000" step="100" min="0" oninput="calcSpar()">
+            <input type="number" inputmode="decimal" id="sp-start" value="1000" step="100" min="0" oninput="calcSpar()">
             <span class="input-unit">€</span>
           </div>
           <input type="range" class="range-slider" id="sp-start-slider" min="0" max="50000" step="500" value="1000"
@@ -106,7 +106,7 @@
         <div class="field" id="field-sparrate">
           <label data-tt="Betrag den du jeden Monat zusätzlich sparst oder investierst.">Monatliche Sparrate</label>
           <div class="input-wrap">
-            <input type="number" id="sp-sparrate" value="200" step="10" min="0" oninput="calcSpar()">
+            <input type="number" inputmode="decimal" id="sp-sparrate" value="200" step="10" min="0" oninput="calcSpar()">
             <span class="input-unit">€/Monat</span>
           </div>
           <input type="range" class="range-slider" id="sp-sparrate-slider" min="0" max="2000" step="10" value="200"
@@ -118,10 +118,10 @@
         <div class="field">
           <label data-tt="Jährliche Rendite oder Zinssatz. ETF historisch: 7–8 %. Tagesgeld: ca. 3 %. Sparkonto: 0,5–2 %.">Jährliche Rendite / Zinssatz</label>
           <div class="input-wrap">
-            <input type="number" id="sp-rendite" value="5" step="0.5" min="0" max="20" oninput="calcSpar()">
+            <input type="number" inputmode="decimal" id="sp-rendite" value="7" step="0.5" min="0" max="20" oninput="calcSpar()">
             <span class="input-unit">%/Jahr</span>
           </div>
-          <input type="range" class="range-slider" id="sp-rendite-slider" min="0" max="15" step="0.5" value="5"
+          <input type="range" class="range-slider" id="sp-rendite-slider" min="0" max="15" step="0.5" value="7"
             oninput="document.getElementById('sp-rendite').value=this.value; calcSpar()">
           <div class="slider-labels"><span>0 %</span><span>3 %</span><span>6 %</span><span>9 %</span><span>12 %</span><span>15 %</span></div>
         </div>
@@ -130,7 +130,7 @@
         <div class="field" id="field-dauer">
           <label data-tt="Wie lange du sparst. Je länger, desto stärker der Zinseszinseffekt.">Anlagedauer</label>
           <div class="input-wrap">
-            <input type="number" id="sp-jahre" value="10" min="1" max="60" step="1" oninput="syncSliderSpar('sp-jahre'); calcSpar()">
+            <input type="number" inputmode="decimal" id="sp-jahre" value="10" min="1" max="60" step="1" oninput="syncSliderSpar('sp-jahre'); calcSpar()">
             <span class="input-unit">Jahre</span>
           </div>
           <input type="range" class="range-slider" id="sp-jahre-slider" min="1" max="60" step="1" value="10"
@@ -142,7 +142,7 @@
         <div class="field" id="field-ziel" style="display:none;">
           <label data-tt="Der Betrag den du insgesamt ansparen möchtest — z.B. für ein Auto, Eigenkapital oder Notgroschen.">Sparziel</label>
           <div class="input-wrap">
-            <input type="number" id="sp-ziel" value="20000" step="1000" min="0" oninput="calcSpar()">
+            <input type="number" inputmode="decimal" id="sp-ziel" value="20000" step="1000" min="0" oninput="calcSpar()">
             <span class="input-unit">€</span>
           </div>
           <input type="range" class="range-slider" id="sp-ziel-slider" min="0" max="200000" step="1000" value="20000"
@@ -160,7 +160,7 @@
           <div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
             <span style="font-size:12px;color:var(--ink-3);flex:1;">Inflationsrate:</span>
             <div class="input-wrap" style="width:100px;">
-              <input type="number" id="sp-inflation" value="2.0" step="0.1" min="0" max="10" oninput="calcSpar()">
+              <input type="number" inputmode="decimal" id="sp-inflation" value="2.0" step="0.1" min="0" max="10" oninput="calcSpar()">
               <span class="input-unit">%</span>
             </div>
           </div>
@@ -341,7 +341,7 @@ function syncSliderSpar(id) {
 }
 
 function calcEndkapital(start, sparrate, rendite, jahre) {
-  const rm = rendite / 12;
+  const rm = Math.pow(1 + rendite, 1/12) - 1;
   const nm = jahre * 12;
   return start * Math.pow(1 + rendite, jahre) +
     (sparrate > 0 && rm > 0 ? sparrate * (Math.pow(1 + rm, nm) - 1) / rm * (1 + rm) : sparrate * nm);
@@ -375,7 +375,7 @@ function calcSpar() {
 
   } else if (spModus === 'sparrate') {
     // Wie viel muss ich monatlich sparen für Ziel in X Jahren?
-    const rm = rendite / 12;
+    const rm = Math.pow(1 + rendite, 1/12) - 1;
     const nm = jahre * 12;
     const fehlt = Math.max(0, ziel - start * Math.pow(1 + rendite, jahre));
     let monatlich = 0;
@@ -401,7 +401,7 @@ function calcSpar() {
     // Iterativ lösen
     let j = 0;
     let kap = start;
-    const rm = rendite / 12;
+    const rm = Math.pow(1 + rendite, 1/12) - 1;
     while (kap < ziel && j < 600) {
       kap = kap * (1 + rm) + sparrate;
       j++;

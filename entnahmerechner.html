@@ -114,7 +114,7 @@
         <div class="field" id="field-kapital">
           <label data-tt="Dein angespartes Vermögen zu Beginn der Entnahmephase — z.B. ETF-Depot, Tagesgeld, Immobilien.">Startkapital (Vermögen)</label>
           <div class="input-wrap">
-            <input type="number" id="en-kapital" value="500000" step="10000" min="0"
+            <input type="number" inputmode="decimal" id="en-kapital" value="500000" step="10000" min="0"
               oninput="document.getElementById('en-kapital-slider').value=Math.min(this.value,2000000); calcEnt()">
             <span class="input-unit">€</span>
           </div>
@@ -127,7 +127,7 @@
         <div class="field" id="field-entnahme">
           <label data-tt="Betrag den du monatlich aus deinem Vermögen entnimmst — z.B. für Lebenshaltungskosten.">Monatliche Entnahme</label>
           <div class="input-wrap">
-            <input type="number" id="en-entnahme" value="2000" step="100" min="0"
+            <input type="number" inputmode="decimal" id="en-entnahme" value="2000" step="100" min="0"
               oninput="document.getElementById('en-entnahme-slider').value=Math.min(this.value,10000); calcEnt()">
             <span class="input-unit">€/Monat</span>
           </div>
@@ -140,7 +140,7 @@
         <div class="field">
           <label data-tt="Jährliche Rendite deines Vermögens während der Entnahme. ETF-Portfolio: ca. 4–7 %. Sicherheitspuffer einplanen.">Jährliche Rendite</label>
           <div class="input-wrap">
-            <input type="number" id="en-rendite" value="5" step="0.5" min="0" max="15"
+            <input type="number" inputmode="decimal" id="en-rendite" value="7" step="0.5" min="0" max="15"
               oninput="document.getElementById('en-rendite-slider').value=this.value; calcEnt()">
             <span class="input-unit">%/Jahr</span>
           </div>
@@ -153,7 +153,7 @@
         <div class="field" id="field-dauer" style="display:none;">
           <label data-tt="Wie viele Jahre du von deinem Vermögen leben möchtest. Für echte finanzielle Freiheit: 30–50+ Jahre.">Entnahmedauer</label>
           <div class="input-wrap">
-            <input type="number" id="en-dauer" value="30" step="1" min="1" max="80"
+            <input type="number" inputmode="decimal" id="en-dauer" value="30" step="1" min="1" max="80"
               oninput="document.getElementById('en-dauer-slider').value=this.value; calcEnt()">
             <span class="input-unit">Jahre</span>
           </div>
@@ -172,7 +172,7 @@
           <div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
             <span style="font-size:12px;color:var(--ink-3);flex:1;">Inflationsrate:</span>
             <div class="input-wrap" style="width:100px;">
-              <input type="number" id="en-inflation" value="2.0" step="0.1" min="0" max="10" oninput="calcEnt()">
+              <input type="number" inputmode="decimal" id="en-inflation" value="2.0" step="0.1" min="0" max="10" oninput="calcEnt()">
               <span class="input-unit">%</span>
             </div>
           </div>
@@ -302,7 +302,7 @@
   <!-- 4% REGEL ERKLÄRUNG -->
   <div class="content-section fu d2">
     <h2>Die 4%-Regel erklärt</h2>
-    <p>Die 4%-Regel wurde 1994 vom Finanzforscher William Bengen entwickelt. Sie besagt: Ein Portfolio aus 50 % Aktien und 50 % Anleihen hält mindestens 30 Jahre, wenn man jährlich maximal 4 % des Startkapitals entnimmt.</p>
+    <p>Die 4%-Regel wurde 1994 vom Finanzforscher William Bengen entwickelt. Sie besagt: Ein Portfolio aus 50 % Aktien und 50 % Anleihen hielt in historischen US-Daten mindestens 30 Jahre bei 4 % jährlicher Entnahme. Das ist eine Faustregel mit erheblicher Unsicherheit — kein Versprechen für die Zukunft.</p>
     <div class="example-box">
       <div class="example-row"><span>Zielkapital für 2.000 €/Monat</span><span><strong>600.000 €</strong></span></div>
       <div class="example-row"><span>Zielkapital für 3.000 €/Monat</span><span><strong>900.000 €</strong></span></div>

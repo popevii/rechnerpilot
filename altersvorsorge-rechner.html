@@ -100,7 +100,7 @@
           <div class="field">
             <label>Aktuelles Bruttogehalt</label>
             <div class="input-wrap">
-              <input type="number" id="av-brutto" value="3500" step="100" oninput="calcRente()">
+              <input type="number" inputmode="decimal" id="av-brutto" value="3500" step="100" oninput="calcRente()">
               <span class="input-unit">€/Monat</span>
             </div>
           </div>
@@ -108,7 +108,7 @@
           <div class="field">
             <label>Aktuelles Alter</label>
             <div class="input-wrap">
-              <input type="number" id="av-alter" value="35" min="18" max="64" oninput="calcRente()">
+              <input type="number" inputmode="decimal" id="av-alter" value="35" min="18" max="64" oninput="calcRente()">
               <span class="input-unit">Jahre</span>
             </div>
           </div>
@@ -116,7 +116,7 @@
           <div class="field">
             <label data-tt="Auf deiner jährlichen Renteninformation der DRV. 1 Punkt = 40,79 €/Monat (ab Juli 2026: 42,52 €).">Bereits gesammelte Rentenpunkte <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Auf deiner jährlichen Renteninformation der DRV. 1 Punkt = 40,79 €/Monat (ab Juli 2026: 42,52 €).</span></span></label>
             <div class="input-wrap">
-              <input type="number" id="av-punkte" value="12" step="0.5" min="0" max="80" oninput="calcRente()">
+              <input type="number" inputmode="decimal" id="av-punkte" value="12" step="0.5" min="0" max="80" oninput="calcRente()">
               <span class="input-unit">Punkte</span>
             </div>
             <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Findest du auf deiner Renteninformation der DRV (jährliche Post)</div>
@@ -135,7 +135,7 @@
           <div class="field">
             <label>Inflation pro Jahr</label>
             <div class="input-wrap">
-              <input type="number" id="av-inflation" value="2.0" step="0.1" min="0" max="6" oninput="calcRente()">
+              <input type="number" inputmode="decimal" id="av-inflation" value="2.0" step="0.1" min="0" max="6" oninput="calcRente()">
               <span class="input-unit">%</span>
             </div>
           </div>
@@ -292,7 +292,7 @@
       </div>
 
       <div style="background:var(--accent-light);border-radius:12px;padding:16px 18px;margin-top:20px;font-size:13px;color:var(--ink-2);line-height:1.6;">
-        <strong style="color:var(--accent);">💡 Empfehlung für die meisten:</strong>
+        <strong style="color:var(--accent);">💡 Typischer Ansatz für viele:</strong>
         Kombination aus <strong>ETF-Sparplan</strong> (Basis, flexibel) +
         <strong>Rürup mit ETF</strong> wenn Steuervorteil sinnvoll +
         <strong>betriebliche Altersvorsorge</strong> wenn Arbeitgeber zuschießt.
@@ -304,7 +304,7 @@
         <p>Finde den günstigsten Rürup- oder Riester-Anbieter mit echtem ETF-Anteil.</p>
         <a href="DEIN-AFFILIATE-LINK-ALTERSVORSORGE" class="affiliate-btn">🔍 Jetzt kostenlos vergleichen</a>
       </div>
-      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung.</p>
+      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink (Affiliate) — wir erhalten ggf. eine Provision, für dich entstehen keine Mehrkosten. Keine Anlageberatung.</p>
     </div>
 
     <!-- TAB 3: RÜRUP RECHNER -->
@@ -314,21 +314,21 @@
           <div class="field">
             <label>Jahresbrutto</label>
             <div class="input-wrap">
-              <input type="number" id="rr-brutto" value="60000" step="1000" oninput="calcRuerup()">
+              <input type="number" inputmode="decimal" id="rr-brutto" value="60000" step="1000" oninput="calcRuerup()">
               <span class="input-unit">€/Jahr</span>
             </div>
           </div>
           <div class="field">
             <label>Monatlicher Beitrag</label>
             <div class="input-wrap">
-              <input type="number" id="rr-beitrag" value="300" step="50" oninput="calcRuerup()">
+              <input type="number" inputmode="decimal" id="rr-beitrag" value="300" step="50" oninput="calcRuerup()">
               <span class="input-unit">€/Monat</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="Dein persönlicher Steuersatz auf jeden zusätzlich verdienten Euro. Bis 30k€: ~20–25% · bis 60k€: ~35–42% · ab 80k€: 42–45%.">Grenzsteuersatz <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Dein persönlicher Steuersatz auf jeden zusätzlich verdienten Euro. Bis 30k€: ~20–25% · bis 60k€: ~35–42% · ab 80k€: 42–45%.</span></span></label>
             <div class="input-wrap">
-              <input type="number" id="rr-grenzsteuer" value="35" step="1" min="14" max="45" oninput="calcRuerup()">
+              <input type="number" inputmode="decimal" id="rr-grenzsteuer" value="35" step="1" min="14" max="45" oninput="calcRuerup()">
               <span class="input-unit">%</span>
             </div>
             <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
@@ -339,7 +339,7 @@
           <div class="field">
             <label>Alter</label>
             <div class="input-wrap">
-              <input type="number" id="rr-alter" value="40" min="18" max="64" oninput="calcRuerup()">
+              <input type="number" inputmode="decimal" id="rr-alter" value="40" min="18" max="64" oninput="calcRuerup()">
               <span class="input-unit">Jahre</span>
             </div>
           </div>
@@ -358,7 +358,7 @@
           <div class="field">
             <label>ETF-Rendite (angenommen)</label>
             <div class="input-wrap">
-              <input type="number" id="rr-rendite" value="7" step="0.5" min="1" max="12" oninput="calcRuerup()">
+              <input type="number" inputmode="decimal" id="rr-rendite" value="7" step="0.5" min="1" max="12" oninput="calcRuerup()">
               <span class="input-unit">%/Jahr</span>
             </div>
             <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Historischer MSCI World Durchschnitt: ca. 7–8 %/Jahr (nominal)</div>
@@ -366,7 +366,7 @@
           <div class="field">
             <label>Abschlusskosten</label>
             <div class="input-wrap">
-              <input type="number" id="rr-abschluss" value="3" step="0.5" min="0" max="6" oninput="calcRuerup()">
+              <input type="number" inputmode="decimal" id="rr-abschluss" value="3" step="0.5" min="0" max="6" oninput="calcRuerup()">
               <span class="input-unit">% der Beitragssumme</span>
             </div>
             <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Typisch: 2,5–4 %. Online-Anbieter oft günstiger (1–2 %). 0 % bei Direktversicherern möglich.</div>
@@ -374,7 +374,7 @@
           <div class="field">
             <label>Laufende Verwaltungskosten</label>
             <div class="input-wrap">
-              <input type="number" id="rr-verwaltung" value="0.5" step="0.1" min="0" max="3" oninput="calcRuerup()">
+              <input type="number" inputmode="decimal" id="rr-verwaltung" value="0.5" step="0.1" min="0" max="3" oninput="calcRuerup()">
               <span class="input-unit">%/Jahr auf Kapital</span>
             </div>
             <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Typisch: 0,3–0,8 %/Jahr. Günstige ETF-Tarife: unter 0,3 %.</div>
@@ -421,7 +421,7 @@
         <p>Die Kostenunterschiede zwischen Anbietern sind enorm — bis zu 30 % mehr Rente durch den richtigen Tarif.</p>
         <a href="DEIN-AFFILIATE-LINK-RUERUP" class="affiliate-btn">🔍 Rürup-Vergleich starten</a>
       </div>
-      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung. Alle Angaben Schätzwerte.</p>
+      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink (Affiliate) — wir erhalten ggf. eine Provision, für dich entstehen keine Mehrkosten. Keine Anlageberatung. Alle Angaben Schätzwerte.</p>
     </div>
 
     <!-- TAB 4: RIESTER RECHNER -->
@@ -431,7 +431,7 @@
           <div class="field">
             <label>Jahresbrutto (Vorjahr)</label>
             <div class="input-wrap">
-              <input type="number" id="ri-brutto" value="40000" step="1000" oninput="calcRiester()">
+              <input type="number" inputmode="decimal" id="ri-brutto" value="40000" step="1000" oninput="calcRiester()">
               <span class="input-unit">€/Jahr</span>
             </div>
           </div>
@@ -457,7 +457,7 @@
           <div class="field">
             <label>Alter</label>
             <div class="input-wrap">
-              <input type="number" id="ri-alter" value="35" min="18" max="64" oninput="calcRiester()">
+              <input type="number" inputmode="decimal" id="ri-alter" value="35" min="18" max="64" oninput="calcRiester()">
               <span class="input-unit">Jahre</span>
             </div>
           </div>
@@ -492,7 +492,7 @@
         <p>Besonders für Eltern mit Kindern kann Riester sehr attraktiv sein. Vergleiche jetzt kostenlos.</p>
         <a href="DEIN-AFFILIATE-LINK-RIESTER" class="affiliate-btn">🔍 Riester-Vergleich starten</a>
       </div>
-      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung.</p>
+      <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink (Affiliate) — wir erhalten ggf. eine Provision, für dich entstehen keine Mehrkosten. Keine Anlageberatung.</p>
     </div>
 
     <div class="calc-disclaimer" style="margin-top:16px;">⚠️ Alle Berechnungen sind Schätzungen. Rentenpunkte 2026: 40,79 € (ab Juli 2026: 42,52 €). Durchschnittsentgelt 2026: 51.944 €. <a href="methodik.html" style="color:var(--accent)">Zur Methodik →</a></div>

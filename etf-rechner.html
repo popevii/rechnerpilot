@@ -54,7 +54,7 @@
           <div class="field">
             <label data-tt="Der Wert deiner ETF-Anteile am 1. Januar des Berechnungsjahres.">Fondswert am Jahresanfang</label>
             <div class="input-wrap">
-              <input type="number" id="vp-wert" value="10000" step="100" oninput="calcVorab()">
+              <input type="number" inputmode="decimal" id="vp-wert" value="10000" step="100" oninput="calcVorab()">
               <span class="input-unit">€</span>
             </div>
           </div>
@@ -65,12 +65,12 @@
               <button class="toggle-btn active" data-val="2025" onclick="selectVPJahr(this)">2025</button>
               <button class="toggle-btn" data-val="2026" onclick="selectVPJahr(this)">2026</button>
             </div>
-            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Basiszins 2025: 2,53 % · 2024: 2,29 % · 2026: noch nicht bekannt (Schätzung 2,4 %)</div>
+            <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Basiszins 2025: 2,53 % · 2024: 2,29 % · 2026: 3,20 % (offiziell, BMF)</div>
           </div>
           <div class="field">
             <label data-tt="Ausschüttungen deines ETFs im Laufe des Jahres (z.B. Dividenden). Bei thesaurierenden ETFs: 0 €.">Ausschüttungen im Jahr</label>
             <div class="input-wrap">
-              <input type="number" id="vp-ausschuettung" value="0" step="10" oninput="calcVorab()">
+              <input type="number" inputmode="decimal" id="vp-ausschuettung" value="0" step="10" oninput="calcVorab()">
               <span class="input-unit">€</span>
             </div>
           </div>
@@ -85,7 +85,7 @@
           <div class="field">
             <label data-tt="Noch nicht genutzter Sparerpauschbetrag. Singles: 1.000 € · Paare: 2.000 €.">Verbleibender Freistellungsauftrag</label>
             <div class="input-wrap">
-              <input type="number" id="vp-freistellung" value="1000" step="50" oninput="calcVorab()">
+              <input type="number" inputmode="decimal" id="vp-freistellung" value="1000" step="50" oninput="calcVorab()">
               <span class="input-unit">€</span>
             </div>
           </div>
@@ -130,28 +130,28 @@
           <div class="field">
             <label data-tt="Der Betrag den du einmalig oder als Startkapital investierst.">Startkapital</label>
             <div class="input-wrap">
-              <input type="number" id="ek-kapital" value="10000" step="500" oninput="calcKosten()">
+              <input type="number" inputmode="decimal" id="ek-kapital" value="10000" step="500" oninput="calcKosten()">
               <span class="input-unit">€</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="Regelmäßiger monatlicher Betrag zusätzlich zum Startkapital.">Monatliche Sparrate</label>
             <div class="input-wrap">
-              <input type="number" id="ek-sparrate" value="200" step="50" oninput="calcKosten()">
+              <input type="number" inputmode="decimal" id="ek-sparrate" value="200" step="50" oninput="calcKosten()">
               <span class="input-unit">€/Monat</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="Wie lange du investiert bleibst. Je länger, desto größer der Kostenvorteil günstiger ETFs.">Anlagedauer</label>
             <div class="input-wrap">
-              <input type="number" id="ek-jahre" value="20" min="1" max="50" oninput="calcKosten()">
+              <input type="number" inputmode="decimal" id="ek-jahre" value="20" min="1" max="50" oninput="calcKosten()">
               <span class="input-unit">Jahre</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="Erwartete jährliche Rendite vor Kosten. Historisch MSCI World: ca. 7–8 %.">Erwartete Rendite (vor Kosten)</label>
             <div class="input-wrap">
-              <input type="number" id="ek-rendite" value="7" step="0.5" min="1" max="15" oninput="calcKosten()">
+              <input type="number" inputmode="decimal" id="ek-rendite" value="7" step="0.5" min="1" max="15" oninput="calcKosten()">
               <span class="input-unit">%/Jahr</span>
             </div>
           </div>
@@ -159,14 +159,14 @@
           <div class="field">
             <label data-tt="TER des günstigen ETFs. Günstige MSCI World ETFs: 0,12–0,20 % p.a.">ETF A — TER (günstig)</label>
             <div class="input-wrap">
-              <input type="number" id="ek-ter-a" value="0.12" step="0.01" min="0" max="3" oninput="calcKosten()">
+              <input type="number" inputmode="decimal" id="ek-ter-a" value="0.12" step="0.01" min="0" max="3" oninput="calcKosten()">
               <span class="input-unit">%/Jahr</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="TER des teureren ETFs. Aktiv gemanagte Fonds: oft 1,0–2,0 % p.a.">ETF B — TER (teurer)</label>
             <div class="input-wrap">
-              <input type="number" id="ek-ter-b" value="1.5" step="0.1" min="0" max="3" oninput="calcKosten()">
+              <input type="number" inputmode="decimal" id="ek-ter-b" value="1.5" step="0.1" min="0" max="3" oninput="calcKosten()">
               <span class="input-unit">%/Jahr</span>
             </div>
           </div>
@@ -208,42 +208,42 @@
           <div class="field">
             <label data-tt="Der aktuelle Marktwert deiner ETF-Position.">Aktueller ETF-Wert</label>
             <div class="input-wrap">
-              <input type="number" id="ew-wert" value="20000" step="500" oninput="calcWechsel()">
+              <input type="number" inputmode="decimal" id="ew-wert" value="20000" step="500" oninput="calcWechsel()">
               <span class="input-unit">€</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="Dein ursprünglicher Kaufpreis (Einstandspreis). Differenz zum aktuellen Wert = Kursgewinn.">Ursprünglicher Kaufpreis</label>
             <div class="input-wrap">
-              <input type="number" id="ew-kaufpreis" value="12000" step="500" oninput="calcWechsel()">
+              <input type="number" inputmode="decimal" id="ew-kaufpreis" value="12000" step="500" oninput="calcWechsel()">
               <span class="input-unit">€</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="TER des aktuellen ETFs den du wechseln möchtest.">TER aktueller ETF</label>
             <div class="input-wrap">
-              <input type="number" id="ew-ter-alt" value="0.5" step="0.01" min="0" max="3" oninput="calcWechsel()">
+              <input type="number" inputmode="decimal" id="ew-ter-alt" value="0.5" step="0.01" min="0" max="3" oninput="calcWechsel()">
               <span class="input-unit">%/Jahr</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="TER des neuen günstigeren ETFs auf den du wechseln möchtest.">TER neuer ETF</label>
             <div class="input-wrap">
-              <input type="number" id="ew-ter-neu" value="0.12" step="0.01" min="0" max="3" oninput="calcWechsel()">
+              <input type="number" inputmode="decimal" id="ew-ter-neu" value="0.12" step="0.01" min="0" max="3" oninput="calcWechsel()">
               <span class="input-unit">%/Jahr</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="Ordergebühren beim Verkauf des alten und Kauf des neuen ETFs.">Transaktionskosten</label>
             <div class="input-wrap">
-              <input type="number" id="ew-transakt" value="0" step="1" min="0" oninput="calcWechsel()">
+              <input type="number" inputmode="decimal" id="ew-transakt" value="0" step="1" min="0" oninput="calcWechsel()">
               <span class="input-unit">€</span>
             </div>
           </div>
           <div class="field">
             <label data-tt="Noch nicht genutzter Sparerpauschbetrag mindert die anfallende Steuer.">Verbleibender Freistellungsauftrag</label>
             <div class="input-wrap">
-              <input type="number" id="ew-freistellung" value="0" step="50" min="0" max="2000" oninput="calcWechsel()">
+              <input type="number" inputmode="decimal" id="ew-freistellung" value="0" step="50" min="0" max="2000" oninput="calcWechsel()">
               <span class="input-unit">€</span>
             </div>
           </div>
@@ -321,7 +321,7 @@
 <script src="steuer2026.js"></script>
 <script>
 // Basiszinsen je Jahr (von Bundesbank / BMF)
-const BASISZINS = { 2024: 0.0229, 2025: 0.0253, 2026: 0.024 };
+const BASISZINS = { 2024: 0.0229, 2025: 0.0253, 2026: 0.032 };
 
 let vpJahr = 2025, vpTFQ = 0.3, vpKirche = 0;
 

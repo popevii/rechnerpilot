@@ -64,7 +64,7 @@
         <div class="field">
           <label data-tt="Betrag den du auf dem Tagesgeldkonto anlegen möchtest. Einlagensicherung bis 100.000 € pro Bank.">Anlagebetrag</label>
           <div class="input-wrap">
-            <input type="number" id="tg-betrag" value="10000" step="1000" min="1" oninput="calcTagesgeld()">
+            <input type="number" inputmode="decimal" id="tg-betrag" value="10000" step="1000" min="1" oninput="calcTagesgeld()">
             <span class="input-unit">€</span>
           </div>
         </div>
@@ -74,7 +74,7 @@
           <div class="input-wrap">
             <input type="range" id="tg-monate-slider" min="1" max="60" value="12"
               oninput="document.getElementById('tg-monate').value=this.value; calcTagesgeld()" style="flex:1;">
-            <input type="number" id="tg-monate" value="12" min="1" max="60"
+            <input type="number" inputmode="decimal" id="tg-monate" value="12" min="1" max="60"
               oninput="document.getElementById('tg-monate-slider').value=this.value; calcTagesgeld()" style="width:60px;">
             <span class="input-unit">Monate</span>
           </div>
@@ -83,7 +83,7 @@
         <div class="field">
           <label data-tt="Jährlicher Zinssatz deines Tagesgeldkontos. Aktuell bis zu 3,40 % (Neukunden). Tipp: Verwende die Angebote unten.">Zinssatz p.a.</label>
           <div class="input-wrap">
-            <input type="number" id="tg-zins" value="3.25" step="0.05" min="0" max="10" oninput="calcTagesgeld()">
+            <input type="number" inputmode="decimal" id="tg-zins" value="3.25" step="0.05" min="0" max="10" oninput="calcTagesgeld()">
             <span class="input-unit">%</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
@@ -99,13 +99,13 @@
               <span>Aktionszins (Neukunden)</span>
             </label>
             <div class="input-wrap" style="width:80px;flex-shrink:0;">
-              <input type="number" id="tg-aktion-monate" value="3" min="1" max="12" oninput="calcTagesgeld()">
+              <input type="number" inputmode="decimal" id="tg-aktion-monate" value="3" min="1" max="12" oninput="calcTagesgeld()">
               <span class="input-unit">Mo.</span>
             </div>
           </div>
           <div id="tg-standard-wrap" style="display:none;margin-top:6px;">
             <div class="input-wrap">
-              <input type="number" id="tg-standard-zins" value="1.5" step="0.05" min="0" max="10" oninput="calcTagesgeld()">
+              <input type="number" inputmode="decimal" id="tg-standard-zins" value="1.5" step="0.05" min="0" max="10" oninput="calcTagesgeld()">
               <span class="input-unit">% Standardzins danach</span>
             </div>
           </div>
@@ -128,7 +128,7 @@
           </label>
           <div id="tg-freibetrag-wrap" style="display:none;margin-top:6px;">
             <div class="input-wrap">
-              <input type="number" id="tg-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcTagesgeld()">
+              <input type="number" inputmode="decimal" id="tg-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcTagesgeld()">
               <span class="input-unit">€ Freibetrag</span>
             </div>
           </div>
@@ -201,7 +201,7 @@
         🏦 Jetzt Tagesgeld vergleichen →
       </a>
     </div>
-    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink. Keine Anlageberatung. Zinsen täglich aktuell auf CHECK24.</p>
+    <p style="font-size:11px;color:var(--ink-3);margin-top:8px;">* Partnerlink (Affiliate) — wir erhalten ggf. eine Provision, für dich entstehen keine Mehrkosten. Keine Anlageberatung. Zinsen täglich aktuell auf CHECK24.</p>
   </div>
 
   <!-- FAQ -->

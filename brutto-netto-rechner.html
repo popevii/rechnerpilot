@@ -113,7 +113,7 @@
             <button class="em-btn" onclick="setModus('jahr',this)">Jährlich</button>
           </div>
           <div class="input-wrap">
-            <input type="number" id="bn-brutto" value="3500" min="0" max="500000" step="50" oninput="syncSlider(); calcBN()">
+            <input type="number" inputmode="decimal" id="bn-brutto" value="3500" min="0" max="500000" step="50" oninput="syncSlider(); calcBN()">
             <span class="input-unit">€</span>
           </div>
           <div class="slider-wrap">
@@ -202,7 +202,7 @@
         <div class="field">
           <label data-tt="Ø 2026: 1,45 % (AN-Anteil). Du zahlst die Hälfte des kassenindividuellen Zusatzbeitrags.">GKV-Zusatzbeitrag (AN-Anteil)</label>
           <div class="input-wrap">
-            <input type="number" id="bn-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcBN()">
+            <input type="number" inputmode="decimal" id="bn-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcBN()">
             <span class="input-unit">%</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø 2026: 1,45 % · <a href="krankenkassenrechner.html" style="color:var(--accent);">KK-Vergleich →</a></div>
@@ -366,7 +366,7 @@
       </div>
       <div class="faq-row">
         <div class="faq-q">Was ist der Unterschied zwischen Steuerklasse III und V?</div>
-        <div class="faq-a">Verheiratete können zwischen den Kombinationen III/V und IV/IV wählen. Bei III/V zahlt der Besserverdienende in Klasse III kaum Steuern, der Partner in Klasse V dafür sehr viel. Unterm Strich ist die Gesamtsteuerlast gleich — aber die monatliche Verteilung verschiebt sich. Seit 2030 ist ein Wechsel des Splitting-Verfahrens geplant.</div>
+        <div class="faq-a">Verheiratete können zwischen den Kombinationen III/V und IV/IV wählen. Bei III/V zahlt der Besserverdienende in Klasse III kaum Steuern, der Partner in Klasse V dafür sehr viel. Unterm Strich ist die Gesamtsteuerlast gleich — aber die monatliche Verteilung verschiebt sich. Eine Abschaffung von III/V wurde politisch diskutiert, ist aber bisher nicht gesetzlich beschlossen.</div>
       </div>
     </div>
   </div>

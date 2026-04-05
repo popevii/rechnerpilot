@@ -127,7 +127,7 @@
         <div class="field">
           <label data-tt="Dein Kapitalgewinn vor Steuern — z.B. Kursgewinne beim Verkauf, Zinsen oder Dividenden.">Kapitalertrag (brutto)</label>
           <div class="input-wrap">
-            <input type="number" id="ag-ertrag" value="5000" step="100" min="0" oninput="calcAbgeltung()">
+            <input type="number" inputmode="decimal" id="ag-ertrag" value="5000" step="100" min="0" oninput="calcAbgeltung()">
             <span class="input-unit">€</span>
           </div>
         </div>
@@ -135,7 +135,7 @@
         <div class="field">
           <label data-tt="Noch nicht genutzter Sparerpauschbetrag. Singles: 1.000 € · Paare: 2.000 €. Gewinne bis zu diesem Betrag sind steuerfrei.">Verbleibender Freistellungsauftrag</label>
           <div class="input-wrap">
-            <input type="number" id="ag-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcAbgeltung()">
+            <input type="number" inputmode="decimal" id="ag-freibetrag" value="1000" step="100" min="0" max="2000" oninput="calcAbgeltung()">
             <span class="input-unit">€</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
@@ -155,7 +155,7 @@
         <div class="field">
           <label data-tt="Hast du bereits Verluste aus anderen Kapitalanlagen? Diese können mit Gewinnen verrechnet werden.">Verrechenbare Verluste</label>
           <div class="input-wrap">
-            <input type="number" id="ag-verluste" value="0" step="100" min="0" oninput="calcAbgeltung()">
+            <input type="number" inputmode="decimal" id="ag-verluste" value="0" step="100" min="0" oninput="calcAbgeltung()">
             <span class="input-unit">€</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">
@@ -166,7 +166,7 @@
         <div class="field">
           <label data-tt="Die Teilfreistellung wird automatisch je nach Ertragsart gesetzt. Du kannst sie hier manuell anpassen.">Teilfreistellung (TFQ)</label>
           <div class="input-wrap">
-            <input type="number" id="ag-tfq" value="30" step="5" min="0" max="80" oninput="calcAbgeltung()">
+            <input type="number" inputmode="decimal" id="ag-tfq" value="30" step="5" min="0" max="80" oninput="calcAbgeltung()">
             <span class="input-unit">%</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">

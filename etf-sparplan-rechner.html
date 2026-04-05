@@ -72,7 +72,7 @@ document.addEventListener('click', e => {
         <div class="field">
           <label data-tt="Regelmäßiger Betrag den du monatlich zurücklegst.">Monatliche Sparrate <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Regelmäßiger Betrag den du monatlich zurücklegst.</span></span></label>
           <div class="input-wrap">
-            <input type="number" id="etf-rate" value="250" min="1" max="10000" oninput="calcETF()">
+            <input type="number" inputmode="decimal" id="etf-rate" value="250" min="1" max="10000" oninput="calcETF()">
             <span class="input-unit">€</span>
           </div>
           <input type="range" class="range-slider" min="25" max="2000" step="25" value="250" oninput="document.getElementById('etf-rate').value=this.value; calcETF()">
@@ -82,7 +82,7 @@ document.addEventListener('click', e => {
         <div class="field">
           <label data-tt="Je länger, desto stärker der Zinseszinseffekt. Über 20+ Jahre wächst dein Kapital exponentiell.">Anlagedauer <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Je länger, desto stärker der Zinseszinseffekt. Über 20+ Jahre wächst dein Kapital exponentiell.</span></span></label>
           <div class="input-wrap">
-            <input type="number" id="etf-jahre" value="20" min="1" max="50" oninput="calcETF()">
+            <input type="number" inputmode="decimal" id="etf-jahre" value="20" min="1" max="50" oninput="calcETF()">
             <span class="input-unit">Jahre</span>
           </div>
           <input type="range" class="range-slider" min="1" max="50" step="1" value="20" oninput="document.getElementById('etf-jahre').value=this.value; calcETF()">
@@ -92,7 +92,7 @@ document.addEventListener('click', e => {
         <div class="field">
           <label>Erwartete Rendite p.a.</label>
           <div class="input-wrap">
-            <input type="number" id="etf-rendite" value="7" step="0.5" min="0" max="20" oninput="calcETF()">
+            <input type="number" inputmode="decimal" id="etf-rendite" value="7" step="0.5" min="0" max="20" oninput="calcETF()">
             <span class="input-unit">%</span>
           </div>
           <input type="range" class="range-slider" min="1" max="15" step="0.5" value="7" oninput="document.getElementById('etf-rendite').value=this.value; calcETF()">
@@ -103,7 +103,7 @@ document.addEventListener('click', e => {
         <div class="field">
           <label>TER (Jahreskosten ETF)</label>
           <div class="input-wrap">
-            <input type="number" id="etf-ter" value="0.2" step="0.05" min="0" max="2" oninput="calcETF()">
+            <input type="number" inputmode="decimal" id="etf-ter" value="0.2" step="0.05" min="0" max="2" oninput="calcETF()">
             <span class="input-unit">%</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Günstige ETFs: 0,07–0,2 % p.a.</div>
@@ -112,7 +112,7 @@ document.addEventListener('click', e => {
         <div class="field">
           <label>Einmalanlage zu Beginn</label>
           <div class="input-wrap">
-            <input type="number" id="etf-einmal" value="0" min="0" oninput="calcETF()">
+            <input type="number" inputmode="decimal" id="etf-einmal" value="0" min="0" oninput="calcETF()">
             <span class="input-unit">€</span>
           </div>
         </div>
