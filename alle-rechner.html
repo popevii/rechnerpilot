@@ -30,7 +30,8 @@
 
 .ar-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
 .ar-card { background:#fff; border:1.5px solid var(--border); border-radius:14px; padding:18px; text-decoration:none; transition:all .15s; display:flex; flex-direction:column; gap:8px; }
-.ar-card:hover { border-color:var(--accent); box-shadow:0 4px 16px rgba(26,92,58,.1); transform:translateY(-1px); }
+.ar-card:hover { border-color:var(--accent); box-shadow:0 6px 24px rgba(26,92,58,.15); transform:translateY(-2px); }
+.ar-card:hover .ar-card-icon { transform:scale(1.1); transition:transform .2s; }
 .ar-card.featured { border-color:var(--accent); }
 .ar-card-top { display:flex; align-items:center; gap:10px; }
 .ar-card-icon { width:40px; height:40px; border-radius:10px; background:var(--accent-light); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
@@ -48,6 +49,7 @@
 
 .no-results { text-align:center; padding:48px 20px; color:var(--ink-3); display:none; }
 .no-results.visible { display:block; }
+.ar-tag.aktuell{background:#d1ecf1;border-color:#17a2b8;color:#0c5460}
 </style>
 </head>
 <body data-page="alle-rechner">
@@ -103,6 +105,7 @@
       <span class="ar-kat-title">Gehalt & Steuern</span>
       <span class="ar-kat-count">4 Rechner</span>
     </div>
+    <p style="font-size:13px;color:var(--ink-3);margin:-8px 0 16px;">Berechne dein Nettogehalt, verstehe Steuerabzüge und finde die günstigste Krankenkasse.</p>
     <div class="ar-grid">
       <a href="brutto-netto-rechner.html" class="ar-card featured" data-search="brutto netto gehalt steuern steuerklasse netto lohn">
         <div class="ar-card-top">
@@ -110,7 +113,7 @@
           <div class="ar-card-name">Brutto-Netto-Rechner</div>
         </div>
         <div class="ar-card-desc">Nettogehalt nach Lohnsteuer, Soli und Sozialabgaben berechnen. Alle 16 Bundesländer, alle Steuerklassen, Arbeitgeberkosten.</div>
-        <div class="ar-card-tags"><span class="ar-tag beliebt">⭐ Beliebtester</span><span class="ar-tag">2024–2026</span></div>
+        <div class="ar-card-tags"><span class="ar-tag beliebt">⭐ Beliebt</span></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
       <a href="gehaltserhöhung-rechner.html" class="ar-card" data-search="gehaltserhöhung lohnerhöhung gehalt netto grenzsteuersatz">
@@ -119,7 +122,7 @@
           <div class="ar-card-name">Gehaltserhöhung Rechner</div>
         </div>
         <div class="ar-card-desc">Wie viel bleibt von deiner Gehaltserhöhung netto? Mit Steuerprogression, Inflation und 10-Jahres-Kumulation.</div>
-        <div class="ar-card-tags"><span class="ar-tag neu">Neu</span></div>
+        <div class="ar-card-tags"><span class="ar-tag neu">🆕 Neu</span></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
       <a href="krankenkassenrechner.html" class="ar-card" data-search="krankenkasse gkv beitrag zusatzbeitrag krankenversicherung">
@@ -150,77 +153,54 @@
       <span class="ar-kat-title">Geldanlage & Investieren</span>
       <span class="ar-kat-count">8 Rechner</span>
     </div>
+    <p style="font-size:13px;color:var(--ink-3);margin:-8px 0 16px;">Vom ersten Sparplan bis zur Entnahmestrategie — alle Tools für deinen Vermögensaufbau.</p>
     <div class="ar-grid">
       <a href="etf-sparplan-rechner.html" class="ar-card featured" data-search="etf sparplan rendite depot investieren endkapital">
-        <div class="ar-card-top">
-          <div class="ar-card-icon">📈</div>
-          <div class="ar-card-name">ETF Sparplan Rechner</div>
-        </div>
+        <div class="ar-card-top"><div class="ar-card-icon">📈</div><div class="ar-card-name">ETF Sparplan Rechner</div></div>
         <div class="ar-card-desc">Endkapital und Rendite für deinen ETF-Sparplan berechnen. Mit Inflation, Steuern und Jahresübersicht.</div>
         <div class="ar-card-tags"><span class="ar-tag beliebt">⭐ Beliebt</span></div>
-        <div class="ar-card-arrow">Zum Rechner →</div>
+        <div class="ar-card-arrow">Jetzt berechnen →</div>
       </a>
       <a href="zinseszins-rechner.html" class="ar-card" data-search="zinseszins rendite vermögen sparen wachstum kapital">
-        <div class="ar-card-top">
-          <div class="ar-card-icon">♾️</div>
-          <div class="ar-card-name">Zinseszins Rechner</div>
-        </div>
-        <div class="ar-card-desc">Vermögenswachstum berechnen — mit Szenarien, Sparintervall, Inflation und vollständiger Jahrestabelle.</div>
-        <div class="ar-card-tags"><span class="ar-tag neu">Neu</span></div>
+        <div class="ar-card-top"><div class="ar-card-icon">♾️</div><div class="ar-card-name">Zinseszins Rechner</div></div>
+        <div class="ar-card-desc">Vermögenswachstum berechnen — mit Szenarien, Sparintervall (monatlich/quartalsweise/jährlich), Inflation und Jahrestabelle.</div>
+        <div class="ar-card-tags"><span class="ar-tag neu">🆕 Neu</span></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
       <a href="sparrechner.html" class="ar-card" data-search="sparen sparziel sparrate wie lange spardauer">
-        <div class="ar-card-top">
-          <div class="ar-card-icon">🎯</div>
-          <div class="ar-card-name">Sparrechner</div>
-        </div>
-        <div class="ar-card-desc">Endkapital, benötigte Sparrate oder Spardauer berechnen — 3 Modi in einem Rechner.</div>
-        <div class="ar-card-tags"><span class="ar-tag neu">Neu</span></div>
-        <div class="ar-card-arrow">Zum Rechner →</div>
-      </a>
-      <a href="entnahmerechner.html" class="ar-card" data-search="entnahme entsparen 4 prozent regel finanziell frei rente depot">
-        <div class="ar-card-top">
-          <div class="ar-card-icon">💸</div>
-          <div class="ar-card-name">Entnahmerechner</div>
-        </div>
-        <div class="ar-card-desc">4%-Regel, Spardauer und Zielkapital für finanzielle Freiheit berechnen. Mit vollständigem Tilgungsplan.</div>
-        <div class="ar-card-tags"><span class="ar-tag neu">Neu</span></div>
-        <div class="ar-card-arrow">Zum Rechner →</div>
-      </a>
-      <a href="etf-rechner.html" class="ar-card" data-search="vorabpauschale etf kosten ter wechsel vergleich">
-        <div class="ar-card-top">
-          <div class="ar-card-icon">🔬</div>
-          <div class="ar-card-name">ETF Tools</div>
-        </div>
-        <div class="ar-card-desc">Vorabpauschale berechnen, ETF-Kosten vergleichen und ETF-Wechsel-Break-even ermitteln.</div>
-        <div class="ar-card-tags"><span class="ar-tag">3 Tools</span></div>
+        <div class="ar-card-top"><div class="ar-card-icon">🎯</div><div class="ar-card-name">Sparrechner</div></div>
+        <div class="ar-card-desc">Endkapital, benötigte Sparrate oder Spardauer berechnen — wähle einen von 3 Modi je nach Frage.</div>
+        <div class="ar-card-tags"><span class="ar-tag neu">🆕 Neu</span></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
       <a href="inflationsrechner.html" class="ar-card" data-search="inflation kaufkraft realrendite geldentwertung">
-        <div class="ar-card-top">
-          <div class="ar-card-icon">📉</div>
-          <div class="ar-card-name">Inflationsrechner</div>
-        </div>
+        <div class="ar-card-top"><div class="ar-card-icon">📉</div><div class="ar-card-name">Inflationsrechner</div></div>
         <div class="ar-card-desc">Kaufkraftverlust berechnen, Zukunftswert ermitteln und Realrendite nach Inflation bestimmen.</div>
-        <div class="ar-card-tags"><span class="ar-tag">3 Modi</span></div>
+        <div class="ar-card-tags"></div>
+        <div class="ar-card-arrow">Zum Rechner →</div>
+      </a>
+      <a href="entnahmerechner.html" class="ar-card" data-search="entnahme entsparen 4 prozent regel finanziell frei rente depot">
+        <div class="ar-card-top"><div class="ar-card-icon">💸</div><div class="ar-card-name">Entnahmerechner</div></div>
+        <div class="ar-card-desc">4%-Regel, Spardauer und Zielkapital für finanzielle Freiheit berechnen. Mit vollständiger Jahresübersicht.</div>
+        <div class="ar-card-tags"><span class="ar-tag neu">🆕 Neu</span></div>
+        <div class="ar-card-arrow">Zum Rechner →</div>
+      </a>
+      <a href="etf-rechner.html" class="ar-card" data-search="vorabpauschale etf kosten ter wechsel vergleich">
+        <div class="ar-card-top"><div class="ar-card-icon">🔬</div><div class="ar-card-name">ETF Analyse Rechner</div></div>
+        <div class="ar-card-desc">Vorabpauschale berechnen, ETF-Kosten vergleichen und Break-even beim ETF-Wechsel ermitteln.</div>
+        <div class="ar-card-tags"></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
       <a href="tagesgeld-rechner.html" class="ar-card" data-search="tagesgeld zinsen sparbuch konto anbieter vergleich">
-        <div class="ar-card-top">
-          <div class="ar-card-icon">🏦</div>
-          <div class="ar-card-name">Tagesgeld Rechner</div>
-        </div>
+        <div class="ar-card-top"><div class="ar-card-icon">🏦</div><div class="ar-card-name">Tagesgeld Rechner</div></div>
         <div class="ar-card-desc">Zinsen berechnen und aktuelle Tagesgeld-Angebote bis 3,40 % vergleichen. Stand April 2026.</div>
-        <div class="ar-card-tags"><span class="ar-tag beliebt">Aktuell</span></div>
+        <div class="ar-card-tags"><span class="ar-tag aktuell">🔥 Aktuell</span></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
       <a href="festgeld-rechner.html" class="ar-card" data-search="festgeld zinsen laufzeit angebote vergleich">
-        <div class="ar-card-top">
-          <div class="ar-card-icon">🔒</div>
-          <div class="ar-card-name">Festgeld Rechner</div>
-        </div>
+        <div class="ar-card-top"><div class="ar-card-icon">🔒</div><div class="ar-card-name">Festgeld Rechner</div></div>
         <div class="ar-card-desc">Festgeldzinsen für verschiedene Laufzeiten berechnen und beste Angebote bis 3,50 % finden.</div>
-        <div class="ar-card-tags"><span class="ar-tag beliebt">Aktuell</span></div>
+        <div class="ar-card-tags"><span class="ar-tag aktuell">🔥 Aktuell</span></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
     </div>
@@ -233,6 +213,7 @@
       <span class="ar-kat-title">Kredit & Bauen</span>
       <span class="ar-kat-count">2 Rechner</span>
     </div>
+    <p style="font-size:13px;color:var(--ink-3);margin:-8px 0 16px;">Aktuelle Bauzinsen ab 3,69 % — Monatsrate, Tilgungsplan und Nebenkosten transparent berechnen.</p>
     <div class="ar-grid">
       <a href="baufinanzierung-rechner.html" class="ar-card featured" data-search="baufinanzierung immobilien hypothek tilgungsplan bauzinsen eigenkapital">
         <div class="ar-card-top">
@@ -240,7 +221,7 @@
           <div class="ar-card-name">Baufinanzierung Rechner</div>
         </div>
         <div class="ar-card-desc">Monatsrate, Tilgungsplan und Kaufnebenkosten für deine Immobilie berechnen. Aktuelle Bauzinsen ab 3,69 %.</div>
-        <div class="ar-card-tags"><span class="ar-tag neu">Neu</span><span class="ar-tag beliebt">Hohe Provision</span></div>
+        <div class="ar-card-tags"><span class="ar-tag neu">🆕 Neu</span></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
       <a href="kreditrechner.html" class="ar-card" data-search="kredit rate tilgung laufzeit ratenkredit autokredit">
@@ -249,7 +230,7 @@
           <div class="ar-card-name">Kreditrechner</div>
         </div>
         <div class="ar-card-desc">Monatsrate, Gesamtkosten und vollständigen Tilgungsplan für jeden Kredit berechnen.</div>
-        <div class="ar-card-tags"><span class="ar-tag">PDF-Export</span></div>
+        <div class="ar-card-tags"></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
     </div>
@@ -260,8 +241,9 @@
     <div class="ar-kat-header">
       <span class="ar-kat-icon">🏛️</span>
       <span class="ar-kat-title">Altersvorsorge & Rente</span>
-      <span class="ar-kat-count">1 Rechner (4 Tools)</span>
+      <span class="ar-kat-count">4 Rechner</span>
     </div>
+    <p style="font-size:13px;color:var(--ink-3);margin:-8px 0 16px;">Rentenlücke berechnen, Vorsorgeoptionen vergleichen und die Entnahmephase planen.</p>
     <div class="ar-grid">
       <a href="altersvorsorge-rechner.html" class="ar-card featured" data-search="rente rentenlücke rürup riester altersvorsorge pension">
         <div class="ar-card-top">
@@ -296,7 +278,7 @@
           <div class="ar-card-name">Entnahmerechner</div>
         </div>
         <div class="ar-card-desc">Wie lange reicht dein Depot? 4%-Regel und finanzielle Freiheit berechnen.</div>
-        <div class="ar-card-tags"><span class="ar-tag neu">Neu</span></div>
+        <div class="ar-card-tags"><span class="ar-tag neu">🆕 Neu</span></div>
         <div class="ar-card-arrow">Zum Rechner →</div>
       </a>
     </div>
@@ -309,6 +291,7 @@
       <span class="ar-kat-title">Öffentlicher Dienst</span>
       <span class="ar-kat-count">7 Rechner</span>
     </div>
+    <p style="font-size:13px;color:var(--ink-3);margin:-8px 0 16px;">TVöD, TV-L und Beamtenbesoldung — Gehalt im öffentlichen Dienst präzise berechnen.</p>
     <div class="ar-grid">
       <a href="tvoed-rechner.html" class="ar-card featured" data-search="tvöd vka kommunen bund gehalt öffentlicher dienst e-tabelle">
         <div class="ar-card-top">
@@ -374,6 +357,7 @@
       <span class="ar-kat-title">Energie & Haushalt</span>
       <span class="ar-kat-count">2 Rechner</span>
     </div>
+    <p style="font-size:13px;color:var(--ink-3);margin:-8px 0 16px;">Strom- und Gaskosten berechnen und günstigere Anbieter finden.</p>
     <div class="ar-grid">
       <a href="stromkostenrechner.html" class="ar-card" data-search="strom stromkosten jahresstromkosten e-auto wärmepumpe">
         <div class="ar-card-top">
