@@ -59,7 +59,7 @@ setTimeout(() => {
         <div class="field">
           <label data-tt="Betrag den du von der Bank leihst. Bei Immobilien: Kaufpreis minus Eigenkapital.">Kreditsumme <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Betrag den du von der Bank leihst. Bei Immobilien: Kaufpreis minus Eigenkapital.</span></span></label>
           <div class="input-wrap">
-            <input type="number" id="k-betrag" value="20000" min="500" max="500000" oninput="calcKredit()">
+            <input type="number" inputmode="decimal" id="k-betrag" value="20000" min="500" max="500000" oninput="calcKredit()">
             <span class="input-unit">€</span>
           </div>
           <input type="range" class="range-slider" min="1000" max="100000" step="500" value="20000" oninput="document.getElementById('k-betrag').value=this.value; calcKredit()">
@@ -69,7 +69,7 @@ setTimeout(() => {
         <div class="field">
           <label>Zinssatz (effektiv p.a.)</label>
           <div class="input-wrap">
-            <input type="number" id="k-zins" value="6.5" step="0.1" min="0.1" max="25" oninput="calcKredit()">
+            <input type="number" inputmode="decimal" id="k-zins" value="6.5" step="0.1" min="0.1" max="25" oninput="calcKredit()">
             <span class="input-unit">%</span>
           </div>
           <input type="range" class="range-slider" min="0.5" max="20" step="0.1" value="6.5" oninput="document.getElementById('k-zins').value=this.value; calcKredit()">
@@ -79,7 +79,7 @@ setTimeout(() => {
         <div class="field">
           <label data-tt="Längere Laufzeit = niedrigere Rate, aber mehr Gesamtzinsen. Kürzere Laufzeit spart oft Tausende €.">Laufzeit <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Längere Laufzeit = niedrigere Rate, aber mehr Gesamtzinsen. Kürzere Laufzeit spart oft Tausende €.</span></span></label>
           <div class="input-wrap">
-            <input type="number" id="k-laufzeit" value="5" min="1" max="30" oninput="calcKredit()">
+            <input type="number" inputmode="decimal" id="k-laufzeit" value="5" min="1" max="30" oninput="calcKredit()">
             <span class="input-unit">Jahre</span>
           </div>
           <input type="range" class="range-slider" min="1" max="30" step="1" value="5" oninput="document.getElementById('k-laufzeit').value=this.value; calcKredit()">
@@ -202,26 +202,35 @@ setTimeout(() => {
   </div>
 
   <div class="content-section">
-    <h2>Verwandte Rechner</h2>
+    <h2>Weitere passende Rechner</h2>
     <div class="related-grid">
-      <a href="brutto-netto-rechner.html" class="cc">
+      <a href="https://www.rechnerpilot.de/baufinanzierung-rechner" class="cc">
+        <div class="cc-icon bg-g">🏠</div>
+        <h3>Baufinanzierung</h3>
+        <p>Immobilienkredit berechnen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="https://www.rechnerpilot.de/brutto-netto-rechner" class="cc">
         <div class="cc-icon bg-g">💼</div>
-        <h3>Brutto-Netto</h3>
-        <p>Nettogehalt und Abzüge berechnen.</p>
-        <div class="cc-link">Berechnen →</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Monatliches Netto für Kreditplanung.</p>
+        <div class="cc-link">Zum Rechner →</div>
       </a>
-      <a href="etf-sparplan-rechner.html" class="cc">
-        <div class="cc-icon bg-y">📈</div>
-        <h3>ETF-Sparplan</h3>
-        <p>Vermögensaufbau durch regelmäßiges Sparen.</p>
-        <div class="cc-link">Berechnen →</div>
+      <a href="https://www.rechnerpilot.de/sparrechner" class="cc">
+        <div class="cc-icon bg-g">🎯</div>
+        <h3>Sparrechner</h3>
+        <p>Eigenkapital ansparen.</p>
+        <div class="cc-link">Zum Rechner →</div>
       </a>
-      <a href="index.html" class="cc">
-        <div class="cc-icon bg-s">🧮</div>
-        <h3>Alle Rechner</h3>
-        <p>Zur Übersicht aller Finanzrechner.</p>
-        <div class="cc-link">Zur Übersicht →</div>
+      <a href="https://www.rechnerpilot.de/zinseszins-rechner" class="cc">
+        <div class="cc-icon bg-g">♾️</div>
+        <h3>Zinseszins Rechner</h3>
+        <p>Alternativen zum Kredit vergleichen.</p>
+        <div class="cc-link">Zum Rechner →</div>
       </a>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <a href="https://www.rechnerpilot.de/alle-rechner" style="font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;">Alle 25 Rechner ansehen →</a>
     </div>
   </div>
 </div>

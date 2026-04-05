@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gehaltserhöhung Rechner 2026 – Netto-Gewinn berechnen | RechnerPilot</title>
+<meta name="description" content="Gehaltserhöhung Rechner 2026: Berechne wie viel deine Gehaltserhöhung netto bringt, wann sich Verhandlungen lohnen und wie viel du wirklich mehr verdienst.">
+<link rel="canonical" href="https://www.rechnerpilot.de/gehaltserhöhung-rechner">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Gehaltserhöhung Rechner 2026","url":"https://www.rechnerpilot.de/gehaltserhöhung-rechner","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}
+</script>
+<style>
+.range-slider { -webkit-appearance:none; appearance:none; width:100%; height:4px; border-radius:100px; background:var(--border); outline:none; cursor:pointer; margin-top:6px; }
+.range-slider::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; background:#fff; border:2px solid var(--accent); border-radius:50%; cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,.15); }
+.range-slider::-moz-range-thumb { width:20px; height:20px; background:#fff; border:2px solid var(--accent); border-radius:50%; cursor:pointer; }
+.slider-labels { display:flex; justify-content:space-between; margin-top:3px; }
+.slider-labels span { font-size:10px; color:var(--ink-3); font-weight:600; }
+
+/* Vergleich-Box */
+.vergleich-split {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px; margin:12px 0;
+}
+.vs-box {
+  background:#fff; border:1.5px solid var(--border);
+  border-radius:12px; padding:16px;
+}
+.vs-box.neu { border-color:var(--accent); background:var(--accent-light); }
+.vs-label { font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
+.vs-label.neu { color:var(--accent); }
+.vs-brutto { font-size:16px; font-weight:700; color:var(--ink); }
+.vs-netto { font-size:22px; font-weight:800; font-family:'Instrument Serif',serif; color:var(--accent); margin-top:4px; }
+.vs-box:not(.neu) .vs-netto { color:var(--ink-2); }
+.vs-diff { font-size:11px; color:var(--ink-3); margin-top:4px; }
+
+/* Gewinn-Highlight */
+.gewinn-box {
+  background:var(--accent); border-radius:14px;
+  padding:20px 22px; color:#fff; text-align:center;
+  margin:12px 0;
+}
+.gb-label { font-size:10px; font-weight:700; opacity:.65; text-transform:uppercase; letter-spacing:.7px; margin-bottom:6px; }
+.gb-val { font-size:42px; font-weight:800; font-family:'Instrument Serif',serif; line-height:1; }
+.gb-sub { font-size:13px; opacity:.8; margin-top:8px; }
+.gb-stats { display:flex; gap:0; margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,.15); }
+.gb-stat { flex:1; padding-right:12px; border-right:1px solid rgba(255,255,255,.12); margin-right:12px; }
+.gb-stat:last-child { border-right:none; margin-right:0; padding-right:0; }
+.gb-stat-label { font-size:9px; font-weight:700; opacity:.55; text-transform:uppercase; letter-spacing:.4px; }
+.gb-stat-val { font-size:14px; font-weight:700; margin-top:3px; }
+
+/* Steuerprogression Warnung */
+.progression-info {
+  background:#fff3cd; border:1.5px solid #ffc107;
+  border-radius:10px; padding:12px 14px;
+  font-size:12.5px; color:#856404; margin-top:8px;
+  display:none;
+}
+
+/* Jahres-Übersicht */
+.jahres-split { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:12px 0; }
+.js-box { background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:12px; text-align:center; }
+.js-val { font-size:18px; font-weight:800; font-family:'Instrument Serif',serif; color:var(--accent); }
+.js-label { font-size:11px; color:var(--ink-3); margin-top:3px; }
+
+/* Inflation Anzeige */
+.real-box {
+  background:var(--bg); border:1.5px solid var(--border);
+  border-radius:10px; padding:12px 14px; margin-top:8px;
+  font-size:13px; color:var(--ink-2);
+}
+</style>
+</head>
+<body data-page="gehaltserhöhung">
+<div id="nav-placeholder"></div>
+
+<div class="calc-page">
+  <div class="calc-header fu">
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Gehaltserhöhung Rechner</span>
+    </div>
+    <h1>Gehaltserhöhung Rechner 2026</h1>
+    <p>Berechne wie viel deine Gehaltserhöhung netto wirklich bringt — mit Steuerprogression, Inflation und echtem Kaufkraftgewinn.</p>
+  </div>
+
+  <div class="calc-box fu d1">
+    <div class="calc-body">
+
+      <!-- INPUTS -->
+      <div class="inputs-panel">
+
+        <div class="field">
+          <label data-tt="Dein aktuelles monatliches Bruttogehalt vor der Erhöhung.">Aktuelles Bruttogehalt</label>
+          <div class="input-wrap">
+            <input type="number" inputmode="decimal" id="ge-alt" value="3500" step="50" min="0"
+              oninput="document.getElementById('ge-alt-slider').value=this.value; calcGE()">
+            <span class="input-unit">€/Monat</span>
+          </div>
+          <input type="range" class="range-slider" id="ge-alt-slider" min="1000" max="15000" step="50" value="3500"
+            oninput="document.getElementById('ge-alt').value=this.value; calcGE()">
+          <div class="slider-labels"><span>1.000 €</span><span>4k</span><span>7,5k</span><span>11k</span><span>15k</span></div>
+        </div>
+
+        <div class="field">
+          <label data-tt="Eingabe als prozentualer Aufschlag oder als absoluter Betrag.">Art der Erhöhung</label>
+          <div class="toggle-group" id="ge-art-group">
+            <button class="toggle-btn active" data-val="prozent" onclick="selectGEArt(this)">Prozentual</button>
+            <button class="toggle-btn" data-val="absolut" onclick="selectGEArt(this)">Absolut (€)</button>
+          </div>
+        </div>
+
+        <div class="field" id="ge-field-prozent">
+          <label data-tt="Wie viel Prozent Gehaltserhöhung du verhandelst oder bekommen hast.">Gehaltserhöhung</label>
+          <div class="input-wrap">
+            <input type="number" inputmode="decimal" id="ge-prozent" value="5" step="0.5" min="0" max="100"
+              oninput="document.getElementById('ge-prozent-slider').value=this.value; calcGE()">
+            <span class="input-unit">%</span>
+          </div>
+          <input type="range" class="range-slider" id="ge-prozent-slider" min="0" max="30" step="0.5" value="5"
+            oninput="document.getElementById('ge-prozent').value=this.value; calcGE()">
+          <div class="slider-labels"><span>0 %</span><span>7,5 %</span><span>15 %</span><span>22,5 %</span><span>30 %</span></div>
+        </div>
+
+        <div class="field" id="ge-field-absolut" style="display:none;">
+          <label data-tt="Absoluter Betrag der Gehaltserhöhung pro Monat (brutto).">Erhöhung um</label>
+          <div class="input-wrap">
+            <input type="number" inputmode="decimal" id="ge-absolut" value="200" step="50" min="0"
+              oninput="document.getElementById('ge-absolut-slider').value=this.value; calcGE()">
+            <span class="input-unit">€/Monat</span>
+          </div>
+          <input type="range" class="range-slider" id="ge-absolut-slider" min="0" max="3000" step="50" value="200"
+            oninput="document.getElementById('ge-absolut').value=this.value; calcGE()">
+          <div class="slider-labels"><span>0 €</span><span>750</span><span>1.500</span><span>2.250</span><span>3.000</span></div>
+        </div>
+
+        <div class="field">
+          <label data-tt="I: ledig · III: Verheiratet (höheres EK) · IV: Verheiratet (gleiches EK)">Steuerklasse</label>
+          <div class="toggle-group" id="ge-sk-group">
+            <button class="toggle-btn active" data-val="1" onclick="selectGESK(this)">I</button>
+            <button class="toggle-btn" data-val="2" onclick="selectGESK(this)">II</button>
+            <button class="toggle-btn" data-val="3" onclick="selectGESK(this)">III</button>
+            <button class="toggle-btn" data-val="4" onclick="selectGESK(this)">IV</button>
+            <button class="toggle-btn" data-val="5" onclick="selectGESK(this)">V</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="8 % in Bayern und Baden-Württemberg, 9 % in allen anderen Bundesländern.">Kirchensteuer</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="ge-kirche" onchange="calcGE()">
+            <span>Ich zahle Kirchensteuer (9 %)</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label data-tt="Kinderlose über 23 zahlen den PV-Zuschlag von 0,6 %. Mit Kindern entfällt er.">Pflegeversicherung</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="ge-kinder" onchange="calcGE()">
+            <span>Ich habe Kinder (kein Kinderlosenzuschlag)</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label data-tt="Wird die Gehaltserhöhung durch Inflation aufgezehrt? Der Rechner zeigt die reale Kaufkraftveränderung.">Inflation berücksichtigen</label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="ge-inflation-cb" onchange="calcGE()">
+            <span>Reale Kaufkraftveränderung anzeigen</span>
+          </label>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
+            <span style="font-size:12px;color:var(--ink-3);flex:1;">Inflationsrate:</span>
+            <div class="input-wrap" style="width:100px;">
+              <input type="number" inputmode="decimal" id="ge-inflation" value="2.5" step="0.1" min="0" max="15" oninput="calcGE()">
+              <span class="input-unit">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tt="GKV-Zusatzbeitrag AN-Anteil. Ø 2026: 1,45 %.">GKV-Zusatzbeitrag (AN-Anteil)</label>
+          <div class="input-wrap">
+            <input type="number" inputmode="decimal" id="ge-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcGE()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RESULTS -->
+      <div class="results-panel">
+        <div class="results-label">Dein Gewinn durch die Gehaltserhöhung</div>
+
+        <!-- Netto-Gewinn Highlight -->
+        <div class="gewinn-box">
+          <div class="gb-label">Monatlicher Netto-Gewinn</div>
+          <div class="gb-val" id="ge-netto-gewinn">—</div>
+          <div class="gb-sub">mehr Netto pro Monat</div>
+          <div class="gb-stats">
+            <div class="gb-stat">
+              <div class="gb-stat-label">Brutto-Erhöhung</div>
+              <div class="gb-stat-val" id="ge-brutto-diff">—</div>
+            </div>
+            <div class="gb-stat">
+              <div class="gb-stat-label">Steuern & Abgaben</div>
+              <div class="gb-stat-val" id="ge-abgaben-diff">—</div>
+            </div>
+            <div class="gb-stat">
+              <div class="gb-stat-label">Grenzsteuersatz</div>
+              <div class="gb-stat-val" id="ge-grenzsteuer">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Steuerprogression Warnung -->
+        <div class="progression-info" id="ge-progression-warn">
+          ⚠️ <strong>Steuerprogression:</strong> Deine Gehaltserhöhung wird mit einem höheren Grenzsteuersatz besteuert als dein bisheriges Gehalt. Das ist normal — aber bedeutet, dass nur <span id="ge-netto-quote">—</span> der Brutto-Erhöhung netto bei dir ankommen.
+        </div>
+
+        <!-- Alt vs Neu Vergleich -->
+        <div class="vergleich-split">
+          <div class="vs-box">
+            <div class="vs-label">Vorher</div>
+            <div class="vs-brutto" id="ge-alt-brutto">—</div>
+            <div class="vs-netto" id="ge-alt-netto">—</div>
+            <div class="vs-diff">Netto/Monat</div>
+          </div>
+          <div class="vs-box neu">
+            <div class="vs-label neu">Nach Erhöhung</div>
+            <div class="vs-brutto" id="ge-neu-brutto">—</div>
+            <div class="vs-netto" id="ge-neu-netto">—</div>
+            <div class="vs-diff">Netto/Monat</div>
+          </div>
+        </div>
+
+        <!-- Jahresübersicht -->
+        <div class="jahres-split">
+          <div class="js-box">
+            <div class="js-val" id="ge-jahres-gewinn">—</div>
+            <div class="js-label">Jahres-Netto-Gewinn</div>
+          </div>
+          <div class="js-box">
+            <div class="js-val" id="ge-effquote">—</div>
+            <div class="js-label">Davon netto (von Brutto)</div>
+          </div>
+          <div class="js-box">
+            <div class="js-val" id="ge-10j">—</div>
+            <div class="js-label">Über 10 Jahre kumuliert</div>
+          </div>
+        </div>
+
+        <!-- Inflation Info -->
+        <div class="real-box" id="ge-real-box" style="display:none;">
+          <strong>📉 Reale Kaufkraftveränderung:</strong><br>
+          Bei <span id="ge-inf-label">2,5</span> % Inflation entspricht deine Erhöhung einer realen Kaufkraftsteigerung von <strong id="ge-real-gewinn" style="color:var(--accent);">—</strong> pro Monat.<br>
+          <span id="ge-real-hinweis" style="font-size:12px;color:var(--ink-3);">—</span>
+        </div>
+
+        <!-- Detail-Zeilen -->
+        <div style="margin-top:12px;">
+          <div class="result-row"><span class="result-row-label">Neues Bruttogehalt</span><span class="result-row-value" id="ge-neu-brutto2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Brutto-Unterschied</span><span class="result-row-value pos" id="ge-brutto-diff2">—</span></div>
+          <div class="result-row"><span class="result-row-label">Lohnsteuer vorher → nachher</span><span class="result-row-value neg" id="ge-lst-diff">—</span></div>
+          <div class="result-row"><span class="result-row-label">Sozialabgaben vorher → nachher</span><span class="result-row-value neg" id="ge-soz-diff">—</span></div>
+          <div class="result-row"><span class="result-row-label">Netto vorher → nachher</span><span class="result-row-value pos" id="ge-netto-diff">—</span></div>
+          <div class="result-row" style="font-weight:700;"><span class="result-row-label">Netto-Gewinn pro Monat</span><span class="result-row-value pos" id="ge-netto-diff2">—</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">⚠️ Näherungsrechnung nach §32a EStG 2026. Individuelle Freibeträge und betriebliche Vereinbarungen nicht berücksichtigt.</div>
+  </div>
+
+  <!-- TIPPS -->
+  <div class="content-section fu d2">
+    <h2>So verhandelst du mehr Gehalt</h2>
+    <div class="example-box">
+      <div class="example-row"><span>📊 Marktwert kennen</span><span>Gehaltsreports von Stepstone, Gehalt.de, LinkedIn</span></div>
+      <div class="example-row"><span>⏰ Richtiger Zeitpunkt</span><span>Nach erfolgreichen Projekten, Jahresgespräch, Jobwechsel</span></div>
+      <div class="example-row"><span>🎯 Anker setzen</span><span>Zuerst eine konkrete Zahl nennen — nicht warten</span></div>
+      <div class="example-row"><span>💡 Alternativen</span><span>Jobticket, Homeoffice, Weiterbildung, betriebliche AV</span></div>
+      <div class="example-row"><span>📈 Reale Erhöhung</span><span>Inflation einrechnen — unter 2,5 % ist real eine Kürzung</span></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="content-section">
+    <h2>Häufige Fragen zur Gehaltserhöhung</h2>
+    <div class="faq">
+      <div class="faq-row">
+        <div class="faq-q">Warum bekomme ich netto weniger als die Hälfte meiner Gehaltserhöhung?</div>
+        <div class="faq-a">Das liegt an der Steuerprogression und den Sozialabgaben. Eine Gehaltserhöhung wird nicht mit deinem durchschnittlichen Steuersatz besteuert, sondern mit dem Grenzsteuersatz — dem Satz, den du auf den letzten Euro Einkommen zahlst. Bei mittleren Einkommen liegt dieser oft bei 30–42 %. Dazu kommen ~20 % Sozialabgaben. Deshalb bleiben von einer Brutto-Erhöhung oft nur 45–60 % netto übrig.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Wann ist eine Gehaltserhöhung real eine Gehaltskürzung?</div>
+        <div class="faq-a">Wenn deine Gehaltserhöhung unter der Inflationsrate liegt. Bei 5 % Inflation und 3 % Gehaltserhöhung verlierst du real 2 % Kaufkraft — obwohl du nominal mehr verdienst. Das nennt sich Reallohnverlust. In den Jahren 2022 und 2023 haben viele Beschäftigte trotz nominaler Gehaltserhöhungen real weniger verdient.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Was ist der Grenzsteuersatz?</div>
+        <div class="faq-a">Der Grenzsteuersatz ist der Steuersatz auf jeden zusätzlich verdienten Euro. In Deutschland ist die Einkommensteuer progressiv — je mehr du verdienst, desto höher ist der Satz auf den letzten Euro. Bei einem Jahresbrutto von 45.000 € liegt der Grenzsteuersatz ca. bei 35–42 %. Das bedeutet: Von jedem zusätzlichen Euro Gehalt gehen 35–42 Cent direkt ans Finanzamt.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Lohnt sich ein Gehaltserhöhungsgespräch oder doch lieber Jobwechsel?</div>
+        <div class="faq-a">Statistisch bringen Jobwechsel im Schnitt 10–20 % mehr Gehalt, während interne Gehaltserhöhungen meist 3–5 % betragen. Wer konsequent alle 2–3 Jahre wechselt, verdient über eine Karriere deutlich mehr als jemand der bleibt. Nutze Jobangebote aber auch als Verhandlungshebel — oft reagieren Arbeitgeber auf konkrete Gegenangebote.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2>Weitere passende Rechner</h2>
+    <div class="related-grid">
+      <a href="https://www.rechnerpilot.de/brutto-netto-rechner" class="cc">
+        <div class="cc-icon bg-g">💼</div>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Vollständige Gehaltsabrechnung.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="https://www.rechnerpilot.de/inflationsrechner" class="cc">
+        <div class="cc-icon bg-g">📉</div>
+        <h3>Inflationsrechner</h3>
+        <p>Reale Kaufkraftveränderung messen.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="https://www.rechnerpilot.de/altersvorsorge-rechner" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>Altersvorsorge-Rechner</h3>
+        <p>Mehr Gehalt für mehr Vorsorge.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+      <a href="https://www.rechnerpilot.de/etf-sparplan-rechner" class="cc">
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan</h3>
+        <p>Mehr Gehalt investieren.</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <a href="https://www.rechnerpilot.de/alle-rechner" style="font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;">Alle 25 Rechner ansehen →</a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="steuer2026.js"></script>
+<script>
+let geSK = 1;
+let geArt = 'prozent';
+
+const f2  = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const f0  = n => Math.round(n).toLocaleString('de-DE') + ' €';
+const fp  = n => n.toFixed(1) + ' %';
+const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+
+function selectGEArt(btn) {
+  geArt = btn.dataset.val;
+  document.querySelectorAll('#ge-art-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('ge-field-prozent').style.display = geArt === 'prozent' ? 'flex' : 'none';
+  document.getElementById('ge-field-absolut').style.display = geArt === 'absolut'  ? 'flex' : 'none';
+  calcGE();
+}
+
+function selectGESK(btn) {
+  geSK = parseInt(btn.dataset.val);
+  document.querySelectorAll('#ge-sk-group .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcGE();
+}
+
+function calcGE() {
+  const bruttoAlt = parseFloat(document.getElementById('ge-alt').value) || 0;
+  const kirche    = document.getElementById('ge-kirche').checked;
+  const kinder    = document.getElementById('ge-kinder').checked;
+  const kvz       = parseFloat(document.getElementById('ge-kvz').value) || 1.45;
+  const mitInf    = document.getElementById('ge-inflation-cb').checked;
+  const inflation = parseFloat(document.getElementById('ge-inflation').value) / 100 || 0.025;
+
+  // Neues Brutto berechnen
+  let bruttoNeu;
+  if (geArt === 'prozent') {
+    const pct = parseFloat(document.getElementById('ge-prozent').value) || 0;
+    bruttoNeu = bruttoAlt * (1 + pct / 100);
+  } else {
+    const abs = parseFloat(document.getElementById('ge-absolut').value) || 0;
+    bruttoNeu = bruttoAlt + abs;
+  }
+
+  const bruttoDiff = bruttoNeu - bruttoAlt;
+
+  // Netto berechnen
+  const rAlt = bruttoNetto(bruttoAlt, geSK, kirche, kvz, !kinder, 9, false, 2026, 0, kinder ? 1 : 0, false);
+  const rNeu = bruttoNetto(bruttoNeu, geSK, kirche, kvz, !kinder, 9, false, 2026, 0, kinder ? 1 : 0, false);
+
+  const nettoAlt = rAlt.netto;
+  const nettoNeu = rNeu.netto;
+  const nettoDiff = nettoNeu - nettoAlt;
+
+  // Grenzsteuersatz berechnen (approximiert)
+  const grenzsteuer = bruttoDiff > 0
+    ? ((bruttoDiff - nettoDiff) / bruttoDiff * 100)
+    : 0;
+  const nettoQuote = bruttoDiff > 0 ? (nettoDiff / bruttoDiff * 100) : 0;
+
+  // Progression Warnung — wenn Grenzsteuersatz deutlich über Durchschnittssatz
+  const durchschnitt = bruttoAlt > 0 ? ((bruttoAlt - nettoAlt) / bruttoAlt * 100) : 0;
+  const warnEl = document.getElementById('ge-progression-warn');
+  if (warnEl) warnEl.style.display = grenzsteuer > durchschnitt + 5 ? 'block' : 'none';
+
+  // Inflation
+  const realNettoDiff = nettoDiff - (bruttoAlt * inflation);
+  const realBox = document.getElementById('ge-real-box');
+  if (realBox) realBox.style.display = mitInf ? 'block' : 'none';
+
+  // Ausgabe
+  set('ge-netto-gewinn',   '+' + f2(nettoDiff));
+  set('ge-brutto-diff',    '+' + f2(bruttoDiff));
+  set('ge-abgaben-diff',   '−' + f2(bruttoDiff - nettoDiff));
+  set('ge-grenzsteuer',    fp(grenzsteuer));
+  set('ge-netto-quote',    fp(nettoQuote));
+  set('ge-alt-brutto',     f2(bruttoAlt) + ' brutto');
+  set('ge-alt-netto',      f2(nettoAlt));
+  set('ge-neu-brutto',     f2(bruttoNeu) + ' brutto');
+  set('ge-neu-netto',      f2(nettoNeu));
+  set('ge-jahres-gewinn',  '+' + f0(nettoDiff * 12));
+  set('ge-effquote',       fp(nettoQuote));
+  set('ge-10j',            '+' + f0(nettoDiff * 12 * 10));
+  set('ge-neu-brutto2',    f2(bruttoNeu));
+  set('ge-brutto-diff2',   '+' + f2(bruttoDiff));
+  set('ge-lst-diff',       f2(rAlt.lohnsteuer) + ' → ' + f2(rNeu.lohnsteuer));
+  set('ge-soz-diff',       f2(rAlt.sozialAbgaben) + ' → ' + f2(rNeu.sozialAbgaben));
+  set('ge-netto-diff',     f2(nettoAlt) + ' → ' + f2(nettoNeu));
+  set('ge-netto-diff2',    '+' + f2(nettoDiff));
+
+  // Inflation
+  set('ge-inf-label',     (inflation*100).toFixed(1));
+  set('ge-real-gewinn',   realNettoDiff >= 0 ? '+' + f2(realNettoDiff) : f2(realNettoDiff));
+  const realHinweis = realNettoDiff < 0
+    ? '⚠️ Deine Gehaltserhöhung liegt unter der Inflation — real ein Kaufkraftverlust.'
+    : realNettoDiff < 50
+    ? '⚡ Deine Erhöhung gleicht die Inflation gerade aus — kaum echter Gewinn.'
+    : '✅ Deine Gehaltserhöhung liegt über der Inflation — echter Kaufkraftgewinn.';
+  set('ge-real-hinweis', realHinweis);
+}
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.closest('.faq-row').classList.toggle('open'));
+});
+
+document.querySelectorAll('[data-tt]').forEach(el => {
+  const text = el.getAttribute('data-tt');
+  if (!text) return;
+  const wrap = document.createElement('span');
+  wrap.className = 'tooltip-wrap';
+  wrap.innerHTML = `<span class="tooltip-icon">?</span><span class="tooltip-box">${text}</span>`;
+  const box = wrap.querySelector('.tooltip-box');
+  wrap.addEventListener('mouseenter', () => {
+    const r = wrap.getBoundingClientRect();
+    box.style.left = Math.min(r.left, window.innerWidth-260)+'px';
+    box.style.top = (r.top+window.scrollY-box.offsetHeight-10)+'px';
+    box.style.position='absolute';
+  });
+  el.appendChild(wrap);
+});
+
+calcGE();
+</script>
+</body>
+</html>

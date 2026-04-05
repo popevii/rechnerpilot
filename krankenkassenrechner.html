@@ -63,7 +63,7 @@
         <div class="field">
           <label>Bruttogehalt (monatlich)</label>
           <div class="input-wrap">
-            <input type="number" id="kk-brutto" value="3500" min="0" max="20000" oninput="calcKK()">
+            <input type="number" inputmode="decimal" id="kk-brutto" value="3500" min="0" max="20000" oninput="calcKK()">
             <span class="input-unit">€</span>
           </div>
           <input type="range" class="range-slider" min="500" max="10000" step="100" value="3500"
@@ -73,7 +73,7 @@
         <div class="field">
           <label>Dein Zusatzbeitrag (AN-Anteil)</label>
           <div class="input-wrap">
-            <input type="number" id="kk-zusatz" value="1.45" step="0.05" min="0" max="5" oninput="calcKK()">
+            <input type="number" inputmode="decimal" id="kk-zusatz" value="1.45" step="0.05" min="0" max="5" oninput="calcKK()">
             <span class="input-unit">%</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø 2026: 1,45 % (Ø Zusatzbeitrag: 2,9 % — je hälftig AN/AG)</div>
@@ -170,26 +170,35 @@
   </div>
 
   <div class="content-section">
-    <h2>Verwandte Rechner</h2>
+    <h2>Weitere passende Rechner</h2>
     <div class="related-grid">
-      <a href="brutto-netto-rechner.html" class="cc">
+      <a href="https://www.rechnerpilot.de/brutto-netto-rechner" class="cc">
         <div class="cc-icon bg-g">💼</div>
-        <h3>Brutto-Netto</h3>
-        <p>Alle Abzüge inkl. Krankenversicherung.</p>
+        <h3>Brutto-Netto-Rechner</h3>
+        <p>Nettogehalt mit anderem KK-Beitrag.</p>
         <div class="cc-link">Zum Rechner →</div>
       </a>
-      <a href="stromkostenrechner.html" class="cc">
-        <div class="cc-icon bg-y">⚡</div>
-        <h3>Stromkostenrechner</h3>
-        <p>Jahresstromkosten berechnen.</p>
+      <a href="https://www.rechnerpilot.de/altersvorsorge-rechner" class="cc">
+        <div class="cc-icon bg-g">🏛️</div>
+        <h3>Altersvorsorge-Rechner</h3>
+        <p>Krankenversicherung im Ruhestand.</p>
         <div class="cc-link">Zum Rechner →</div>
       </a>
-      <a href="gaskostenrechner.html" class="cc">
-        <div class="cc-icon bg-y">🔥</div>
-        <h3>Gaskostenrechner</h3>
-        <p>Jahresheizkosten berechnen.</p>
+      <a href="https://www.rechnerpilot.de/etf-sparplan-rechner" class="cc">
+        <div class="cc-icon bg-g">📈</div>
+        <h3>ETF Sparplan</h3>
+        <p>Ersparnis investieren.</p>
         <div class="cc-link">Zum Rechner →</div>
       </a>
+      <a href="https://www.rechnerpilot.de/gehaltserhöhung-rechner" class="cc">
+        <div class="cc-icon bg-g">📊</div>
+        <h3>Gehaltserhöhung</h3>
+        <p>Wie viel bringt Gehaltserhöhung?</p>
+        <div class="cc-link">Zum Rechner →</div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <a href="https://www.rechnerpilot.de/alle-rechner" style="font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;">Alle 25 Rechner ansehen →</a>
     </div>
   </div>
 </div>

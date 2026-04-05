@@ -243,6 +243,7 @@ function renderFooter() {
   <footer>
     <div class="footer-inner">
       <div class="footer-grid">
+
         <div class="footer-brand">
           <a href="${base}/" class="logo">
             <div class="logo-icon">
@@ -253,60 +254,65 @@ function renderFooter() {
             </div>
             <span class="logo-wordmark logo-wordmark-white">RechnerPilot</span>
           </a>
-          <p>Kostenlose Finanzrechner für Deutschland. Klar, präzise, ohne Bannerwerbung.</p>
+          <p>Kostenlose Finanzrechner für Deutschland. Präzise, aktuell, ohne Bannerwerbung.</p>
+          <div style="margin-top:12px;">
+            <a href="${base}/alle-rechner" style="display:inline-block;background:rgba(255,255,255,.12);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,.2);">🗂️ Alle 25 Rechner →</a>
+          </div>
         </div>
+
         <div class="footer-col">
           <h4>Gehalt & Steuern</h4>
           <ul>
-            <li><a href="${base}/brutto-netto-rechner">Brutto-Netto</a></li>
-            <li><a href="${base}/gehaltserhöhung-rechner">Gehaltserhöhung</a></li>
-            <li><a href="${base}/krankenkassenrechner">Krankenkasse</a></li>
+            <li><a href="${base}/brutto-netto-rechner">Brutto-Netto-Rechner</a></li>
+            <li><a href="${base}/gehaltserhöhung-rechner">Gehaltserhöhung Rechner</a></li>
+            <li><a href="${base}/krankenkassenrechner">Krankenkassen-Rechner</a></li>
             <li><a href="${base}/abgeltungssteuer-rechner">Abgeltungssteuer</a></li>
             <li><a href="${base}/tvoed-rechner">TVöD Rechner</a></li>
-            <li><a href="${base}/tvoed-sue-rechner">TVöD-SuE</a></li>
-            <li><a href="${base}/tvoed-p-rechner">TVöD-P Pflege</a></li>
+            <li><a href="${base}/tvoed-sue-rechner">TVöD-SuE (Erzieher)</a></li>
+            <li><a href="${base}/tvoed-p-rechner">TVöD-P (Pflege)</a></li>
             <li><a href="${base}/tv-l-rechner">TV-L Rechner</a></li>
             <li><a href="${base}/beamte-rechner">Beamte Bund</a></li>
-            <li><a href="${base}/beamte-laender-rechner">Beamte Länder</a></li>
+            <li><a href="${base}/beamte-laender-rechner">Beamte alle Länder</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
-          <h4>Geldanlage & Sparen</h4>
+          <h4>Geldanlage</h4>
           <ul>
-            <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan</a></li>
+            <li><a href="${base}/etf-sparplan-rechner">ETF Sparplan Rechner</a></li>
             <li><a href="${base}/etf-rechner">ETF Tools</a></li>
             <li><a href="${base}/zinseszins-rechner">Zinseszins Rechner</a></li>
             <li><a href="${base}/sparrechner">Sparrechner</a></li>
-            <li><a href="${base}/inflationsrechner">Inflationsrechner</a></li>
             <li><a href="${base}/tagesgeld-rechner">Tagesgeld Rechner</a></li>
             <li><a href="${base}/festgeld-rechner">Festgeld Rechner</a></li>
+            <li><a href="${base}/inflationsrechner">Inflationsrechner</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
-          <h4>Kredit & Vorsorge</h4>
+          <h4>Altersvorsorge & Kredit</h4>
           <ul>
-            <li><a href="${base}/alle-rechner" style="font-weight:700;">→ Alle 25 Rechner</a></li>
+            <li><a href="${base}/altersvorsorge-rechner">Altersvorsorge-Rechner</a></li>
+            <li><a href="${base}/entnahmerechner">Entnahmerechner</a></li>
             <li><a href="${base}/baufinanzierung-rechner">Baufinanzierung</a></li>
             <li><a href="${base}/kreditrechner">Kreditrechner</a></li>
-            <li><a href="${base}/altersvorsorge-rechner">Altersvorsorge</a></li>
-            <li><a href="${base}/entnahmerechner">Entnahmerechner</a></li>
             <li><a href="${base}/stromkostenrechner">Stromkostenrechner</a></li>
             <li><a href="${base}/gaskostenrechner">Gaskostenrechner</a></li>
           </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Ratgeber & Info</h4>
+          <h4 style="margin-top:20px;">Service</h4>
           <ul>
-            <li><a href="${base}/ratgeber/terraLuna-lektion">20.000 € Lektion</a></li>
+            <li><a href="${base}/alle-rechner" style="font-weight:700;">Alle 25 Rechner</a></li>
+            <li><a href="${base}/ratgeber/terraLuna-lektion">Ratgeber: 20.000 € Lektion</a></li>
             <li><a href="${base}/impressum">Impressum</a></li>
             <li><a href="${base}/datenschutz">Datenschutz</a></li>
             <li><a href="${base}/methodik">Methodik</a></li>
           </ul>
         </div>
+
       </div>
       <div class="footer-bottom">
         <span>© ${SITE.year} RechnerPilot · Keine Anlageberatung · Alle Angaben ohne Gewähr</span>
-        <span>Kein Tracking · Keine Bannerwerbung · Affiliate-transparent</span>
+        <span>Kein Tracking · Keine Bannerwerbung · Partnerlinks transparent gekennzeichnet</span>
       </div>
     </div>
   </footer>`;
