@@ -10,25 +10,13 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Kreditrechner 2026",
-  "description": "Monatsrate und Tilgungsplan für Kredite berechnen",
-  "url": "https://rechnerpilot.de/kreditrechner",
-  "breadcrumb": {
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type":"ListItem","position":1,"name":"Startseite","item":"https://rechnerpilot.de"},
-      {"@type":"ListItem","position":2,"name":"Kreditrechner","item":"https://rechnerpilot.de/kreditrechner"}
-    ]
-  }
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.rechnerpilot.de/"},
+    {"@type":"ListItem","position":2,"name":"Kredite","item":"https://www.rechnerpilot.de/alle-rechner"},
+    {"@type":"ListItem","position":3,"name":"Kreditrechner","item":"https://www.rechnerpilot.de/kreditrechner"}
+  ]
 }
-
-// FAQ Toggle Fix
-setTimeout(() => {
-  document.querySelectorAll('.faq-q').forEach(q => {
-    q.onclick = () => q.closest('.faq-row').classList.toggle('open');
-  });
-}, 100);
 </script>
 <style>
 .tilgung-table { width:100%; border-collapse:collapse; margin-top:16px; font-size:13px; }
@@ -46,9 +34,13 @@ setTimeout(() => {
 
 <div class="calc-page">
   <div class="calc-header fu">
-    <div class="calc-breadcrumb">
-      <a href="index.html">Startseite</a><span>›</span><span>Kreditrechner</span>
-    </div>
+      <div class="calc-breadcrumb">
+    <a href="/">Startseite</a>
+    <span>›</span>
+    <a href="/alle-rechner">Kredite</a>
+    <span>›</span>
+    <span>Kreditrechner</span>
+  </div>
     <h1>Kreditrechner 2026</h1>
     <p>Berechne deine monatliche Rate, Gesamtzinsen und Tilgungsplan für Raten-, Auto- und Konsumkredite.</p>
   </div>

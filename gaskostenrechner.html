@@ -28,6 +28,17 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.rechnerpilot.de/"},
+    {"@type":"ListItem","position":2,"name":"Energie & Haushalt","item":"https://www.rechnerpilot.de/alle-rechner"},
+    {"@type":"ListItem","position":3,"name":"Gaskostenrechner","item":"https://www.rechnerpilot.de/gaskostenrechner"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Gaskostenrechner 2026",
   "description": "Jahresheizkosten mit Gas berechnen",
@@ -52,9 +63,13 @@
 
 <div class="calc-page">
   <div class="calc-header fu">
-    <div class="calc-breadcrumb">
-      <a href="index.html">Startseite</a><span>›</span><span>Gaskostenrechner</span>
-    </div>
+      <div class="calc-breadcrumb">
+    <a href="/">Startseite</a>
+    <span>›</span>
+    <a href="/alle-rechner">Energie & Haushalt</a>
+    <span>›</span>
+    <span>Gaskostenrechner</span>
+  </div>
     <h1>Gaskostenrechner 2026</h1>
     <p>Berechne deine jährlichen Heizkosten mit Gas und finde den günstigsten Anbieter in deiner Region.</p>
   </div>
@@ -96,7 +111,7 @@
         <div class="field">
           <label>Jahresverbrauch (kWh)</label>
           <div class="input-wrap">
-            <input type="number" id="g-kwh" value="10000" min="0" max="100000" oninput="calcGas()">
+            <input type="number" inputmode="decimal" id="g-kwh" value="10000" min="0" max="100000" oninput="calcGas()">
             <span class="input-unit">kWh</span>
           </div>
           <input type="range" class="range-slider" min="1000" max="40000" step="500" value="10000"
@@ -106,7 +121,7 @@
         <div class="field">
           <label>Arbeitspreis (Cent/kWh)</label>
           <div class="input-wrap">
-            <input type="number" id="g-preis" value="10.5" step="0.1" min="1" max="40" oninput="calcGas()">
+            <input type="number" inputmode="decimal" id="g-preis" value="10.5" step="0.1" min="1" max="40" oninput="calcGas()">
             <span class="input-unit">ct</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">Ø Deutschland 2026: ca. 9–13 Cent/kWh</div>
@@ -115,7 +130,7 @@
         <div class="field">
           <label>Grundpreis (monatlich)</label>
           <div class="input-wrap">
-            <input type="number" id="g-grund" value="15" step="0.5" min="0" max="80" oninput="calcGas()">
+            <input type="number" inputmode="decimal" id="g-grund" value="15" step="0.5" min="0" max="80" oninput="calcGas()">
             <span class="input-unit">€</span>
           </div>
         </div>

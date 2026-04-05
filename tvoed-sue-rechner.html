@@ -44,6 +44,17 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.rechnerpilot.de/"},
+    {"@type":"ListItem","position":2,"name":"Öffentlicher Dienst","item":"https://www.rechnerpilot.de/alle-rechner"},
+    {"@type":"ListItem","position":3,"name":"TVöD-SuE Rechner","item":"https://www.rechnerpilot.de/tvoed-sue-rechner"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "TVöD SuE Rechner 2026",
   "description": "Gehalt für Erzieher und Sozialpädagogen berechnen",
@@ -68,11 +79,13 @@
 
 <div class="calc-page">
   <div class="calc-header fu">
-    <div class="calc-breadcrumb">
-      <a href="index.html">Startseite</a><span>›</span>
-      <a href="tvoed-rechner.html">TVöD</a><span>›</span>
-      <span>TVöD-SuE</span>
-    </div>
+      <div class="calc-breadcrumb">
+    <a href="/">Startseite</a>
+    <span>›</span>
+    <a href="/alle-rechner">Öffentlicher Dienst</a>
+    <span>›</span>
+    <span>TVöD-SuE Rechner</span>
+  </div>
     <h1>TVöD SuE Gehaltsrechner 2026</h1>
     <p>Gehalt für Erzieher, Sozialpädagogen, Kita-Leitungen und alle Berufe im Sozial- und Erziehungsdienst berechnen — S2 bis S18, inkl. SuE-Zulage und Netto.</p>
   </div>
@@ -105,7 +118,7 @@
         <div class="field">
           <label>Beschäftigungsumfang</label>
           <div class="input-wrap">
-            <input type="number" id="sue-teilzeit" value="100" min="10" max="100" step="5" oninput="calcSuE()">
+            <input type="number" inputmode="decimal" id="sue-teilzeit" value="100" min="10" max="100" step="5" oninput="calcSuE()">
             <span class="input-unit">%</span>
           </div>
         </div>
@@ -161,7 +174,7 @@
         <div class="field">
           <label data-tt="Ø 2026: 1,45 % AN-Anteil (Gesamt 2,9 %). Je nach Krankenkasse niedriger oder höher.">GKV-Zusatzbeitrag (AN-Anteil) <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Ø 2026: 1,45 % AN-Anteil (Gesamt 2,9 %). Je nach Krankenkasse niedriger oder höher.</span></span></label>
           <div class="input-wrap">
-            <input type="number" id="sue-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcSuE()">
+            <input type="number" inputmode="decimal" id="sue-kvz" value="1.45" step="0.05" min="0" max="5" oninput="calcSuE()">
             <span class="input-unit">%</span>
           </div>
         </div>
@@ -194,7 +207,7 @@
         <div class="field">
           <label>Weitere Zulagen / Zuschläge</label>
           <div class="input-wrap">
-            <input type="number" id="sue-extra" value="0" min="0" step="10" oninput="calcSuE()">
+            <input type="number" inputmode="decimal" id="sue-extra" value="0" min="0" step="10" oninput="calcSuE()">
             <span class="input-unit">€/Monat</span>
           </div>
           <div style="font-size:11px;color:var(--ink-3);margin-top:4px;">z.B. Schichtzulage, Amtszulage, Stellenzulage, Ballungsraumzulage</div>

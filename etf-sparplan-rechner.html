@@ -32,6 +32,17 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.rechnerpilot.de/"},
+    {"@type":"ListItem","position":2,"name":"Geldanlage","item":"https://www.rechnerpilot.de/alle-rechner"},
+    {"@type":"ListItem","position":3,"name":"ETF Sparplan Rechner","item":"https://www.rechnerpilot.de/etf-sparplan-rechner"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "ETF Sparplan Rechner 2026",
   "description": "Endkapital und Rendite für ETF-Sparpläne berechnen",
@@ -69,9 +80,13 @@ document.addEventListener('click', e => {
 
 <div class="calc-page">
   <div class="calc-header fu">
-    <div class="calc-breadcrumb">
-      <a href="index.html">Startseite</a><span>›</span><span>ETF-Sparplan-Rechner</span>
-    </div>
+      <div class="calc-breadcrumb">
+    <a href="/">Startseite</a>
+    <span>›</span>
+    <a href="/alle-rechner">Geldanlage</a>
+    <span>›</span>
+    <span>ETF Sparplan Rechner</span>
+  </div>
     <h1>ETF-Sparplan-Rechner</h1>
     <p>Berechne dein Endkapital, den Zinseszinseffekt und deine mögliche Entnahmerate durch regelmäßiges Investieren in ETFs.</p>
   </div>
