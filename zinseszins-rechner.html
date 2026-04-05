@@ -60,6 +60,40 @@
 .stat-val { font-size:22px; font-weight:800; font-family:'Instrument Serif',serif; color:var(--accent); }
 .stat-label { font-size:11px; color:var(--ink-3); margin-top:3px; }
 
+/* ── Neue Features ── */
+.interpretation-box {
+  background:var(--accent-light); border:1.5px solid rgba(26,92,58,.2);
+  border-radius:12px; padding:16px 18px; margin-top:12px;
+}
+.ib-title { font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.ib-row { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--ink-2); margin-bottom:6px; line-height:1.5; }
+.ib-row:last-child { margin-bottom:0; }
+.ib-icon { flex-shrink:0; }
+.ib-text strong { color:var(--ink); }
+
+.schnell-btns { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.schnell-btn { padding:7px 13px; border-radius:8px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:12px; font-weight:600; color:var(--accent); cursor:pointer; transition:all .15s; }
+.schnell-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+.schnell-btn-label { font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; margin-top:10px; margin-bottom:4px; }
+
+.reset-btn { display:flex; align-items:center; gap:5px; padding:7px 14px; border-radius:8px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:12px; font-weight:600; color:var(--ink-3); cursor:pointer; transition:all .15s; margin-top:8px; }
+.reset-btn:hover { border-color:var(--ink-3); color:var(--ink); }
+
+.vergleich-panel { display:none; background:#fff; border:1.5px solid var(--accent); border-radius:12px; padding:16px; margin-top:12px; }
+.vergleich-panel.open { display:block; }
+.vergleich-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.vergleich-col { text-align:center; }
+.vergleich-col-label { font-size:11px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+.vergleich-col-val { font-size:20px; font-weight:800; font-family:'Instrument Serif',serif; color:var(--accent); }
+.vergleich-col-sub { font-size:11px; color:var(--ink-3); margin-top:2px; }
+.vergleich-diff { text-align:center; padding:10px; background:var(--accent-light); border-radius:8px; margin-top:10px; font-size:13px; color:var(--ink-2); }
+.vergleich-diff strong { color:var(--accent); font-size:16px; }
+
+/* Sticky Result Mobile */
+@media(max-width:768px) {
+  .result-main { position:sticky; top:0; z-index:10; border-radius:0; margin:0 -20px; }
+}
+
 /* Vergleich Toggle */
 .vergleich-toggle { display:flex; gap:4px; background:var(--border); border-radius:10px; padding:3px; width:fit-content; margin-top:8px; }
 .vt-btn { padding:6px 14px; border-radius:8px; border:none; background:transparent; font-size:12px; font-weight:600; color:var(--ink-3); cursor:pointer; font-family:'Instrument Sans',sans-serif; transition:all .15s; }
@@ -246,6 +280,50 @@
             <div class="stat-label">Monatl. Wachstum am Ende</div>
           </div>
         </div>
+
+        <!-- INTERPRETATION -->
+        <div class="interpretation-box" id="zz-interpretation">
+          <div class="ib-title">💡 Das bedeutet für dich</div>
+          <div class="ib-row"><span class="ib-icon">📈</span><span class="ib-text" id="ib-fazit">—</span></div>
+          <div class="ib-row"><span class="ib-icon">⚡</span><span class="ib-text" id="ib-vergleich">—</span></div>
+          <div class="ib-row"><span class="ib-icon">🎯</span><span class="ib-text" id="ib-tipp">—</span></div>
+        </div>
+
+        <!-- SCHNELLBUTTONS -->
+        <div>
+          <div class="schnell-btn-label">Was passiert wenn...</div>
+          <div class="schnell-btns">
+            <button class="schnell-btn" onclick="schnellAendern('sparrate', 50)">+ 50 € Sparrate</button>
+            <button class="schnell-btn" onclick="schnellAendern('sparrate', 100)">+ 100 € Sparrate</button>
+            <button class="schnell-btn" onclick="schnellAendern('rendite', 1)">+ 1 % Rendite</button>
+            <button class="schnell-btn" onclick="schnellAendern('jahre', 5)">+ 5 Jahre früher</button>
+            <button class="schnell-btn" onclick="schnellAendern('start', 5000)">+ 5.000 € Startkapital</button>
+          </div>
+        </div>
+
+        <!-- VERGLEICHS-ERGEBNIS -->
+        <div class="vergleich-panel" id="zz-vergleich-panel">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Vergleich: Vorher vs. Nachher</div>
+          <div class="vergleich-row">
+            <div class="vergleich-col">
+              <div class="vergleich-col-label">Vorher</div>
+              <div class="vergleich-col-val" id="vgl-vorher">—</div>
+              <div class="vergleich-col-sub" id="vgl-vorher-sub">—</div>
+            </div>
+            <div class="vergleich-col">
+              <div class="vergleich-col-label">Nachher</div>
+              <div class="vergleich-col-val" id="vgl-nachher">—</div>
+              <div class="vergleich-col-sub" id="vgl-nachher-sub">—</div>
+            </div>
+          </div>
+          <div class="vergleich-diff">
+            Unterschied: <strong id="vgl-diff">—</strong> mehr Endkapital
+            <button onclick="document.getElementById('zz-vergleich-panel').classList.remove('open')" style="margin-left:10px;background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:12px;">✕ Schließen</button>
+          </div>
+        </div>
+
+        <!-- RESET -->
+        <button class="reset-btn" onclick="resetZZ()">↺ Zurücksetzen</button>
       </div>
     </div>
 
@@ -512,6 +590,9 @@ function calcZZ() {
   // Chart
   renderChart(jahresDaten, mitInflation);
 
+  // Interpretation aktualisieren
+  updateInterpretation(end.kapital, eingezahlt, zinsen, jahre, sparrate * sparIntervall, rendite * 100);
+
   // Szenario-Karte als aktiv markieren
   document.querySelectorAll('.szen-card').forEach(c => {
     c.classList.toggle('active', parseFloat(c.dataset.r) === rendite * 100);
@@ -597,6 +678,112 @@ function renderChart(data, mitInflation) {
       }
     }
   });
+}
+
+// ── Schnell-Ändern Funktion mit Vergleich ──
+let zzVorherWert = null;
+let zzVorherParam = null;
+
+function schnellAendern(param, delta) {
+  // Aktuellen Wert merken
+  const endEl = document.getElementById('zz-endkapital');
+  zzVorherWert = endEl ? endEl.textContent : null;
+  zzVorherParam = param;
+
+  if (param === 'sparrate') {
+    const el = document.getElementById('zz-sparrate');
+    el.value = (parseFloat(el.value) || 0) + delta;
+  } else if (param === 'rendite') {
+    const el = document.getElementById('zz-rendite');
+    const neu = Math.min(15, (parseFloat(el.value) || 0) + delta);
+    el.value = neu;
+    document.getElementById('zz-rendite-slider').value = neu;
+    // Szenario-Karte aktualisieren
+    document.querySelectorAll('.szen-card').forEach(c => {
+      c.classList.toggle('active', parseFloat(c.dataset.r) === neu);
+    });
+  } else if (param === 'jahre') {
+    const el = document.getElementById('zz-jahre');
+    const neu = Math.min(60, (parseInt(el.value) || 0) + delta);
+    el.value = neu;
+    document.getElementById('zz-jahre-slider').value = neu;
+  } else if (param === 'start') {
+    const el = document.getElementById('zz-start');
+    el.value = (parseFloat(el.value) || 0) + delta;
+    document.getElementById('zz-start-slider').value = Math.min(el.value, 100000);
+  }
+
+  calcZZ();
+
+  // Vergleich anzeigen
+  const nachher = document.getElementById('zz-endkapital')?.textContent;
+  const panel = document.getElementById('zz-vergleich-panel');
+  const labels = { sparrate: `+${delta} € Sparrate`, rendite: `+${delta} % Rendite`, jahre: `+${delta} Jahre`, start: `+${delta.toLocaleString('de-DE')} € Startkapital` };
+  if (panel && zzVorherWert && nachher) {
+    panel.classList.add('open');
+    document.getElementById('vgl-vorher').textContent = zzVorherWert;
+    document.getElementById('vgl-vorher-sub').textContent = 'Dein aktueller Wert';
+    document.getElementById('vgl-nachher').textContent = nachher;
+    document.getElementById('vgl-nachher-sub').textContent = labels[param] || '';
+    // Differenz berechnen
+    const v = parseFloat(zzVorherWert.replace(/\./g,'').replace(',','.').replace(' €','')) || 0;
+    const n = parseFloat(nachher.replace(/\./g,'').replace(',','.').replace(' €','')) || 0;
+    const diff = n - v;
+    document.getElementById('vgl-diff').textContent = (diff >= 0 ? '+' : '') + Math.round(diff).toLocaleString('de-DE') + ' €';
+  }
+}
+
+function resetZZ() {
+  document.getElementById('zz-start').value = 5000;
+  document.getElementById('zz-sparrate').value = 200;
+  document.getElementById('zz-rendite').value = 7;
+  document.getElementById('zz-jahre').value = 20;
+  document.getElementById('zz-inflation-cb').checked = false;
+  document.getElementById('zz-steuer-cb').checked = false;
+  document.getElementById('zz-start-slider').value = 5000;
+  document.getElementById('zz-rendite-slider').value = 7;
+  document.getElementById('zz-jahre-slider').value = 20;
+  document.getElementById('zz-vergleich-panel').classList.remove('open');
+  // Szenario zurücksetzen
+  document.querySelectorAll('.szen-card').forEach(c => {
+    c.classList.toggle('active', parseFloat(c.dataset.r) === 7);
+  });
+  calcZZ();
+}
+
+// ── Interpretations-Texte ──
+function updateInterpretation(endkapital, eingezahlt, zinsen, jahre, sparrate, rendite) {
+  const anteil = zinsen / endkapital * 100;
+  const monatlichWachstum = endkapital * rendite / 100 / 12;
+
+  // Fazit
+  let fazit;
+  if (anteil > 70) {
+    fazit = `<strong>Beeindruckend:</strong> ${anteil.toFixed(0)} % deines Endkapitals stammen aus Zinseszins — nicht aus deinen Einzahlungen. Der Markt arbeitet für dich.`;
+  } else if (anteil > 50) {
+    fazit = `<strong>Solides Ergebnis:</strong> Mehr als die Hälfte (${anteil.toFixed(0)} %) kommt durch Zinseszins. Mit längerer Laufzeit wächst dieser Anteil weiter.`;
+  } else {
+    fazit = `<strong>Guter Start:</strong> ${anteil.toFixed(0)} % Zinseszins-Anteil. Mit längerer Laufzeit oder höherer Rendite wächst dieser Anteil deutlich.`;
+  }
+
+  // Vergleich mit deutschem Durchschnitt
+  const dtSparrate = 200; // Ø Sparrate Deutsche
+  let vergleich;
+  if (sparrate > dtSparrate * 1.5) {
+    vergleich = `Du sparst <strong>deutlich mehr</strong> als der deutsche Durchschnitt (~200 €/Monat). Das zahlt sich über ${jahre} Jahre enorm aus.`;
+  } else if (sparrate < dtSparrate * 0.5) {
+    vergleich = `Der deutsche Durchschnitt spart ca. 200 €/Monat. Mit etwas mehr Sparrate könntest du dein Ergebnis deutlich verbessern.`;
+  } else {
+    vergleich = `Deine Sparrate liegt im Bereich des deutschen Durchschnitts (~200 €/Monat). Schon kleine Erhöhungen haben große Langzeitwirkung.`;
+  }
+
+  // Tipp
+  const mehrMitPlus50 = ((200 + 50) * (Math.pow(1 + rendite/100/12, jahre*12) - 1) / (rendite/100/12)) - (200 * (Math.pow(1 + rendite/100/12, jahre*12) - 1) / (rendite/100/12));
+  const tipp = `Mit nur <strong>+50 €/Monat</strong> mehr würdest du nach ${jahre} Jahren ca. <strong>+${Math.round(mehrMitPlus50).toLocaleString('de-DE')} €</strong> zusätzlich ansparen.`;
+
+  document.getElementById('ib-fazit').innerHTML = fazit;
+  document.getElementById('ib-vergleich').innerHTML = vergleich;
+  document.getElementById('ib-tipp').innerHTML = tipp;
 }
 
 document.querySelectorAll('.faq-q').forEach(q => {

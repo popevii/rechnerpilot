@@ -17,6 +17,16 @@
 .highlight-box { background:var(--accent); color:#ffffff; border-radius:14px; padding:20px 24px; margin:20px 0; }
 .highlight-box h3 { font-size:16px; margin-bottom:6px; color:#fff; }
 .highlight-box p { font-size:13.5px; color:#ffffff; }
+
+.reset-btn { display:inline-flex; align-items:center; gap:5px; padding:7px 14px; border-radius:8px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:12px; font-weight:600; color:var(--ink-3); cursor:pointer; transition:all .15s; margin-top:8px; }
+.reset-btn:hover { border-color:var(--ink-3); color:var(--ink); }
+.interpretation-box { background:var(--accent-light); border:1.5px solid rgba(26,92,58,.2); border-radius:12px; padding:14px 16px; margin-top:10px; }
+.ib-title { font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
+.ib-row { font-size:13px; color:var(--ink-2); margin-bottom:5px; line-height:1.5; }
+.schnell-btns { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.schnell-btn { padding:6px 12px; border-radius:7px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:11px; font-weight:600; color:var(--accent); cursor:pointer; transition:all .15s; }
+.schnell-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+.schnell-btn-label { font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; margin-top:10px; margin-bottom:4px; }
 </style>
 
 <script type="application/ld+json">
@@ -140,6 +150,14 @@ document.addEventListener('click', e => {
           <div class="prog-bar-labels"><span>Renditeanteil am Endkapital</span><span id="etf-bar-pct">—</span></div>
           <div class="prog-bar"><div class="prog-bar-fill" id="etf-bar" style="width:0%"></div></div>
         </div>
+      </div>
+    </div>
+    <div style="padding:12px 28px 0;">
+      <div class="schnell-btn-label">Was passiert wenn...</div>
+      <div class="schnell-btns" style="margin-bottom:12px;">
+        <button class="schnell-btn" onclick="const e=document.getElementById('etf-sparrate');e.value=parseInt(e.value||0)+50;calcETF&&calcETF()">+ 50 € Sparrate</button>
+        <button class="schnell-btn" onclick="const e=document.getElementById('etf-rendite');e.value=Math.min(15,(parseFloat(e.value)||0)+1);calcETF&&calcETF()">+ 1 % Rendite</button>
+        <button class="schnell-btn" onclick="const e=document.getElementById('etf-jahre');e.value=Math.min(50,(parseInt(e.value)||0)+5);calcETF&&calcETF()">+ 5 Jahre</button>
       </div>
     </div>
     <div class="calc-disclaimer">

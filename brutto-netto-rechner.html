@@ -75,6 +75,16 @@
 .section-toggle.open::after { transform:rotate(180deg); }
 .section-body { display:none; padding-top:12px; }
 .section-body.open { display:block; }
+
+.reset-btn { display:inline-flex; align-items:center; gap:5px; padding:7px 14px; border-radius:8px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:12px; font-weight:600; color:var(--ink-3); cursor:pointer; transition:all .15s; margin-top:8px; }
+.reset-btn:hover { border-color:var(--ink-3); color:var(--ink); }
+.interpretation-box { background:var(--accent-light); border:1.5px solid rgba(26,92,58,.2); border-radius:12px; padding:14px 16px; margin-top:10px; }
+.ib-title { font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
+.ib-row { font-size:13px; color:var(--ink-2); margin-bottom:5px; line-height:1.5; }
+.schnell-btns { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.schnell-btn { padding:6px 12px; border-radius:7px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:11px; font-weight:600; color:var(--accent); cursor:pointer; transition:all .15s; }
+.schnell-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+.schnell-btn-label { font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; margin-top:10px; margin-bottom:4px; }
 </style>
 </head>
 <body data-page="brutto">
@@ -436,11 +446,57 @@ function selectJahrBN(btn) {
   calcBN();
 }
 
+function updateBNInterpretation(brutto, netto, quote, f) {
+  const jahrNetto = netto * 12;
+  const median = modus === 'monat' ? 2256 : 2256*12; // Median Netto DE 2024
+  const nettoM = modus === 'monat' ? netto : netto/12;
+  
+  let ib1, ib2;
+  if (nettoM > 4000) {
+    ib1 = `<strong>Top 10 %:</strong> Mit ${Math.round(nettoM).toLocaleString('de-DE')} € Netto/Monat liegst du deutlich über dem deutschen Median (~2.256 €). Stark positioniert für Vermögensaufbau.`;
+  } else if (nettoM > 2256) {
+    ib1 = `<strong>Über dem Median:</strong> Der deutsche Netto-Median liegt bei ca. 2.256 €/Monat. Du liegst ${Math.round(((nettoM/2256)-1)*100)} % darüber.`;
+  } else {
+    ib1 = `<strong>Unter dem Median:</strong> Der deutsche Netto-Median liegt bei ca. 2.256 €/Monat. Eine Gehaltserhöhung oder Steuerstrategie könnte helfen.`;
+  }
+  
+  const ek = Math.round(nettoM * 0.2);
+  ib2 = `Bei 20 % Sparquote könntest du <strong>${ek.toLocaleString('de-DE')} €/Monat</strong> investieren. Nach 20 Jahren bei 7 % Rendite: ca. <strong>${Math.round(ek * (Math.pow(1+0.07/12, 240)-1)/(0.07/12)).toLocaleString('de-DE')} €</strong>.`;
+  
+  const el1 = document.getElementById('bn-ib-1');
+  const el2 = document.getElementById('bn-ib-2');
+  if (el1) el1.innerHTML = ib1;
+  if (el2) el2.innerHTML = ib2;
+}
+
 function selectKlasse(btn) {
   document.querySelectorAll('#klasse-group .toggle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   aktuelleKlasse = parseInt(btn.dataset.val);
   calcBN();
+}
+
+function updateBNInterpretation(brutto, netto, quote, f) {
+  const jahrNetto = netto * 12;
+  const median = modus === 'monat' ? 2256 : 2256*12; // Median Netto DE 2024
+  const nettoM = modus === 'monat' ? netto : netto/12;
+  
+  let ib1, ib2;
+  if (nettoM > 4000) {
+    ib1 = `<strong>Top 10 %:</strong> Mit ${Math.round(nettoM).toLocaleString('de-DE')} € Netto/Monat liegst du deutlich über dem deutschen Median (~2.256 €). Stark positioniert für Vermögensaufbau.`;
+  } else if (nettoM > 2256) {
+    ib1 = `<strong>Über dem Median:</strong> Der deutsche Netto-Median liegt bei ca. 2.256 €/Monat. Du liegst ${Math.round(((nettoM/2256)-1)*100)} % darüber.`;
+  } else {
+    ib1 = `<strong>Unter dem Median:</strong> Der deutsche Netto-Median liegt bei ca. 2.256 €/Monat. Eine Gehaltserhöhung oder Steuerstrategie könnte helfen.`;
+  }
+  
+  const ek = Math.round(nettoM * 0.2);
+  ib2 = `Bei 20 % Sparquote könntest du <strong>${ek.toLocaleString('de-DE')} €/Monat</strong> investieren. Nach 20 Jahren bei 7 % Rendite: ca. <strong>${Math.round(ek * (Math.pow(1+0.07/12, 240)-1)/(0.07/12)).toLocaleString('de-DE')} €</strong>.`;
+  
+  const el1 = document.getElementById('bn-ib-1');
+  const el2 = document.getElementById('bn-ib-2');
+  if (el1) el1.innerHTML = ib1;
+  if (el2) el2.innerHTML = ib2;
 }
 
 function setModus(m, btn) {
@@ -464,6 +520,29 @@ function setModus(m, btn) {
   syncSlider(); calcBN();
 }
 
+function updateBNInterpretation(brutto, netto, quote, f) {
+  const jahrNetto = netto * 12;
+  const median = modus === 'monat' ? 2256 : 2256*12; // Median Netto DE 2024
+  const nettoM = modus === 'monat' ? netto : netto/12;
+  
+  let ib1, ib2;
+  if (nettoM > 4000) {
+    ib1 = `<strong>Top 10 %:</strong> Mit ${Math.round(nettoM).toLocaleString('de-DE')} € Netto/Monat liegst du deutlich über dem deutschen Median (~2.256 €). Stark positioniert für Vermögensaufbau.`;
+  } else if (nettoM > 2256) {
+    ib1 = `<strong>Über dem Median:</strong> Der deutsche Netto-Median liegt bei ca. 2.256 €/Monat. Du liegst ${Math.round(((nettoM/2256)-1)*100)} % darüber.`;
+  } else {
+    ib1 = `<strong>Unter dem Median:</strong> Der deutsche Netto-Median liegt bei ca. 2.256 €/Monat. Eine Gehaltserhöhung oder Steuerstrategie könnte helfen.`;
+  }
+  
+  const ek = Math.round(nettoM * 0.2);
+  ib2 = `Bei 20 % Sparquote könntest du <strong>${ek.toLocaleString('de-DE')} €/Monat</strong> investieren. Nach 20 Jahren bei 7 % Rendite: ca. <strong>${Math.round(ek * (Math.pow(1+0.07/12, 240)-1)/(0.07/12)).toLocaleString('de-DE')} €</strong>.`;
+  
+  const el1 = document.getElementById('bn-ib-1');
+  const el2 = document.getElementById('bn-ib-2');
+  if (el1) el1.innerHTML = ib1;
+  if (el2) el2.innerHTML = ib2;
+}
+
 function syncSlider() {
   const val = parseFloat(document.getElementById('bn-brutto').value) || 0;
   const slider = document.getElementById('bn-slider');
@@ -479,6 +558,29 @@ function updateBundesland() {
   const ks = (bl==='by'||bl==='bw') ? 8 : 9;
   set('kirche-satz-label', ks);
   calcBN();
+}
+
+function updateBNInterpretation(brutto, netto, quote, f) {
+  const jahrNetto = netto * 12;
+  const median = modus === 'monat' ? 2256 : 2256*12; // Median Netto DE 2024
+  const nettoM = modus === 'monat' ? netto : netto/12;
+  
+  let ib1, ib2;
+  if (nettoM > 4000) {
+    ib1 = `<strong>Top 10 %:</strong> Mit ${Math.round(nettoM).toLocaleString('de-DE')} € Netto/Monat liegst du deutlich über dem deutschen Median (~2.256 €). Stark positioniert für Vermögensaufbau.`;
+  } else if (nettoM > 2256) {
+    ib1 = `<strong>Über dem Median:</strong> Der deutsche Netto-Median liegt bei ca. 2.256 €/Monat. Du liegst ${Math.round(((nettoM/2256)-1)*100)} % darüber.`;
+  } else {
+    ib1 = `<strong>Unter dem Median:</strong> Der deutsche Netto-Median liegt bei ca. 2.256 €/Monat. Eine Gehaltserhöhung oder Steuerstrategie könnte helfen.`;
+  }
+  
+  const ek = Math.round(nettoM * 0.2);
+  ib2 = `Bei 20 % Sparquote könntest du <strong>${ek.toLocaleString('de-DE')} €/Monat</strong> investieren. Nach 20 Jahren bei 7 % Rendite: ca. <strong>${Math.round(ek * (Math.pow(1+0.07/12, 240)-1)/(0.07/12)).toLocaleString('de-DE')} €</strong>.`;
+  
+  const el1 = document.getElementById('bn-ib-1');
+  const el2 = document.getElementById('bn-ib-2');
+  if (el1) el1.innerHTML = ib1;
+  if (el2) el2.innerHTML = ib2;
 }
 
 function calcBN() {
