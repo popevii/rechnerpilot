@@ -148,6 +148,79 @@
 .ns-link-text span { font-size:12px; color:var(--ink-3); }
 .ns-link-arrow { font-size:13px; font-weight:700; color:var(--accent); white-space:nowrap; flex-shrink:0; }
 .ns-disclaimer { padding:8px 18px; font-size:11px; color:var(--ink-3); background:var(--bg); border-top:1px solid var(--border); }
+
+/* ── Nächster Schritt CTA Box ── */
+.next-step-box {
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  margin-top:4px;
+}
+.nsb-inner {
+  padding:22px 24px;
+}
+.nsb-label {
+  font-size:10px;
+  font-weight:700;
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  margin-bottom:6px;
+}
+.nsb-title {
+  font-size:16px;
+  font-weight:700;
+  color:var(--ink);
+  margin-bottom:10px;
+  line-height:1.4;
+}
+.ns-context {
+  font-size:13px;
+  color:var(--ink-3);
+  margin-bottom:14px;
+  line-height:1.55;
+}
+.nsb-btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  max-width:380px;
+  padding:13px 24px;
+  background:var(--accent);
+  color:#fff;
+  border-radius:10px;
+  font-family:'Instrument Sans',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  text-decoration:none;
+  transition:opacity .15s, transform .15s;
+  margin-bottom:12px;
+}
+.nsb-btn:hover { opacity:.9; transform:translateY(-1px); }
+.nsb-trust {
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  font-size:12px;
+  color:var(--ink-3);
+  margin-bottom:10px;
+}
+.nsb-trust span { display:flex; align-items:center; gap:3px; }
+.nsb-secondary {
+  font-size:12.5px;
+  color:var(--ink-3);
+}
+.nsb-secondary a {
+  color:var(--accent);
+  font-weight:600;
+  text-decoration:none;
+}
+.nsb-secondary a:hover { text-decoration:underline; }
+@media(max-width:600px) {
+  .nsb-btn { max-width:100%; }
+}
 </style>
 
 <script type="application/ld+json">
@@ -340,6 +413,23 @@ document.addEventListener('click', e => {
       </a>
     </div>
 
+    <!-- NÄCHSTER SCHRITT CTA -->
+    <div style="padding:0 28px 24px;">
+      <div class="next-step-box">
+        <div class="nsb-inner">
+          <div class="nsb-label">Nächster Schritt</div>
+          <div class="nsb-title">Mit einem ETF-Sparplan kannst du dieses Ziel praktisch umsetzen.</div>
+          <div class="ns-context" id="etf-ns-ctx">Starte deinen Sparplan — viele Broker bieten ETF-Sparpläne ab 1 € monatlich, kostenlos und ohne Depotgebühren.</div>
+          <a href="DEIN-AFFILIATE-LINK-SCALABLE" target="_blank" rel="noopener sponsored" class="nsb-btn">
+            ETF Anbieter vergleichen
+          </a>
+          <div class="nsb-trust"><span>✓ kostenlos & unverbindlich</span>  <span>✓ in 2 Minuten gestartet</span>  <span>✓ keine Anmeldung nötig</span></div>
+          <div class="nsb-secondary">
+            oder: <a href="DEIN-AFFILIATE-LINK-SCALABLE" target="_blank" rel="noopener sponsored">Sparplan direkt bei Scalable starten →</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="calc-disclaimer">
       ⚠️ Vergangenheitsrenditen sind keine Garantie für zukünftige Erträge. Keine Berücksichtigung von Abgeltungssteuer (26,375 %) auf Kapitalerträge. Keine Anlageberatung. <a href="methodik.html" style="color:var(--accent);">Zur Methodik →</a>
     </div>
