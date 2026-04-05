@@ -109,6 +109,22 @@
 .vergleich-toggle { display:flex; gap:4px; background:var(--border); border-radius:10px; padding:3px; width:fit-content; margin-top:8px; }
 .vt-btn { padding:6px 14px; border-radius:8px; border:none; background:transparent; font-size:12px; font-weight:600; color:var(--ink-3); cursor:pointer; font-family:'Instrument Sans',sans-serif; transition:all .15s; }
 .vt-btn.active { background:#fff; color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.1); }
+
+.emotion-box { background:var(--accent); border-radius:14px; padding:20px 22px; color:#fff; margin-top:12px; }
+.emotion-headline { font-family:'Instrument Serif',serif; font-size:20px; font-weight:700; line-height:1.3; margin:0 0 12px; }
+.emotion-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+.emotion-stat { background:rgba(255,255,255,.12); border-radius:10px; padding:12px; }
+.emotion-stat-val { font-size:18px; font-weight:800; font-family:'Instrument Serif',serif; }
+.emotion-stat-label { font-size:11px; opacity:.75; margin-top:3px; line-height:1.3; }
+.aha-box { background:var(--accent-light); border:1.5px solid rgba(26,92,58,.2); border-radius:10px; padding:12px 16px; font-size:13px; color:var(--ink-2); margin-top:10px; line-height:1.6; }
+.aha-box strong { color:var(--accent); }
+.journey-cta { display:flex; align-items:center; justify-content:space-between; background:#fff; border:1.5px solid var(--accent); border-radius:12px; padding:14px 18px; margin-top:8px; text-decoration:none; transition:all .15s; gap:12px; }
+.journey-cta:hover { background:var(--accent-light); transform:translateX(3px); }
+.journey-cta-text { font-size:13px; color:var(--ink-2); line-height:1.4; }
+.journey-cta-text strong { color:var(--ink); display:block; margin-bottom:2px; }
+.journey-cta-arrow { font-size:20px; flex-shrink:0; }
+@keyframes countUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.result-main-value.animating { animation: countUp .35s ease; }
 </style>
 </head>
 <body data-page="zinseszins">
@@ -339,6 +355,46 @@
         <!-- RESET -->
         <button class="reset-btn" onclick="resetZZ()">↺ Zurücksetzen</button>
       </div>
+    </div>
+
+    <!-- EMOTION BOX -->
+    <div style="padding:0 28px 16px;">
+      <div class="emotion-box">
+        <div class="emotion-headline" id="zz-emotion-headline">—</div>
+        <div class="emotion-stats">
+          <div class="emotion-stat">
+            <div class="emotion-stat-val" id="zz-es-entnahme">—</div>
+            <div class="emotion-stat-label">Monatl. Entnahme (4%-Regel)</div>
+          </div>
+          <div class="emotion-stat">
+            <div class="emotion-stat-val" id="zz-es-faktor">—</div>
+            <div class="emotion-stat-label">Mehr als eingezahlt</div>
+          </div>
+          <div class="emotion-stat">
+            <div class="emotion-stat-val" id="zz-es-zinsanteil">—</div>
+            <div class="emotion-stat-label">Aus Rendite — nicht deiner Tasche</div>
+          </div>
+          <div class="emotion-stat">
+            <div class="emotion-stat-val" id="zz-es-wachstum">—</div>
+            <div class="emotion-stat-label">Monatl. Wachstum am Ende</div>
+          </div>
+        </div>
+      </div>
+      <div class="aha-box" id="zz-aha">—</div>
+      <a href="etf-sparplan-rechner.html" class="journey-cta" style="margin-top:8px;">
+        <div class="journey-cta-text">
+          <strong>Mit welchem ETF erreichst du das?</strong>
+          Konkreten Sparplan mit Broker & Kosten berechnen →
+        </div>
+        <span class="journey-cta-arrow">📈</span>
+      </a>
+      <a href="entnahmerechner.html" class="journey-cta">
+        <div class="journey-cta-text">
+          <strong id="zz-journey-label">Reicht das für finanzielle Freiheit?</strong>
+          Entnahmephase & 4%-Regel durchrechnen →
+        </div>
+        <span class="journey-cta-arrow">💸</span>
+      </a>
     </div>
 
     <!-- CHART -->
@@ -615,6 +671,50 @@ function calcZZ() {
 
   // Interpretation aktualisieren
   updateInterpretation(end.kapital, eingezahlt, zinsen, jahre, sparrate * sparIntervall, rendite * 100);
+
+  // ── EMOTION BOX ──
+  const entnahme4pct = end.kapital * 0.04 / 12;
+  const faktorX2 = eingezahlt > 0 ? (end.kapital / eingezahlt).toFixed(1) : 1;
+  const monatlichWachstum2 = end.kapital * rendite / 12;
+
+  let zzHeadline;
+  if (end.kapital >= 1000000) {
+    zzHeadline = `🎉 Über eine Million Euro nach ${jahre} Jahren.`;
+  } else if (end.kapital >= 500000) {
+    zzHeadline = `💪 ${Math.round(end.kapital/1000)}k € — ein lebensveränderndes Vermögen.`;
+  } else if (end.kapital >= 100000) {
+    zzHeadline = `📈 ${Math.round(end.kapital/1000)}k € — starke finanzielle Basis in ${jahre} Jahren.`;
+  } else {
+    zzHeadline = `🌱 ${Math.round(end.kapital/1000)}k € — jeder Anfang zählt.`;
+  }
+
+  const setEl = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  const setHTML = (id, v) => { const el=document.getElementById(id); if(el) el.innerHTML=v; };
+
+  setEl('zz-emotion-headline', zzHeadline);
+  setEl('zz-es-entnahme', Math.round(entnahme4pct).toLocaleString('de-DE') + ' €/Mo.');
+  setEl('zz-es-faktor', faktorX2 + 'x');
+  setEl('zz-es-zinsanteil', (zinsen/end.kapital*100).toFixed(0) + ' %');
+  setEl('zz-es-wachstum', Math.round(monatlichWachstum2).toLocaleString('de-DE') + ' €/Mo.');
+
+  // Aha-Moment
+  const ahaAnteil = (zinsen/end.kapital*100).toFixed(0);
+  let zzAha;
+  if (ahaAnteil > 70) {
+    zzAha = `✨ <strong>${ahaAnteil} % deines Endkapitals</strong> stammen aus Rendite — nicht aus deinen Einzahlungen. Der Zinseszins erledigt den Großteil der Arbeit.`;
+  } else if (jahre >= 20) {
+    zzAha = `⏱️ <strong>Zeit ist dein stärkster Hebel:</strong> Die letzten 10 Jahre bringen oft mehr Zuwachs als die ersten 20 Jahre zusammen — weil du dann auf einer viel größeren Basis Zinsen verdienst.`;
+  } else {
+    zzAha = `💡 Noch <strong>5 Jahre länger</strong> investieren würde dein Endkapital um ca. ${Math.round(end.kapital * Math.pow(1+rendite, 5) - end.kapital).toLocaleString('de-DE')} € erhöhen.`;
+  }
+  setHTML('zz-aha', zzAha);
+
+  const journeyEl = document.getElementById('zz-journey-label');
+  if (journeyEl) journeyEl.textContent = `Reichen ${Math.round(entnahme4pct).toLocaleString('de-DE')} €/Monat für deine Freiheit?`;
+
+  // Animation
+  const mv = document.getElementById('zz-endkapital');
+  if (mv) { mv.classList.remove('animating'); void mv.offsetWidth; mv.classList.add('animating'); }
 
   // Szenario-Karte als aktiv markieren
   document.querySelectorAll('.szen-card').forEach(c => {

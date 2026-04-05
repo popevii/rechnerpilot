@@ -27,6 +27,98 @@
 .schnell-btn { padding:6px 12px; border-radius:7px; border:1.5px solid var(--border); background:#fff; font-family:'Instrument Sans',sans-serif; font-size:11px; font-weight:600; color:var(--accent); cursor:pointer; transition:all .15s; }
 .schnell-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
 .schnell-btn-label { font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; margin-top:10px; margin-bottom:4px; }
+
+/* Emotionale Ergebnis-Box */
+.emotion-box {
+  background:var(--accent);
+  border-radius:14px;
+  padding:20px 22px;
+  color:#fff;
+  margin-top:12px;
+  position:relative;
+  overflow:hidden;
+}
+.emotion-box::before {
+  content:'';
+  position:absolute;
+  top:-30px; right:-30px;
+  width:120px; height:120px;
+  background:rgba(255,255,255,.06);
+  border-radius:50%;
+}
+.emotion-headline {
+  font-family:'Instrument Serif',serif;
+  font-size:22px;
+  font-weight:700;
+  line-height:1.3;
+  margin:0 0 12px;
+}
+.emotion-stats {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+.emotion-stat {
+  background:rgba(255,255,255,.12);
+  border-radius:10px;
+  padding:12px;
+}
+.emotion-stat-val {
+  font-size:18px;
+  font-weight:800;
+  font-family:'Instrument Serif',serif;
+}
+.emotion-stat-label {
+  font-size:11px;
+  opacity:.75;
+  margin-top:3px;
+  line-height:1.3;
+}
+
+/* Zähler-Animation */
+@keyframes countUp {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.result-main-value.animating {
+  animation: countUp .35s ease;
+}
+
+/* Journey CTA */
+.journey-cta {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#fff;
+  border:1.5px solid var(--accent);
+  border-radius:12px;
+  padding:14px 18px;
+  margin-top:12px;
+  text-decoration:none;
+  transition:all .15s;
+  gap:12px;
+}
+.journey-cta:hover {
+  background:var(--accent-light);
+  transform:translateX(3px);
+}
+.journey-cta-text { font-size:13px; color:var(--ink-2); line-height:1.4; }
+.journey-cta-text strong { color:var(--ink); display:block; margin-bottom:2px; }
+.journey-cta-arrow { font-size:20px; flex-shrink:0; }
+
+/* Aha-Moment */
+.aha-box {
+  background:var(--accent-light);
+  border:1.5px solid rgba(26,92,58,.2);
+  border-radius:10px;
+  padding:12px 16px;
+  font-size:13px;
+  color:var(--ink-2);
+  margin-top:10px;
+  line-height:1.6;
+}
+.aha-box strong { color:var(--accent); }
 </style>
 
 <script type="application/ld+json">
@@ -175,6 +267,50 @@ document.addEventListener('click', e => {
         <button class="schnell-btn" onclick="const e=document.getElementById('etf-jahre');e.value=Math.min(50,(parseInt(e.value)||0)+5);calcETF&&calcETF()">+ 5 Jahre</button>
       </div>
     </div>
+    <!-- EMOTION BOX -->
+    <div style="padding:0 28px 20px;">
+      <div class="emotion-box" id="etf-emotion-box">
+        <div class="emotion-headline" id="etf-emotion-headline">—</div>
+        <div class="emotion-stats">
+          <div class="emotion-stat">
+            <div class="emotion-stat-val" id="etf-es-entnahme">—</div>
+            <div class="emotion-stat-label">Monatliche Entnahme (4%-Regel)</div>
+          </div>
+          <div class="emotion-stat">
+            <div class="emotion-stat-val" id="etf-es-jahre">—</div>
+            <div class="emotion-stat-label">Jahre bis zum Ziel</div>
+          </div>
+          <div class="emotion-stat">
+            <div class="emotion-stat-val" id="etf-es-zinsanteil">—</div>
+            <div class="emotion-stat-label">Kommt aus Rendite — nicht aus deiner Tasche</div>
+          </div>
+          <div class="emotion-stat">
+            <div class="emotion-stat-val" id="etf-es-factor">—</div>
+            <div class="emotion-stat-label">Mehr als eingezahlt durch Zinseszins</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AHA MOMENT -->
+      <div class="aha-box" id="etf-aha">—</div>
+
+      <!-- JOURNEY CTAs -->
+      <a href="entnahmerechner.html" class="journey-cta" id="etf-journey-entnahme">
+        <div class="journey-cta-text">
+          <strong>Reicht das für finanzielle Freiheit?</strong>
+          Berechne wie lange dein Vermögen bei monatlicher Entnahme hält →
+        </div>
+        <span class="journey-cta-arrow">💸</span>
+      </a>
+      <a href="altersvorsorge-rechner.html" class="journey-cta" style="margin-top:6px;">
+        <div class="journey-cta-text">
+          <strong>Wann bin ich in Rente?</strong>
+          Rentenlücke und Vorsorgebedarf berechnen →
+        </div>
+        <span class="journey-cta-arrow">🏛️</span>
+      </a>
+    </div>
+
     <div class="calc-disclaimer">
       ⚠️ Vergangenheitsrenditen sind keine Garantie für zukünftige Erträge. Keine Berücksichtigung von Abgeltungssteuer (26,375 %) auf Kapitalerträge. Keine Anlageberatung. <a href="methodik.html" style="color:var(--accent);">Zur Methodik →</a>
     </div>
@@ -333,6 +469,68 @@ function calcETF() {
   document.getElementById('etf-entnahme').textContent     = fmtEuroRund(r.entnahme4Prozent) + ' €/Monat';
   document.getElementById('etf-bar-pct').textContent      = r.renditeAnteil + ' %';
   document.getElementById('etf-bar').style.width          = Math.min(r.renditeAnteil, 100) + '%';
+
+  // ── EMOTION BOX ──
+  const entnahme4pct = r.endkapital * 0.04 / 12;
+  const faktorX = r.eingezahlt > 0 ? (r.endkapital / r.eingezahlt).toFixed(1) : 1;
+  const renditeAnteilPct = r.renditeAnteil;
+
+  // Headline je nach Ergebnis
+  let headline;
+  if (r.endkapital >= 1000000) {
+    headline = `🎉 Millionär in ${jahre} Jahren — mit ${rate} €/Monat.`;
+  } else if (r.endkapital >= 500000) {
+    headline = `💪 Starkes Ergebnis — ${Math.round(r.endkapital/1000)}k € in ${jahre} Jahren.`;
+  } else if (r.endkapital >= 200000) {
+    headline = `📈 Solider Aufbau — ${Math.round(r.endkapital/1000)}k € nach ${jahre} Jahren.`;
+  } else if (r.endkapital >= 100000) {
+    headline = `🌱 Guter Start — ${Math.round(r.endkapital/1000)}k € in ${jahre} Jahren.`;
+  } else {
+    headline = `🚀 Jeder Anfang zählt — ${Math.round(r.endkapital/1000)}k € nach ${jahre} Jahren.`;
+  }
+
+  const set = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  set('etf-emotion-headline', headline);
+  set('etf-es-entnahme', Math.round(entnahme4pct).toLocaleString('de-DE') + ' €/Mo.');
+  set('etf-es-jahre', jahre + ' Jahre');
+  set('etf-es-zinsanteil', renditeAnteilPct + ' %');
+  set('etf-es-factor', faktorX + 'x');
+
+  // Aha-Moment
+  const ahaJahr10 = r.jahresuebersicht.find(j => j.jahr === 10);
+  const ahaJahrN = r.jahresuebersicht[r.jahresuebersicht.length - 1];
+  const letztesDrittel = jahre > 5 ? r.jahresuebersicht.slice(Math.floor(jahre*2/3)) : [];
+  const letztesDrittelGewinn = letztesDrittel.reduce((s, j, i) => {
+    const prev = i > 0 ? letztesDrittel[i-1].kapital : (r.jahresuebersicht[Math.floor(jahre*2/3)-1]?.kapital || 0);
+    return s + (j.kapital - prev - rate*12);
+  }, 0);
+  const letztesDrittelAnteil = r.gewinn > 0 ? Math.round(letztesDrittel.reduce((s,j)=>s+j.gewinn,0)/r.gewinn*100) : 0;
+
+  let ahaText;
+  if (renditeAnteilPct > 65) {
+    ahaText = `✨ <strong>${renditeAnteilPct} % deines Endkapitals</strong> kommen aus Rendite — nicht aus eigenen Einzahlungen. Der Markt arbeitet für dich.`;
+  } else if (jahre >= 20) {
+    ahaText = `⏱️ <strong>Die letzten ${Math.floor(jahre/3)} Jahre</strong> bringen oft mehr Zuwachs als die ersten ${Math.floor(jahre*2/3)} Jahre zusammen. Zeit ist dein stärkster Verbündeter.`;
+  } else {
+    ahaText = `💡 Bei ${renditeAnteilPct} % Renditeanteil: Schon <strong>5 Jahre länger</strong> würde dein Endkapital um ${Math.round(rate * 60 * (1 + (rendite-ter)/100/12*60)/1000)}k+ € steigern.`;
+  }
+  const ahaEl = document.getElementById('etf-aha');
+  if (ahaEl) ahaEl.innerHTML = ahaText;
+
+  // Animation für Hauptwert
+  const mainValEl = document.getElementById('etf-end');
+  if (mainValEl) {
+    mainValEl.classList.remove('animating');
+    void mainValEl.offsetWidth; // reflow
+    mainValEl.classList.add('animating');
+  }
+
+  // Journey CTA Text personalisieren
+  const journeyEl = document.getElementById('etf-journey-entnahme');
+  if (journeyEl) {
+    const entText = journeyEl.querySelector('.journey-cta-text strong');
+    if (entText) entText.textContent = `Reicht ${Math.round(entnahme4pct).toLocaleString('de-DE')} €/Monat für finanzielle Freiheit?`;
+  }
 
   // Jahresübersicht
   const tbody = document.getElementById('jahres-body');
