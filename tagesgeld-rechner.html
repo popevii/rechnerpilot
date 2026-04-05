@@ -10,17 +10,6 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.rechnerpilot.de/"},
-    {"@type":"ListItem","position":2,"name":"Sparen & Zinsen","item":"https://www.rechnerpilot.de/alle-rechner"},
-    {"@type":"ListItem","position":3,"name":"Tagesgeld Rechner","item":"https://www.rechnerpilot.de/tagesgeld-rechner"}
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Tagesgeld Rechner 2026",
   "description": "Tagesgeld Zinsen berechnen und beste Angebote vergleichen",
@@ -53,43 +42,6 @@
 .vergleich-table tr:last-child td { border-bottom:none; }
 .vergleich-table .best td { background:var(--accent-light); font-weight:700; color:var(--accent); }
 .badge-best { background:var(--accent); color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; margin-left:6px; }
-
-.naechster-schritt { margin:0 28px 24px; border:1.5px solid var(--border); border-radius:14px; overflow:hidden; }
-.ns-header { display:flex; align-items:center; gap:8px; padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); font-size:11px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.5px; }
-.ns-context { padding:12px 18px 10px; font-size:13px; color:var(--ink-2); border-bottom:1px solid var(--border); background:#fff; line-height:1.5; }
-.ns-context strong { color:var(--accent); font-weight:700; }
-.ns-links { display:flex; flex-direction:column; background:#fff; }
-.ns-link { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-bottom:1px solid var(--border); text-decoration:none; transition:background .12s; gap:12px; }
-.ns-link:last-child { border-bottom:none; }
-.ns-link:hover { background:var(--accent-light); }
-.ns-link-left { display:flex; align-items:center; gap:10px; }
-.ns-link-icon { font-size:18px; flex-shrink:0; }
-.ns-link-text strong { font-size:14px; color:var(--ink); display:block; }
-.ns-link-text span { font-size:12px; color:var(--ink-3); }
-.ns-link-arrow { font-size:13px; font-weight:700; color:var(--accent); white-space:nowrap; flex-shrink:0; }
-.ns-disclaimer { padding:8px 18px; font-size:11px; color:var(--ink-3); background:var(--bg); border-top:1px solid var(--border); }
-.vergleich-table-wrap { margin:0 28px 24px; overflow-x:auto; }
-.vergleich-table { width:100%; border-collapse:collapse; border:1.5px solid var(--border); border-radius:12px; overflow:hidden; }
-.vergleich-table th { background:var(--accent); color:#fff; padding:10px 14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
-.vergleich-table td { padding:12px 14px; border-bottom:1px solid var(--border); font-size:13px; background:#fff; vertical-align:middle; }
-.vergleich-table tr:last-child td { border-bottom:none; }
-.vergleich-table tr:hover td { background:var(--accent-light); }
-.vt-anbieter { font-weight:700; color:var(--ink); }
-.vt-zins { font-weight:700; color:var(--accent); font-size:15px; }
-.vt-btn { display:inline-block; padding:7px 14px; background:var(--accent); color:#fff; border-radius:7px; font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap; font-family:'Instrument Sans',sans-serif; }
-.vt-badge { font-size:10px; background:#fff3cd; color:#856404; border-radius:4px; padding:2px 6px; font-weight:700; margin-left:6px; }
-
-.next-step-box { background:#fff; border:1.5px solid var(--border); border-radius:14px; overflow:hidden; margin-top:4px; }
-.nsb-inner { padding:22px 24px; }
-.nsb-label { font-size:10px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.6px; margin-bottom:6px; }
-.nsb-title { font-size:16px; font-weight:700; color:var(--ink); margin-bottom:10px; line-height:1.4; }
-.ns-context { font-size:13px; color:var(--ink-3); margin-bottom:14px; line-height:1.55; }
-.nsb-btn { display:inline-flex; align-items:center; justify-content:center; width:100%; max-width:380px; padding:13px 24px; background:var(--accent); color:#fff; border-radius:10px; font-family:'Instrument Sans',sans-serif; font-size:14px; font-weight:700; text-decoration:none; transition:opacity .15s, transform .15s; margin-bottom:12px; }
-.nsb-btn:hover { opacity:.9; transform:translateY(-1px); }
-.nsb-trust { display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--ink-3); margin-bottom:10px; }
-.nsb-secondary { font-size:12.5px; color:var(--ink-3); }
-.nsb-secondary a { color:var(--accent); font-weight:600; text-decoration:none; }
-@media(max-width:600px) { .nsb-btn { max-width:100%; } }
 </style>
 </head>
 <body data-page="tagesgeld">
@@ -97,13 +49,10 @@
 
 <div class="calc-page">
   <div class="calc-header fu">
-      <div class="calc-breadcrumb">
-    <a href="/">Startseite</a>
-    <span>›</span>
-    <a href="/alle-rechner">Sparen & Zinsen</a>
-    <span>›</span>
-    <span>Tagesgeld Rechner</span>
-  </div>
+    <div class="calc-breadcrumb">
+      <a href="index.html">Startseite</a><span>›</span>
+      <span>Tagesgeld Rechner</span>
+    </div>
     <h1>Tagesgeld Rechner 2026</h1>
     <p>Berechne deine Zinsen, vergleiche aktuelle Tagesgeld-Angebote und finde das beste Konto für dein Erspartes. Aktuell bis zu <strong>3,40 % p.a.</strong></p>
   </div>
@@ -210,33 +159,12 @@
         <div class="chart-wrap">
           <canvas id="tg-chart"></canvas>
         </div>
-
-  <!-- NÄCHSTER SCHRITT CTA -->
-  <div style="padding:0 28px 24px;">
-    <div class="next-step-box">
-      <div class="nsb-inner">
-        <div class="nsb-label">Nächster Schritt</div>
-        <div class="nsb-title">Bessere Tagesgeld-Zinsen finden.</div>
-        <div class="ns-context">Tagesgeld-Zinsen variieren stark — der beste Anbieter zahlt oft über 1 % mehr.</div>
-        <a href="https://c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored" class="nsb-btn">Tagesgeldangebote vergleichen</a>
-        <div class="nsb-trust"><span>✓ kostenlos & unverbindlich</span>  <span>✓ täglich verfügbar</span>  <span>✓ sofort eröffnen</span></div>
-        <div class="nsb-secondary">oder: <a href="https://c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored">Aktuelle Angebote bis 3,40 % ansehen →</a></div>
-      </div>
-    </div>
-  </div>
-
       </div>
     </div>
   </div>
 
   <!-- ANBIETER VERGLEICH -->
-  </div>
-      </div>
-    </div>
-
-  
-
-<div class="content-section fu d2">
+  <div class="content-section fu d2">
     <h2>Aktuelle Tagesgeld-Angebote April 2026</h2>
     <p style="font-size:13px;color:var(--ink-3);margin-bottom:4px;">Klicke auf ein Angebot um es in den Rechner zu übernehmen. Stand: 01.04.2026 — Zinsen können sich täglich ändern.</p>
 
@@ -297,19 +225,25 @@
         <div class="faq-a">Tagesgeld eignet sich perfekt für den Notgroschen (3–6 Monatsgehälter) und kurzfristiges Sparziel (bis 2–3 Jahre) — weil das Geld täglich verfügbar ist und kein Kursrisiko besteht. Für langfristigen Vermögensaufbau (5+ Jahre) sind ETFs mit historisch ca. 7 % Rendite deutlich rentabler. Die ideale Strategie: Notgroschen auf Tagesgeld, Rest in ETFs.</div>
       </div>
     </div>
+  </div>
 
-  </div>
-  </div>
-        <div class="nsb-title">Bessere Tagesgeld-Zinsen finden.</div>
-        <div class="ns-context">Tagesgeld-Zinsen variieren stark — der beste Anbieter zahlt oft über 1 % mehr.</div>
-        <a href="https://c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored" class="nsb-btn">Tagesgeldangebote vergleichen</a>
-        <div class="nsb-trust"><span>✓ kostenlos & unverbindlich</span>  <span>✓ täglich verfügbar</span>  <span>✓ sofort eröffnen</span></div>
-        <div class="nsb-secondary">oder: <a href="https://c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored">Aktuelle Angebote bis 3,40 % ansehen →</a></div>
+  <div class="content-section">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-lg);">
+      <div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Nächster Schritt</div>
+      <div style="font-size:17px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.4;">Bessere Tagesgeld-Zinsen finden.</div>
+    <p style="font-size:13px;color:var(--ink-3);margin:0 0 14px;line-height:1.55;">Tagesgeld-Zinsen variieren stark — der beste Anbieter zahlt oft über 1 % mehr.</p>
+      <a href="https://c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored"
+        style="display:block;width:100%;max-width:360px;padding:13px 24px;background:var(--accent);color:#fff;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:12px;">
+        Tagesgeldangebote vergleichen
+      </a>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink-3);margin-bottom:10px;">
+        <span>✓ kostenlos & unverbindlich</span><span>✓ täglich verfügbar</span><span>✓ sofort eröffnen</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--ink-3);">
+        oder: <a href="https://c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored" style="color:var(--accent);font-weight:600;text-decoration:none;">Aktuelle Angebote bis 3,40 % ansehen →</a>
       </div>
     </div>
   </div>
-
-</div>
 
   <div class="content-section">
     <h2>Weitere passende Rechner</h2>
