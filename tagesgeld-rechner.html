@@ -45,8 +45,7 @@
 .range-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:100px;background:var(--border);outline:none;cursor:pointer;margin-top:6px}
 .range-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:#fff;border:2px solid var(--accent);border-radius:50%;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15)}
 .range-slider::-moz-range-thumb{width:20px;height:20px;background:#fff;border:2px solid var(--accent);border-radius:50%;cursor:pointer}
-.slider-labels{display:flex;justify-content:space-between;margin-top:3px}
-.slider-labels span{font-size:10px;color:var(--ink-3);font-weight:600}
+.range-label{font-size:12px;color:var(--accent);font-weight:700;text-align:right;margin-top:4px}
 </style>
 </head>
 <body data-page="tagesgeld">
@@ -98,29 +97,22 @@
         </div>
 
         <div class="field">
-          <label data-tt="Viele Tagesgeld-Angebote haben einen befristeten Aktionszins für Neukunden. Danach gilt ein niedrigerer Dauerzins.">Zinssatz-Typ</label>
-          <div class="toggle-group" style="margin-top:6px;">
-            <button class="toggle-btn active" id="tg-typ-dauer" onclick="setTgTyp('dauer',this)">Dauerzins</button>
-            <button class="toggle-btn" id="tg-typ-aktion" onclick="setTgTyp('aktion',this)">Aktionszins (Neukunden)</button>
-          </div>
-          <div id="tg-standard-wrap" style="display:none;margin-top:10px;">
-            <div style="background:var(--bg);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--ink-2);">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span>Aktionszins gilt für</span>
-                <div class="input-wrap" style="width:80px;">
-                  <input type="number" inputmode="decimal" id="tg-aktion-monate" value="3" min="1" max="12" oninput="calcTagesgeld()">
-                  <span class="input-unit">Mo.</span>
-                </div>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span>Danach Dauerzins</span>
-                <div class="input-wrap" style="width:90px;">
-                  <input type="number" inputmode="decimal" id="tg-standard-zins" value="1.5" step="0.05" min="0" max="10" oninput="calcTagesgeld()">
-                  <span class="input-unit">%</span>
-                </div>
-              </div>
+          <label data-tt="Bei Aktionszinsen gilt oft nur ein befristeter Zins für Neukunden. Danach fällt der Zins auf den Standardzins zurück.">Aktionszins läuft nach ... Monaten aus</label>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+            <label class="checkbox-row" style="flex:1;">
+              <input type="checkbox" id="tg-aktion-cb" onchange="calcTagesgeld()">
+              <span>Aktionszins (Neukunden)</span>
+            </label>
+            <div class="input-wrap" style="width:80px;flex-shrink:0;">
+              <input type="number" inputmode="decimal" id="tg-aktion-monate" value="3" min="1" max="12" oninput="calcTagesgeld()">
+              <span class="input-unit">Mo.</span>
             </div>
-            <div style="font-size:11px;color:var(--ink-3);margin-top:6px;">⚠️ Aktionszinsen gelten oft nur für Neukunden und sind zeitlich begrenzt.</div>
+          </div>
+          <div id="tg-standard-wrap" style="display:none;margin-top:6px;">
+            <div class="input-wrap">
+              <input type="number" inputmode="decimal" id="tg-standard-zins" value="1.5" step="0.05" min="0" max="10" oninput="calcTagesgeld()">
+              <span class="input-unit">% Standardzins danach</span>
+            </div>
           </div>
         </div>
 
@@ -179,7 +171,7 @@
   <!-- ANBIETER VERGLEICH -->
   <div class="content-section fu d2">
     <h2>Aktuelle Tagesgeld-Angebote April 2026</h2>
-    <p style="font-size:13px;color:var(--ink-3);margin-bottom:4px;">Klicke auf ein Angebot um es in den Rechner zu übernehmen. Stand: 05.04.2026 — Zinsen können sich täglich ändern.</p>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:4px;">Klicke auf ein Angebot um es in den Rechner zu übernehmen. Stand: 01.04.2026 — Zinsen können sich täglich ändern.</p>
 
     <div class="anbieter-grid" id="anbieter-grid"></div>
 
@@ -241,24 +233,6 @@
   </div>
 
   <div class="content-section">
-    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-lg);">
-      <div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Nächster Schritt</div>
-      <div style="font-size:17px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.4;">Bessere Tagesgeld-Zinsen finden.</div>
-    <p style="font-size:13px;color:var(--ink-3);margin:0 0 14px;line-height:1.55;">Tagesgeld-Zinsen variieren stark — der beste Anbieter zahlt oft über 1 % mehr.</p>
-      <a href="https://c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored"
-        style="display:block;width:100%;max-width:360px;padding:13px 24px;background:var(--accent);color:#fff;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:12px;">
-        Tagesgeldangebote vergleichen
-      </a>
-      <div style="display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink-3);margin-bottom:10px;">
-        <span>✓ kostenlos & unverbindlich</span><span>✓ täglich verfügbar</span><span>✓ sofort eröffnen</span>
-      </div>
-      <div style="font-size:12.5px;color:var(--ink-3);">
-        oder: <a href="https://c24n.de/4ZDJEvQ" target="_blank" rel="noopener sponsored" style="color:var(--accent);font-weight:600;text-decoration:none;">Aktuelle Angebote bis 3,40 % ansehen →</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="content-section">
     <h2>Weitere passende Rechner</h2>
     <div class="related-grid">
       <a href="https://www.rechnerpilot.de/zinseszins-rechner" class="cc">
@@ -298,16 +272,16 @@
 <script>
 // Aktuelle Angebote April 2026
 const ANGEBOTE = [
-  { name:'Consorsbank',    zins:3.40, standard:1.50, aktionMonate:3,  typ:'aktion',   info:'Neukunden, 3 Monate garantiert. Depot wird automatisch mitgeöffnet.' },
-  { name:'Santander',      zins:3.30, standard:1.00, aktionMonate:4,  typ:'aktion',   info:'Neukunden, 4 Monate garantiert. Kein Girokonto nötig.' },
-  { name:'Bank of Scotland',zins:3.25, standard:2.50, aktionMonate:3, typ:'aktion',   info:'Neukunden, 3 Monate. Danach solider Standardzins.' },
-  { name:'ING',            zins:3.25, standard:1.50, aktionMonate:6,  typ:'aktion',   info:'Neukunden, 6 Monate. Eines der bekanntesten Angebote.' },
-  { name:'Trade Republic', zins:3.25, standard:3.25, aktionMonate:0,  typ:'standard', info:'Zinsen auf Cash-Konto. Gilt dauerhaft für alle Kunden. Depot nötig.' },
-  { name:'Scalable Capital',zins:3.25, standard:3.25, aktionMonate:0, typ:'standard', info:'Prime+ Mitgliedschaft nötig (2,99 €/Monat). Depot nötig.' },
-  { name:'Openbank',       zins:3.00, standard:2.20, aktionMonate:3,  typ:'aktion',   info:'Neukunden, 3 Monate. Danach 2,20 % Standardzins.' },
-  { name:'DKB',            zins:2.75, standard:1.00, aktionMonate:4,  typ:'aktion',   info:'Neukundenaktion April 2026. Für neue & bestehende Kunden.' },
-  { name:'Renault Bank',   zins:2.75, standard:2.75, aktionMonate:0,  typ:'standard', info:'Dauerhafter Zins für alle Kunden. Keine Bedingungen.' },
-]; // Stand: April 2026
+  { name:'Consorsbank', zins:3.40, standard:1.50, aktionMonate:3,  typ:'aktion',   info:'Neukunden, 3 Monate garantiert. Depot wird automatisch mitgeöffnet.' },
+  { name:'Santander',   zins:3.30, standard:1.00, aktionMonate:4,  typ:'aktion',   info:'Neukunden, 4 Monate garantiert. Kein Girokonto nötig.' },
+  { name:'Bank of Scotland', zins:3.25, standard:2.50, aktionMonate:3, typ:'aktion', info:'Neukunden, 3 Monate. Danach solider Standardzins.' },
+  { name:'ING',         zins:3.25, standard:1.50, aktionMonate:6,  typ:'aktion',   info:'Neukunden, 6 Monate. Eines der bekanntesten Angebote.' },
+  { name:'Trade Republic', zins:3.25, standard:3.25, aktionMonate:0, typ:'standard', info:'Zinsen auf Cash-Konto. Gilt dauerhaft für alle Kunden. Depot nötig.' },
+  { name:'Scalable Capital', zins:3.25, standard:3.25, aktionMonate:0, typ:'standard', info:'Prime+ Mitgliedschaft nötig (2,99 €/Monat). Depot nötig.' },
+  { name:'Openbank',    zins:3.00, standard:2.20, aktionMonate:3,  typ:'aktion',   info:'Neukunden, 3 Monate. Danach 2,20 % Standardzins.' },
+  { name:'DKB',         zins:2.75, standard:1.00, aktionMonate:4,  typ:'aktion',   info:'Neugeld-Aktion Mai–Aug 2026. Für neue & bestehende Kunden.' },
+  { name:'Renault Bank', zins:2.75, standard:2.75, aktionMonate:0, typ:'standard', info:'Dauerhafter Zins für alle Kunden. Keine Bedingungen.' },
+];
 
 let tgChart = null;
 let zinsPeriode = 1;
@@ -335,22 +309,6 @@ function useAngebot(a) {
   } else {
     document.getElementById('tg-aktion-cb').checked = false;
     document.getElementById('tg-standard-wrap').style.display = 'none';
-  }
-  calcTagesgeld();
-}
-
-function setTgTyp(typ, btn) {
-  document.querySelectorAll('#tg-typ-dauer, #tg-typ-aktion').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const wrap = document.getElementById('tg-standard-wrap');
-  // Nutze das versteckte Checkbox-Feld für Kompatibilität
-  const cb = document.getElementById('tg-aktion-cb');
-  if (typ === 'aktion') {
-    if(wrap) wrap.style.display = 'block';
-    if(cb) cb.checked = true;
-  } else {
-    if(wrap) wrap.style.display = 'none';
-    if(cb) cb.checked = false;
   }
   calcTagesgeld();
 }
