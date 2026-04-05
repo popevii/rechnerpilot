@@ -204,7 +204,7 @@ function renderNav(activePage = '') {
     </ul>
 
     <div class="nav-cta-wrap">
-      <a href="${base}/#rechner" class="nav-cta">Alle Rechner</a>
+      <a href="${base}/alle-rechner" class="nav-cta">Alle Rechner</a>
       <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menü öffnen">
         <span></span><span></span><span></span>
       </button>
@@ -248,7 +248,7 @@ function renderNav(activePage = '') {
       <a href="${base}/stromkostenrechner">⚡ Stromkostenrechner</a>
       <a href="${base}/gaskostenrechner">🔥 Gaskostenrechner</a>
     </div>
-    <a href="${base}/#rechner" class="mobile-nav-cta">Alle Rechner ansehen →</a>
+    <a href="${base}/alle-rechner" class="mobile-nav-cta">Alle Rechner ansehen →</a>
   </div>`;
 }
 
@@ -273,6 +273,7 @@ function renderFooter() {
         <div class="footer-col">
           <h4>Finanzen</h4>
           <ul>
+            <li><a href="${base}/alle-rechner" style="font-weight:700;color:rgba(255,255,255,.7);">→ Alle 24 Rechner</a></li>
             <li><a href="${base}/brutto-netto-rechner">Brutto-Netto</a></li>
             <li><a href="${base}/gehaltserhoeung-rechner">Gehaltserhöhung</a></li>
             <li><a href="${base}/gehaltserhöhung-rechner">Gehaltserhöhung</a></li>
