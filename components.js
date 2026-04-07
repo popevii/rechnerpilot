@@ -31,13 +31,13 @@ function renderNav(activePage = '') {
 
       <!-- ALLE RECHNER -->
       <li>
-        <a href="${base}/alle-rechner" class="nav-direct ${isActive('alle-rechner')}">Alle Rechner</a>
+        <a href="${base}/alle-rechner" class="nav-direct ${isActive('alle-rechner')}">🧮 Alle Rechner</a>
       </li>
 
       <!-- GEHALT & STEUERN -->
       <li class="nav-dropdown">
         <a href="#" class="nav-dropdown-trigger ${isGrpActive(['brutto','gehaltserhöhung','kk','abgeltung'])}">
-          Gehalt & Steuern <span class="nav-arrow">▾</span>
+          💼 Gehalt & Steuern <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-group">
@@ -68,7 +68,7 @@ function renderNav(activePage = '') {
       <!-- GELDANLAGE -->
       <li class="nav-dropdown">
         <a href="#" class="nav-dropdown-trigger ${isGrpActive(['etf','etf-tools','inflation'])}">
-          Geldanlage <span class="nav-arrow">▾</span>
+          📈 Geldanlage <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-group">
@@ -95,7 +95,7 @@ function renderNav(activePage = '') {
       <!-- ALTERSVORSORGE -->
       <li class="nav-dropdown">
         <a href="#" class="nav-dropdown-trigger ${isGrpActive(['altersvorsorge','entnahme'])}">
-          Altersvorsorge <span class="nav-arrow">▾</span>
+          🏛️ Altersvorsorge <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-group">
@@ -138,7 +138,7 @@ function renderNav(activePage = '') {
       <!-- KREDITE -->
       <li class="nav-dropdown">
         <a href="#" class="nav-dropdown-trigger ${isGrpActive(['kredit','baufinanzierung'])}">
-          Kredite <span class="nav-arrow">▾</span>
+          🏠 Kredite <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-group">
@@ -158,7 +158,7 @@ function renderNav(activePage = '') {
       <!-- SPAREN & ZINSEN -->
       <li class="nav-dropdown">
         <a href="#" class="nav-dropdown-trigger ${isGrpActive(['zinseszins','sparrechner','tagesgeld','festgeld'])}">
-          Sparen & Zinsen <span class="nav-arrow">▾</span>
+          💰 Sparen & Zinsen <span class="nav-arrow">▾</span>
         </a>
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-group">
